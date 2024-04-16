@@ -1,0 +1,343 @@
+{
+  "vaultName": "Saicolandia",
+  "lastExport": 1713303050886,
+  "pluginVersion": "1.8.01",
+  "validBodyClasses": "publish css-settings-manager theme-light show-inline-title",
+  "useCustomHeadContent": false,
+  "useCustomFavicon": false,
+  "files": [
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/arjé.md",
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Hipokeimenon.md",
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/La polis.md",
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Metafísica.md",
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Origen.md",
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Poiética.md",
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/politeia.md",
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/politeuma.md",
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Política.md",
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Pregunta por el hombre.md",
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Teórico.md",
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Trabajo Práctico 1 Aristóteles.md",
+    "Filosofía del Hombre/Unidad 1/Tema 2 • Descartes/Descartes y la certeza del “yo pienso”..md",
+    "Filosofía del Hombre/Unidad 1/Tema 2 • Descartes/descartes_mapa-mental.png",
+    "Filosofía del Hombre/Unidad 1/Tema 2 • Descartes/RACIONALISMO.md",
+    "Filosofía del Hombre/Unidad 1/Tema 3 • Hume/David Hume.md",
+    "Filosofía del Hombre/Unidad 1/Tema 3 • Hume/david-hume-investigaciones-sobre-el-conocimiento-humano.pdf",
+    "Filosofía del Hombre/Unidad 1/Tema 3 • Hume/EMPIRISMO.md",
+    "Filosofía del Hombre/Unidad 1/Tema 3 • Hume/Trabajo Práctico 3 Hume.md",
+    "Filosofía del Hombre/Unidad 1/Unidad 1 - FdH.md",
+    "Filosofía del Hombre/Filosofía del Hombre.md",
+    "Introducción a la Psicología/406 Bruner_El_estudio_apropiado_del_hombre.pdf",
+    "Introducción a la Psicología/El estudio apropiado del hombre..md",
+    "Introducción a la Psicología/Historia de la Psicología..md",
+    "Introducción a la Psicología/Introducción a la Psicología.md",
+    "Introducción a la Psicología/IP-T1-0319.mp3",
+    "Introducción a la Psicología/Módulo 1.md",
+    "Introducción a la Psicología/Nueva Revolución Cognitiva.md",
+    "Introducción a la Psicología/Primera Revolución Cognitiva.md",
+    "index.md",
+    "Todo.md",
+    "lib/fonts/94f2f163d4b698242fef.otf",
+    "lib/fonts/72505e6a122c6acd5471.woff2",
+    "lib/fonts/2d5198822ab091ce4305.woff2",
+    "lib/fonts/c8ba52b05a9ef10f4758.woff2",
+    "lib/fonts/cb10ffd7684cd9836a05.woff2",
+    "lib/fonts/b5f0f109bc88052d4000.woff2",
+    "lib/fonts/cbe0ae49c52c920fd563.woff2",
+    "lib/fonts/535a6cf662596b3bd6a6.woff2",
+    "lib/fonts/70cc7ff27245e82ad414.ttf",
+    "lib/fonts/454577c22304619db035.ttf",
+    "lib/fonts/52ac8f3034507f1d9e53.ttf",
+    "lib/fonts/05b618077343fbbd92b7.ttf",
+    "lib/fonts/4bb6ac751d1c5478ff3a.woff2",
+    "lib/media/874d8b8e340f75575caa.svg"
+  ],
+  "mainDependencies": [
+    "lib/fonts/94f2f163d4b698242fef.otf",
+    "lib/fonts/72505e6a122c6acd5471.woff2",
+    "lib/fonts/2d5198822ab091ce4305.woff2",
+    "lib/fonts/c8ba52b05a9ef10f4758.woff2",
+    "lib/fonts/cb10ffd7684cd9836a05.woff2",
+    "lib/fonts/b5f0f109bc88052d4000.woff2",
+    "lib/fonts/cbe0ae49c52c920fd563.woff2",
+    "lib/fonts/535a6cf662596b3bd6a6.woff2",
+    "lib/fonts/70cc7ff27245e82ad414.ttf",
+    "lib/fonts/454577c22304619db035.ttf",
+    "lib/fonts/52ac8f3034507f1d9e53.ttf",
+    "lib/fonts/05b618077343fbbd92b7.ttf",
+    "lib/fonts/4bb6ac751d1c5478ff3a.woff2",
+    "lib/media/874d8b8e340f75575caa.svg"
+  ],
+  "fileInfo": {
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/arjé.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 159,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/arjé.html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Hipokeimenon.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 143,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Hipokeimenon.html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/La polis.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 4228,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/La polis.html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Metafísica.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 398,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Metafísica.html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Origen.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 917,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Origen.html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Poiética.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 325,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Poiética.html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/politeia.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 182,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/politeia.html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/politeuma.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 215,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/politeuma.html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Política.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 1639,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Política.html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Pregunta por el hombre.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 768,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Pregunta por el hombre.html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Teórico.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 102,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Teórico.html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Trabajo Práctico 1 Aristóteles.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 4998,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 1 • Aristóteles/Trabajo Práctico 1 Aristóteles.html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 2 • Descartes/Descartes y la certeza del “yo pienso”..md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 2920,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 2 • Descartes/Descartes y la certeza del “yo pienso”..html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 2 • Descartes/descartes_mapa-mental.png": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 441201,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 2 • Descartes/descartes_mapa-mental.png",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 2 • Descartes/RACIONALISMO.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 387,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 2 • Descartes/RACIONALISMO.html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 3 • Hume/David Hume.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 2942,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 3 • Hume/David Hume.html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 3 • Hume/david-hume-investigaciones-sobre-el-conocimiento-humano.pdf": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 146009,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 3 • Hume/david-hume-investigaciones-sobre-el-conocimiento-humano.pdf",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 3 • Hume/EMPIRISMO.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 814,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 3 • Hume/EMPIRISMO.html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Tema 3 • Hume/Trabajo Práctico 3 Hume.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 1943,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Tema 3 • Hume/Trabajo Práctico 3 Hume.html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Unidad 1/Unidad 1 - FdH.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 2248,
+      "exportedPath": "Filosofía del Hombre/Unidad 1/Unidad 1 - FdH.html",
+      "dependencies": []
+    },
+    "Filosofía del Hombre/Filosofía del Hombre.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 30,
+      "exportedPath": "Filosofía del Hombre/Filosofía del Hombre.html",
+      "dependencies": []
+    },
+    "Introducción a la Psicología/406 Bruner_El_estudio_apropiado_del_hombre.pdf": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 204499,
+      "exportedPath": "Introducción a la Psicología/406 Bruner_El_estudio_apropiado_del_hombre.pdf",
+      "dependencies": []
+    },
+    "Introducción a la Psicología/El estudio apropiado del hombre..md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 278,
+      "exportedPath": "Introducción a la Psicología/El estudio apropiado del hombre..html",
+      "dependencies": []
+    },
+    "Introducción a la Psicología/Historia de la Psicología..md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 170,
+      "exportedPath": "Introducción a la Psicología/Historia de la Psicología..html",
+      "dependencies": []
+    },
+    "Introducción a la Psicología/Introducción a la Psicología.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 19,
+      "exportedPath": "Introducción a la Psicología/Introducción a la Psicología.html",
+      "dependencies": []
+    },
+    "Introducción a la Psicología/IP-T1-0319.mp3": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 35580303,
+      "exportedPath": "Introducción a la Psicología/IP-T1-0319.mp3",
+      "dependencies": []
+    },
+    "Introducción a la Psicología/Módulo 1.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 1273,
+      "exportedPath": "Introducción a la Psicología/Módulo 1.html",
+      "dependencies": []
+    },
+    "Introducción a la Psicología/Nueva Revolución Cognitiva.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 368,
+      "exportedPath": "Introducción a la Psicología/Nueva Revolución Cognitiva.html",
+      "dependencies": []
+    },
+    "Introducción a la Psicología/Primera Revolución Cognitiva.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 595,
+      "exportedPath": "Introducción a la Psicología/Primera Revolución Cognitiva.html",
+      "dependencies": []
+    },
+    "index.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 384,
+      "exportedPath": "index.html",
+      "dependencies": []
+    },
+    "Todo.md": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 84,
+      "exportedPath": "Todo.html",
+      "dependencies": []
+    },
+    "lib/fonts/94f2f163d4b698242fef.otf": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 66800,
+      "exportedPath": "lib/fonts/94f2f163d4b698242fef.otf",
+      "dependencies": []
+    },
+    "lib/fonts/72505e6a122c6acd5471.woff2": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 104232,
+      "exportedPath": "lib/fonts/72505e6a122c6acd5471.woff2",
+      "dependencies": []
+    },
+    "lib/fonts/2d5198822ab091ce4305.woff2": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 104332,
+      "exportedPath": "lib/fonts/2d5198822ab091ce4305.woff2",
+      "dependencies": []
+    },
+    "lib/fonts/c8ba52b05a9ef10f4758.woff2": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 98868,
+      "exportedPath": "lib/fonts/c8ba52b05a9ef10f4758.woff2",
+      "dependencies": []
+    },
+    "lib/fonts/cb10ffd7684cd9836a05.woff2": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 106876,
+      "exportedPath": "lib/fonts/cb10ffd7684cd9836a05.woff2",
+      "dependencies": []
+    },
+    "lib/fonts/b5f0f109bc88052d4000.woff2": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 105804,
+      "exportedPath": "lib/fonts/b5f0f109bc88052d4000.woff2",
+      "dependencies": []
+    },
+    "lib/fonts/cbe0ae49c52c920fd563.woff2": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 106108,
+      "exportedPath": "lib/fonts/cbe0ae49c52c920fd563.woff2",
+      "dependencies": []
+    },
+    "lib/fonts/535a6cf662596b3bd6a6.woff2": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 111708,
+      "exportedPath": "lib/fonts/535a6cf662596b3bd6a6.woff2",
+      "dependencies": []
+    },
+    "lib/fonts/70cc7ff27245e82ad414.ttf": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 192740,
+      "exportedPath": "lib/fonts/70cc7ff27245e82ad414.ttf",
+      "dependencies": []
+    },
+    "lib/fonts/454577c22304619db035.ttf": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 161376,
+      "exportedPath": "lib/fonts/454577c22304619db035.ttf",
+      "dependencies": []
+    },
+    "lib/fonts/52ac8f3034507f1d9e53.ttf": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 191568,
+      "exportedPath": "lib/fonts/52ac8f3034507f1d9e53.ttf",
+      "dependencies": []
+    },
+    "lib/fonts/05b618077343fbbd92b7.ttf": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 155288,
+      "exportedPath": "lib/fonts/05b618077343fbbd92b7.ttf",
+      "dependencies": []
+    },
+    "lib/fonts/4bb6ac751d1c5478ff3a.woff2": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 7876,
+      "exportedPath": "lib/fonts/4bb6ac751d1c5478ff3a.woff2",
+      "dependencies": []
+    },
+    "lib/media/874d8b8e340f75575caa.svg": {
+      "modifiedTime": 1713303050886,
+      "sourceSize": 317,
+      "exportedPath": "lib/media/874d8b8e340f75575caa.svg",
+      "dependencies": []
+    }
+  }
+}
