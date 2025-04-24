@@ -1,0 +1,889 @@
+{
+  "vaultName": "psycho",
+  "lastExport": 1745494574494,
+  "pluginVersion": "1.8.01",
+  "validBodyClasses": "publish css-settings-manager theme-light show-inline-title show-ribbon",
+  "useCustomHeadContent": false,
+  "useCustomFavicon": false,
+  "files": [
+    "Introducción a la Teoría Psicoanalítica/Laplanche/aparato psíquico.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/asociación libre.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/conciencia.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/condensación.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/contratransferencia.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/desplazamiento.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/Elaboración de un caso.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/huella mnémica.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/inconsciente.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/investidura.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/libido.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/mecanismos de defensa.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/metapsicología.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/neurosis.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/preconsciente.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/pulsión.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/quantum de afecto.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/representación.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/represión.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/resistencia.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/sobredeterminación.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/transferencia.md",
+    "Introducción a la Teoría Psicoanalítica/Laplanche/Yo.md",
+    "Introducción a la Teoría Psicoanalítica/comercio asociativo.md",
+    "Introducción a la Teoría Psicoanalítica/Elaboración de un caso.pdf",
+    "Introducción a la Teoría Psicoanalítica/histeria de conversión.md",
+    "Introducción a la Teoría Psicoanalítica/Introducción a la teoría psicoanalítica.md",
+    "Introducción a la Teoría Psicoanalítica/Mapa olvido de nombres.md",
+    "Introducción a la Teoría Psicoanalítica/procesos primarios.md",
+    "Introducción a la Teoría Psicoanalítica/Sigmund Freud.md",
+    "Introducción a la Teoría Psicoanalítica/sueño.md",
+    "Psicología del Desarrollo/acomodación.md",
+    "Psicología del Desarrollo/Adaptación.md",
+    "Psicología del Desarrollo/asimilación.md",
+    "Psicología del Desarrollo/Constructivismo.md",
+    "Psicología del Desarrollo/desarrollo.md",
+    "Psicología del Desarrollo/Equilibración.md",
+    "Psicología del Desarrollo/Esquema de acción.md",
+    "Psicología del Desarrollo/Inteligencia.md",
+    "Psicología del Desarrollo/Interaccionismo.md",
+    "Psicología del Desarrollo/Invariantes funcionales.md",
+    "Psicología del Desarrollo/Jean Piaget.md",
+    "Psicología del Desarrollo/Organización.md",
+    "Psicología del Desarrollo/Psicología del desarrollo.md",
+    "Psicología del Desarrollo/psicología genética.md",
+    "Psicología del Desarrollo/Realismo crítico.md",
+    "Sistemas Psicológicos Contemporáneos/concientización.md",
+    "Sistemas Psicológicos Contemporáneos/fatalismo latinoamericano.md",
+    "Sistemas Psicológicos Contemporáneos/Maduración vs desarrollo.md",
+    "Sistemas Psicológicos Contemporáneos/Martín-Baró.md",
+    "Sistemas Psicológicos Contemporáneos/Psicología de la liberación.md",
+    "Sistemas Psicológicos Contemporáneos/Rubén Ardila.md",
+    "Sistemas Psicológicos Contemporáneos/síntesis experimental del comportamiento.md",
+    "Sistemas Psicológicos Contemporáneos/Sistemas Psicológicos Contemporáneos.md",
+    "Sistemas Psicológicos Contemporáneos/Vygotski.md",
+    "Sistemas Psicológicos Contemporáneos/Zona de Desarrollo Próximo.md",
+    "Sociología/alienación.md",
+    "Sociología/anomia.md",
+    "Sociología/Anthony Giddens.md",
+    "Sociología/Apuntes sociología.md",
+    "Sociología/Augusto Comte.md",
+    "Sociología/Capital.md",
+    "Sociología/Concepción materialista de la historia.md",
+    "Sociología/Contexto histórico del surgimiento de la Sociología.md",
+    "Sociología/contractualismo.md",
+    "Sociología/Contradicción.md",
+    "Sociología/división social del trabajo.md",
+    "Sociología/El paso de la comunidad feudal a las sociedades nacionales.md",
+    "Sociología/El ser social determina la conciencia.md",
+    "Sociología/Emile Durkheim.md",
+    "Sociología/Fuerzas productivas.md",
+    "Sociología/Historicidad de las categorías.md",
+    "Sociología/Ideología.md",
+    "Sociología/Iluminismo.md",
+    "Sociología/Ilustración.md",
+    "Sociología/Infraestructura.md",
+    "Sociología/Karl Marx.md",
+    "Sociología/la sociedad como totalidad conflictiva.md",
+    "Sociología/Lucha de clases.md",
+    "Sociología/Mercancía.md",
+    "Sociología/Método dialéctico.md",
+    "Sociología/Praxis.md",
+    "Sociología/Qué es la sociología.md",
+    "Sociología/Reflexividad.md",
+    "Sociología/Relaciones de producción.md",
+    "Sociología/Reproducción.md",
+    "Sociología/Revolución.md",
+    "Sociología/Sociología.md",
+    "Sociología/suicidio.md",
+    "Sociología/Superestructura.md",
+    "Sociología/Trabajo asalariado.md",
+    "Sociología/Valor de cambio.md",
+    "Inicio.md",
+    "lib/scripts/graph-wasm.wasm",
+    "lib/fonts/94f2f163d4b698242fef.otf",
+    "lib/fonts/72505e6a122c6acd5471.woff2",
+    "lib/fonts/2d5198822ab091ce4305.woff2",
+    "lib/fonts/c8ba52b05a9ef10f4758.woff2",
+    "lib/fonts/cb10ffd7684cd9836a05.woff2",
+    "lib/fonts/b5f0f109bc88052d4000.woff2",
+    "lib/fonts/cbe0ae49c52c920fd563.woff2",
+    "lib/fonts/535a6cf662596b3bd6a6.woff2",
+    "lib/fonts/70cc7ff27245e82ad414.ttf",
+    "lib/fonts/454577c22304619db035.ttf",
+    "lib/fonts/52ac8f3034507f1d9e53.ttf",
+    "lib/fonts/05b618077343fbbd92b7.ttf",
+    "lib/fonts/4bb6ac751d1c5478ff3a.woff2",
+    "lib/media/6155340132a851f6089e.svg",
+    "lib/html/file-tree.html",
+    "lib/scripts/webpage.js",
+    "lib/scripts/graph-view.js",
+    "lib/scripts/graph-wasm.js",
+    "lib/scripts/graph-render-worker.js",
+    "lib/scripts/tinycolor.js",
+    "lib/scripts/pixi.js",
+    "lib/scripts/minisearch.js",
+    "lib/media/favicon.png",
+    "lib/scripts/graph-data.js",
+    "lib/styles/obsidian.css",
+    "lib/styles/global-variable-styles.css",
+    "lib/styles/main-styles.css"
+  ],
+  "mainDependencies": [
+    "lib/scripts/graph-wasm.wasm",
+    "lib/fonts/94f2f163d4b698242fef.otf",
+    "lib/fonts/72505e6a122c6acd5471.woff2",
+    "lib/fonts/2d5198822ab091ce4305.woff2",
+    "lib/fonts/c8ba52b05a9ef10f4758.woff2",
+    "lib/fonts/cb10ffd7684cd9836a05.woff2",
+    "lib/fonts/b5f0f109bc88052d4000.woff2",
+    "lib/fonts/cbe0ae49c52c920fd563.woff2",
+    "lib/fonts/535a6cf662596b3bd6a6.woff2",
+    "lib/fonts/70cc7ff27245e82ad414.ttf",
+    "lib/fonts/454577c22304619db035.ttf",
+    "lib/fonts/52ac8f3034507f1d9e53.ttf",
+    "lib/fonts/05b618077343fbbd92b7.ttf",
+    "lib/fonts/4bb6ac751d1c5478ff3a.woff2",
+    "lib/media/6155340132a851f6089e.svg",
+    "lib/html/file-tree.html",
+    "lib/scripts/webpage.js",
+    "lib/scripts/graph-view.js",
+    "lib/scripts/graph-wasm.js",
+    "lib/scripts/graph-render-worker.js",
+    "lib/scripts/tinycolor.js",
+    "lib/scripts/pixi.js",
+    "lib/scripts/minisearch.js",
+    "lib/media/favicon.png",
+    "lib/scripts/graph-data.js",
+    "lib/styles/obsidian.css",
+    "lib/styles/global-variable-styles.css",
+    "lib/styles/main-styles.css"
+  ],
+  "fileInfo": {
+    "Introducción a la Teoría Psicoanalítica/Laplanche/aparato psíquico.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 1936,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/aparato-psíquico.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/asociación libre.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 2137,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/asociación-libre.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/conciencia.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 2427,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/conciencia.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/condensación.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 1926,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/condensación.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/contratransferencia.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 3076,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/contratransferencia.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/desplazamiento.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 2285,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/desplazamiento.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/Elaboración de un caso.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 7339,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/elaboración-de-un-caso.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/huella mnémica.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 1294,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/huella-mnémica.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/inconsciente.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 686,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/inconsciente.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/investidura.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 2466,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/investidura.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/libido.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 3047,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/libido.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/mecanismos de defensa.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 1963,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/mecanismos-de-defensa.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/metapsicología.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 2223,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/metapsicología.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/neurosis.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 3657,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/neurosis.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/preconsciente.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 2600,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/preconsciente.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/pulsión.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 2317,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/pulsión.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/quantum de afecto.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 2292,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/quantum-de-afecto.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/representación.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 2972,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/representación.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/represión.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 641,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/represión.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/resistencia.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 1257,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/resistencia.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/sobredeterminación.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 2635,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/sobredeterminación.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/transferencia.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 2752,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/transferencia.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Laplanche/Yo.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 2208,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/laplanche/yo.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/comercio asociativo.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 636,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/comercio-asociativo.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Elaboración de un caso.pdf": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 65488,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/elaboración-de-un-caso.pdf",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/histeria de conversión.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 2206,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/histeria-de-conversión.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Introducción a la teoría psicoanalítica.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 571,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/introducción-a-la-teoría-psicoanalítica.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Mapa olvido de nombres.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 2192,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/mapa-olvido-de-nombres.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/procesos primarios.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 844,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/procesos-primarios.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/Sigmund Freud.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 12,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/sigmund-freud.html",
+      "dependencies": []
+    },
+    "Introducción a la Teoría Psicoanalítica/sueño.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 5091,
+      "exportedPath": "introducción-a-la-teoría-psicoanalítica/sueño.html",
+      "dependencies": []
+    },
+    "Psicología del Desarrollo/acomodación.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 690,
+      "exportedPath": "psicología-del-desarrollo/acomodación.html",
+      "dependencies": []
+    },
+    "Psicología del Desarrollo/Adaptación.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 605,
+      "exportedPath": "psicología-del-desarrollo/adaptación.html",
+      "dependencies": []
+    },
+    "Psicología del Desarrollo/asimilación.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 404,
+      "exportedPath": "psicología-del-desarrollo/asimilación.html",
+      "dependencies": []
+    },
+    "Psicología del Desarrollo/Constructivismo.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 130,
+      "exportedPath": "psicología-del-desarrollo/constructivismo.html",
+      "dependencies": []
+    },
+    "Psicología del Desarrollo/desarrollo.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 243,
+      "exportedPath": "psicología-del-desarrollo/desarrollo.html",
+      "dependencies": []
+    },
+    "Psicología del Desarrollo/Equilibración.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 172,
+      "exportedPath": "psicología-del-desarrollo/equilibración.html",
+      "dependencies": []
+    },
+    "Psicología del Desarrollo/Esquema de acción.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 344,
+      "exportedPath": "psicología-del-desarrollo/esquema-de-acción.html",
+      "dependencies": []
+    },
+    "Psicología del Desarrollo/Inteligencia.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 1610,
+      "exportedPath": "psicología-del-desarrollo/inteligencia.html",
+      "dependencies": []
+    },
+    "Psicología del Desarrollo/Interaccionismo.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 154,
+      "exportedPath": "psicología-del-desarrollo/interaccionismo.html",
+      "dependencies": []
+    },
+    "Psicología del Desarrollo/Invariantes funcionales.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 2962,
+      "exportedPath": "psicología-del-desarrollo/invariantes-funcionales.html",
+      "dependencies": []
+    },
+    "Psicología del Desarrollo/Jean Piaget.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 516,
+      "exportedPath": "psicología-del-desarrollo/jean-piaget.html",
+      "dependencies": []
+    },
+    "Psicología del Desarrollo/Organización.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 243,
+      "exportedPath": "psicología-del-desarrollo/organización.html",
+      "dependencies": []
+    },
+    "Psicología del Desarrollo/Psicología del desarrollo.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 6821,
+      "exportedPath": "psicología-del-desarrollo/psicología-del-desarrollo.html",
+      "dependencies": []
+    },
+    "Psicología del Desarrollo/psicología genética.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 1162,
+      "exportedPath": "psicología-del-desarrollo/psicología-genética.html",
+      "dependencies": []
+    },
+    "Psicología del Desarrollo/Realismo crítico.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 146,
+      "exportedPath": "psicología-del-desarrollo/realismo-crítico.html",
+      "dependencies": []
+    },
+    "Sistemas Psicológicos Contemporáneos/concientización.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 386,
+      "exportedPath": "sistemas-psicológicos-contemporáneos/concientización.html",
+      "dependencies": []
+    },
+    "Sistemas Psicológicos Contemporáneos/fatalismo latinoamericano.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 4331,
+      "exportedPath": "sistemas-psicológicos-contemporáneos/fatalismo-latinoamericano.html",
+      "dependencies": []
+    },
+    "Sistemas Psicológicos Contemporáneos/Maduración vs desarrollo.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 1796,
+      "exportedPath": "sistemas-psicológicos-contemporáneos/maduración-vs-desarrollo.html",
+      "dependencies": []
+    },
+    "Sistemas Psicológicos Contemporáneos/Martín-Baró.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 520,
+      "exportedPath": "sistemas-psicológicos-contemporáneos/martín-baró.html",
+      "dependencies": []
+    },
+    "Sistemas Psicológicos Contemporáneos/Psicología de la liberación.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 1861,
+      "exportedPath": "sistemas-psicológicos-contemporáneos/psicología-de-la-liberación.html",
+      "dependencies": []
+    },
+    "Sistemas Psicológicos Contemporáneos/Rubén Ardila.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 46,
+      "exportedPath": "sistemas-psicológicos-contemporáneos/rubén-ardila.html",
+      "dependencies": []
+    },
+    "Sistemas Psicológicos Contemporáneos/síntesis experimental del comportamiento.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 1177,
+      "exportedPath": "sistemas-psicológicos-contemporáneos/síntesis-experimental-del-comportamiento.html",
+      "dependencies": []
+    },
+    "Sistemas Psicológicos Contemporáneos/Sistemas Psicológicos Contemporáneos.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 5398,
+      "exportedPath": "sistemas-psicológicos-contemporáneos/sistemas-psicológicos-contemporáneos.html",
+      "dependencies": []
+    },
+    "Sistemas Psicológicos Contemporáneos/Vygotski.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 3495,
+      "exportedPath": "sistemas-psicológicos-contemporáneos/vygotski.html",
+      "dependencies": []
+    },
+    "Sistemas Psicológicos Contemporáneos/Zona de Desarrollo Próximo.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 703,
+      "exportedPath": "sistemas-psicológicos-contemporáneos/zona-de-desarrollo-próximo.html",
+      "dependencies": []
+    },
+    "Sociología/alienación.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 3283,
+      "exportedPath": "sociología/alienación.html",
+      "dependencies": []
+    },
+    "Sociología/anomia.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 854,
+      "exportedPath": "sociología/anomia.html",
+      "dependencies": []
+    },
+    "Sociología/Anthony Giddens.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 6867,
+      "exportedPath": "sociología/anthony-giddens.html",
+      "dependencies": []
+    },
+    "Sociología/Apuntes sociología.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 476,
+      "exportedPath": "sociología/apuntes-sociología.html",
+      "dependencies": []
+    },
+    "Sociología/Augusto Comte.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 11044,
+      "exportedPath": "sociología/augusto-comte.html",
+      "dependencies": []
+    },
+    "Sociología/Capital.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 215,
+      "exportedPath": "sociología/capital.html",
+      "dependencies": []
+    },
+    "Sociología/Concepción materialista de la historia.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 480,
+      "exportedPath": "sociología/concepción-materialista-de-la-historia.html",
+      "dependencies": []
+    },
+    "Sociología/Contexto histórico del surgimiento de la Sociología.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 13421,
+      "exportedPath": "sociología/contexto-histórico-del-surgimiento-de-la-sociología.html",
+      "dependencies": []
+    },
+    "Sociología/contractualismo.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 4567,
+      "exportedPath": "sociología/contractualismo.html",
+      "dependencies": []
+    },
+    "Sociología/Contradicción.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 253,
+      "exportedPath": "sociología/contradicción.html",
+      "dependencies": []
+    },
+    "Sociología/división social del trabajo.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 1151,
+      "exportedPath": "sociología/división-social-del-trabajo.html",
+      "dependencies": []
+    },
+    "Sociología/El paso de la comunidad feudal a las sociedades nacionales.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 17476,
+      "exportedPath": "sociología/el-paso-de-la-comunidad-feudal-a-las-sociedades-nacionales.html",
+      "dependencies": []
+    },
+    "Sociología/El ser social determina la conciencia.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 202,
+      "exportedPath": "sociología/el-ser-social-determina-la-conciencia.html",
+      "dependencies": []
+    },
+    "Sociología/Emile Durkheim.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 3514,
+      "exportedPath": "sociología/emile-durkheim.html",
+      "dependencies": []
+    },
+    "Sociología/Fuerzas productivas.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 329,
+      "exportedPath": "sociología/fuerzas-productivas.html",
+      "dependencies": []
+    },
+    "Sociología/Historicidad de las categorías.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 236,
+      "exportedPath": "sociología/historicidad-de-las-categorías.html",
+      "dependencies": []
+    },
+    "Sociología/Ideología.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 221,
+      "exportedPath": "sociología/ideología.html",
+      "dependencies": []
+    },
+    "Sociología/Iluminismo.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 949,
+      "exportedPath": "sociología/iluminismo.html",
+      "dependencies": []
+    },
+    "Sociología/Ilustración.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 4428,
+      "exportedPath": "sociología/ilustración.html",
+      "dependencies": []
+    },
+    "Sociología/Infraestructura.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 1603,
+      "exportedPath": "sociología/infraestructura.html",
+      "dependencies": []
+    },
+    "Sociología/Karl Marx.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 913,
+      "exportedPath": "sociología/karl-marx.html",
+      "dependencies": []
+    },
+    "Sociología/la sociedad como totalidad conflictiva.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 3154,
+      "exportedPath": "sociología/la-sociedad-como-totalidad-conflictiva.html",
+      "dependencies": []
+    },
+    "Sociología/Lucha de clases.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 428,
+      "exportedPath": "sociología/lucha-de-clases.html",
+      "dependencies": []
+    },
+    "Sociología/Mercancía.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 280,
+      "exportedPath": "sociología/mercancía.html",
+      "dependencies": []
+    },
+    "Sociología/Método dialéctico.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 396,
+      "exportedPath": "sociología/método-dialéctico.html",
+      "dependencies": []
+    },
+    "Sociología/Praxis.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 250,
+      "exportedPath": "sociología/praxis.html",
+      "dependencies": []
+    },
+    "Sociología/Qué es la sociología.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 10855,
+      "exportedPath": "sociología/qué-es-la-sociología.html",
+      "dependencies": []
+    },
+    "Sociología/Reflexividad.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 4439,
+      "exportedPath": "sociología/reflexividad.html",
+      "dependencies": []
+    },
+    "Sociología/Relaciones de producción.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 379,
+      "exportedPath": "sociología/relaciones-de-producción.html",
+      "dependencies": []
+    },
+    "Sociología/Reproducción.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 239,
+      "exportedPath": "sociología/reproducción.html",
+      "dependencies": []
+    },
+    "Sociología/Revolución.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 314,
+      "exportedPath": "sociología/revolución.html",
+      "dependencies": []
+    },
+    "Sociología/Sociología.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 4832,
+      "exportedPath": "sociología/sociología.html",
+      "dependencies": []
+    },
+    "Sociología/suicidio.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 714,
+      "exportedPath": "sociología/suicidio.html",
+      "dependencies": []
+    },
+    "Sociología/Superestructura.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 2099,
+      "exportedPath": "sociología/superestructura.html",
+      "dependencies": []
+    },
+    "Sociología/Trabajo asalariado.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 290,
+      "exportedPath": "sociología/trabajo-asalariado.html",
+      "dependencies": []
+    },
+    "Sociología/Valor de cambio.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 135,
+      "exportedPath": "sociología/valor-de-cambio.html",
+      "dependencies": []
+    },
+    "Inicio.md": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 180,
+      "exportedPath": "inicio.html",
+      "dependencies": []
+    },
+    "lib/scripts/graph-wasm.wasm": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 23377,
+      "exportedPath": "lib/scripts/graph-wasm.wasm",
+      "dependencies": []
+    },
+    "lib/fonts/94f2f163d4b698242fef.otf": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 66800,
+      "exportedPath": "lib/fonts/94f2f163d4b698242fef.otf",
+      "dependencies": []
+    },
+    "lib/fonts/72505e6a122c6acd5471.woff2": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 104232,
+      "exportedPath": "lib/fonts/72505e6a122c6acd5471.woff2",
+      "dependencies": []
+    },
+    "lib/fonts/2d5198822ab091ce4305.woff2": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 104332,
+      "exportedPath": "lib/fonts/2d5198822ab091ce4305.woff2",
+      "dependencies": []
+    },
+    "lib/fonts/c8ba52b05a9ef10f4758.woff2": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 98868,
+      "exportedPath": "lib/fonts/c8ba52b05a9ef10f4758.woff2",
+      "dependencies": []
+    },
+    "lib/fonts/cb10ffd7684cd9836a05.woff2": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 106876,
+      "exportedPath": "lib/fonts/cb10ffd7684cd9836a05.woff2",
+      "dependencies": []
+    },
+    "lib/fonts/b5f0f109bc88052d4000.woff2": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 105804,
+      "exportedPath": "lib/fonts/b5f0f109bc88052d4000.woff2",
+      "dependencies": []
+    },
+    "lib/fonts/cbe0ae49c52c920fd563.woff2": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 106108,
+      "exportedPath": "lib/fonts/cbe0ae49c52c920fd563.woff2",
+      "dependencies": []
+    },
+    "lib/fonts/535a6cf662596b3bd6a6.woff2": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 111708,
+      "exportedPath": "lib/fonts/535a6cf662596b3bd6a6.woff2",
+      "dependencies": []
+    },
+    "lib/fonts/70cc7ff27245e82ad414.ttf": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 192740,
+      "exportedPath": "lib/fonts/70cc7ff27245e82ad414.ttf",
+      "dependencies": []
+    },
+    "lib/fonts/454577c22304619db035.ttf": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 161376,
+      "exportedPath": "lib/fonts/454577c22304619db035.ttf",
+      "dependencies": []
+    },
+    "lib/fonts/52ac8f3034507f1d9e53.ttf": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 191568,
+      "exportedPath": "lib/fonts/52ac8f3034507f1d9e53.ttf",
+      "dependencies": []
+    },
+    "lib/fonts/05b618077343fbbd92b7.ttf": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 155288,
+      "exportedPath": "lib/fonts/05b618077343fbbd92b7.ttf",
+      "dependencies": []
+    },
+    "lib/fonts/4bb6ac751d1c5478ff3a.woff2": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 7876,
+      "exportedPath": "lib/fonts/4bb6ac751d1c5478ff3a.woff2",
+      "dependencies": []
+    },
+    "lib/media/6155340132a851f6089e.svg": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 315,
+      "exportedPath": "lib/media/6155340132a851f6089e.svg",
+      "dependencies": []
+    },
+    "lib/html/file-tree.html": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 36859,
+      "exportedPath": "lib/html/file-tree.html",
+      "dependencies": []
+    },
+    "lib/scripts/webpage.js": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 47290,
+      "exportedPath": "lib/scripts/webpage.js",
+      "dependencies": []
+    },
+    "lib/scripts/graph-view.js": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 15519,
+      "exportedPath": "lib/scripts/graph-view.js",
+      "dependencies": []
+    },
+    "lib/scripts/graph-wasm.js": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 14021,
+      "exportedPath": "lib/scripts/graph-wasm.js",
+      "dependencies": []
+    },
+    "lib/scripts/graph-render-worker.js": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 5179,
+      "exportedPath": "lib/scripts/graph-render-worker.js",
+      "dependencies": []
+    },
+    "lib/scripts/tinycolor.js": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 29832,
+      "exportedPath": "lib/scripts/tinycolor.js",
+      "dependencies": []
+    },
+    "lib/scripts/pixi.js": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 449509,
+      "exportedPath": "lib/scripts/pixi.js",
+      "dependencies": []
+    },
+    "lib/scripts/minisearch.js": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 29422,
+      "exportedPath": "lib/scripts/minisearch.js",
+      "dependencies": []
+    },
+    "lib/media/favicon.png": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 1105,
+      "exportedPath": "lib/media/favicon.png",
+      "dependencies": []
+    },
+    "lib/scripts/graph-data.js": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 9231,
+      "exportedPath": "lib/scripts/graph-data.js",
+      "dependencies": []
+    },
+    "lib/styles/obsidian.css": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 138258,
+      "exportedPath": "lib/styles/obsidian.css",
+      "dependencies": []
+    },
+    "lib/styles/global-variable-styles.css": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 262,
+      "exportedPath": "lib/styles/global-variable-styles.css",
+      "dependencies": []
+    },
+    "lib/styles/main-styles.css": {
+      "modifiedTime": 1745494574494,
+      "sourceSize": 23130,
+      "exportedPath": "lib/styles/main-styles.css",
+      "dependencies": []
+    }
+  }
+}
