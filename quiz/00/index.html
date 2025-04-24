@@ -1,10 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cuestionario: Sexualidad Infantil (Freud)</title>
+    <!-- El título de la pestaña seguirá siendo estático o lo puedes cambiar manualmente si quieres -->
+    <title>Cuestionario Interactivo</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
@@ -31,9 +32,11 @@
             width: 90%;
             margin-top: 20px;
             margin-bottom: 20px;
+            position: relative; /* <-- AÑADIR ESTA LÍNEA SI NO ESTÁ */
         }
 
-        h1 {
+        /* ID añadido para poder modificarlo desde JS */
+        #quiz-title {
             color: #a98eaf; /* Pastel morado */
             text-align: center;
             margin-bottom: 10px;
@@ -156,8 +159,12 @@
 </head>
 <body>
     <div class="quiz-container">
-        <h1>Cuestionario sobre la Sexualidad Infantil (Según Freud)</h1>
-        <p class="intro">¡Pon a prueba tus conocimientos sobre la teoría freudiana!</p>
+        <!-- Título ahora tiene ID para ser modificado por JS -->
+        <!-- Enlace a Inicio -->
+    <a href="../index.html" class="home-link" title="Volver al inicio" aria-label="Volver al inicio">🏠</a>
+    <!-- Fin Enlace a Inicio -->
+        <h1 id="quiz-title">Cargando Título...</h1>
+        <p class="intro">¡Pon a prueba tus conocimientos!</p>
         <p id="loading-status">Cargando preguntas...</p>
         <div id="questions-container">
             <!-- Las preguntas se cargarán aquí con JavaScript -->
@@ -167,81 +174,98 @@
     <script>
         const questionsContainer = document.getElementById('questions-container');
         const loadingStatus = document.getElementById('loading-status');
+        const quizTitleElement = document.getElementById('quiz-title'); // Obtener elemento del título
         let quizData = []; // Aquí guardaremos las preguntas parseadas
+
+        // --- Crear objetos Audio para los sonidos ---
+        // Asegúrate de que bell.wav y wrong.wav estén en la carpeta padre del HTML
+        const correctSound = new Audio('../bell.wav');
+        const wrongSound = new Audio('../wrong.wav');
 
         // --- Función para Parsear el Texto del archivo ---
         function parseQuizData(text) {
             const questions = [];
+            let quizTitle = null; // Variable para guardar el título
+
+             // 1. Buscar y extraer el título primero
+             const titleRegex = /\[titulo:(.*?)\]/;
+             const titleMatch = text.match(titleRegex);
+             if (titleMatch && titleMatch[1]) {
+                 quizTitle = titleMatch[1].trim();
+                 // Remover la etiqueta del título del texto para no interferir con el parseo de preguntas
+                 text = text.replace(titleRegex, '').trim();
+             } else {
+                 console.warn("No se encontró la etiqueta [titulo:...] en el archivo.");
+             }
+
+
+            // 2. Parsear las preguntas (regex sin cambios)
             const tagRegex = /\[([^:]+?)(\d{2}):(.*?)\]/g; // Captura: key, number, value
             let match;
             let currentQuestion = null;
-            let tempOptions = {}; // Para mapear 'a', 'b', 'c' a su texto completo
+            let tempOptions = {};
 
-            // Eliminar saltos de línea y espacios extra entre tags para simplificar
+            // Eliminar saltos de línea y espacios extra entre tags que podrían quedar
             const cleanedText = text.replace(/\s*\[/g, '[').trim();
 
             while ((match = tagRegex.exec(cleanedText)) !== null) {
-                const [, key, number, value] = match; // Extrae key, number, value
+                const [, key, number, value] = match;
 
                 if (key === 'pregunta') {
-                    // Si ya había una pregunta, la guardamos (excepto la primera vez)
                     if (currentQuestion) {
                         questions.push(finalizeQuestion(currentQuestion, tempOptions));
                     }
-                    // Empezamos una nueva pregunta
                     currentQuestion = {
                         question: value.trim(),
                         options: [],
-                        correctAnswer: '', // Se llenará después
+                        correctAnswer: '',
                         justification: '',
-                        correctLetter: '' // Guardamos la letra correcta ('a', 'b', 'c')
+                        correctLetter: ''
                     };
-                    tempOptions = {}; // Reseteamos opciones temporales
+                    tempOptions = {};
                 } else if (currentQuestion) {
-                    // Añadimos otras partes a la pregunta actual
                     if (key === 'a' || key === 'b' || key === 'c') {
                          const optionText = `${key}) ${value.trim()}`;
                          currentQuestion.options.push(optionText);
-                         tempOptions[key] = optionText; // Guardamos texto completo con letra
+                         tempOptions[key] = optionText;
                     } else if (key === 'correcta') {
-                        currentQuestion.correctLetter = value.trim();
+                        currentQuestion.correctLetter = value.trim().toLowerCase(); // Asegurar minúscula
                     } else if (key === 'justificacion') {
                         currentQuestion.justification = value.trim();
                     }
                 }
             }
 
-            // Guardar la última pregunta parseada
             if (currentQuestion) {
                 questions.push(finalizeQuestion(currentQuestion, tempOptions));
             }
 
-            return questions;
+            // Devolver tanto las preguntas como el título encontrado
+             return { questions: questions, title: quizTitle };
         }
 
-        // Función auxiliar para asignar la respuesta correcta completa
+        // Función auxiliar para asignar la respuesta correcta completa (sin cambios)
          function finalizeQuestion(question, tempOptions) {
              if (question.correctLetter && tempOptions[question.correctLetter]) {
                  question.correctAnswer = tempOptions[question.correctLetter];
              } else {
                  console.error("No se pudo encontrar el texto completo para la respuesta correcta:", question);
-                 question.correctAnswer = "Error: Respuesta correcta no encontrada"; //Fallback
+                 question.correctAnswer = "Error: Respuesta correcta no encontrada";
              }
-             // Ya no necesitamos la letra suelta
              delete question.correctLetter;
              return question;
          }
 
 
-        // --- Función para mostrar las preguntas ---
+        // --- Función para mostrar las preguntas --- (sin cambios funcionales, solo recibe data)
         function displayQuestions(data) {
-            questionsContainer.innerHTML = ''; // Limpiar contenedor por si acaso
+            questionsContainer.innerHTML = '';
              if (!data || data.length === 0) {
                 loadingStatus.textContent = 'Error: No se encontraron preguntas válidas en el archivo.';
                 loadingStatus.style.color = 'red';
                 return;
              }
-             loadingStatus.style.display = 'none'; // Ocultar mensaje de carga
+             loadingStatus.style.display = 'none';
 
             data.forEach((item, index) => {
                 const questionBlock = document.createElement('div');
@@ -259,10 +283,8 @@
                 item.options.forEach(optionText => {
                     const option = document.createElement('li');
                     option.classList.add('option');
-                    // Quitar la letra y el paréntesis inicial para mostrar solo el texto
-                    // option.textContent = optionText.substring(optionText.indexOf(')') + 1).trim();
-                    option.textContent = optionText; // Mostrar con a), b), c)
-                    option.dataset.answer = optionText; // Guardar texto completo original como identificador
+                    option.textContent = optionText;
+                    option.dataset.answer = optionText;
                     optionsList.appendChild(option);
                     option.addEventListener('click', handleAnswerClick);
                 });
@@ -278,59 +300,67 @@
             });
         }
 
-        // --- Función para manejar el clic en una respuesta ---
+        // --- Función para manejar el clic en una respuesta --- (con reproducción de sonido)
         function handleAnswerClick(event) {
             const selectedOption = event.target;
             const questionBlock = selectedOption.closest('.question-block');
             const questionIndex = parseInt(questionBlock.dataset.questionIndex, 10);
-            const questionData = quizData[questionIndex]; // Usa la data parseada global
+            const questionData = quizData[questionIndex];
             const justificationElement = questionBlock.querySelector('.justification');
             const allOptions = questionBlock.querySelectorAll('.option');
 
-            // Marcar todas las opciones como respondidas para evitar más clics
             allOptions.forEach(opt => opt.classList.add('answered'));
-
-            // Revelar siempre la justificación
             justificationElement.classList.add('visible');
 
-            // Verificar si la respuesta es correcta
             if (selectedOption.dataset.answer === questionData.correctAnswer) {
-                selectedOption.classList.add('correct-selection'); // Estilo específico para selección correcta
+                selectedOption.classList.add('correct-selection');
+                // --- Reproducir sonido correcto ---
+                correctSound.currentTime = 0; // Reinicia por si acaso
+                correctSound.play().catch(e => console.error("Error al reproducir sonido correcto:", e)); // Capturar errores
             } else {
-                selectedOption.classList.add('incorrect'); // Tachar la incorrecta
-                // Resaltar cuál era la correcta
+                selectedOption.classList.add('incorrect');
                 allOptions.forEach(opt => {
                     if (opt.dataset.answer === questionData.correctAnswer) {
-                        opt.classList.add('correct-highlight'); // Estilo para mostrar la correcta no seleccionada
+                        opt.classList.add('correct-highlight');
                     }
                 });
+                // --- Reproducir sonido incorrecto ---
+                wrongSound.currentTime = 0; // Reinicia por si acaso
+                wrongSound.play().catch(e => console.error("Error al reproducir sonido incorrecto:", e)); // Capturar errores
             }
         }
 
-        // --- Cargar y Mostrar el Quiz ---
+        // --- Cargar y Mostrar el Quiz --- (modificado para manejar el título)
         async function loadAndDisplayQuiz() {
             try {
-                // IMPORTANTE: fetch funciona con rutas relativas al HTML si se sirve desde un servidor.
-                // NO funcionará si abres el HTML directamente desde el sistema de archivos (file:///)
                 const response = await fetch('preguntas.txt');
-
                 if (!response.ok) {
-                    throw new Error(`Error al cargar preguntas.txt: ${response.statusText} (Status: ${response.status})`);
+                    throw new Error(`Error HTTP ${response.status}: ${response.statusText}`);
                 }
-
                 const text = await response.text();
-                quizData = parseQuizData(text); // Parsear y guardar en la variable global
 
+                // Parsear datos (ahora devuelve un objeto con 'questions' y 'title')
+                const parsedResult = parseQuizData(text);
+                quizData = parsedResult.questions; // Guardar preguntas globalmente
+                const title = parsedResult.title; // Obtener título
+
+                // Actualizar el título en el H1 si se encontró
+                 quizTitleElement.textContent = title || 'Cuestionario Interactivo'; // Usar default si no hay título
+
+                // Mostrar las preguntas
                 if (quizData.length > 0) {
                      displayQuestions(quizData);
                 } else {
                      loadingStatus.textContent = 'Error: No se pudieron parsear preguntas del archivo o está vacío.';
                      loadingStatus.style.color = 'red';
+                     // Ocultar título por defecto si no hay preguntas
+                     if (!title) quizTitleElement.style.display = 'none';
                 }
 
             } catch (error) {
                 console.error('Error al cargar o procesar el quiz:', error);
-                loadingStatus.textContent = `Error: ${error.message}. Asegúrate de que 'preguntas.txt' existe en la misma carpeta y que estás ejecutando esto desde un servidor web (no como archivo local).`;
+                quizTitleElement.textContent = 'Error al Cargar'; // Indicar error en título
+                loadingStatus.textContent = `Error: ${error.message}. Verifica que 'preguntas.txt' exista, tenga el formato correcto y se sirva desde un servidor web. Revisa la consola (F12) para más detalles.`;
                 loadingStatus.style.color = 'red';
             }
         }

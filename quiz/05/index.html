@@ -32,6 +32,7 @@
             width: 90%;
             margin-top: 20px;
             margin-bottom: 20px;
+            position: relative; /* <-- AÑADIR ESTA LÍNEA SI NO ESTÁ */
         }
 
         /* ID añadido para poder modificarlo desde JS */
@@ -159,6 +160,9 @@
 <body>
     <div class="quiz-container">
         <!-- Título ahora tiene ID para ser modificado por JS -->
+        <!-- Enlace a Inicio -->
+    <a href="../index.html" class="home-link" title="Volver al inicio" aria-label="Volver al inicio">🏠</a>
+    <!-- Fin Enlace a Inicio -->
         <h1 id="quiz-title">Cargando Título...</h1>
         <p class="intro">¡Pon a prueba tus conocimientos!</p>
         <p id="loading-status">Cargando preguntas...</p>

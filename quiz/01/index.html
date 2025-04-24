@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- El título de la pestaña seguirá siendo estático o lo puedes cambiar manualmente si quieres -->
     <title>Cuestionario Interactivo</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
@@ -31,6 +32,7 @@
             width: 90%;
             margin-top: 20px;
             margin-bottom: 20px;
+            position: relative; /* <-- AÑADIR ESTA LÍNEA SI NO ESTÁ */
         }
 
         /* ID añadido para poder modificarlo desde JS */
@@ -158,6 +160,9 @@
 <body>
     <div class="quiz-container">
         <!-- Título ahora tiene ID para ser modificado por JS -->
+        <!-- Enlace a Inicio -->
+    <a href="../index.html" class="home-link" title="Volver al inicio" aria-label="Volver al inicio">🏠</a>
+    <!-- Fin Enlace a Inicio -->
         <h1 id="quiz-title">Cargando Título...</h1>
         <p class="intro">¡Pon a prueba tus conocimientos!</p>
         <p id="loading-status">Cargando preguntas...</p>
@@ -173,9 +178,9 @@
         let quizData = []; // Aquí guardaremos las preguntas parseadas
 
         // --- Crear objetos Audio para los sonidos ---
-        // Asegúrate de que bell.wav y wrong.wav estén en la misma carpeta que el HTML
-        const correctSound = new Audio('bell.wav');
-        const wrongSound = new Audio('wrong.wav');
+        // Asegúrate de que bell.wav y wrong.wav estén en la carpeta padre del HTML
+        const correctSound = new Audio('../bell.wav');
+        const wrongSound = new Audio('../wrong.wav');
 
         // --- Función para Parsear el Texto del archivo ---
         function parseQuizData(text) {
