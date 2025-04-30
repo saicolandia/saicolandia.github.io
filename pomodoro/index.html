@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍅</text></svg>">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="timer-display" id="timer-display">25:00</div>
+        <div class="controls">
+            <button id="play-pause-button" aria-label="Iniciar temporizador">▶️</button>
+            <button id="reset-button" aria-label="Reiniciar ciclo">🔄</button>
+        </div>
+    </header>
+
+    <main class="content">
+        <div class="title-section">
+            <input type="text" id="overall-title-input" placeholder="Escribe un título general para tu sesión...">
+            <h1 id="overall-title-display"></h1>
+        </div>
+
+        <div class="task-input-section" id="task-input-section">
+             <input type="text" id="task-description-input" placeholder="Describe tu próximo Pomodoro (25 min)...">
+             <small>Presiona 'Enter' o '▶️' para empezar.</small>
+        </div>
+
+        <div id="pomodoro-list-container">
+            <ul id="pomodoro-list">
+                <!-- Las tareas se añadirán aquí dinámicamente -->
+            </ul>
+        </div>
+    </main>
+
+    <audio id="alarm-sound" src="alarm.mp3" preload="auto"></audio> <!-- Asegúrate de tener alarm.mp3 -->
+
+    <script src="script.js"></script>
+</body>
+</html>
