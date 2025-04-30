@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const playPauseButton = document.getElementById('play-pause-button');
     const resetButton = document.getElementById('reset-button');
     const overallTitleInput = document.getElementById('overall-title-input');
-    const overallTitleDisplay = document.getElementById('overall-title-display');
+    // overallTitleDisplay ya no existe
     const taskDescriptionInput = document.getElementById('task-description-input');
     const pomodoroListContainer = document.getElementById('pomodoro-list-container');
     const pomodoroList = document.getElementById('pomodoro-list');
@@ -23,11 +23,44 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPhase = 'work'; // 'work', 'shortBreak', 'longBreak'
     let workSessionsCompleted = 0;
     let currentTaskDescription = '';
-    let tasksHistory = []; // Para almacenar { type: 'work'/'break', description: '...', completed: false }
+    let nextOverallTitle = ''; // Almacena el título ingresado para el siguiente bloque
+    // tasksHistory ya no es necesario si no mostramos descansos ni necesitamos un historial lógico complejo
+    let notificationPermission = Notification.permission; // 'default', 'granted', 'denied'
 
     // --- Inicialización ---
     updateTimerDisplay();
     taskInputSection.style.display = 'block'; // Mostrar input de tarea al inicio
+    requestNotificationPermission(); // Pedir permiso al cargar (o al primer play)
+
+    // --- Funciones de Notificación ---
+    function requestNotificationPermission() {
+        if (Notification.permission === 'default') {
+            Notification.requestPermission().then(permission => {
+                notificationPermission = permission;
+                if (permission === 'granted') {
+                    console.log("Permiso de notificación concedido.");
+                } else {
+                    console.log("Permiso de notificación denegado.");
+                }
+            });
+        }
+    }
+
+    function showNotification(message) {
+        if (notificationPermission !== 'granted') {
+            console.log("Notificaciones bloqueadas o no solicitadas.");
+            return;
+        }
+
+        const notification = new Notification("Pomodoro Pro", {
+            body: message,
+            icon: 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍅</text></svg>' // Puedes usar una URL de icono si prefieres
+        });
+
+        // Opcional: cerrar notificación después de unos segundos
+        setTimeout(notification.close.bind(notification), 5000);
+    }
+
 
     // --- Funciones Auxiliares ---
     function formatTime(seconds) {
@@ -39,67 +72,54 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateTimerDisplay() {
         const formattedTime = formatTime(timeLeft);
         timerDisplay.textContent = formattedTime;
-        document.title = `${formattedTime} - ${getPhaseName()} | Pomodoro Pro`;
-    }
-
-    function getPhaseName() {
+        let titlePhase = '';
         switch (currentPhase) {
-            case 'work': return 'Trabajo';
-            case 'shortBreak': return 'Descanso Corto';
-            case 'longBreak': return 'Descanso Largo';
-            default: return 'Pomodoro';
+            case 'work': titlePhase = currentTaskDescription || 'Trabajo'; break;
+            case 'shortBreak': titlePhase = 'Descanso Corto'; break;
+            case 'longBreak': titlePhase = 'Descanso Largo'; break;
+            default: titlePhase = 'Pomodoro';
         }
+        document.title = `${formattedTime} - ${titlePhase} | Pomodoro Pro`;
     }
 
     function playAlarm() {
-        alarmSound.currentTime = 0; // Reinicia por si se llama rápido
-        alarmSound.play().catch(error => console.error("Error al reproducir sonido:", error)); // El .catch es buena práctica
+        alarmSound.currentTime = 0;
+        alarmSound.play()
+            .then(() => console.log("Alarma sonando."))
+            .catch(error => console.error("Error al reproducir sonido:", error, "- ¿Existe 'alarm.mp3'? ¿Permitió el navegador la reproducción?"));
     }
 
     function scrollToBottom() {
-        // El contenedor está en flex-direction: column-reverse,
-        // así que el scroll debe ir a 0 para ver lo último añadido (que está arriba visualmente).
-        // Si no usaras column-reverse, sería:
-        // pomodoroListContainer.scrollTop = pomodoroListContainer.scrollHeight;
         pomodoroListContainer.scrollTop = 0; // Con column-reverse
     }
 
-    function addTaskToList(type, description) {
+    // Función modificada para añadir títulos o tareas de trabajo a la lista
+    function addItemToList(item) { // item = { type: 'title'/'work', text: '...' }
         const li = document.createElement('li');
-        let icon = '';
-        let text = description;
+        let iconSpan = '';
 
-        if (type === 'work') {
-            icon = '🍅';
-        } else if (type === 'shortBreak') {
-            icon = '☕';
-            text = description || 'Descanso Corto (5 min)';
-        } else if (type === 'longBreak') {
-            icon = '🌴';
-            text = description || 'Descanso Largo (15 min)';
+        if (item.type === 'title') {
+            li.classList.add('title-item');
+        } else if (item.type === 'work') {
+            li.classList.add('work-item');
+            // Marcar como actual al añadir
+            li.classList.add('current-task');
+             // Quitar 'current-task' del anterior elemento de trabajo (si existe)
+             const previousCurrent = pomodoroList.querySelector('.work-item.current-task');
+             if (previousCurrent) {
+                 previousCurrent.classList.remove('current-task');
+                 // Marcar el anterior como completado si no lo estaba ya
+                 if (!previousCurrent.classList.contains('completed-task')) {
+                      previousCurrent.classList.add('completed-task');
+                 }
+             }
+            iconSpan = '<span class="icon">🍅</span>';
         }
 
-        li.innerHTML = `<span class="icon">${icon}</span> <span class="text">${text}</span>`;
-        li.dataset.type = type; // Guardar tipo para referencia
+        li.innerHTML = `${iconSpan} <span class="text">${item.text}</span>`;
+        li.dataset.type = item.type;
 
-        if (type.includes('Break')) {
-            li.classList.add('break-item');
-        }
-
-        // Marcar como actual (se añade al inicio de la lista por column-reverse)
-        li.classList.add('current-task');
-
-        // Quitar 'current-task' del anterior (si existe)
-        const previousCurrent = pomodoroList.querySelector('.current-task');
-        if (previousCurrent) {
-            previousCurrent.classList.remove('current-task');
-             // Marcar el anterior como completado si no era un descanso ya completado
-            if (!previousCurrent.classList.contains('completed-task')) {
-                 previousCurrent.classList.add('completed-task');
-            }
-        }
-
-        pomodoroList.prepend(li); // Añadir al principio (visualmente abajo por column-reverse)
+        pomodoroList.prepend(li); // Añadir al principio (visualmente abajo)
         scrollToBottom();
     }
 
@@ -108,7 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function startTimer() {
         if (isRunning) return;
 
-        // Validar si es sesión de trabajo y hay descripción
+        // Asegurarse de tener permiso de notificación al iniciar
+        requestNotificationPermission();
+
+        // Si es fase de trabajo, manejar título y descripción
         if (currentPhase === 'work') {
             currentTaskDescription = taskDescriptionInput.value.trim();
             if (!currentTaskDescription) {
@@ -116,22 +139,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 taskDescriptionInput.focus();
                 return;
             }
-             // Añadir tarea a la lista como actual
-            addTaskToList('work', currentTaskDescription);
-            tasksHistory.push({ type: 'work', description: currentTaskDescription, completed: false });
-            taskDescriptionInput.value = ''; // Limpiar input
+
+            // Añadir el título general PENDIENTE a la lista (si existe)
+            if (nextOverallTitle) {
+                addItemToList({ type: 'title', text: nextOverallTitle });
+                nextOverallTitle = ''; // Limpiar título pendiente
+                overallTitleInput.value = ''; // Limpiar input de título general
+            }
+
+             // Añadir tarea de trabajo a la lista como actual
+            addItemToList({ type: 'work', text: currentTaskDescription });
+
+            taskDescriptionInput.value = ''; // Limpiar input de tarea
             taskInputSection.style.display = 'none'; // Ocultar input durante el pomodoro
         } else {
-             // Añadir item de descanso a la lista como actual
-             addTaskToList(currentPhase);
-             tasksHistory.push({ type: currentPhase, description: getPhaseName(), completed: false });
-             taskInputSection.style.display = 'none'; // Ocultar input durante descansos
+             // Durante descansos, el input de tarea ya debería estar oculto
+             // No añadimos nada a la lista para los descansos
+             taskInputSection.style.display = 'none';
+             currentTaskDescription = ''; // Limpiamos descripción por si acaso
         }
 
 
         isRunning = true;
-        playPauseButton.textContent = '⏸️'; // Pausa
+        playPauseButton.textContent = '⏸️';
         playPauseButton.setAttribute('aria-label', 'Pausar temporizador');
+        updateTimerDisplay(); // Actualizar título de pestaña inmediatamente
 
         timerInterval = setInterval(() => {
             timeLeft--;
@@ -140,6 +172,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (timeLeft < 0) {
                 clearInterval(timerInterval);
                 playAlarm();
+                // Mostrar notificación al terminar cualquier fase
+                let phaseEndMessage = '';
+                 if (currentPhase === 'work') {
+                     phaseEndMessage = `¡Pomodoro "${currentTaskDescription || 'Trabajo'}" completado! Tiempo para un descanso.`;
+                 } else if (currentPhase === 'shortBreak') {
+                     phaseEndMessage = '¡Descanso corto terminado! Listo para el siguiente Pomodoro.';
+                 } else if (currentPhase === 'longBreak') {
+                      phaseEndMessage = '¡Descanso largo terminado! A seguir trabajando.';
+                 }
+                 showNotification(phaseEndMessage);
+
                 moveToNextPhase();
             }
         }, 1000);
@@ -149,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isRunning) return;
         isRunning = false;
         clearInterval(timerInterval);
-        playPauseButton.textContent = '▶️'; // Play
+        playPauseButton.textContent = '▶️';
         playPauseButton.setAttribute('aria-label', 'Continuar temporizador');
     }
 
@@ -159,59 +202,57 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPhase = 'work';
         workSessionsCompleted = 0;
         timeLeft = WORK_DURATION;
-        tasksHistory = []; // Limpiar historial
         currentTaskDescription = '';
+        nextOverallTitle = ''; // Limpiar título pendiente
         updateTimerDisplay();
-        playPauseButton.textContent = '▶️'; // Play
-         playPauseButton.setAttribute('aria-label', 'Iniciar temporizador');
+        playPauseButton.textContent = '▶️';
+        playPauseButton.setAttribute('aria-label', 'Iniciar temporizador');
         pomodoroList.innerHTML = ''; // Limpiar lista visual
         taskDescriptionInput.value = ''; // Limpiar input de tarea
+        overallTitleInput.value = ''; // Limpiar input de título general
         taskInputSection.style.display = 'block'; // Mostrar input de tarea
-         // Opcional: Limpiar título general
-        // overallTitleInput.value = '';
-        // overallTitleDisplay.textContent = '';
-        document.title = 'Pomodoro Pro'; // Reset title
+        document.title = 'Pomodoro Pro';
 
-        // Detener alarma si está sonando
         alarmSound.pause();
         alarmSound.currentTime = 0;
     }
 
     function moveToNextPhase() {
         isRunning = false;
-        playPauseButton.textContent = '▶️'; // Listo para iniciar siguiente fase
-         playPauseButton.setAttribute('aria-label', 'Iniciar temporizador');
+        playPauseButton.textContent = '▶️';
+        playPauseButton.setAttribute('aria-label', 'Iniciar temporizador');
 
-        // Marcar la tarea/descanso actual como completado en el historial
-        if (tasksHistory.length > 0) {
-            tasksHistory[tasksHistory.length - 1].completed = true;
-             // Actualizar visualmente el último elemento de la lista (el que acaba de terminar)
-             const lastLi = pomodoroList.firstChild; // El último añadido está al principio por column-reverse
-             if(lastLi) {
-                 lastLi.classList.remove('current-task');
-                 lastLi.classList.add('completed-task');
+        // Marcar la tarea de TRABAJO actual como completada en la lista visual
+         if (currentPhase === 'work') {
+             const lastWorkItem = pomodoroList.querySelector('.work-item.current-task');
+             if(lastWorkItem) {
+                 lastWorkItem.classList.remove('current-task');
+                 lastWorkItem.classList.add('completed-task');
              }
-        }
+             workSessionsCompleted++; // Incrementar solo al completar trabajo
+         }
+         // NO se hace nada visualmente al terminar descansos
 
+        // Determinar la SIGUIENTE fase
         if (currentPhase === 'work') {
-            workSessionsCompleted++;
-            if (workSessionsCompleted % 4 === 0) { // Después de 4 sesiones de trabajo
+            if (workSessionsCompleted > 0 && workSessionsCompleted % 3 === 0) { // Ajuste: después de 3 de trabajo (25'+5')*3
                 currentPhase = 'longBreak';
                 timeLeft = LONG_BREAK_DURATION;
-                taskInputSection.style.display = 'none'; // No pedir tarea para descanso largo
+                taskInputSection.style.display = 'none';
             } else {
                 currentPhase = 'shortBreak';
                 timeLeft = SHORT_BREAK_DURATION;
-                 taskInputSection.style.display = 'none'; // No pedir tarea para descanso corto
+                 taskInputSection.style.display = 'none';
             }
         } else { // Si estaba en descanso (corto o largo)
             currentPhase = 'work';
             timeLeft = WORK_DURATION;
-            taskInputSection.style.display = 'block'; // Pedir la siguiente tarea
+            taskInputSection.style.display = 'block';
             taskDescriptionInput.placeholder = `Describe tu Pomodoro #${workSessionsCompleted + 1}...`;
             taskDescriptionInput.focus();
         }
 
+        currentTaskDescription = ''; // Limpiar descripción para la nueva fase (importante para descansos)
         updateTimerDisplay();
         // No iniciamos automáticamente, el usuario debe pulsar Play
     }
@@ -221,6 +262,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isRunning) {
             pauseTimer();
         } else {
+            // Si es la primera vez o el permiso fue denegado y ahora está 'default'
+            if (Notification.permission === 'default') {
+                requestNotificationPermission();
+            }
             startTimer();
         }
     });
@@ -231,15 +276,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Actualizar título general al perder el foco
-    overallTitleInput.addEventListener('blur', () => {
-        overallTitleDisplay.textContent = overallTitleInput.value.trim();
-    });
-     // Opcional: Actualizar también al presionar Enter en el título general
-     overallTitleInput.addEventListener('keypress', (e) => {
+    // Guardar título general para el próximo bloque al presionar Enter o perder foco
+    function handleOverallTitleInput() {
+        const title = overallTitleInput.value.trim();
+        if (title) {
+            nextOverallTitle = title;
+            // Podrías dar feedback visual de que se guardó, pero por ahora solo limpia si no está corriendo
+             if (!isRunning) {
+                 // overallTitleInput.value = ''; // Decide si quieres limpiarlo aquí o al usarse
+             }
+        }
+    }
+    overallTitleInput.addEventListener('blur', handleOverallTitleInput);
+    overallTitleInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
-             overallTitleDisplay.textContent = overallTitleInput.value.trim();
-             overallTitleInput.blur(); // Quitar foco
+            handleOverallTitleInput();
+            overallTitleInput.blur(); // Quitar foco
+            // Si no está corriendo y hay tarea, enfocar la tarea
+            if (!isRunning && currentPhase === 'work') {
+                 taskDescriptionInput.focus();
+            }
         }
     });
 
@@ -247,8 +303,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Iniciar Pomodoro con Enter en la descripción de tarea
     taskDescriptionInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' && !isRunning && currentPhase === 'work') {
-             e.preventDefault(); // Evita cualquier comportamiento por defecto del Enter
-            startTimer(); // Intenta iniciar el timer (validará si hay texto)
+             e.preventDefault();
+            startTimer();
         }
     });
 

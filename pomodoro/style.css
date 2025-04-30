@@ -12,23 +12,23 @@ body {
     line-height: 1.6;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura */
+    min-height: 100vh;
 }
 
 /* Header fijo */
 .site-header {
-    background-color: #d95550; /* Color tomate */
+    background-color: #333; /* Gris oscuro */
     color: white;
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: sticky; /* O fixed si prefieres */
+    position: sticky;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Sombra un poco más oscura */
 }
 
 .timer-display {
@@ -39,29 +39,28 @@ body {
 
 .controls button {
     background: none;
-    border: 2px solid white;
+    border: none; /* Sin borde */
     color: white;
-    padding: 8px 15px;
-    font-size: 1.5em;
-    margin-left: 10px;
+    padding: 5px; /* Ajustar padding si es necesario */
+    font-size: 2.2em; /* Emojis más grandes */
+    margin-left: 15px;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    line-height: 1; /* Para alinear mejor emojis */
+    transition: opacity 0.2s ease;
 }
 
 .controls button:hover {
-    background-color: white;
-    color: #d95550;
+    opacity: 0.8; /* Efecto hover sutil */
 }
 
 /* Contenido Principal */
 .content {
     padding: 20px;
-    flex-grow: 1; /* Permite que el main crezca para ocupar espacio */
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    max-width: 800px; /* O el ancho que prefieras */
-    margin: 0 auto; /* Centra el contenido */
+    max-width: 800px;
+    margin: 0 auto;
     width: 95%;
 }
 
@@ -78,21 +77,13 @@ body {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1em;
-    margin-bottom: 5px; /* Espacio antes del H1 o small */
+    margin-bottom: 5px;
 }
 #task-description-input {
-    background-color: #fff; /* Fondo blanco para destacar que es editable */
+    background-color: #fff;
 }
 
-
-#overall-title-display {
-    font-size: 1.8em;
-    color: #c4443f; /* Un tono más oscuro de tomate */
-    margin-top: 5px;
-    min-height: 1.2em; /* Evita saltos cuando se añade texto */
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-}
+/* Ya no existe #overall-title-display */
 
 .task-input-section small {
     display: block;
@@ -104,16 +95,15 @@ body {
 
 /* Contenedor y Lista de Pomodoros */
 #pomodoro-list-container {
-    flex-grow: 1; /* Ocupa el espacio restante */
-    overflow-y: auto; /* Habilita el scroll vertical si es necesario */
+    flex-grow: 1;
+    overflow-y: auto;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 15px;
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-    /* Importante para el auto-scroll */
     display: flex;
-    flex-direction: column-reverse; /* Muestra los nuevos items abajo */
+    flex-direction: column-reverse; /* Mantiene los nuevos abajo */
 }
 
 #pomodoro-list {
@@ -129,18 +119,40 @@ body {
     align-items: center;
 }
 
-#pomodoro-list li:last-child {
-    border-bottom: none;
+#pomodoro-list li:last-child { /* El último visualmente (primero en DOM) */
+     border-bottom: none;
 }
 
 #pomodoro-list li .icon {
     margin-right: 10px;
-    font-size: 1.2em; /* Tamaño del emoji/icono */
-    min-width: 25px; /* Para alinear el texto */
+    font-size: 1.2em;
+    min-width: 25px;
     text-align: center;
 }
 
-#pomodoro-list li.completed-task {
+/* Estilo para Títulos dentro de la lista */
+#pomodoro-list li.title-item {
+    font-weight: bold;
+    font-size: 1.3em;
+    color: #333;
+    background-color: #e9e9e9; /* Fondo gris claro para destacar */
+    margin-top: 15px; /* Espacio antes de un nuevo título */
+    border-bottom: 1px solid #ccc;
+    padding: 12px 10px;
+    border-radius: 4px 4px 0 0; /* Bordes redondeados arriba */
+}
+/* Quitar icono a los títulos */
+#pomodoro-list li.title-item .icon {
+    display: none;
+}
+
+
+/* Pomodoros de trabajo */
+#pomodoro-list li.work-item {
+    /* Estilos específicos si los necesitas, heredan los de li */
+}
+
+#pomodoro-list li.completed-task { /* Aplica a work-items completados */
     color: #888;
     text-decoration: line-through;
     background-color: #f9f9f9;
@@ -149,23 +161,14 @@ body {
     opacity: 0.6;
 }
 
-#pomodoro-list li.current-task {
+#pomodoro-list li.current-task { /* Aplica al work-item actual */
     font-weight: bold;
-    background-color: #fffadc; /* Un amarillo pálido para destacar */
-    border-left: 4px solid #f0ad4e; /* Borde izquierdo para indicar actual */
-    padding-left: 6px; /* Ajustar padding por el borde */
+    background-color: #fffadc;
+    border-left: 4px solid #d95550; /* Borde tomate para indicar actual */
+    padding-left: 6px;
 }
 
-#pomodoro-list li.break-item {
-    color: #31708f; /* Azul para descansos */
-    font-style: italic;
-    background-color: #d9edf7; /* Fondo azul claro */
-}
-#pomodoro-list li.break-item.completed-task {
-    background-color: #eef7ff; /* Más claro cuando completado */
-    text-decoration: none; /* No tachar descansos */
-    color: #a0c1d1;
-}
+/* Ya no se necesitan estilos para break-item */
 
 /* Ocultar elementos si es necesario */
 .hidden {

@@ -19,8 +19,9 @@
 
     <main class="content">
         <div class="title-section">
-            <input type="text" id="overall-title-input" placeholder="Escribe un título general para tu sesión...">
-            <h1 id="overall-title-display"></h1>
+             <!-- Este input ahora define el título para el *próximo* bloque de Pomodoros -->
+            <input type="text" id="overall-title-input" placeholder="Título para el siguiente grupo de Pomodoros (Opcional)...">
+            <!-- Ya no hay un H1 aquí, el título va a la lista -->
         </div>
 
         <div class="task-input-section" id="task-input-section">
@@ -30,7 +31,7 @@
 
         <div id="pomodoro-list-container">
             <ul id="pomodoro-list">
-                <!-- Las tareas se añadirán aquí dinámicamente -->
+                <!-- Las tareas y títulos se añadirán aquí dinámicamente -->
             </ul>
         </div>
     </main>
