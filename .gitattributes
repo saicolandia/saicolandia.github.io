@@ -1,4 +1,4 @@
 * text=auto eol=lf
-* *: Aplica a todos los archivos.
-* text=auto: Le dice a Git que intente detectar automáticamente si un archivo es de texto. Si lo es, manejará los finales de línea.
-* eol=lf: Le dice a Git que, para los archivos de texto, normalice los finales de línea a LF (Linux/macOS) cuando se guardan en el repositorio (al hacer commit). Cuando haces checkout en Windows, Git (si core.autocrlf está en true) los convertirá a CRLF en tu copia local.
+* *
+* text=auto
+* eol=lf
