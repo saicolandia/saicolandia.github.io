@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Red de Psicología con Cytoscape.js</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.23.0/cytoscape.min.js"></script>
+  <style>
+    #cy {
+      width: 100%;
+      height: 800px;
+      border: 1px solid #ccc;
+      background: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Red Conceptual de Psicología</h1>
+  <div id="cy"></div>
+
+  <script>
+    // Cargar el JSON (asegúrate de que el archivo esté en la misma carpeta)
+    fetch('red_psicologia.json')
+      .then(response => response.json())
+      .then(data => {
+        const elements = [];
+        
+        // Agregar nodos (conceptos)
+        data.conceptos.forEach(concepto => {
+          elements.push({
+            data: {
+              id: concepto.id,
+              label: concepto.nombre,
+              definicion: concepto.definicion,
+              categoria: concepto.categoria
+            },
+            classes: concepto.categoria.toLowerCase().replace(/ /g, '-') // Para estilos CSS
+          });
+        });
+
+        // Agregar aristas (interrelaciones)
+        data.interrelaciones.forEach(rel => {
+          elements.push({
+            data: {
+              id: `${rel.origen}-${rel.destino}`,
+              source: rel.origen,
+              target: rel.destino,
+              label: rel.tipo,
+              peso: rel.peso
+            }
+          });
+        });
+
+        // Inicializar Cytoscape
+        const cy = cytoscape({
+          container: document.getElementById('cy'),
+          elements: elements,
+          style: [
+            {
+              selector: 'node',
+              style: {
+                'label': 'data(label)',
+                'text-wrap': 'wrap',
+                'text-max-width': '150px',
+                'background-color': '#6FB1FC',
+                'color': '#000',
+                'font-size': '12px',
+                'text-valign': 'center',
+                'text-halign': 'center',
+                'width': '80',
+                'height': '80'
+              }
+            },
+            {
+              selector: 'edge',
+              style: {
+                'label': 'data(label)',
+                'width': 'mapData(peso, 0.5, 1, 1, 5)',
+                'line-color': '#A0A0A0',
+                'curve-style': 'bezier',
+                'target-arrow-shape': 'triangle',
+                'arrow-scale': 0.8
+              }
+            },
+            // Estilos por categoría (opcional)
+            {
+              selector: '.procesos-psicológicos',
+              style: { 'background-color': '#6FB1FC' }
+            },
+            {
+              selector: '.teorías',
+              style: { 'background-color': '#F5A45D' }
+            }
+          ],
+          layout: {
+            name: 'cose',
+            idealEdgeLength: 100,
+            nodeOverlap: 20,
+            animate: true
+          }
+        });
+
+        // Evento para mostrar definiciones al hacer clic
+        cy.on('tap', 'node', function(evt) {
+          const node = evt.target;
+          alert(`Definición: ${node.data('definicion')}\nCategoría: ${node.data('categoria')}`);
+        });
+      })
+      .catch(error => console.error('Error al cargar el JSON:', error));
+  </script>
+</body>
+</html>

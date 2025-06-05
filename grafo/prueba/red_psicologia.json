@@ -1,0 +1,81 @@
+{
+  "titulo": "Red Conceptual de Psicología",
+  "conceptos": [
+    {
+      "id": "cognicion",
+      "nombre": "Cognición",
+      "definicion": "Procesos mentales como percepción, memoria y razonamiento.",
+      "categoria": "Procesos Psicológicos"
+    },
+    {
+      "id": "aprendizaje",
+      "nombre": "Aprendizaje",
+      "definicion": "Adquisición de conocimientos o habilidades através de la experiencia.",
+      "categoria": "Procesos Psicológicos"
+    },
+    {
+      "id": "condicionamiento_operante",
+      "nombre": "Condicionamiento Operante",
+      "definicion": "Aprendizaje por refuerzo/castigo de conductas (Skinner).",
+      "categoria": "Teorías"
+    },
+    {
+      "id": "refuerzo_positivo",
+      "nombre": "Refuerzo Positivo",
+      "definicion": "Aumento de conductas por estímulos gratificantes.",
+      "categoria": "Mecanismos"
+    },
+    {
+      "id": "memoria",
+      "nombre": "Memoria",
+      "definicion": "Codificación, almacenamiento y recuperación de información.",
+      "categoria": "Procesos Psicológicos"
+    },
+    {
+      "id": "sesgos_cognitivos",
+      "nombre": "Sesgos Cognitivos",
+      "definicion": "Desviaciones sistemáticas en el procesamiento de información.",
+      "categoria": "Fenómenos"
+    }
+  ],
+  "interrelaciones": [
+    {
+      "origen": "aprendizaje",
+      "destino": "condicionamiento_operante",
+      "tipo": "es_ejemplo_de",
+      "peso": 0.8
+    },
+    {
+      "origen": "condicionamiento_operante",
+      "destino": "refuerzo_positivo",
+      "tipo": "utiliza",
+      "peso": 0.9
+    },
+    {
+      "origen": "cognicion",
+      "destino": "memoria",
+      "tipo": "incluye",
+      "peso": 0.7
+    },
+    {
+      "origen": "cognicion",
+      "destino": "sesgos_cognitivos",
+      "tipo": "explica",
+      "peso": 0.6
+    },
+    {
+      "origen": "memoria",
+      "destino": "aprendizaje",
+      "tipo": "soporta",
+      "peso": 0.75
+    }
+  ],
+  "metadata": {
+    "formato_grafico_recomendado": "Grafo dirigido ponderado",
+    "herramientas_visualizacion": [
+      "Gephi (redes complejas)",
+      "Cytoscape.js (web interactivo)",
+      "ObservableHQ (análsis dinámico)"
+    ]
+  }
+}
