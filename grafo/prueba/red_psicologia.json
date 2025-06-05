@@ -1,81 +1,117 @@
 {
-  "titulo": "Red Conceptual de Psicología",
+  "titulo": "Modelo Estructural de la Psique en Freud (1923)",
   "conceptos": [
     {
-      "id": "cognicion",
-      "nombre": "Cognición",
-      "definicion": "Procesos mentales como percepción, memoria y razonamiento.",
-      "categoria": "Procesos Psicológicos"
+      "id": "inconsciente",
+      "nombre": "Inconsciente",
+      "definicion": "Parte de la psique no accesible a la conciencia, con contenido dinámico (reprimido) y sistemático (no necesariamente reprimido).",
+      "categoria": "Conceptos teóricos",
+      "evolucion": "De término descriptivo (lo latente) a dinámico (lo reprimido) y finalmente sistemático (incluye parte del yo)."
     },
     {
-      "id": "aprendizaje",
-      "nombre": "Aprendizaje",
-      "definicion": "Adquisición de conocimientos o habilidades através de la experiencia.",
-      "categoria": "Procesos Psicológicos"
+      "id": "ello",
+      "nombre": "Ello (das Es)",
+      "definicion": "Reservorio inconsciente de pulsiones, regido por el principio de placer. Contiene lo reprimido pero no se reduce a ello.",
+      "categoria": "Instancias psíquicas",
+      "caracteristicas": ["Libido", "Pasiones", "Principio de placer"]
     },
     {
-      "id": "condicionamiento_operante",
-      "nombre": "Condicionamiento Operante",
-      "definicion": "Aprendizaje por refuerzo/castigo de conductas (Skinner).",
-      "categoria": "Teorías"
+      "id": "yo",
+      "nombre": "Yo (das Ich)",
+      "definicion": "Instancia mediadora entre el ello y el mundo exterior. Parte es inconsciente (autocrítica, resistencias).",
+      "categoria": "Instancias psíquicas",
+      "funciones": ["Principio de realidad", "Razón", "Control motilidad", "Proyección corporal"]
     },
     {
-      "id": "refuerzo_positivo",
-      "nombre": "Refuerzo Positivo",
-      "definicion": "Aumento de conductas por estímulos gratificantes.",
-      "categoria": "Mecanismos"
+      "id": "superyo",
+      "nombre": "Superyó (das Über-Ich)",
+      "definicion": "Diferenciación del yo que internaliza prohibiciones e ideales parentales (heredero del Edipo).",
+      "categoria": "Instancias psíquicas",
+      "roles": ["Conciencia moral", "Censura", "Sentimientos sociales", "Religión"]
     },
     {
-      "id": "memoria",
-      "nombre": "Memoria",
-      "definicion": "Codificación, almacenamiento y recuperación de información.",
-      "categoria": "Procesos Psicológicos"
+      "id": "pulsiones_eros",
+      "nombre": "Pulsiones de Eros",
+      "definicion": "Pulsiones sexuales y de autoconservación, buscan síntesis y conservación de la vida.",
+      "categoria": "Teoría pulsional",
+      "ejemplos": ["Libido", "Sublimación"]
     },
     {
-      "id": "sesgos_cognitivos",
-      "nombre": "Sesgos Cognitivos",
-      "definicion": "Desviaciones sistemáticas en el procesamiento de información.",
-      "categoria": "Fenómenos"
+      "id": "pulsiones_muerte",
+      "nombre": "Pulsiones de muerte",
+      "definicion": "Tendencia a reducir tensiones, retornar a lo inorgánico. Se exterioriza como agresión.",
+      "categoria": "Teoría pulsional",
+      "ejemplo": "Sadismo"
+    },
+    {
+      "id": "reprimido",
+      "nombre": "Lo reprimido",
+      "definicion": "Contenido inconsciente activamente excluido de la conciencia por mecanismos de defensa.",
+      "categoria": "Mecanismos",
+      "relacion": "Subconjunto del ello"
     }
   ],
   "interrelaciones": [
     {
-      "origen": "aprendizaje",
-      "destino": "condicionamiento_operante",
-      "tipo": "es_ejemplo_de",
-      "peso": 0.8
+      "origen": "yo",
+      "destino": "ello",
+      "tipo": "se_asienta_sobre",
+      "peso": 0.9,
+      "descripcion": "El yo surge del ello bajo influencia exterior."
     },
     {
-      "origen": "condicionamiento_operante",
-      "destino": "refuerzo_positivo",
-      "tipo": "utiliza",
-      "peso": 0.9
+      "origen": "superyo",
+      "destino": "yo",
+      "tipo": "diferenciacion_de",
+      "peso": 0.8,
+      "descripcion": "El superyó es una escisión del yo."
     },
     {
-      "origen": "cognicion",
-      "destino": "memoria",
-      "tipo": "incluye",
-      "peso": 0.7
+      "origen": "superyo",
+      "destino": "ello",
+      "tipo": "representa",
+      "peso": 0.7,
+      "descripcion": "El superyó actúa como abogado del ello frente al yo."
     },
     {
-      "origen": "cognicion",
-      "destino": "sesgos_cognitivos",
-      "tipo": "explica",
-      "peso": 0.6
+      "origen": "inconsciente",
+      "destino": "ello",
+      "tipo": "contiene",
+      "peso": 0.95,
+      "descripcion": "El ello es totalmente inconsciente."
     },
     {
-      "origen": "memoria",
-      "destino": "aprendizaje",
-      "tipo": "soporta",
-      "peso": 0.75
+      "origen": "inconsciente",
+      "destino": "yo",
+      "tipo": "incluye_parte",
+      "peso": 0.6,
+      "descripcion": "Parte del yo es inconsciente (ej: resistencias)."
+    },
+    {
+      "origen": "pulsiones_eros",
+      "destino": "ello",
+      "tipo": "energiza",
+      "peso": 0.85,
+      "descripcion": "Eros provee libido al ello."
+    },
+    {
+      "origen": "pulsiones_muerte",
+      "destino": "ello",
+      "tipo": "energiza",
+      "peso": 0.75,
+      "descripcion": "Pulsiones de muerte operan en el ello."
+    },
+    {
+      "origen": "reprimido",
+      "destino": "ello",
+      "tipo": "subconjunto_de",
+      "peso": 0.9,
+      "descripcion": "Lo reprimido es parte del ello."
     }
   ],
   "metadata": {
-    "formato_grafico_recomendado": "Grafo dirigido ponderado",
-    "herramientas_visualizacion": [
-      "Gephi (redes complejas)",
-      "Cytoscape.js (web interactivo)",
-      "ObservableHQ (análsis dinámico)"
-    ]
+    "fuente": "Freud, S. (1923). El yo y el ello.",
+    "recomendacion_visual": "Grafo con: 1) Nodos jerárquicos (instancias > teorías), 2) Aristas etiquetadas, 3) Color por categoría.",
+    "notas": "Usar layout 'cose' en Cytoscape.js para resaltar relaciones complejas."
   }
 }
