@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navegador de Contenido</title>
+    <style>
+        /* Eliminamos márgenes por defecto */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+
+        /* El iframe ocupa todo menos la barra inferior */
+        #content-frame {
+            width: 100%;
+            height: calc(100% - 40px);
+            border: none;
+        }
+
+        /* Barra inferior */
+        .bottom-bar {
+            height: 40px;
+            width: 100%;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn {
+            color: white;
+            cursor: pointer;
+            padding: 5px 15px;
+            border-radius: 4px;
+            transition: background 0.3s;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <iframe id="content-frame" src="/pc1.html"></iframe>
+
+    <div class="bottom-bar">
+        <div class="btn" onclick="cambiarPagina('/pc1.html')">1</div>
+        <div class="btn" onclick="cambiarPagina('/pc2.html')">2</div>
+        <div class="btn" onclick="cambiarPagina('/pc3.html')">3</div>
+        <div class="btn" onclick="cambiarPagina('/pc4.html')">4</div>
+        <div class="btn" onclick="cambiarPagina('/pc5.html')">5</div>
+    </div>
+
+    <script>
+        function cambiarPagina(url) {
+            document.getElementById('content-frame').src = url;
+        }
+    </script>
+</body>
+</html>
