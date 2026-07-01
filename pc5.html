@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧠 Karmiloff-Smith: la mente que se arma sola</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF6E8;
+    --ink:#2B2640;
+    --coral:#FF6B6B;
+    --yellow:#FFD93D;
+    --teal:#2FC1C6;
+    --purple:#7B61FF;
+    --pink:#FF8FB1;
+    --card:#FFFFFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Nunito', sans-serif;
+    overflow-x:hidden;
+    cursor:none;
+  }
+  ::selection{ background:var(--yellow); color:var(--ink); }
+
+  /* ---------- cursor personalizado ---------- */
+  #cursor{
+    position:fixed; top:0; left:0; width:34px; height:34px;
+    pointer-events:none; z-index:9999; font-size:28px;
+    transform:translate(-50%,-50%);
+    transition:transform .08s ease-out, font-size .2s;
+    filter:drop-shadow(0 2px 4px rgba(0,0,0,.25));
+  }
+
+  /* ---------- fondo flotante ---------- */
+  #blobs{position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none;}
+  .blob{position:absolute; border-radius:50%; opacity:.35; filter:blur(2px);}
+  .float-emoji{position:absolute; font-size:2.4rem; opacity:.55; pointer-events:none; transition:transform .15s ease-out;}
+
+  .wrap{position:relative; z-index:1; max-width:980px; margin:0 auto; padding:0 24px 120px;}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    min-height:92vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+    text-align:center; position:relative; z-index:1; padding-top:40px;
+  }
+  .eyebrow{
+    font-family:'Baloo 2', sans-serif; font-weight:700; font-size:1.1rem;
+    background:var(--ink); color:var(--yellow); padding:6px 18px; border-radius:999px;
+    display:inline-block; margin-bottom:22px; letter-spacing:.5px;
+    transform:rotate(-2deg);
+  }
+  h1.title{
+    font-family:'Baloo 2', sans-serif; font-weight:800;
+    font-size:clamp(2.6rem, 7vw, 5.2rem); line-height:1.02;
+    color:var(--ink);
+  }
+  h1.title .hl{
+    background:linear-gradient(180deg, transparent 62%, var(--yellow) 62%);
+    padding:0 6px;
+  }
+  h1.title span.word{
+    display:inline-block; transition:transform .18s ease, color .18s ease;
+  }
+  h1.title span.word:hover{
+    transform:translateY(-10px) rotate(-4deg) scale(1.08);
+    color:var(--coral);
+  }
+  .subtitle{
+    margin-top:26px; max-width:640px; font-size:clamp(1.05rem,2vw,1.3rem);
+    font-weight:600; color:#544E73;
+  }
+  .subtitle b{ color:var(--purple); }
+  .scrolldown{
+    margin-top:56px; font-family:'Baloo 2'; font-weight:700; font-size:.95rem;
+    color:var(--ink); opacity:.7; animation:bob 1.6s ease-in-out infinite;
+  }
+  @keyframes bob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(10px);} }
+
+  /* ---------- section headers ---------- */
+  .section{ margin-top:130px; position:relative; }
+  .num{
+    font-family:'Baloo 2'; font-weight:800; font-size:5.5rem; line-height:1;
+    color:var(--card); -webkit-text-stroke:3px var(--ink); opacity:.9;
+    position:absolute; top:-38px; left:-10px; z-index:0; user-select:none;
+  }
+  h2.sec-title{
+    font-family:'Baloo 2', sans-serif; font-weight:800;
+    font-size:clamp(1.9rem, 4vw, 2.7rem); position:relative; z-index:1;
+    margin-left:60px; margin-bottom:8px;
+  }
+  .sec-sub{
+    margin-left:60px; margin-bottom:38px; font-weight:700; color:#6C6690;
+    font-size:1.02rem; max-width:640px;
+  }
+
+  /* ---------- vs seesaw ---------- */
+  .seesaw{
+    display:flex; justify-content:center; align-items:flex-end; gap:18px;
+    margin:20px 0 46px; flex-wrap:wrap;
+  }
+  .side{
+    background:var(--card); border:3px solid var(--ink); border-radius:22px;
+    padding:22px 26px; width:230px; text-align:center; box-shadow:6px 6px 0 var(--ink);
+    transition:transform .25s, box-shadow .25s;
+  }
+  .side:hover{ transform:translateY(-8px) rotate(-1deg); box-shadow:10px 12px 0 var(--ink); }
+  .side .emoji{ font-size:2.6rem; display:block; margin-bottom:6px; }
+  .side h4{ font-family:'Baloo 2'; font-size:1.15rem; margin-bottom:6px; }
+  .side p{ font-size:.92rem; font-weight:600; color:#5B5578; }
+  .side.fodor{ border-color:var(--coral); }
+  .side.piaget{ border-color:var(--teal); }
+  .side.ks{
+    background:var(--ink); color:var(--cream); width:250px;
+    box-shadow:6px 6px 0 var(--purple);
+  }
+  .side.ks:hover{ box-shadow:10px 12px 0 var(--purple); }
+  .side.ks h4{ color:var(--yellow); }
+  .side.ks p{ color:#E4DFF7; }
+  .vs-label{
+    font-family:'Baloo 2'; font-weight:800; font-size:1.4rem; color:var(--purple);
+    align-self:center; margin-bottom:30px;
+  }
+
+  /* ---------- cards grid ---------- */
+  .grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:20px; margin-bottom:10px; }
+  .card{
+    background:var(--card); border-radius:20px; padding:22px 22px 24px;
+    border:3px solid var(--ink); box-shadow:5px 5px 0 var(--ink);
+    transition:transform .2s ease, box-shadow .2s ease;
+    position:relative; overflow:hidden;
+  }
+  .card:hover{ transform:translateY(-6px) scale(1.02); box-shadow:8px 10px 0 var(--ink); }
+  .card .tag{
+    font-family:'Baloo 2'; font-weight:700; font-size:.78rem; text-transform:uppercase;
+    letter-spacing:.6px; color:#fff; background:var(--purple); padding:3px 10px;
+    border-radius:999px; display:inline-block; margin-bottom:10px;
+  }
+  .card h3{ font-family:'Baloo 2'; font-size:1.25rem; margin-bottom:8px; }
+  .card p{ font-size:.98rem; font-weight:600; color:#4E4870; line-height:1.5; }
+  .card .big-emoji{ position:absolute; right:-6px; bottom:-14px; font-size:4.2rem; opacity:.14; }
+
+  .card.c1 .tag{ background:var(--coral); }
+  .card.c2 .tag{ background:var(--teal); }
+  .card.c3 .tag{ background:var(--purple); }
+  .card.c4 .tag{ background:#FF9F43; }
+
+  /* ---------- domain vs module ---------- */
+  .dm-wrap{ display:flex; gap:22px; flex-wrap:wrap; justify-content:center; margin:10px 0 20px; }
+  .dm-card{
+    flex:1; min-width:260px; border-radius:22px; padding:26px; text-align:left;
+    border:3px solid var(--ink); position:relative;
+  }
+  .dm-card.domain{ background:#FFE8D6; box-shadow:6px 6px 0 var(--coral); }
+  .dm-card.module{ background:#DAF7F1; box-shadow:6px 6px 0 var(--teal); }
+  .dm-card h4{ font-family:'Baloo 2'; font-size:1.3rem; margin-bottom:10px; }
+  .dm-card p{ font-weight:600; font-size:.98rem; color:#453F63; }
+  .dm-card .icon{ font-size:2.2rem; }
+
+  .note-pill{
+    display:inline-block; margin-top:26px; font-family:'Baloo 2'; font-weight:700;
+    background:var(--yellow); border:3px solid var(--ink); padding:10px 20px; border-radius:16px;
+    box-shadow:4px 4px 0 var(--ink); font-size:.95rem;
+  }
+
+  /* ---------- RR fases (U curve) ---------- */
+  .phases{ display:flex; justify-content:center; align-items:flex-end; gap:40px; margin:40px 0 20px; flex-wrap:wrap; }
+  .phase{ text-align:center; cursor:pointer; }
+  .phase .bar{
+    width:78px; border-radius:16px 16px 0 0; margin:0 auto 10px;
+    border:3px solid var(--ink); border-bottom:none; transition:height .3s ease, transform .2s;
+    display:flex; align-items:flex-start; justify-content:center; padding-top:8px; font-size:1.6rem;
+  }
+  .phase:hover .bar{ transform:scale(1.06); }
+  .phase1 .bar{ height:120px; background:var(--teal); }
+  .phase2 .bar{ height:64px; background:var(--coral); }
+  .phase3 .bar{ height:150px; background:var(--purple); }
+  .phase .base{ width:78px; height:8px; background:var(--ink); margin:0 auto; border-radius:4px; }
+  .phase h5{ font-family:'Baloo 2'; margin-top:10px; font-size:1rem; }
+  .phase small{ display:block; max-width:150px; margin:6px auto 0; font-weight:600; color:#6C6690; font-size:.82rem; }
+
+  /* ---------- ladder E1 E2 E3 ---------- */
+  .ladder{ display:flex; flex-direction:column-reverse; gap:14px; max-width:640px; margin:34px auto 0; }
+  .rung{
+    display:flex; align-items:center; gap:16px; background:var(--card);
+    border:3px solid var(--ink); border-radius:16px; padding:16px 20px;
+    transition:transform .2s, box-shadow .2s; box-shadow:4px 4px 0 var(--ink);
+  }
+  .rung:hover{ transform:translateX(10px); box-shadow:8px 6px 0 var(--ink); }
+  .rung .lvl{
+    font-family:'Baloo 2'; font-weight:800; font-size:1.3rem; width:52px; height:52px; flex:none;
+    border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff;
+  }
+  .rung h5{ font-family:'Baloo 2'; font-size:1.08rem; margin-bottom:3px; }
+  .rung p{ font-size:.9rem; font-weight:600; color:#5B5578; }
+  .rung.I .lvl{ background:#8C8C8C; }
+  .rung.E1 .lvl{ background:var(--coral); }
+  .rung.E2 .lvl{ background:var(--teal); }
+  .rung.E3 .lvl{ background:var(--purple); }
+
+  /* ---------- closing ---------- */
+  .closing{
+    margin-top:130px; text-align:center; background:var(--ink); color:var(--cream);
+    border-radius:28px; padding:52px 30px; position:relative; overflow:hidden;
+  }
+  .closing::before{
+    content:"✨"; position:absolute; font-size:8rem; opacity:.08; top:-20px; left:-10px;
+  }
+  .closing h2{ font-family:'Baloo 2'; font-size:clamp(1.6rem,4vw,2.3rem); margin-bottom:18px; color:var(--yellow); }
+  .closing p{ max-width:620px; margin:0 auto 10px; font-weight:600; font-size:1.05rem; line-height:1.6; }
+  .closing .compare{
+    display:flex; gap:16px; justify-content:center; margin-top:30px; flex-wrap:wrap;
+  }
+  .compare .box{
+    background:#3A3358; border-radius:16px; padding:18px 22px; width:230px;
+    border:2px solid var(--purple);
+  }
+  .compare .box h6{ font-family:'Baloo 2'; color:var(--pink); margin-bottom:6px; }
+  .compare .box p{ font-size:.9rem; color:#DCD7F0; }
+
+  footer{ text-align:center; margin-top:50px; font-weight:700; color:#8880A6; font-size:.9rem; }
+
+  @media(max-width:600px){
+    #cursor{ display:none; }
+    body{ cursor:auto; }
+    .num{ font-size:3.6rem; }
+    h2.sec-title, .sec-sub{ margin-left:20px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor">🧠</div>
+<div id="blobs"></div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <span class="eyebrow">🍼 Desarrollo cognitivo · Epigénesis</span>
+    <h1 class="title" id="heroTitle"><span class="word">Annette</span> <span class="hl word">Karmiloff-Smith</span></h1>
+    <h1 class="title" style="font-size:clamp(1.4rem,3.5vw,2.2rem); margin-top:6px;">y la mente que <span class="hl">se arma sola</span></h1>
+    <p class="subtitle">Ni la pizarra vacía de <b>Piaget</b> ni los módulos ya cableados de <b>Fodor</b>: un cerebro que nace con pistas y se <b>modulariza</b> a medida que aprende. 🧩</p>
+    <div class="scrolldown">↓ mové el cursor y bajá ↓</div>
+  </header>
+
+  <!-- SECCIÓN 1 -->
+  <section class="section" id="s1">
+    <div class="num">01</div>
+    <h2 class="sec-title">🏗️ Arquitectura inicial: ¿innatismo o constructivismo?</h2>
+    <p class="sec-sub">Karmiloff-Smith arma una tercera vía entre dos gigantes que parecían no tener puntos en común.</p>
+
+    <div class="seesaw">
+      <div class="side fodor">
+        <span class="emoji">📦</span>
+        <h4>Fodor</h4>
+        <p>Módulos <b>predeterminados en detalle</b> desde el nacimiento. La mente ya viene "cableada".</p>
+      </div>
+      <div class="vs-label">VS</div>
+      <div class="side piaget">
+        <span class="emoji">🌫️</span>
+        <h4>Piaget</h4>
+        <p>Mente <b>"vacía"</b> al nacer. Todo se construye desde cero, dominio general.</p>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:center;">
+      <div class="side ks">
+        <span class="emoji">🌱🧠</span>
+        <h4>Karmiloff-Smith</h4>
+        <p>Modularización <b>progresiva</b>: nacemos con sesgos "esqueléticos" que se afinan con la plasticidad cerebral.</p>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:50px;">
+      <div class="card c1">
+        <span class="tag">Predisposiciones</span>
+        <h3>👂 Sesgos atencionales</h3>
+        <p>El bebé nace con predisposiciones de dominio específico —como preferir la voz humana— que canalizan la atención hacia datos relevantes.</p>
+        <span class="big-emoji">👶</span>
+      </div>
+      <div class="card c2">
+        <span class="tag">Positivo</span>
+        <h3>🚧 Restricciones</h3>
+        <p>Lejos de limitar, las restricciones potencian el aprendizaje: reducen las hipótesis posibles y ordenan el sistema desde el inicio.</p>
+        <span class="big-emoji">🧭</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 2 -->
+  <section class="section" id="s2">
+    <div class="num">02</div>
+    <h2 class="sec-title">🔍 Distinciones conceptuales clave</h2>
+    <p class="sec-sub">Dos palabras que se confunden todo el tiempo… pero no son lo mismo.</p>
+
+    <div class="dm-wrap">
+      <div class="dm-card domain">
+        <span class="icon">📚</span>
+        <h4>Dominio</h4>
+        <p>Conjunto de <b>representaciones</b> de un área de conocimiento: lenguaje, física, número, rostros…</p>
+      </div>
+      <div class="dm-card module">
+        <span class="icon">⚙️</span>
+        <h4>Módulo</h4>
+        <p>La <b>unidad de procesamiento</b> que encapsula ese conocimiento. Es "cómo" se procesa, no "qué" se sabe.</p>
+      </div>
+    </div>
+    <p style="text-align:center; font-weight:700; color:#6C6690; max-width:560px; margin:18px auto 0;">
+      👉 El desarrollo es de dominio específico, pero eso <b>no implica</b> modularidad innata.
+    </p>
+
+    <div style="text-align:center;">
+      <span class="note-pill">👀 Habituación / deshabituación &nbsp;·&nbsp; 🍼 Preferencia de mirada o succión</span>
+    </div>
+    <p style="text-align:center; margin-top:14px; font-weight:600; color:#6C6690; max-width:560px; margin-left:auto; margin-right:auto;">
+      Estas técnicas muestran que los bebés ya discriminan estímulos desde el nacimiento.
+    </p>
+  </section>
+
+  <!-- SECCIÓN 3 -->
+  <section class="section" id="s3">
+    <div class="num">03</div>
+    <h2 class="sec-title">🔄 Modelo de Redescripción Representacional (RR)</h2>
+    <p class="sec-sub">La info "en la mente" se vuelve conocimiento "para la mente" mediante cambios de formato.</p>
+
+    <h3 style="font-family:'Baloo 2'; text-align:center; margin-top:10px; color:var(--purple);">Fases recurrentes del desarrollo</h3>
+    <div class="phases">
+      <div class="phase phase1">
+        <div class="bar">📥</div><div class="base"></div>
+        <h5>Fase 1</h5>
+        <small>Guiada por datos externos. Maestría conductual rígida.</small>
+      </div>
+      <div class="phase phase2">
+        <div class="bar">🌀</div><div class="base"></div>
+        <h5>Fase 2</h5>
+        <small>Guiada internamente. Curva en forma de U: ¡aparecen errores!</small>
+      </div>
+      <div class="phase phase3">
+        <div class="bar">⚖️</div><div class="base"></div>
+        <h5>Fase 3</h5>
+        <small>Equilibrio entre datos internos y externos.</small>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Baloo 2'; text-align:center; margin-top:60px; color:var(--purple);">Niveles de representación</h3>
+    <div class="ladder">
+      <div class="rung E3">
+        <div class="lvl">E3</div>
+        <div><h5>🗣️ Explícito 3</h5><p>Recodificado en lenguaje: plenamente consciente y verbalizable.</p></div>
+      </div>
+      <div class="rung E2">
+        <div class="lvl">E2</div>
+        <div><h5>🖼️ Explícito 2</h5><p>Consciente, pero no verbalizable (ej: imágenes mentales).</p></div>
+      </div>
+      <div class="rung E1">
+        <div class="lvl">E1</div>
+        <div><h5>🧩 Explícito 1</h5><p>Formato comprimido y abstracto. Flexible, conecta dominios, pero no consciente.</p></div>
+      </div>
+      <div class="rung I">
+        <div class="lvl">I</div>
+        <div><h5>⚡ Implícito</h5><p>Procedimientos secuenciales, aislados entre sí, fuera de la conciencia.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CIERRE -->
+  <div class="closing">
+    <h2>💡 La gran diferencia con Piaget</h2>
+    <p>En Piaget, el cambio nace del <b>desequilibrio</b>. En el modelo RR, el cambio llega <b>después del éxito</b>: el sistema se apropia de sus propios estados ya estables.</p>
+    <div class="compare">
+      <div class="box">
+        <h6>😵‍💫 Piaget</h6>
+        <p>Desequilibrio → conflicto → cambio</p>
+      </div>
+      <div class="box">
+        <h6>🏆 Karmiloff-Smith</h6>
+        <p>Éxito → redescripción → cambio</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>Hecho con 🧠💛 a partir de Karmiloff-Smith · mové el mouse por la página</footer>
+
+</div>
+
+<script>
+  // cursor personalizado con emoji que cambia según la zona
+  const cursor = document.getElementById('cursor');
+  const emojis = ['🧠','✨','💡','🧩','🌈'];
+  let idx = 0;
+  document.addEventListener('mousemove', e=>{
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('.card,.side,.rung,.phase,.dm-card').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>{
+      idx = (idx+1) % emojis.length;
+      cursor.textContent = emojis[idx];
+      cursor.style.fontSize = '38px';
+    });
+    el.addEventListener('mouseleave', ()=>{
+      cursor.textContent = '🧠';
+      cursor.style.fontSize = '28px';
+    });
+  });
+
+  // blobs y emojis flotantes de fondo, reaccionan al mouse (parallax)
+  const blobsWrap = document.getElementById('blobs');
+  const colors = ['#FF6B6B','#FFD93D','#2FC1C6','#7B61FF','#FF8FB1'];
+  const floatEmojis = ['🧬','🧠','🌈','🧩','💭','🔬','⭐','🌱','👶','✨'];
+  const items = [];
+  for(let i=0;i<7;i++){
+    const b = document.createElement('div');
+    b.className = 'blob';
+    const size = 120 + Math.random()*180;
+    b.style.width = size+'px';
+    b.style.height = size+'px';
+    b.style.background = colors[i % colors.length];
+    b.style.left = Math.random()*100+'%';
+    b.style.top = Math.random()*400+'px';
+    blobsWrap.appendChild(b);
+    items.push({el:b, depth: 20 + Math.random()*40});
+  }
+  for(let i=0;i<10;i++){
+    const s = document.createElement('div');
+    s.className = 'float-emoji';
+    s.textContent = floatEmojis[i % floatEmojis.length];
+    s.style.left = Math.random()*95+'%';
+    s.style.top = (Math.random()*3200)+'px';
+    blobsWrap.appendChild(s);
+    items.push({el:s, depth: 10 + Math.random()*30});
+  }
+  document.addEventListener('mousemove', e=>{
+    const dx = (e.clientX / window.innerWidth - 0.5);
+    const dy = (e.clientY / window.innerHeight - 0.5);
+    items.forEach(it=>{
+      const move = it.depth;
+      it.el.style.transform = `translate(${dx*move}px, ${dy*move}px)`;
+    });
+  });
+
+  // el nombre reacciona igual que el resto del título gracias a .word
+</script>
+</body>
+</html>
