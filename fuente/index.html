@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vault Explorer</title>
+<style>
+  :root{
+    --bg: #17162b;
+    --bg-soft: #201f3a;
+    --ink: #f4f2ff;
+    --ink-dim: #b9b6d9;
+    --coral: #ff6b6b;
+    --sun: #ffd166;
+    --mint: #06d6a0;
+    --sky: #4cc9f0;
+    --violet: #9d4edd;
+    --pink: #f15bb5;
+    --radius: 22px;
+    --font-display: ui-rounded, "SF Pro Rounded", "Nunito", "Segoe UI", system-ui, sans-serif;
+    --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html,body{
+    margin:0; padding:0; min-height:100vh;
+    background:
+      radial-gradient(circle at 15% 0%, rgba(157,78,221,.35), transparent 45%),
+      radial-gradient(circle at 85% 10%, rgba(76,201,240,.25), transparent 40%),
+      var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+  }
+
+  #app{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 20px 80px;
+  }
+
+  /* ---------- Header / breadcrumbs ---------- */
+  header.top{
+    display:flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 26px;
+  }
+
+  .brand{
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(24px, 4vw, 34px);
+    letter-spacing: -0.02em;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .brand .dot{
+    width:14px; height:14px; border-radius:50%;
+    background: conic-gradient(var(--coral), var(--sun), var(--mint), var(--sky), var(--violet), var(--coral));
+    animation: spin 6s linear infinite;
+  }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+
+  nav.crumbs{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items:center;
+  }
+  nav.crumbs .crumb{
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--bg-soft);
+    color: var(--ink-dim);
+    border: 1px solid rgba(255,255,255,.08);
+    cursor: pointer;
+    transition: transform .15s ease, background .15s ease, color .15s ease;
+    white-space: nowrap;
+  }
+  nav.crumbs .crumb:hover{ transform: translateY(-1px); color: var(--ink); }
+  nav.crumbs .crumb.current{
+    background: linear-gradient(135deg, var(--violet), var(--pink));
+    color: white;
+    cursor: default;
+  }
+  nav.crumbs .sep{ color: var(--ink-dim); opacity:.5; font-size: 13px; }
+
+  /* ---------- Status / loading / error ---------- */
+  .status{
+    padding: 40px 20px;
+    text-align:center;
+    color: var(--ink-dim);
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+  .status .spinner{
+    width:40px; height:40px; margin: 0 auto 16px;
+    border-radius:50%;
+    border: 4px solid rgba(255,255,255,.12);
+    border-top-color: var(--sun);
+    animation: rot .8s linear infinite;
+  }
+  @keyframes rot{ to{ transform: rotate(360deg); } }
+  .error-box{
+    background: rgba(255,107,107,.1);
+    border: 1px solid rgba(255,107,107,.4);
+    border-radius: var(--radius);
+    padding: 22px;
+    color: #ffdada;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .error-box code{
+    background: rgba(0,0,0,.3);
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 13px;
+  }
+
+  /* ---------- Tile grid (asignatura / unidad / tema) ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+  }
+
+  .tile{
+    position: relative;
+    border-radius: var(--radius);
+    padding: 22px 18px;
+    min-height: 130px;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 6px;
+    cursor:pointer;
+    color: white;
+    border: none;
+    text-align:left;
+    font-family: var(--font-body);
+    overflow:hidden;
+    transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease;
+    box-shadow: 0 6px 0 rgba(0,0,0,.18);
+  }
+  .tile:hover{ transform: translateY(-4px) rotate(-0.4deg); box-shadow: 0 10px 0 rgba(0,0,0,.2); }
+  .tile:active{ transform: translateY(0px); box-shadow: 0 3px 0 rgba(0,0,0,.2); }
+
+  .tile .blob{
+    position:absolute; top:-30px; right:-30px;
+    width:110px; height:110px; border-radius:50%;
+    background: rgba(255,255,255,.18);
+    filter: blur(2px);
+  }
+  .tile .eyebrow{
+    font-family: var(--font-display);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    opacity: .85;
+  }
+  .tile .label{
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 17px;
+    line-height: 1.25;
+  }
+  .tile .count{
+    font-size: 12px;
+    opacity:.85;
+  }
+
+  /* ---------- Concept view (special behaviour) ---------- */
+  .concept-wrap{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .concept-card{
+    flex: 1 1 220px;
+    max-width: 320px;
+    border-radius: var(--radius);
+    padding: 20px;
+    cursor:pointer;
+    color:white;
+    position:relative;
+    transition: flex-basis .4s cubic-bezier(.2,.8,.2,1),
+                max-width .4s cubic-bezier(.2,.8,.2,1),
+                transform .4s cubic-bezier(.2,.8,.2,1),
+                opacity .35s ease,
+                padding .4s ease;
+    box-shadow: 0 6px 0 rgba(0,0,0,.18);
+  }
+  .concept-card:hover{ transform: translateY(-3px); }
+
+  .concept-card .label{
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 16px;
+    margin: 0;
+  }
+  .concept-card .desarrollo{
+    margin-top: 12px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height .4s ease, opacity .3s ease .1s;
+  }
+  .concept-card .tag{
+    font-family: var(--font-display);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    opacity:.85;
+    display:block;
+    margin-bottom: 6px;
+  }
+  .concept-card .close-hint{
+    position:absolute; top:16px; right:18px;
+    font-size: 12px;
+    font-family: var(--font-display);
+    opacity: 0;
+    transition: opacity .2s ease;
+  }
+
+  /* Expanded state */
+  .concept-wrap.has-active .concept-card{
+    flex: 0 1 150px;
+    max-width: 150px;
+    opacity: .55;
+    transform: scale(.94);
+    padding: 14px;
+  }
+  .concept-wrap.has-active .concept-card .desarrollo{ display:none; }
+
+  .concept-wrap .concept-card.active{
+    flex: 1 1 100%;
+    max-width: 100%;
+    opacity: 1;
+    transform: scale(1);
+    padding: 30px;
+    order: -1;
+  }
+  .concept-wrap .concept-card.active .label{ font-size: 22px; }
+  .concept-wrap .concept-card.active .desarrollo{
+    display:block;
+    max-height: 600px;
+    opacity: 1;
+  }
+  .concept-wrap .concept-card.active .close-hint{ opacity: .85; }
+  .concept-wrap .concept-card.active:hover{ transform: scale(1); }
+
+  @media (max-width: 640px){
+    .concept-wrap.has-active .concept-card{ flex: 0 1 100px; max-width: 100px; min-height: 70px; padding: 10px; }
+    .concept-wrap.has-active .concept-card .label{ font-size: 13px; }
+    .grid{ grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <header class="top">
+    <div class="brand"><span class="dot"></span> Vault Explorer</div>
+    <nav class="crumbs" id="crumbs"></nav>
+  </header>
+  <main id="main">
+    <div class="status"><div class="spinner"></div>Cargando datos&hellip;</div>
+  </main>
+</div>
+
+<script>
+(function(){
+  // Cambiá esta ruta por la de tu JSON externo si tiene otro nombre/ubicación.
+  const DATA_URL = "data.json";
+
+  const PALETTE = [
+    ["#ff6b6b","#ff9770"], // coral
+    ["#4cc9f0","#4361ee"], // sky/blue
+    ["#06d6a0","#1b9aaa"], // mint
+    ["#ffd166","#fca311"], // sun
+    ["#9d4edd","#7209b7"], // violet
+    ["#f15bb5","#c9184a"], // pink
+  ];
+
+  function hashStr(str){
+    let h = 0;
+    for(let i=0;i<str.length;i++){ h = (h<<5)-h + str.charCodeAt(i); h |= 0; }
+    return Math.abs(h);
+  }
+  function colorFor(key){
+    const pair = PALETTE[hashStr(String(key)) % PALETTE.length];
+    return `linear-gradient(135deg, ${pair[0]}, ${pair[1]})`;
+  }
+
+  const state = { asignatura:null, unidad:null, tema:null };
+  let tree = {};
+
+  const mainEl = document.getElementById("main");
+  const crumbsEl = document.getElementById("crumbs");
+
+  function buildTree(records){
+    const t = {};
+    records.forEach(r=>{
+      const a = (r.asignatura ?? "Sin asignatura").trim();
+      const u = (r.unidad ?? "Sin unidad").trim();
+      const te = (r.tema ?? "Sin tema").trim();
+      t[a] = t[a] || {};
+      t[a][u] = t[a][u] || {};
+      t[a][u][te] = t[a][u][te] || [];
+      t[a][u][te].push({
+        concepto: r.concepto ?? "(sin concepto)",
+        desarrollo: r.desarrollo ?? ""
+      });
+    });
+    return t;
+  }
+
+  async function loadData(){
+    try{
+      const res = await fetch(DATA_URL, { cache: "no-store" });
+      if(!res.ok) throw new Error("HTTP " + res.status);
+      const json = await res.json();
+      if(!Array.isArray(json)) throw new Error("El JSON debe ser un array de objetos.");
+      tree = buildTree(json);
+      render();
+    }catch(err){
+      renderError(err);
+    }
+  }
+
+  function renderError(err){
+    mainEl.innerHTML = `
+      <div class="error-box">
+        <strong>No se pudo cargar ${DATA_URL}.</strong><br><br>
+        Detalle: ${escapeHtml(err.message || String(err))}<br><br>
+        Motivos comunes:<br>
+        &bull; Si abriste este archivo con doble click (protocolo <code>file://</code>), el navegador bloquea el <code>fetch</code> por seguridad (CORS).
+        Serví la carpeta con un servidor local, por ejemplo:<br>
+        <code>python3 -m http.server</code> y luego entrá a <code>http://localhost:8000</code>.<br><br>
+        &bull; Verificá que <code>${DATA_URL}</code> esté en la misma carpeta que este HTML y tenga el formato:<br>
+        <code>[{"asignatura":"...","unidad":"...","tema":"...","concepto":"...","desarrollo":"..."}, ...]</code>
+      </div>`;
+    crumbsEl.innerHTML = "";
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({
+      "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+    }[c]));
+  }
+
+  function renderCrumbs(){
+    const parts = [{ label: "Inicio", level: 0 }];
+    if(state.asignatura) parts.push({ label: state.asignatura, level: 1 });
+    if(state.unidad) parts.push({ label: state.unidad, level: 2 });
+    if(state.tema) parts.push({ label: state.tema, level: 3 });
+
+    crumbsEl.innerHTML = parts.map((p, i) => {
+      const isLast = i === parts.length - 1;
+      return `<span class="crumb ${isLast ? "current" : ""}" data-level="${p.level}">${escapeHtml(p.label)}</span>`
+        + (isLast ? "" : `<span class="sep">/</span>`);
+    }).join("");
+
+    crumbsEl.querySelectorAll(".crumb").forEach(el=>{
+      el.addEventListener("click", ()=>{
+        const lvl = Number(el.dataset.level);
+        if(lvl === 0){ state.asignatura = null; state.unidad = null; state.tema = null; }
+        if(lvl === 1){ state.unidad = null; state.tema = null; }
+        if(lvl === 2){ state.tema = null; }
+        render();
+      });
+    });
+  }
+
+  function tileHtml({ key, eyebrow, count }){
+    return `
+      <button class="tile" style="background:${colorFor(key)}" data-key="${escapeHtml(key)}">
+        <span class="blob"></span>
+        <span class="eyebrow">${escapeHtml(eyebrow)}</span>
+        <span class="label">${escapeHtml(key)}</span>
+        <span class="count">${count}</span>
+      </button>`;
+  }
+
+  function render(){
+    renderCrumbs();
+
+    // Level 0: asignaturas
+    if(!state.asignatura){
+      const keys = Object.keys(tree);
+      mainEl.innerHTML = `<div class="grid">${
+        keys.map(k => tileHtml({
+          key:k, eyebrow:"Asignatura",
+          count: Object.keys(tree[k]).length + " unidad" + (Object.keys(tree[k]).length===1?"":"es")
+        })).join("")
+      }</div>`;
+      mainEl.querySelectorAll(".tile").forEach(el=>{
+        el.addEventListener("click", ()=>{ state.asignatura = el.dataset.key; render(); });
+      });
+      return;
+    }
+
+    // Level 1: unidades
+    if(!state.unidad){
+      const unidades = tree[state.asignatura];
+      const keys = Object.keys(unidades);
+      mainEl.innerHTML = `<div class="grid">${
+        keys.map(k => tileHtml({
+          key:k, eyebrow:"Unidad",
+          count: Object.keys(unidades[k]).length + " tema" + (Object.keys(unidades[k]).length===1?"":"s")
+        })).join("")
+      }</div>`;
+      mainEl.querySelectorAll(".tile").forEach(el=>{
+        el.addEventListener("click", ()=>{ state.unidad = el.dataset.key; render(); });
+      });
+      return;
+    }
+
+    // Level 2: temas
+    if(!state.tema){
+      const temas = tree[state.asignatura][state.unidad];
+      const keys = Object.keys(temas);
+      mainEl.innerHTML = `<div class="grid">${
+        keys.map(k => tileHtml({
+          key:k, eyebrow:"Tema",
+          count: temas[k].length + " concepto" + (temas[k].length===1?"":"s")
+        })).join("")
+      }</div>`;
+      mainEl.querySelectorAll(".tile").forEach(el=>{
+        el.addEventListener("click", ()=>{ state.tema = el.dataset.key; render(); });
+      });
+      return;
+    }
+
+    // Level 3: conceptos (comportamiento especial)
+    renderConceptos();
+  }
+
+  function renderConceptos(){
+    const conceptos = tree[state.asignatura][state.unidad][state.tema];
+    mainEl.innerHTML = `<div class="concept-wrap" id="conceptWrap">${
+      conceptos.map((c, i) => `
+        <article class="concept-card" style="background:${colorFor(state.tema + i)}" data-idx="${i}">
+          <span class="close-hint">cerrar &times;</span>
+          <span class="tag">Concepto</span>
+          <h3 class="label">${escapeHtml(c.concepto)}</h3>
+          <p class="desarrollo">${escapeHtml(c.desarrollo)}</p>
+        </article>`
+      ).join("")
+    }</div>`;
+
+    const wrap = document.getElementById("conceptWrap");
+    wrap.querySelectorAll(".concept-card").forEach(card=>{
+      card.addEventListener("click", ()=>{
+        const isActive = card.classList.contains("active");
+        wrap.querySelectorAll(".concept-card").forEach(c => c.classList.remove("active"));
+        if(!isActive){
+          card.classList.add("active");
+          wrap.classList.add("has-active");
+        } else {
+          wrap.classList.remove("has-active");
+        }
+      });
+    });
+  }
+
+  loadData();
+})();
+</script>
+</body>
+</html>
