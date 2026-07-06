@@ -157,6 +157,18 @@
     background: rgba(255,255,255,.18);
     filter: blur(2px);
   }
+  .tile .emoji{
+    font-size: 44px;
+    line-height: 1;
+    margin-bottom: 2px;
+    filter: drop-shadow(0 3px 0 rgba(0,0,0,.15));
+  }
+  .tile .emoji-big{
+    font-size: 42px;
+    line-height: 1;
+    margin-bottom: 2px;
+    filter: drop-shadow(0 3px 0 rgba(0,0,0,.15));
+  }
   .tile .eyebrow{
     font-family: var(--font-display);
     font-size: 11px;
@@ -199,6 +211,17 @@
     box-shadow: 0 6px 0 rgba(0,0,0,.18);
   }
   .concept-card:hover{ transform: translateY(-3px); }
+
+  .concept-card .emoji-big{
+    font-size: 34px;
+    line-height: 1;
+    display: block;
+    margin-bottom: 6px;
+    filter: drop-shadow(0 3px 0 rgba(0,0,0,.15));
+    transition: font-size .4s cubic-bezier(.2,.8,.2,1);
+  }
+  .concept-card.active .emoji-big{ font-size: 56px; }
+  .concept-wrap.has-active .concept-card:not(.active) .emoji-big{ font-size: 24px; }
 
   .concept-card .label{
     font-family: var(--font-display);
@@ -308,25 +331,39 @@
 
   const state = { asignatura:null, unidad:null, tema:null };
   let tree = {};
+  let emojiMap = { asignatura:{}, unidad:{}, tema:{} };
 
   const mainEl = document.getElementById("main");
   const crumbsEl = document.getElementById("crumbs");
 
   function buildTree(records){
     const t = {};
+    const eMap = { asignatura:{}, unidad:{}, tema:{} };
     records.forEach(r=>{
       const a = (r.asignatura ?? "Sin asignatura").trim();
       const u = (r.unidad ?? "Sin unidad").trim();
       const te = (r.tema ?? "Sin tema").trim();
+      const emoji = (r.emoji ?? "").trim();
+
       t[a] = t[a] || {};
       t[a][u] = t[a][u] || {};
       t[a][u][te] = t[a][u][te] || [];
       t[a][u][te].push({
         concepto: r.concepto ?? "(sin concepto)",
-        desarrollo: r.desarrollo ?? ""
+        desarrollo: r.desarrollo ?? "",
+        emoji
       });
+
+      // Primer emoji encontrado para cada nivel "gana" y se usa para todo el grupo.
+      if(emoji){
+        if(!eMap.asignatura[a]) eMap.asignatura[a] = emoji;
+        const uKey = a + "␟" + u;
+        if(!eMap.unidad[uKey]) eMap.unidad[uKey] = emoji;
+        const tKey = a + "␟" + u + "␟" + te;
+        if(!eMap.tema[tKey]) eMap.tema[tKey] = emoji;
+      }
     });
-    return t;
+    return { tree: t, emojiMap: eMap };
   }
 
   async function loadData(){
@@ -335,7 +372,9 @@
       if(!res.ok) throw new Error("HTTP " + res.status);
       const json = await res.json();
       if(!Array.isArray(json)) throw new Error("El JSON debe ser un array de objetos.");
-      tree = buildTree(json);
+      const built = buildTree(json);
+      tree = built.tree;
+      emojiMap = built.emojiMap;
       render();
     }catch(err){
       renderError(err);
@@ -386,10 +425,11 @@
     });
   }
 
-  function tileHtml({ key, eyebrow, count }){
+  function tileHtml({ key, eyebrow, count, emoji }){
     return `
       <button class="tile" style="background:${colorFor(key)}" data-key="${escapeHtml(key)}">
         <span class="blob"></span>
+        ${emoji ? `<span class="emoji-big">${emoji}</span>` : ""}
         <span class="eyebrow">${escapeHtml(eyebrow)}</span>
         <span class="label">${escapeHtml(key)}</span>
         <span class="count">${count}</span>
@@ -405,7 +445,8 @@
       mainEl.innerHTML = `<div class="grid">${
         keys.map(k => tileHtml({
           key:k, eyebrow:"Asignatura",
-          count: Object.keys(tree[k]).length + " unidad" + (Object.keys(tree[k]).length===1?"":"es")
+          count: Object.keys(tree[k]).length + " unidad" + (Object.keys(tree[k]).length===1?"":"es"),
+          emoji: emojiMap.asignatura[k]
         })).join("")
       }</div>`;
       mainEl.querySelectorAll(".tile").forEach(el=>{
@@ -421,7 +462,8 @@
       mainEl.innerHTML = `<div class="grid">${
         keys.map(k => tileHtml({
           key:k, eyebrow:"Unidad",
-          count: Object.keys(unidades[k]).length + " tema" + (Object.keys(unidades[k]).length===1?"":"s")
+          count: Object.keys(unidades[k]).length + " tema" + (Object.keys(unidades[k]).length===1?"":"s"),
+          emoji: emojiMap.unidad[state.asignatura + "␟" + k]
         })).join("")
       }</div>`;
       mainEl.querySelectorAll(".tile").forEach(el=>{
@@ -437,7 +479,8 @@
       mainEl.innerHTML = `<div class="grid">${
         keys.map(k => tileHtml({
           key:k, eyebrow:"Tema",
-          count: temas[k].length + " concepto" + (temas[k].length===1?"":"s")
+          count: temas[k].length + " concepto" + (temas[k].length===1?"":"s"),
+          emoji: emojiMap.tema[state.asignatura + "␟" + state.unidad + "␟" + k]
         })).join("")
       }</div>`;
       mainEl.querySelectorAll(".tile").forEach(el=>{
@@ -457,6 +500,7 @@
         <article class="concept-card" style="background:${colorFor(state.tema + i)}" data-idx="${i}">
           <span class="close-hint">cerrar &times;</span>
           <span class="tag">Concepto</span>
+          ${c.emoji ? `<span class="emoji-big">${c.emoji}</span>` : ""}
           <h3 class="label">${escapeHtml(c.concepto)}</h3>
           <p class="desarrollo">${escapeHtml(c.desarrollo)}</p>
         </article>`
