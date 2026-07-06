@@ -4,6 +4,7 @@
     "unidad": "Unidad 1: Percepción y Atención",
     "tema": "Modelos de Atención",
     "concepto": "Atención selectiva",
+    "emoji": "🎯",
     "desarrollo": "Capacidad del sistema cognitivo para priorizar el procesamiento de cierta información sensorial mientras se ignoran otros estímulos simultáneos. Modelos clásicos como el de filtro temprano (Broadbent) proponen que la selección ocurre antes del análisis semántico."
   },
   {
@@ -11,6 +12,7 @@
     "unidad": "Unidad 1: Percepción y Atención",
     "tema": "Modelos de Atención",
     "concepto": "Atención dividida",
+    "emoji": "🔀",
     "desarrollo": "Habilidad para distribuir recursos cognitivos entre dos o más tareas simultáneas. Su eficacia depende del grado de automatización de las tareas involucradas y de la demanda de recursos compartidos."
   },
   {
@@ -18,6 +20,7 @@
     "unidad": "Unidad 1: Percepción y Atención",
     "tema": "Organización Perceptiva",
     "concepto": "Leyes de la Gestalt",
+    "emoji": "🧩",
     "desarrollo": "Principios que describen cómo el sistema visual agrupa elementos en unidades significativas: proximidad, semejanza, cierre, continuidad y buena forma, entre otras."
   },
   {
@@ -25,6 +28,7 @@
     "unidad": "Unidad 2: Memoria",
     "tema": "Metacognición",
     "concepto": "Metamemoria",
+    "emoji": "🧠",
     "desarrollo": "Conocimiento y conciencia que una persona tiene sobre sus propios procesos de memoria, incluyendo la capacidad de monitorear y regular la codificación, almacenamiento y recuperación de información."
   },
   {
@@ -32,6 +36,7 @@
     "unidad": "Unidad 3: Identidad",
     "tema": "Identidad Social",
     "concepto": "Categorización social",
+    "emoji": "👥",
     "desarrollo": "Proceso cognitivo mediante el cual las personas clasifican a otros (y a sí mismas) en grupos, simplificando el entorno social pero también dando lugar a fenómenos de favoritismo endogrupal."
   },
   {
@@ -39,6 +44,7 @@
     "unidad": "Unidad 4: Actitudes",
     "tema": "Cambio de Actitud",
     "concepto": "Disonancia cognitiva",
+    "emoji": "⚖️",
     "desarrollo": "Estado de tensión psicológica que surge cuando una persona sostiene simultáneamente dos cogniciones inconsistentes entre sí, motivando un cambio en creencias o comportamientos para reducir el malestar."
   },
   {
@@ -46,6 +52,7 @@
     "unidad": "Unidad 1: Aprendizaje Significativo",
     "tema": "Ausubel",
     "concepto": "Aprendizaje significativo",
+    "emoji": "🌱",
     "desarrollo": "Proceso mediante el cual la nueva información se relaciona de manera sustantiva y no arbitraria con los conocimientos previos que ya posee el sujeto, integrándose en su estructura cognitiva."
   },
   {
@@ -53,6 +60,7 @@
     "unidad": "Unidad 1: Aprendizaje Significativo",
     "tema": "Ausubel",
     "concepto": "Organizador previo",
+    "emoji": "🗺️",
     "desarrollo": "Material introductorio presentado antes del contenido principal de aprendizaje, con un nivel de abstracción mayor, que sirve de puente entre lo que el alumno ya sabe y lo que necesita saber."
   }
 ]
