@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 title: "Inicio: Mis Asignaturas"
 permalink: /
 ---
