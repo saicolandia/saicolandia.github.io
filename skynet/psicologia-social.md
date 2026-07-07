@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 title: "Psicología Social"
 permalink: /psicologia-social/
 ---
