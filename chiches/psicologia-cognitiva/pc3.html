@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧠 Mente en Dos Actos · Kahneman & Kosslyn</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Outfit:wght@400;500;600;700&display=swap');
+
+:root{
+  --void:#120c2e;
+  --void2:#1f1646;
+  --void3:#2a1b5e;
+  --ink:#f5f3ff;
+  --ink-dim:#c6bfe8;
+  --s1-hot:#ff3d6e;
+  --s1-glow:#ff8aa8;
+  --s2-cool:#00d9ff;
+  --s2-glow:#7eeeff;
+  --gold:#ffd23f;
+  --lang:#5cffb1;
+  --lang-deep:#2bd98f;
+  --card-bg:rgba(255,255,255,0.055);
+  --card-border:rgba(255,255,255,0.13);
+  --display:'Baloo 2', system-ui, sans-serif;
+  --body:'Outfit', system-ui, sans-serif;
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:var(--body);
+  background:
+    radial-gradient(circle at 15% 10%, rgba(255,61,110,0.16), transparent 40%),
+    radial-gradient(circle at 85% 25%, rgba(0,217,255,0.14), transparent 45%),
+    radial-gradient(circle at 50% 90%, rgba(92,255,177,0.10), transparent 50%),
+    linear-gradient(160deg, var(--void) 0%, var(--void2) 55%, var(--void3) 100%);
+  color:var(--ink);
+  overflow-x:hidden;
+  cursor:none;
+  min-height:100vh;
+}
+
+@media (max-width:900px){
+  body{cursor:auto;}
+  #cursor-blob, #cursor-ring{display:none;}
+}
+
+/* ---------- cursor ---------- */
+#cursor-blob{
+  position:fixed; top:0; left:0; width:14px; height:14px; border-radius:50%;
+  background:var(--gold); pointer-events:none; z-index:9999;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 18px 6px rgba(255,210,63,0.55);
+  transition:background .25s ease, box-shadow .25s ease;
+}
+#cursor-ring{
+  position:fixed; top:0; left:0; width:42px; height:42px; border-radius:50%;
+  border:2px solid rgba(255,210,63,0.5);
+  pointer-events:none; z-index:9998; transform:translate(-50%,-50%);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.1rem;
+  transition:border-color .25s ease;
+}
+
+/* ---------- layout helpers ---------- */
+main{max-width:1100px; margin:0 auto; padding:0 1.5rem;}
+.section{padding:5rem 0 3rem;}
+.reveal{opacity:0; transform:translateY(26px); transition:opacity .7s ease, transform .7s ease;}
+.reveal.in{opacity:1; transform:translateY(0);}
+
+/* ---------- hero ---------- */
+.hero{
+  min-height:92vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:2rem 1.5rem; position:relative;
+}
+.hero .eyebrow{
+  font-family:var(--body); letter-spacing:.35em; text-transform:uppercase;
+  font-size:.78rem; color:var(--ink-dim); margin-bottom:1.2rem;
+}
+.hero h1{
+  font-family:var(--display); font-weight:800;
+  font-size:clamp(2.6rem, 7vw, 5.4rem); line-height:1.04;
+  background:linear-gradient(95deg, var(--s1-hot) 0%, var(--gold) 35%, var(--s2-cool) 65%, var(--lang) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  letter-spacing:-.01em;
+}
+.hero .sub{
+  margin-top:1.4rem; font-size:clamp(1rem, 2.2vw, 1.3rem); color:var(--ink-dim); max-width:640px;
+}
+.hero .sub b{color:var(--ink); font-weight:600;}
+.scroll-hint{
+  margin-top:3rem; font-size:.85rem; color:var(--ink-dim); animation:bob 2.4s ease-in-out infinite;
+}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(10px);}}
+
+/* ---------- section headers ---------- */
+.kicker{
+  display:inline-flex; align-items:center; gap:.5rem;
+  font-family:var(--body); font-weight:700; letter-spacing:.18em; text-transform:uppercase;
+  font-size:.78rem; padding:.4rem 1rem; border-radius:999px;
+  border:1px solid var(--card-border); margin-bottom:1rem;
+}
+.section--kahneman .kicker{color:var(--s1-glow); background:rgba(255,61,110,0.08);}
+.section--kosslyn .kicker{color:var(--lang); background:rgba(92,255,177,0.08);}
+
+.section h2{
+  font-family:var(--display); font-weight:800;
+  font-size:clamp(2.2rem, 5vw, 3.6rem); line-height:1.05; margin-bottom:.6rem;
+}
+.section--kahneman h2{color:var(--ink);}
+.section .lead{
+  font-size:clamp(1.05rem, 2vw, 1.25rem); color:var(--ink-dim); max-width:680px; margin-bottom:2.6rem;
+}
+.section h3{
+  font-family:var(--display); font-weight:700; font-size:clamp(1.3rem, 2.6vw, 1.9rem);
+  margin:3rem 0 1.2rem; display:flex; align-items:center; gap:.55rem;
+}
+.section--kahneman h3{color:var(--s1-glow);}
+.section--kosslyn h3{color:var(--lang);}
+
+/* ---------- duel (S1 vs S2) ---------- */
+.duel{
+  display:grid; grid-template-columns:1fr auto 1fr; gap:1.4rem; align-items:stretch;
+}
+@media (max-width:780px){ .duel{grid-template-columns:1fr;} }
+
+.sys-card{
+  border-radius:26px; padding:2rem 1.7rem; border:1px solid var(--card-border);
+  background:var(--card-bg); backdrop-filter:blur(6px);
+  position:relative; overflow:hidden; transition:transform .25s ease, box-shadow .25s ease;
+  transform-style:preserve-3d;
+}
+.sys-card .tag{
+  font-family:var(--display); font-weight:800; font-size:clamp(1.7rem,3.4vw,2.4rem);
+  display:flex; align-items:center; gap:.5rem; margin-bottom:.3rem;
+}
+.sys-card .role{font-size:.95rem; color:var(--ink-dim); margin-bottom:1.3rem; font-style:italic;}
+.sys-card ul{list-style:none; display:flex; flex-direction:column; gap:.7rem;}
+.sys-card li{font-size:1rem; line-height:1.35; display:flex; gap:.55rem;}
+.sys-card li span.dot{flex:none; margin-top:.35em;}
+
+.sys1{box-shadow:0 0 0 1px rgba(255,61,110,0.15), 0 20px 60px -25px rgba(255,61,110,0.45);}
+.sys1 .tag{color:var(--s1-hot);}
+.sys1:hover{box-shadow:0 0 0 1px rgba(255,61,110,0.5), 0 30px 70px -20px rgba(255,61,110,0.55); transform:translateY(-6px) scale(1.015);}
+.sys1 li span.dot{color:var(--s1-hot);}
+
+.sys2{box-shadow:0 0 0 1px rgba(0,217,255,0.15), 0 20px 60px -25px rgba(0,217,255,0.4);}
+.sys2 .tag{color:var(--s2-cool);}
+.sys2:hover{box-shadow:0 0 0 1px rgba(0,217,255,0.5), 0 30px 70px -20px rgba(0,217,255,0.5); transform:translateY(-6px) scale(1.015);}
+.sys2 li span.dot{color:var(--s2-cool);}
+
+.vs-divider{
+  align-self:center; display:flex; flex-direction:column; align-items:center; gap:.4rem;
+  font-family:var(--display); font-weight:800; font-size:1.6rem; color:var(--gold);
+  text-align:center; min-width:90px;
+}
+.vs-divider small{
+  font-family:var(--body); font-weight:600; font-size:.68rem; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink-dim); max-width:90px; line-height:1.3;
+}
+
+/* ---------- badges / callouts ---------- */
+.row{display:flex; flex-wrap:wrap; gap:1rem; margin-top:1.6rem;}
+.badge{
+  border-radius:16px; padding:.9rem 1.2rem; font-size:.92rem; flex:1; min-width:240px;
+  background:var(--card-bg); border:1px solid var(--card-border);
+}
+.badge b{display:block; font-family:var(--display); font-size:1.05rem; margin-bottom:.2rem;}
+.badge.gold b{color:var(--gold);}
+.badge.warn b{color:var(--s1-hot);}
+
+.callout{
+  margin-top:1.6rem; padding:1.4rem 1.6rem; border-radius:18px;
+  background:linear-gradient(120deg, rgba(255,61,110,0.1), rgba(0,217,255,0.1));
+  border:1px solid var(--card-border); font-size:1rem; line-height:1.5;
+}
+.callout b{color:var(--gold);}
+
+/* ---------- chips ---------- */
+.chip-row{display:flex; flex-wrap:wrap; gap:.8rem;}
+.chip{
+  padding:.65rem 1.1rem; border-radius:999px; border:1px solid var(--card-border);
+  background:var(--card-bg); font-weight:600; font-size:.95rem; cursor:pointer;
+  transition:transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
+  position:relative;
+}
+.section--kahneman .chip:hover{transform:translateY(-4px) scale(1.06); background:rgba(255,61,110,0.18); border-color:var(--s1-hot); color:var(--s1-glow);}
+.section--kosslyn .chip:hover{transform:translateY(-4px) scale(1.06); background:rgba(92,255,177,0.16); border-color:var(--lang); color:var(--lang);}
+.chip .def{
+  display:block; font-weight:400; font-size:.82rem; color:var(--ink-dim);
+  max-height:0; overflow:hidden; transition:max-height .3s ease, margin-top .3s ease;
+}
+.chip:hover .def{max-height:4rem; margin-top:.35rem;}
+
+/* ---------- flip cards (heuristics / disorders) ---------- */
+.grid-cards{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:1.2rem;}
+.flip{ perspective:1200px; height:190px; }
+.flip-inner{
+  position:relative; width:100%; height:100%; transition:transform .6s cubic-bezier(.2,.8,.2,1);
+  transform-style:preserve-3d;
+}
+.flip:hover .flip-inner{transform:rotateY(180deg);}
+.flip-face{
+  position:absolute; inset:0; border-radius:20px; padding:1.3rem;
+  display:flex; flex-direction:column; justify-content:center; gap:.4rem;
+  backface-visibility:hidden; border:1px solid var(--card-border);
+}
+.flip-front{background:var(--card-bg);}
+.flip-front .num{font-size:1.6rem;}
+.flip-front .name{font-family:var(--display); font-weight:700; font-size:1.15rem;}
+.flip-front .hint{font-size:.8rem; color:var(--ink-dim);}
+.flip-back{
+  transform:rotateY(180deg); font-size:.92rem; line-height:1.4;
+  background:linear-gradient(135deg, rgba(255,61,110,0.18), rgba(255,210,63,0.12));
+}
+.section--kosslyn .flip-back{background:linear-gradient(135deg, rgba(92,255,177,0.18), rgba(0,217,255,0.1));}
+
+/* ---------- pyramid (niveles del lenguaje) ---------- */
+.pyramid{display:flex; flex-direction:column; gap:.7rem; align-items:center;}
+.pyr-level{
+  width:100%; border-radius:18px; border:1px solid var(--card-border); background:var(--card-bg);
+  padding:1.1rem 1.6rem; transition:transform .2s ease, background .2s ease;
+  display:flex; align-items:baseline; gap:.8rem; flex-wrap:wrap;
+}
+.pyr-level:hover{transform:translateX(10px); background:rgba(92,255,177,0.1);}
+.pyr-level .lvl-name{font-family:var(--display); font-weight:800; color:var(--lang);}
+.pyr-level .lvl-desc{color:var(--ink-dim); font-size:.95rem;}
+.pyr-level.l1{width:100%; font-size:1.5rem;}
+.pyr-level.l2{width:88%; font-size:1.25rem;}
+.pyr-level.l3{width:76%; font-size:1.08rem;}
+.pyr-level.l4{width:64%; font-size:.95rem;}
+@media (max-width:700px){
+  .pyr-level.l1,.pyr-level.l2,.pyr-level.l3,.pyr-level.l4{width:100%;}
+}
+
+/* ---------- triangle ---------- */
+.triangle-wrap{display:flex; justify-content:center; padding:1.5rem 0;}
+.triangle{
+  position:relative; width:min(420px, 90vw); aspect-ratio:1/0.86;
+}
+.tri-node{
+  position:absolute; transform:translate(-50%,-50%); text-align:center;
+  background:var(--card-bg); border:1px solid var(--card-border); border-radius:16px;
+  padding:.8rem 1rem; min-width:120px; transition:transform .2s ease;
+}
+.tri-node:hover{transform:translate(-50%,-50%) scale(1.1); border-color:var(--lang);}
+.tri-node b{display:block; font-family:var(--display); font-size:1.05rem; color:var(--lang);}
+.tri-node span{font-size:.78rem; color:var(--ink-dim);}
+.tri-top{top:0; left:50%;}
+.tri-left{top:96%; left:6%;}
+.tri-right{top:96%; left:94%;}
+.tri-svg{position:absolute; inset:0; width:100%; height:100%; z-index:-1;}
+
+/* ---------- two-col cards ---------- */
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin-top:1.2rem;}
+@media (max-width:700px){ .two-col{grid-template-columns:1fr;} }
+.card{
+  border-radius:20px; padding:1.5rem 1.6rem; border:1px solid var(--card-border); background:var(--card-bg);
+  transition:transform .2s ease, border-color .2s ease;
+}
+.card:hover{transform:translateY(-5px); border-color:var(--lang);}
+.section--kahneman .card:hover{border-color:var(--s1-hot);}
+.card h4{font-family:var(--display); font-size:1.15rem; margin-bottom:.5rem; display:flex; gap:.5rem; align-items:center;}
+.card p, .card li{font-size:.95rem; color:var(--ink-dim); line-height:1.5;}
+.card ul{list-style:none; display:flex; flex-direction:column; gap:.4rem;}
+
+/* ---------- timeline (fases) ---------- */
+.timeline{display:flex; flex-direction:column; gap:1rem; position:relative; margin-top:1rem;}
+.timeline::before{
+  content:""; position:absolute; left:23px; top:10px; bottom:10px; width:2px;
+  background:linear-gradient(var(--lang), var(--s2-cool));
+  opacity:.4;
+}
+.t-step{display:flex; gap:1.1rem; align-items:flex-start; position:relative;}
+.t-num{
+  flex:none; width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-family:var(--display); font-weight:800; font-size:1.2rem;
+  background:var(--void2); border:2px solid var(--lang); color:var(--lang); z-index:1;
+  transition:transform .2s ease;
+}
+.t-step:hover .t-num{transform:scale(1.15); background:var(--lang); color:var(--void);}
+.t-body{padding-top:.4rem;}
+.t-body b{font-family:var(--display); font-size:1.05rem; display:block; margin-bottom:.15rem;}
+.t-body span{font-size:.92rem; color:var(--ink-dim);}
+
+/* ---------- footer ---------- */
+footer{
+  text-align:center; padding:4rem 1.5rem 5rem; color:var(--ink-dim); font-size:.95rem;
+}
+footer .big{
+  font-family:var(--display); font-weight:800; font-size:clamp(1.6rem,3vw,2.2rem);
+  background:linear-gradient(95deg, var(--s1-hot), var(--gold), var(--s2-cool), var(--lang));
+  -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:.6rem;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important; transition:none !important;}
+  html{scroll-behavior:auto;}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor-blob"></div>
+<div id="cursor-ring">🧠</div>
+
+<header class="hero">
+  <div class="eyebrow">Psicología cognitiva · ficha de repaso</div>
+  <h1>Mente en Dos Actos</h1>
+  <p class="sub">Cómo <b>pensamos</b> sin pensar y cómo <b>hablamos</b> sin darnos cuenta. Un recorrido por <b>Kahneman</b> (Sistema 1 y 2) y <b>Kosslyn</b> (lenguaje), pensado para pasar el cursor y descubrir.</p>
+  <div class="scroll-hint">desliza para empezar ↓</div>
+</header>
+
+<main>
+
+<!-- ===================== KAHNEMAN ===================== -->
+<section class="section section--kahneman" id="kahneman">
+  <div class="kicker reveal">📕 Kahneman</div>
+  <h2 class="reveal">Pensar Rápido, Pensar Lento</h2>
+  <p class="lead reveal">La idea central: <b style="color:var(--ink)">etiquetar los sesgos de la intuición</b>, esos errores sistemáticos que cometemos sin notarlo, para poder reconocerlos.</p>
+
+  <div class="duel reveal">
+    <div class="sys-card sys1">
+      <div class="tag">⚡ Sistema 1</div>
+      <div class="role">el piloto automático</div>
+      <ul>
+        <li><span class="dot">●</span> Velocidad y automaticidad</li>
+        <li><span class="dot">●</span> Procesamiento en paralelo</li>
+        <li><span class="dot">●</span> Fuente de impresiones, sensaciones, sentimientos e intuiciones</li>
+        <li><span class="dot">●</span> 🔥 Prendido todo el tiempo</li>
+      </ul>
+    </div>
+
+    <div class="vs-divider">⚔️<br>CONFLICTO<small>interferencia entre S1 y S2 · efecto Stroop · autocontrol de S2</small></div>
+
+    <div class="sys-card sys2">
+      <div class="tag">🐢 Sistema 2</div>
+      <div class="role">el yo consciente</div>
+      <ul>
+        <li><span class="dot">●</span> Controlado y esforzado</li>
+        <li><span class="dot">●</span> Atención voluntaria, proceso serial</li>
+        <li><span class="dot">●</span> Perezoso: tiende a aceptar lo que dice S1</li>
+        <li><span class="dot">●</span> Autocontrol, cálculos complejos, concentración — una tarea a la vez</li>
+        <li><span class="dot">●</span> 🔋 Recurso de reserva (limitado)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row reveal">
+    <div class="badge gold"><b>✅ Ventaja</b>Eficiencia en el uso de recursos cognitivos.</div>
+    <div class="badge warn"><b>🚧 Límite de S1</b>Es cognitivamente impenetrable: no se puede dejar de percibir una ilusión.</div>
+  </div>
+
+  <div class="callout reveal">👀 <b>S2</b> solo puede tomar conciencia del error y <b>desconfiar</b> de lo que sugiere S1 — no puede apagarlo.</div>
+
+  <h3 class="reveal">🎯 Heurísticos de la intuición <span style="font-size:.8rem; color:var(--ink-dim); font-weight:400;">(pasá el mouse y dales vuelta)</span></h3>
+  <div class="grid-cards reveal">
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-face flip-front"><div class="num">🧩</div><div class="name">Representatividad</div><div class="hint">prototipo vs. prevalencia</div></div>
+        <div class="flip-face flip-back">Juzgamos por cuánto se parece algo a un <b>prototipo</b> mental, ignorando qué tan frecuente (prevalente) es en realidad.</div>
+      </div>
+    </div>
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-face flip-front"><div class="num">💭</div><div class="name">Disponibilidad</div><div class="hint">accesibilidad en la memoria</div></div>
+        <div class="flip-face flip-back">Estimamos probabilidad según qué tan fácil es <b>recordar</b> ejemplos, no según la frecuencia real.</div>
+      </div>
+    </div>
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-face flip-front"><div class="num">❤️</div><div class="name">Afectiva</div><div class="hint">agrado o desagrado</div></div>
+        <div class="flip-face flip-back">Decidimos según lo que <b>sentimos</b> (gusto/disgusto) en vez de evaluar riesgos y beneficios.</div>
+      </div>
+    </div>
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-face flip-front"><div class="num">🔄</div><div class="name">Sustitución</div><div class="hint">cambiar por una pregunta + fácil</div></div>
+        <div class="flip-face flip-back">Cuando una pregunta es difícil, S1 responde otra <b>más fácil</b> sin que nos demos cuenta del cambio.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col reveal">
+    <div class="card">
+      <h4>😇 Efecto halo</h4>
+      <p>Una primera impresión (positiva o negativa) <b>contamina</b> el juicio sobre rasgos no relacionados de esa misma persona o cosa.</p>
+    </div>
+    <div class="card">
+      <h4>🧠✨ Intuición experta</h4>
+      <p><b>Reconocimiento</b> rápido y certero con muy poca información, fruto de mucha experiencia previa en un dominio.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== KOSSLYN ===================== -->
+<section class="section section--kosslyn" id="kosslyn">
+  <div class="kicker reveal">📘 Kosslyn</div>
+  <h2 class="reveal">El Edificio del Lenguaje</h2>
+  <p class="lead reveal">Del sonido más mínimo a la idea más abstracta: así se organiza —y a veces se rompe— nuestra capacidad de hablar.</p>
+
+  <h3 class="reveal">🏗️ Niveles del lenguaje</h3>
+  <div class="pyramid reveal">
+    <div class="pyr-level l1"><span class="lvl-name">Discurso</span><span class="lvl-desc">nivel más alto · organizado por proposiciones · afirmación abstracta Actor–Objeto · representa el conocimiento</span></div>
+    <div class="pyr-level l2"><span class="lvl-name">Sintáctico</span><span class="lvl-desc">relaciones Sujeto–Verbo · estructura lineal y jerárquica</span></div>
+    <div class="pyr-level l3"><span class="lvl-name">Palabras y morfemas</span><span class="lvl-desc">morfemas semánticos y estructurales</span></div>
+    <div class="pyr-level l4"><span class="lvl-name">Fonemas</span><span class="lvl-desc">unidades mínimas de sonido</span></div>
+  </div>
+
+  <h3 class="reveal">🐒 ¿Qué nos diferencia de los animales?</h3>
+  <div class="chip-row reveal">
+    <div class="chip">🔗 Dualidad de patrón<span class="def">Combinación de unidades con significado, formadas por unidades sin significado.</span></div>
+    <div class="chip">🎲 Arbitrariedad<span class="def">No hay relación necesaria entre el sonido y su significado.</span></div>
+    <div class="chip">♾️ Capacidad generativa<span class="def">Recurrencia: anidamiento de estructuras dentro de estructuras, infinitas combinaciones.</span></div>
+  </div>
+
+  <h3 class="reveal">🔺 Modelo triangular léxico</h3>
+  <div class="triangle-wrap reveal">
+    <div class="triangle">
+      <svg class="tri-svg" viewBox="0 0 100 86" preserveAspectRatio="none">
+        <line x1="50" y1="2" x2="6" y2="84" stroke="rgba(92,255,177,0.35)" stroke-width="1.2"/>
+        <line x1="50" y1="2" x2="94" y2="84" stroke="rgba(92,255,177,0.35)" stroke-width="1.2"/>
+        <line x1="6" y1="84" x2="94" y2="84" stroke="rgba(92,255,177,0.35)" stroke-width="1.2"/>
+      </svg>
+      <div class="tri-node tri-top"><b>Significado</b><span>pensamiento y comprensión</span></div>
+      <div class="tri-node tri-left"><b>Ortografía</b><span>forma escrita</span></div>
+      <div class="tri-node tri-right"><b>Fonología</b><span>forma sonora</span></div>
+    </div>
+  </div>
+
+  <div class="two-col reveal">
+    <div class="card">
+      <h4>❓ Ambigüedad</h4>
+      <p>Se resuelve integrando información <b>bottom-up</b> (datos sensoriales) con <b>top-down</b> (contexto, expectativas y memoria a largo plazo).</p>
+    </div>
+    <div class="card">
+      <h4>👥 Modelo de cohorte</h4>
+      <p>Procesamiento <b>predictivo</b>: a medida que escuchamos sonidos, se activa y descarta un grupo (cohorte) de palabras candidatas.</p>
+    </div>
+  </div>
+  <div class="two-col reveal">
+    <div class="card">
+      <h4>🔧 Restauración del fonema</h4>
+      <p>El cerebro "rellena" un fonema enmascarado o ausente usando el contexto, y lo percibimos como si estuviera presente.</p>
+    </div>
+    <div class="card">
+      <h4>🌳 Inmediatez y el Parser</h4>
+      <p>Interpretamos cada palabra apenas llega en la oración. El <b>error de Camino de Jardín</b> ocurre cuando la primera interpretación falla y exige un <b>reanálisis</b>.</p>
+    </div>
+  </div>
+
+  <h3 class="reveal">🧩 Representación cerebral</h3>
+  <div class="two-col reveal">
+    <div class="card">
+      <h4>🐦 Seres vivos</h4>
+      <p>Representados por <b>forma y color</b>, en áreas temporales.</p>
+    </div>
+    <div class="card">
+      <h4>🔨 Objetos manufacturados</h4>
+      <p>Definidos por <b>función y uso</b>, en áreas motoras.</p>
+    </div>
+  </div>
+  <div class="two-col reveal">
+    <div class="card">
+      <h4>🔊 Ruta fonológica</h4>
+      <p>Vía sistema <b>temporoparietal</b>: convierte letras en sonidos.</p>
+    </div>
+    <div class="card">
+      <h4>👁️ Ruta directa</h4>
+      <p>Ortografía → significado, vía sistema <b>occipitotemporal</b>, sin pasar por el sonido.</p>
+    </div>
+  </div>
+
+  <h3 class="reveal">🚧 Cuando el lenguaje falla <span style="font-size:.8rem; color:var(--ink-dim); font-weight:400;">(pasá el mouse y dales vuelta)</span></h3>
+  <div class="grid-cards reveal">
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-face flip-front"><div class="num">🗯️</div><div class="name">Afasia de Broca</div><div class="hint">no fluida</div></div>
+        <div class="flip-face flip-back">Dificultad en <b>sintaxis</b> y morfemas funcionales. Lesión en área frontal izquierda.</div>
+      </div>
+    </div>
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-face flip-front"><div class="num">🌀</div><div class="name">Afasia de Wernicke</div><div class="hint">habla sin sentido</div></div>
+        <div class="flip-face flip-back">Dificultad para <b>comprender</b> morfemas de contenido. Lesión en área temporal.</div>
+      </div>
+    </div>
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-face flip-front"><div class="num">🏷️</div><div class="name">Anomia</div><div class="hint">conoce el significado</div></div>
+        <div class="flip-face flip-back">Sabe el significado pero no logra <b>recuperar la representación fonológica</b> de la palabra.</div>
+      </div>
+    </div>
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-face flip-front"><div class="num">😬</div><div class="name">Punta de la lengua</div><div class="hint">falla temporal</div></div>
+        <div class="flip-face flip-back">Falla pasajera al recuperar la <b>pronunciación</b> de una palabra conocida.</div>
+      </div>
+    </div>
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-face flip-front"><div class="num">🔀</div><div class="name">Spoonerismo</div><div class="hint">sonidos cruzados</div></div>
+        <div class="flip-face flip-back">Intercambio de sonidos entre palabras <b>próximas</b> en la oración.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="reveal">🎭 Lenguaje figurado y función comunicativa</h3>
+  <div class="two-col reveal">
+    <div class="card">
+      <h4>🌉 Uso figurativo</h4>
+      <p>Uso deliberado de una palabra para significar otra cosa, a través de <b>metáforas</b> o similitudes.</p>
+    </div>
+    <div class="card">
+      <h4>💬 Función comunicativa</h4>
+      <p>Permite describir emociones y conceptos abstractos sin correspondencia física. El <b>hemisferio derecho</b> interpreta la entonación y distingue lo literal de lo figurado.</p>
+    </div>
+  </div>
+  <div class="card reveal" style="margin-top:1.2rem;">
+    <h4>✍️ Comunicación escrita</h4>
+    <p>Ocupa un espacio físico, tiene <b>permanencia</b> en el tiempo y exige una limitación visual: el foco de lectura.</p>
+  </div>
+
+  <h3 class="reveal">🏭 Fases de producción del lenguaje</h3>
+  <div class="timeline reveal">
+    <div class="t-step"><div class="t-num">1</div><div class="t-body"><b>Nivel del mensaje</b><span>Intención o pensamiento, todavía de forma no lingüística.</span></div></div>
+    <div class="t-step"><div class="t-num">2</div><div class="t-body"><b>Codificación gramatical</b><span>Selección léxica y desarrollo de la estructura sintáctica — influye en la accesibilidad léxica.</span></div></div>
+    <div class="t-step"><div class="t-num">3</div><div class="t-body"><b>Codificación fonológica</b><span>Se define la pronunciación.</span></div></div>
+    <div class="t-step"><div class="t-num">4</div><div class="t-body"><b>Articulación</b><span>Ejecución física del habla y la escritura.</span></div></div>
+    <div class="t-step"><div class="t-num">5</div><div class="t-body"><b>Interacción</b><span>Los niveles anteriores se retroalimentan entre sí.</span></div></div>
+  </div>
+
+  <h3 class="reveal">🌐 Hipótesis de Sapir-Whorf</h3>
+  <div class="two-col reveal">
+    <div class="card">
+      <h4>🔒 Versión estricta</h4>
+      <p><b>Determinismo lingüístico</b>: el lenguaje determina por completo la forma de pensar.</p>
+    </div>
+    <div class="card">
+      <h4>🔓 Versión moderada</h4>
+      <p><b>Relatividad lingüística</b>: el lenguaje influye o perfila el pensamiento, sin determinarlo del todo.</p>
+    </div>
+  </div>
+
+  <h3 class="reveal">🌍 Bilingüismo</h3>
+  <div class="grid-cards reveal" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
+    <div class="card">
+      <h4>🐢 Desarrollo inicial</h4>
+      <p>Vocabulario y sintaxis pueden desarrollarse más <b>lento por idioma</b>, pero el total combinado es más extenso.</p>
+    </div>
+    <div class="card">
+      <h4>🧠 Control ejecutivo</h4>
+      <p>El bilingüismo mejora la efectividad de los procesos ejecutivos, la <b>memoria de trabajo</b> y el control cognitivo en tareas no verbales.</p>
+    </div>
+    <div class="card">
+      <h4>🔍 Acceso léxico</h4>
+      <p>Experimentan con más frecuencia el fenómeno de la <b>"punta de la lengua"</b>.</p>
+    </div>
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  <div class="big">⚡🐢 + 🗣️🧠 = vos, pensando</div>
+  <p>Repaso interactivo · Kahneman (Sistemas 1 y 2) & Kosslyn (Lenguaje)</p>
+</footer>
+
+<script>
+// ---------- custom cursor ----------
+const blob = document.getElementById('cursor-blob');
+const ring = document.getElementById('cursor-ring');
+let mx = innerWidth/2, my = innerHeight/2, bx = mx, by = my, rx = mx, ry = my;
+
+window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+function loop(){
+  bx += (mx - bx) * 0.35; by += (my - by) * 0.35;
+  rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14;
+  blob.style.left = bx + 'px'; blob.style.top = by + 'px';
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(loop);
+}
+loop();
+
+const kahnemanSection = document.getElementById('kahneman');
+const kosslynSection = document.getElementById('kosslyn');
+
+function setCursorTheme(theme){
+  if(theme === 'kahneman'){
+    blob.style.background = 'var(--s1-hot)';
+    blob.style.boxShadow = '0 0 18px 6px rgba(255,61,110,0.55)';
+    ring.style.borderColor = 'rgba(255,61,110,0.55)';
+    ring.textContent = '⚡';
+  } else if(theme === 'kosslyn'){
+    blob.style.background = 'var(--lang)';
+    blob.style.boxShadow = '0 0 18px 6px rgba(92,255,177,0.55)';
+    ring.style.borderColor = 'rgba(92,255,177,0.55)';
+    ring.textContent = '🗣️';
+  } else {
+    blob.style.background = 'var(--gold)';
+    blob.style.boxShadow = '0 0 18px 6px rgba(255,210,63,0.55)';
+    ring.style.borderColor = 'rgba(255,210,63,0.5)';
+    ring.textContent = '🧠';
+  }
+}
+
+const themeObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      setCursorTheme(entry.target.id === 'kahneman' ? 'kahneman' : 'kosslyn');
+    }
+  });
+}, {threshold:0.4});
+themeObserver.observe(kahnemanSection);
+themeObserver.observe(kosslynSection);
+
+// ---------- reveal on scroll ----------
+const revealObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('in');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, {threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ---------- card tilt ----------
+document.querySelectorAll('.sys-card, .card').forEach(card=>{
+  card.addEventListener('mousemove', e=>{
+    const r = card.getBoundingClientRect();
+    const px = (e.clientX - r.left)/r.width - 0.5;
+    const py = (e.clientY - r.top)/r.height - 0.5;
+    card.style.transform = `perspective(800px) rotateX(${py * -6}deg) rotateY(${px * 6}deg) translateY(-4px)`;
+  });
+  card.addEventListener('mouseleave', ()=>{ card.style.transform = ''; });
+});
+</script>
+
+</body>
+</html>

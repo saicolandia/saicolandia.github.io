@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psicología Cognitiva — Temario Interactivo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f14;
+    --surface: #16181f;
+    --surface2: #1e2029;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8e6e0;
+    --muted: #6e6e80;
+    --accent-IX:  #7c9cf5;
+    --accent-X:   #f5a97c;
+    --accent-XI:  #9bf5a0;
+    --accent-XII: #f5d97c;
+    --accent-XIII:#d97cf5;
+    --accent-XIV: #f57c9b;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(14,15,20,0.92);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 28px;
+    display: flex; align-items: center; gap: 20px;
+    height: 60px;
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    letter-spacing: .04em;
+    color: var(--text);
+    flex: 1;
+  }
+  .logo span { opacity: .45; font-style: italic; }
+
+  #search-wrap {
+    position: relative;
+  }
+  #search {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 7px 14px 7px 36px;
+    width: 220px;
+    outline: none;
+    transition: border .2s, width .2s;
+  }
+  #search:focus { border-color: rgba(255,255,255,.2); width: 270px; }
+  .search-icon {
+    position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+    opacity: .4; pointer-events: none;
+  }
+  #counter {
+    font-size: 12px; color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* ── LAYOUT ── */
+  .main { display: flex; min-height: calc(100vh - 60px); }
+
+  /* ── SIDEBAR ── */
+  nav.sidebar {
+    width: 270px; flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    padding: 24px 0;
+    position: sticky; top: 60px;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  nav.sidebar::-webkit-scrollbar { width: 4px; }
+  nav.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 4px; }
+
+  .nav-unit { margin-bottom: 6px; }
+  .nav-unit-btn {
+    width: 100%; background: none; border: none; cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 20px;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    border-left: 3px solid transparent;
+    transition: color .2s, background .2s;
+  }
+  .nav-unit-btn:hover, .nav-unit-btn.active {
+    color: var(--text);
+    background: rgba(255,255,255,.04);
+  }
+  .nav-unit-btn.active { border-left-color: var(--accent); }
+  .nav-unit-btn .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent); flex-shrink: 0;
+    opacity: .7;
+  }
+  .nav-unit-btn .count {
+    margin-left: auto; font-size: 11px; background: rgba(255,255,255,.07);
+    border-radius: 20px; padding: 1px 7px; color: var(--muted);
+  }
+  .nav-sub { display: none; padding: 2px 0 6px 38px; }
+  .nav-sub.open { display: block; }
+  .nav-sub-item {
+    display: block; padding: 5px 10px;
+    font-size: 12px; color: var(--muted);
+    cursor: pointer; border-radius: 5px;
+    transition: color .15s, background .15s;
+    line-height: 1.4;
+  }
+  .nav-sub-item:hover { color: var(--text); background: rgba(255,255,255,.04); }
+  .nav-sub-item.active { color: var(--text); font-weight: 500; }
+
+  /* ── CONTENT ── */
+  .content { flex: 1; padding: 40px 48px; max-width: 900px; }
+
+  /* HERO */
+  .hero {
+    text-align: center; padding: 48px 0 56px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  .hero h1 em { font-style: italic; opacity: .55; }
+  .hero p { color: var(--muted); max-width: 500px; margin: 0 auto 28px; font-size: 14px; }
+  .stats-row {
+    display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat-n {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 700; display: block;
+  }
+  .stat-l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+
+  /* UNIT SECTION */
+  .unit-section { margin-bottom: 64px; }
+  .unit-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 28px; padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .unit-pill {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .1em;
+    font-weight: 500; padding: 4px 12px; border-radius: 20px;
+    background: var(--accent-bg); color: var(--accent);
+    border: 1px solid var(--accent-border);
+    flex-shrink: 0;
+  }
+  .unit-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.45rem; font-weight: 700;
+    flex: 1;
+  }
+  .unit-count { font-size: 12px; color: var(--muted); }
+
+  /* TEMA CARDS */
+  .temas-grid { display: flex; flex-direction: column; gap: 14px; }
+
+  .tema-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color .2s;
+  }
+  .tema-card:hover { border-color: rgba(255,255,255,.15); }
+  .tema-card.open { border-color: var(--accent); }
+
+  .tema-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .tema-num {
+    font-size: 11px; color: var(--accent);
+    font-weight: 600; opacity: .7;
+    min-width: 26px; flex-shrink: 0;
+  }
+  .tema-title {
+    flex: 1; font-weight: 500; font-size: 14px; line-height: 1.4;
+  }
+  .tema-chevron {
+    flex-shrink: 0; width: 20px; height: 20px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: .4;
+    transition: transform .3s, opacity .2s;
+  }
+  .tema-card.open .tema-chevron { transform: rotate(90deg); opacity: .8; }
+
+  .tema-body {
+    display: none;
+    padding: 0 20px 20px 58px;
+    font-size: 13.5px;
+    color: rgba(232,230,224,0.82);
+    line-height: 1.75;
+    border-top: 1px solid var(--border);
+  }
+  .tema-card.open .tema-body { display: block; padding-top: 16px; }
+
+  /* body formatting */
+  .tema-body p { margin-bottom: 10px; }
+  .tema-body .section-title {
+    font-weight: 600; color: var(--text);
+    font-size: 13px; margin: 16px 0 6px;
+  }
+  .tema-body .bullet {
+    display: flex; gap: 8px; margin-bottom: 6px;
+  }
+  .tema-body .bullet::before {
+    content: '•';
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* NO RESULTS */
+  #no-results {
+    display: none;
+    text-align: center; padding: 80px 20px;
+    color: var(--muted);
+  }
+  #no-results svg { opacity: .3; margin-bottom: 14px; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 6px; }
+
+  /* HIGHLIGHT */
+  mark {
+    background: rgba(255,220,100,.25);
+    color: inherit; border-radius: 2px;
+    padding: 0 2px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav.sidebar { display: none; }
+    .content { padding: 24px 20px; }
+    #search { width: 160px; }
+    #search:focus { width: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Psicología Cognitiva <span>— Temario</span></div>
+  <div id="search-wrap">
+    <svg class="search-icon" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input id="search" type="text" placeholder="Buscar tema o contenido…" autocomplete="off">
+  </div>
+  <div id="counter"></div>
+</header>
+
+<div class="main">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="content" id="content">
+    <div class="hero">
+      <h1>Temario de <em>Psicología</em><br>Cognitiva</h1>
+      <p>Explorá los contenidos por unidad. Hacé clic en cualquier tema para leer su desarrollo completo.</p>
+      <div class="stats-row">
+        <div class="stat">
+          <span class="stat-n" id="s-units">6</span>
+          <span class="stat-l">Unidades</span>
+        </div>
+        <div class="stat">
+          <span class="stat-n" id="s-temas">54</span>
+          <span class="stat-l">Temas</span>
+        </div>
+      </div>
+    </div>
+    <div id="units-container"></div>
+    <div id="no-results">
+      <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <p>Sin resultados para tu búsqueda.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = {"Tema IX: Lenguaje":[{"tema":"Comprensión del lenguaje.","desarrollo":"La comprensión del lenguaje es un proceso sumamente complejo que permite traducir señales sensoriales (sonoras o visuales) en significados abstractos integrados con la memoria. Este proceso es estudiado por la psicolingüística y se organiza a través de múltiples niveles de representación que interactúan entre sí.\n1. El Modelo Triangular del Léxico y la Ambigüedad\nLa comprensión de palabras se fundamenta en el modelo triangular, el cual postula que el conocimiento léxico se organiza en una red que conecta tres componentes: la ortografía (forma escrita), la fonología (sonido) y el significado.\nUn desafío central en este proceso es la ambigüedad, que es omnipresente en todos los niveles del lenguaje (fonético, léxico y estructural). Para resolverla, el sistema cognitivo integra dos tipos de información:\n• Información de abajo a arriba (bottom-up): Procede directamente de los datos sensoriales percibidos.\n• Información de arriba a abajo (top-down): Proviene del contexto, las expectativas y el conocimiento almacenado en la memoria a largo plazo.\n2. Percepción del Habla\nA diferencia de la lectura, donde los espacios separan las palabras, en el habla la señal es una corriente continua. La comprensión auditiva enfrenta retos como la coarticulación (superposición de fonemas al hablar) y la variabilidad entre oradores.\nLos mecanismos clave para la percepción incluyen:\n• Modelo de Cohorte: Al escuchar una palabra, activamos inicialmente un conjunto de candidatas que coinciden con los sonidos iniciales (la cohorte) y eliminamos progresivamente las que no encajan con el contexto.\n• Efecto de restauración del fonema: El cerebro utiliza información de arriba a abajo para rellenar sonidos perdidos.\n• Efecto McGurk: Demuestra que la percepción del habla es multimodal.\n3. Representación del Significado y Comprensión de Oraciones\nEl significado no se almacena como en un diccionario, sino en redes de características distribuidas en el cerebro. A nivel de oraciones, la comprensión es inmediata; intentamos interpretar cada palabra en cuanto llega.\n4. Lenguaje Figurativo y Lectura\n• Lenguaje figurativo: El uso de metáforas e ironía requiere distinguir entre significados literales y no literales.\n• Lectura: Se utilizan dos rutas principales: la ruta fonológica (ortografía → fonología → significado) y la ruta directa (ortografía → significado)."},{"tema":"Introducción a los procesos básicos de tratamiento del lenguaje.","desarrollo":"La psicolingüística es la disciplina científica que estudia los procesos mentales que subyacen a la comprensión, producción y adquisición del lenguaje.\n1. Niveles de Representación del Lenguaje\n• Nivel del discurso: Representa el significado global.\n• Nivel sintáctico: Especifica las relaciones entre tipos de palabras.\n• Palabras y Morfemas: Las palabras se componen de morfemas, las unidades más pequeñas con significado.\n• Fonemas: Son las unidades mínimas de sonido que distinguen significados.\n2. Procesos de Comprensión\nLa comprensión consiste en derivar el significado a partir del habla o la escritura. El Modelo Triangular del Léxico propone que el conocimiento de las palabras se organiza en una red que relaciona su ortografía, fonología y significado.\n3. Procesos de Producción\nLa producción es la conversión de pensamientos internos en planes de expresión oral o escrita. Se desarrolla en varias fases:\n1. Nivel del mensaje: Se formula el pensamiento de forma no lingüística.\n2. Codificación gramatical: Se eligen las palabras del léxico.\n3. Codificación fonológica: Se recupera la pronunciación.\n4. Articulación: Ejecución de los movimientos musculares.\n4. Características del Lenguaje Humano\n• Dualidad de patrón\n• Arbitrariedad\n• Capacidad generativa y recurrencia"},{"tema":"El lenguaje como instrumento cognitivo.","desarrollo":"El lenguaje no es únicamente un sistema de comunicación, sino un instrumento cognitivo complejo que permite representar, procesar y organizar el conocimiento en la mente humana.\n1. Organización y Representación del Conocimiento\nEl lenguaje estructura la información en niveles jerárquicos de abstracción. El cerebro organiza el significado de las palabras en redes distribuidas.\n2. Capacidad Generativa y Recursión\nEl lenguaje humano permite una capacidad generativa casi infinita, habilitando a la mente para crear un número ilimitado de pensamientos mediante la combinación de unidades finitas.\n3. La Influencia en el Pensamiento (Hipótesis Sapir-Whorf)\nLa versión moderada sostiene que el lenguaje influencia el contenido de lo que pensamos, afectando funciones como la orientación espacial, la percepción de los colores y la concepción del tiempo.\n4. El Lenguaje como Regulador Cognitivo\n• Resolución de ambigüedad\n• Control Ejecutivo y Bilingüismo: La gestión de dos o más idiomas actúa como ejercicio de control cognitivo.\n• Uso Figurativo: El lenguaje figurado (metáforas) es una herramienta cognitiva vital."},{"tema":"Investigación y teoría en Psicología del lenguaje.","desarrollo":"La psicolingüística investiga cómo los seres humanos comprenden, producen y adquieren el lenguaje.\n1. Naturaleza y Estructura del Lenguaje\nEl lenguaje humano posee capacidad generativa, arbitrariedad, dualidad de patrón y, fundamentalmente, recurrencia, concepto con el que Chomsky refutó el enfoque conductista de Skinner.\n2. Teoría de la Comprensión\nSe centra en cómo el cerebro resuelve la ambigüedad.\n• Modelo Triangular del Léxico: Postula que el conocimiento de las palabras surge de la red de conexiones entre significado, ortografía y fonología.\n• Percepción del Habla: El sistema utiliza el Modelo de Cohorte.\n• Analizador Sintáctico (Parser): Construye estructuras de oraciones en tiempo real.\n3. Teoría de la Producción\nLa teoría se ha construido principalmente mediante el análisis de errores del habla (spoonerismos).\n4. Relación entre Lenguaje, Pensamiento y Cerebro\n• Hipótesis de Sapir-Whorf\n• Bilingüismo y control cognitivo\n• Neurolingüística: Áreas de Broca (sintaxis y producción) y Wernicke (significado)."},{"tema":"Procesos de adquisición del lenguaje.","desarrollo":"La adquisición del lenguaje abarca desde la percepción temprana de sonidos hasta la producción de estructuras sintácticas sofisticadas.\n1. Teorías de la Adquisición\n• Conductismo (Skinner): El lenguaje se adquiere mediante condicionamiento operante.\n• Enfoque de Chomsky: Los seres humanos poseen una capacidad innata para generar pensamientos y frases.\n2. Hitos y Desarrollo Temprano\n• Los bebés de 6 meses pueden percibir fonemas de diversos idiomas, pero esta capacidad comienza a perderse a los 10 meses.\n• La complejidad de las frases en niños humanos aumenta de forma rápida y exponencial.\n3. Adquisición en Entornos Bilingües\n• El vocabulario total (sumando ambas lenguas) suele ser igual o superior al de los monolingües.\n• Para alcanzar una competencia real, un niño necesita escuchar y hablar un idioma al menos el 25% de su tiempo.\n4. El Debate del Período Crítico\nExiste evidencia de un período crítico para la fonología; quienes aprenden una segunda lengua temprano suelen lograr un acento de hablante nativo."},{"tema":"Modelos cognitivos de comprensión del lenguaje.","desarrollo":"La comprensión del lenguaje transforma señales sensoriales en representaciones de significado integradas en la memoria.\n1. El Modelo Triangular del Léxico\nPostula que el conocimiento léxico se organiza en una red que conecta: Ortografía, Fonología y Significado.\n2. Procesamiento de la Palabra Hablada: El Modelo de Cohorte\n• Activación: Al escuchar los primeros sonidos, se activa una cohorte de candidatas.\n• Eliminación: A medida que llega más información, se descartan las palabras incongruentes.\n• Densidad por vecindad: Las palabras con muchos vecinos sonoros tardan más en reconocerse.\n3. Comprensión de Oraciones y el Parser\nExisten dos hipótesis en conflicto:\n• Hipótesis del parser autónomo: Primero se elige una estructura sintáctica basada en información bottom-up.\n• Hipótesis interactiva: La solución es guiada simultáneamente por información top-down y bottom-up.\n4. Modelos de Lectura: Las Dos Rutas\n• Ruta Fonológica: ortografía → fonología → significado.\n• Ruta Directa: ortografía → significado.\n5. Resolución de la Ambigüedad\n• Efecto de restauración del fonema\n• Efecto McGurk: Comprensión multimodal.\n• Acceso léxico: Ante una palabra ambigua, el contexto suprime los significados inapropiados en ~200 ms."}],"Tema X: Aspectos cognitivos de la emoción":[{"tema":"A) Conceptualización de la emoción: Importancia evolutiva de las emociones.","desarrollo":"La emoción se define como un fenómeno psicológico complejo que consiste en una respuesta del organismo para adaptarse al ambiente.\n1. Las emociones como programas de orden superior\nLas emociones evolucionaron como programas de orden superior cuya función es orquestar y coordinar los subsistemas cognitivos y fisiológicos ante desafíos específicos.\n2. Funciones adaptativas específicas\nSiguiendo la selección natural de Darwin, cada emoción básica cumple una función crítica:\n• Miedo: Protección ante amenazas.\n• Alegría: Facilita la cohesión social.\n• Ira: Prepara para la defensa.\n• Asco: Rechazo de sustancias nocivas.\n• Tristeza: Promueve la empatía y el apoyo social.\n• Sorpresa: Orientación ante estímulos novedosos.\n3. Redireccionamiento de procesos cognitivos\nCuando se dispara una emoción, esta reconfigura la arquitectura mental para priorizar la meta adaptativa.\n4. Valor comunicativo y social\nLas expresiones faciales de las emociones básicas son universales y sirven como marcadores para comunicar estados internos y regular interacciones grupales."},{"tema":"Desarrollo de las emociones.","desarrollo":"El desarrollo de las emociones está vinculado a la maduración socio-cognitiva y a la interacción con el entorno.\n1. Primera infancia (0 a 2 años)\n• Desde el nacimiento, los bebés cuentan con expresiones emocionales para comunicarse.\n• Entre los 8 y 10 meses surge la referencia social.\n• Hacia el segundo año aparecen iniciativas de consuelo empático.\n2. Niñez temprana (2 a 6 años)\n• Aparecen emociones complejas: vergüenza, orgullo y culpa.\n• Entre los 3 y 4 años, el lenguaje se convierte en herramienta para comunicar estados internos.\n• Los niños comienzan a ser capaces de ocultar sus emociones.\n3. Niñez media (6 a 12 años)\n• Se desarrolla la capacidad de reconocer emociones contradictorias.\n• Se aprenden estrategias internas de regulación emocional.\n• Se internalizan las normas sociales de expresión emocional."},{"tema":"Generación de la emoción (Zajonc, Lazarus y LeDoux).","desarrollo":"El debate sobre la generación de la emoción se centra en la relación entre el afecto y la cognición.\n1. El modelo de Zajonc\nLa evaluación afectiva puede ocurrir de forma independiente del procesamiento cognitivo consciente. Demostró que los sujetos desarrollan preferencias afectivas incluso sin ser conscientes de haber percibido un estímulo.\n2. El modelo de Lazarus\nLa evaluación cognitiva (appraisal) es un requisito indispensable para que surja cualquier experiencia emocional. El modo en que evaluamos mentalmente una situación determina la intensidad y naturaleza de nuestra respuesta emocional.\n3. El modelo de LeDoux\nPropone dos rutas cerebrales distintas:\n• La vía rápida (vía baja): Del tálamo a la amígdala. Permite responder automáticamente sin conciencia cortical.\n• La vía lenta (vía alta): Del tálamo a la corteza y luego a la amígdala. Permite una evaluación consciente y precisión."},{"tema":"Registro subjetivo, respuesta fisiológica y comportamental de la emoción.","desarrollo":"La respuesta emocional se manifiesta a través de tres niveles interdependientes.\n1. Registro subjetivo: La experiencia de los sentimientos\nSe evalúa mediante autoinformes. Los instrumentos más destacados son:\n• Escala PANAS: Mide el afecto positivo y negativo.\n• SAM (Self-Assessment Manikin): Escala pictográfica que evalúa valencia y activación.\n2. Respuesta fisiológica: Cambios en el organismo\nMediada principalmente por el Sistema Nervioso Autónomo (SNA):\n• Sistema Simpático (Activación): Prepara para la lucha o la huida.\n• Sistema Parasimpático (Calma): Tranquiliza el cuerpo tras la amenaza.\n3. Respuesta comportamental: Proclividad hacia la acción\n• Expresión facial: Según Paul Ekman, existen expresiones faciales universales para las seis emociones básicas.\n• Medición objetiva: El FACS codifica 44 unidades de acción musculares del rostro."},{"tema":"Emoción y Procesos cognitivos.","desarrollo":"La emoción y los procesos cognitivos han pasado de considerarse sistemas independientes a sistemas interdependientes.\n1. Emoción y Memoria\nEl modelo de red semántica de Bower propone:\n• Recuperación dependiente del estado de ánimo: La información se recuerda mejor cuando el estado anímico coincide entre aprendizaje y recuperación.\n• Congruencia con el estado de ánimo: Se procesa y recupera material cuyo tono emocional coincide con el estado afectivo actual.\n2. Emoción y Atención\n• Sesgo atencional: Las personas ansiosas detectan estímulos de amenaza con mayor velocidad.\n• Sesgo de memoria en la depresión: Los sujetos deprimidos recuerdan preferentemente contenidos negativos.\n3. Emoción y Percepción\n• Los individuos ansiosos tienden a asignar significados amenazantes a estímulos ambiguos.\n4. Emoción y Resolución de Problemas\n• El afecto positivo mejora la creatividad y la capacidad de encontrar soluciones innovadoras.\n5. Emoción como Programa de Orden Superior\nLa emoción coordina y redirecciona simultáneamente la percepción, la atención, la memoria y las inferencias."},{"tema":"B) Modelos dimensionales de la emoción: Medición de la emoción.","desarrollo":"Los modelos dimensionales proponen que las emociones se sitúan en un espacio definido por dimensiones generales.\nEl modelo bio-informacional de Lang utiliza las dimensiones de Valencia (agradable-desagradable) y Arousal (excitación-calma). El modelo PANAS define el Afecto Positivo (AP) y el Afecto Negativo (AN) como dimensiones independientes.\n1. Manipulación mediante inducción del estado de ánimo\n• Métodos habituales: Regalos, videos, imaginación de situaciones, técnica de Velten.\n• Método Velten: Lectura de 60 frases diseñadas para inducir estados emocionales.\n2. Manipulación mediante estímulos emocionales\n• Sistemas estandarizados:\n  - IAPS (International Affective Picture System): Imágenes con valores normativos.\n  - ANEW (Affective Norms for English Words): Términos valorados dimensionalmente.\n  - IADS: Sonidos digitales.\n3. Valoración subjetiva de la emoción\n• SAM: Escala pictográfica de 9 puntos.\n• Escala PANAS: 20 ítems sobre estados afectivos.\n• Limitaciones: Deseabilidad social, falta de introspección."}],"Tema XI: Modularidad de la mente":[{"tema":"A) Fodor: Las perspectivas modulares de la mente.","desarrollo":"La perspectiva modular de Jerry Fodor (1983) propone que la arquitectura cognitiva está compuesta por diferentes tipos de procesos con funciones y estructuras distintas. Presenta una teoría tripartita: transductores, sistemas de entrada (módulos) y sistemas centrales.\n1. Los Sistemas de Entrada o Módulos\n• Especificidad de dominio: Cada módulo procesa un tipo determinado de información.\n• Funcionamiento obligatorio: Son automáticos y no pueden evitarse.\n• Encapsulamiento informativo (impenetrabilidad cognitiva): Las operaciones del módulo no se ven afectadas por las creencias del sujeto. Ejemplo clásico: ilusión de Müller-Lyer.\n• Rapidez y arquitectura neural fija.\n• Procesamiento Bottom-up.\n2. Los Sistemas Centrales\n• Inespecificidad de dominio.\n• No están encapsulados.\n• Isotropismo: La información necesaria puede provenir de cualquier área del conocimiento.\n• Quineanismo: El grado de confirmación de una creencia depende del sistema total de creencias.\n3. La Primera Ley de Fodor\nCuanto más global e isotrópico es un proceso, menos se comprende científicamente."},{"tema":"Taxonomía funcional de la mente.","desarrollo":"Fodor divide el sistema cognitivo en tres componentes:\n1. Los Transductores\nReciben el estímulo físico del entorno y lo transforman en una señal biológica. Son procesos bottom-up.\n2. Los Sistemas de Entrada (Módulos)\nMedian entre los transductores y los sistemas centrales. Sus rasgos distintivos:\n• Especificidad de dominio\n• Funcionamiento obligatorio y automático\n• Encapsulamiento informativo\n• Rapidez y arquitectura neural fija\n• Productos superficiales: Generan representaciones básicas.\n3. Los Sistemas Centrales\n• Inespecificidad de dominio\n• No encapsulamiento\n• Isotropismo y Quineanismo\nFodor postula su Primera Ley: los sistemas centrales son mucho más difíciles de estudiar científicamente que los sistemas modulares."},{"tema":"Organización y características de los sistemas de entrada y los sistemas centrales.","desarrollo":"1. Sistemas de Entrada (Módulos) — Facultades Verticales\n• Especificidad de dominio\n• Funcionamiento obligatorio: No pueden evitarse; el módulo se activa quiera o no quiera el sujeto.\n• Encapsulamiento informativo: Las operaciones internas no se ven afectadas por las creencias del individuo.\n• Rapidez: Casi como reflejos.\n• Arquitectura neural fija.\n• Productos superficiales: Candidatos naturales para el sistema central.\n• Procesamiento Bottom-up.\n2. Sistemas Centrales — Facultades Horizontales\n• Inespecificidad de dominio.\n• No encapsulamiento: Sistemas abiertos y sensibles al conocimiento total.\n• Isotropismo: Cualquier dato puede ser relevante para confirmar una creencia.\n• Quineanismo: La confirmación de una creencia depende de la totalidad del sistema de creencias.\n• Procesamiento lento y consciente.\nPrimera Ley de Fodor: Solo los sistemas modulares son susceptibles de investigación experimental estricta."},{"tema":"B) Karmiloff-Smith: Más allá de la Modularidad.","desarrollo":"Karmiloff-Smith propone una postura intermedia que concilia el innatismo de Fodor con el constructivismo de Piaget.\n1. El Proceso de Modularización vs. Módulos Predeterminados\n• Predisposiciones de dominio específico: El bebé nace con sesgos iniciales que canalizan su atención.\n• Desarrollo epigenético: La modularidad es el producto del desarrollo, no su punto de partida.\n2. El Modelo de Redescripción Representacional (RR)\nExplica cómo el conocimiento se vuelve más flexible y accesible a la conciencia. Propone cuatro niveles:\n• Nivel Implícito (I): Procedimientos eficientes pero rígidos, no accesibles al sistema.\n• Nivel Explícito 1 (E1): Formato comprimido. Pueden establecerse vínculos entre dominios, pero no es consciente.\n• Nivel Explícito 2 (E2): Accesible a la conciencia, pero no verbalizable.\n• Nivel Explícito 3 (E3): Formato común verbalizable, acceso consciente pleno.\n3. Diferencia entre Dominio y Módulo\n• Dominio: Conjunto de representaciones de un área de conocimiento.\n• Módulo: Unidad de procesamiento que encapsula ese conocimiento.\n4. Importancia de la Perspectiva del Desarrollo\nEl niño es un constructor activo de su propio conocimiento."},{"tema":"Arquitectura inicial de la mente infantil.","desarrollo":"Debate central entre innatismo radical y constructivismo.\n1. La Perspectiva Innatista-Modular (Fodor)\n• Módulos predeterminados genéticamente.\n• El bebé comienza con ventajas de salida.\n• Encapsulamiento desde el inicio.\n2. La Perspectiva del Desarrollo (Karmiloff-Smith)\n• Predisposiciones en lugar de módulos: Esqueléticas o mínimas.\n• Sesgos atencionales hacia rostros y sonidos del habla.\n• Modularización progresiva: Producto del desarrollo, no punto de partida.\n3. El Bebé como Constructor Activo\n• Capacidad computacional inicial.\n• Interacción Epigenética.\n• Plasticidad: El cerebro infantil se adapta a la información recibida."},{"tema":"Generalidad de dominios vs. especificidad.","desarrollo":"1. Generalidad de Dominios (Facultades Horizontales)\n• Sistemas Centrales de Fodor: Inespecíficos de dominio.\n• Isotropismo y Quineanismo.\n• Perspectiva Piagetiana: Estructuras lógicas aplicadas uniformemente a todos los contenidos.\n2. Especificidad de Dominios (Facultades Verticales)\n• Módulos de Fodor: Automáticos, rápidos y con estructuras neurales fijas.\n• Argumento de la Heterogeneidad: Cada órgano psicológico tiene su patrón de desarrollo.\n3. La Propuesta de Karmiloff-Smith\n• Distinción entre Dominio y Módulo.\n• Modularización Progresiva: Predisposiciones innatas que canalizan el desarrollo.\n• El Modelo RR: Proceso de dominio general que opera de manera independiente en diferentes micro-dominios."},{"tema":"La Teoría de Karmiloff-Smith.","desarrollo":"La teoría busca superar la dicotomía entre innatismo de Fodor y constructivismo de Piaget.\n1. El Proceso de Modularización\n• Predisposiciones innatas: Sesgos esqueléticos que canalizan la atención.\n• Desarrollo epigenético: La modularidad se construye mediante interacción.\n2. Diferencia entre Dominio y Módulo\n• Dominio: Conjunto de representaciones de un área de conocimiento (lenguaje, física, número).\n• Módulo: Unidad de procesamiento que encapsula ese conocimiento.\n3. El Modelo de Redescripción Representacional (RR)\n• Nivel Implícito (I): Conocimiento como procedimientos, eficiente pero rígido.\n• Nivel Explícito 1 (E1): Formato comprimido con vínculos inter-dominios, no consciente.\n• Nivel Explícito 2 (E2): Accesible a la conciencia, no verbalizable.\n• Nivel Explícito 3 (E3): Recodificado en formato lingüístico, verbalizable.\n4. El Niño como Constructor Activo\nEl niño experimenta con sus propias representaciones internas, siendo un pequeño teórico."},{"tema":"Modelo de Redescripción representacional (RR).","desarrollo":"El Modelo RR explica cómo las representaciones de los niños se vuelven más manipulables y accesibles a la conciencia.\nNaturaleza del Proceso RR\n• Proceso cíclico y endógeno.\n• Dominio-general pero de ocurrencia específica: El mismo proceso en momentos distintos para cada micro-dominio.\n• La maestría conductual como requisito previo.\nLos Niveles de Representación\n1. Nivel Implícito (I): Procedimientos aislados, no relacionables entre sí, inflexibles.\n2. Nivel Explícito 1 (E1): Redescripción en formato comprimido. Permite creatividad y vínculos. No consciente.\n3. Nivel Explícito 2 (E2): Accesible a la conciencia. Formato no lingüístico (imágenes, diagramas).\n4. Nivel Explícito 3 (E3): Formato cercano al lenguaje natural. Plenamente consciente y verbalizable.\nImportancia para el Desarrollo\nEl modelo explica por qué un niño puede ser muy exitoso en una tarea pero incapaz de explicar cómo lo hizo o de adaptar ese conocimiento a situaciones nuevas."},{"tema":"Paradigmas de estudios con bebés.","desarrollo":"Desde mediados de los 60, se desarrollaron paradigmas experimentales para estudiar las capacidades de los bebés, aprovechando lo que hacen bien: mirar, escuchar y succionar.\n1. Paradigma de Habituación y Deshabituación\n• Se presenta un estímulo hasta que el bebé pierde el interés.\n• Luego, se introduce un estímulo nuevo; si el bebé recupera el interés, percibió la diferencia.\n• Medición: Duración de la mirada.\n2. Succión de Gran Amplitud\n• El bebé controla un aparato con el chupete.\n• Cuando se habitúa a un sonido y se presenta uno nuevo, la succión aumenta.\n• Demostró que los recién nacidos prefieren escuchar su lengua materna.\n3. Paradigma de Preferencia\n• Se presentan dos estímulos simultáneamente.\n• Se mide cuál prefiere el bebé observar.\n• Permite determinar sesgos atencionales innatos.\nImportancia Teórica\nEstos paradigmas cuestionaron tanto el conductismo como el constructivismo clásico, demostrando ventajas de salida significativas desde el nacimiento."}],"Tema XII: Razonamiento e Intuición, Toma de decisiones y sesgos cognitivos.":[{"tema":"A) Razonamiento: Naturaleza de la resolución de problemas.","desarrollo":"La resolución de problemas implica procesos dirigidos a alcanzar una meta cuando el camino no es obvio ni rutinario.\n1. Definiciones fundamentales\n• Pensamiento: Proceso de representar y transformar mentalmente aspectos del mundo.\n• Resolución de problemas: Procesos cognitivos para alcanzar un objetivo con obstáculos.\n• Razonamiento: Procesos para realizar deducciones a partir del conocimiento.\n2. Estructura de un problema\n• Estado inicial: Punto de partida.\n• Estado objetivo (Meta): Solución buscada.\n• Operaciones: Acciones para transitar del inicio al objetivo.\n3. Tipos de problemas\n• Bien definidos: Estado inicial, objetivo y reglas claras (ajedrez, Torre de Hanoi).\n• Mal definidos: Sin metas u operaciones claramente delimitadas. Caso especial: insight.\n4. Teoría del espacio del problema (Newell y Simon)\nResolver un problema es realizar una búsqueda dentro de un espacio de todos los estados posibles.\n5. Estrategias de resolución\n• Algoritmo: Procedimiento que garantiza la respuesta correcta pero es costoso.\n• Heurística: Atajo mental que generalmente da la respuesta correcta.\n  - Búsqueda aleatoria: Ensayo y error.\n  - Escalada (Hill-climbing): Elegir el paso más cercano a la meta.\n  - Análisis medios-fin: Descomponer en subobjetivos.\n6. Expertos vs. Principiantes\n• Expertos organizan por principios abstractos; principiantes por características superficiales.\n• Expertos usan chunking; principiantes buscan hacia atrás."},{"tema":"Sesgo de disponibilidad, de representatividad y de anclaje.","desarrollo":"Los sesgos cognitivos son filtros mentales que simplifican situaciones complejas para definir modelos de decisión (Kahneman y Tversky).\n1. Sesgo de Disponibilidad\nEvaluar la probabilidad de algo basándose en los ejemplos más fáciles de recordar.\n• El cerebro asume que si algo se recuerda con facilidad, es más probable o importante.\n• Ejemplos: Sobreestimar la frecuencia de accidentes aéreos tras leer noticias al respecto.\n2. Sesgo de Representatividad\nEstimar la probabilidad basándose en cuánto se asemeja un evento al estereotipo de una categoría, ignorando las probabilidades estadísticas objetivas (ratios base).\n• Ley de los pequeños números: Creer que una muestra pequeña debe ser representativa de toda la población.\n• Ejemplos: Diagnóstico médico por parecido con el prototipo. Falacia del jugador.\n3. Sesgo de Anclaje (y Ajuste)\nTomar decisiones basándose de forma determinante en la primera información encontrada (el ancla).\n• El juicio es sumamente voluble según el orden en que se reciba la información.\n• Ejemplos: Primer precio ofrecido en una negociación. Marketing con descuentos."},{"tema":"Características e interacción entre los dos sistemas.","desarrollo":"1. Características del Sistema 1 (Pensamiento Rápido)\n• Opera de forma rápida y automática, sin esfuerzo ni control voluntario.\n• Genera impresiones, intuiciones, intenciones y sentimientos.\n• Incluye destrezas innatas y habilidades adquiridas por práctica.\n• No se puede desconectar a voluntad; propenso a sesgos sistemáticos.\n2. Características del Sistema 2 (Pensamiento Lento)\n• Requiere atención focalizada y esfuerzo.\n• Recursos limitados: Si una tarea demanda demasiado, puede causar ceguera a otros estímulos.\n• Indicadores físicos: Dilatación de pupilas y aumento de pulsaciones.\n• Responsable del autocontrol.\n3. Interacción entre ambos Sistemas\n• El Sistema 1 funciona automáticamente; el Sistema 2 se mantiene en mínimo esfuerzo.\n• El Sistema 1 envía sugerencias al Sistema 2; si este las aprueba, se vuelven creencias y acciones.\n• El Sistema 1 llama al Sistema 2 cuando encuentra un problema sin solución inmediata.\n4. Conflicto e Ilusiones Cognitivas\nEjemplo: Ilusión de Müller-Lyer. El Sistema 1 persiste en ver líneas desiguales aunque el Sistema 2 ya sepa que son iguales."},{"tema":"B) Kahneman: Dos sistemas de pensamiento.","desarrollo":"Kahneman propone que el funcionamiento de la mente puede entenderse mediante la metáfora de dos agentes ficticios.\n1. Sistema 1: Pensamiento Rápido\n• Automático y veloz, sin esfuerzo ni control voluntario.\n• Fuente principal de impresiones e intuiciones.\n• Capacidades: Destrezas innatas y habilidades adquiridas (reconocer una jugada de ajedrez, detectar hostilidad).\n• Ejemplos: Responder 2+2, orientarse hacia un sonido, detectar si un objeto está lejos.\n• Limitaciones: No se puede desconectar; propenso a errores sistemáticos.\n2. Sistema 2: Pensamiento Lento\n• Asociado con la experiencia subjetiva de actuar y elegir conscientemente.\n• Atención limitada; su esfuerzo se refleja en dilatación de pupilas.\n• Ejemplos: Buscar a alguien en una multitud, aparcar en espacio estrecho, calcular 17 × 24.\n• Función de autocontrol: Vence los impulsos del Sistema 1.\n3. Interacción y División del Trabajo\n• Colaboración: El Sistema 1 genera sugerencias; el Sistema 2 las aprueba o no.\n• Movilización: El Sistema 1 solicita ayuda del Sistema 2 ante dificultades o sorpresas.\n• Conflicto: Cuando una reacción automática del Sistema 1 choca con una intención del Sistema 2."},{"tema":"Razonamientos analógicos, inductivos y deductivos.","desarrollo":"1. Razonamiento Analógico\nUtiliza la solución de un problema similar (fuente) para aplicarla a un problema nuevo (objetivo).\n• Subprocesos: Recuperación, cartografía, evaluación, abstracción, predicción.\n• Expertos se basan en estructura profunda; principiantes en características superficiales.\n• Bases neurales: Corteza prefrontal anterior izquierda.\n2. Razonamiento Inductivo\nUsa el conocimiento de circunstancias específicas para hacer deducciones sobre circunstancias desconocidas. Las conclusiones son probables pero no ciertas.\n• Tipos: General (de algunos casos a la totalidad) y Específica (de un miembro a otro).\n• Sesgo de confirmación: Tendencia a buscar información que confirme creencias previas.\n3. Razonamiento Deductivo\nLa conclusión se sigue por necesidad lógica de las premisas. Su herramienta fundamental es el silogismo.\n• Formas: Categórico y Condicional.\n• Errores: Sesgo de creencia (aceptar conclusiones creíbles como lógicamente válidas) y efecto de ambiente.\n• Teoría de Modelos Mentales: Razonamos construyendo representaciones internas de las premisas."}],"Tema XIII: Intervención en cognición y emoción":[{"tema":"A) Diferencias entre rehabilitación, estimulación, entrenamiento, intervención psicoeducativa.","desarrollo":"Distintos términos que se utilizan a menudo de manera solapada pero con matices importantes:\n1. Entrenamiento Cognitivo\nProgramas para mejorar la eficiencia de mecanismos cognitivos mediante la práctica.\n• Fundamento: Plasticidad del sistema cognitivo.\n• Mecánica: Tareas repetitivas, adaptativas y cognitivamente demandantes.\n• Población: Individuos con desarrollo típico y con patologías.\n2. Intervención Psicoeducativa\nVinculada a los programas SEL en el currículo escolar.\n• Carácter Universal: Se aplica a grupos sin problemática específica identificada.\n• Objetivo: Preventivo y promocional.\n• Contexto: Entornos naturales (el aula).\n3. Rehabilitación Cognitiva\nBusca la recuperación de una función perdida o dañada, o el desarrollo de mecanismos compensatorios. Se aplica a sujetos con deterioros post-lesión cerebral.\n4. Estimulación Cognitiva\nSe orienta a mantener el funcionamiento actual, retardar el deterioro o activar procesos conservados en poblaciones con declive neurocognitivo (demencia).\nResumen:\n• Entrenamiento: Aumentar la capacidad mediante práctica sistemática.\n• Psicoeducación: Enseñar herramientas en contextos educativos para prevención.\n• Rehabilitación: Restaurar o compensar funciones tras lesión cerebral.\n• Estimulación: Preservar y activar funciones en caso de deterioro."},{"tema":"Intervenciones sobre procesos cognitivos.","desarrollo":"Las intervenciones cognitivas se basan en el supuesto de plasticidad: la capacidad del sistema para modificarse frente a las demandas ambientales.\n1. Enfoques Principales de Intervención\n• Basado en procesos (Implícito): Tareas repetitivas, adaptativas y cognitivamente demandantes. Busca fortalecer capacidades de dominio general.\n• Basado en estrategias (Explícito): Instrucción directa de técnicas conscientes (chunking, repetición). Optimiza los recursos disponibles.\n2. Modalidades según las Tareas\n• Paradigma único: Una sola clase de tarea.\n• Multiparadigma: Combinación de diferentes tipos.\n• Multidominio o multifactorial: Varios procesos simultáneamente.\n3. Evaluación de la Eficacia y Transferencia\n• Transferencia cercana: Mejora en tareas del mismo proceso cognitivo.\n• Transferencia lejana: Mejora en procesos distintos (entrenar MO impacta en comprensión lectora).\n• Mantenimiento: Si los beneficios persisten más de un mes.\n4. Moderadores\n• Hipótesis de Compensación: Sujetos con niveles bajos obtienen mayores beneficios.\n• Hipótesis de Magnificación: Sujetos con niveles altos son quienes más se benefician."},{"tema":"Paradigmas principales: intervenciones basadas en el proceso e intervenciones basadas en estrategias.","desarrollo":"1. Intervenciones basadas en procesos\n• Naturaleza implícita: Sin instrucciones directas sobre cómo manejar el material.\n• Capacidad de dominio general: Los efectos no se limitan a una tarea específica.\n• Características centrales:\n  - Práctica repetida en múltiples sesiones.\n  - Dificultad adaptativa: Se ajusta continuamente al límite de la capacidad.\n  - Demandas cognitivas elevadas.\n• Efectos: Asociada a la hipótesis de compensación.\n2. Intervenciones basadas en estrategias\n• Naturaleza explícita: Los participantes reciben instrucciones directas sobre técnicas específicas.\n• Dominio específico: Estrategias aplicables a situaciones puntuales.\n• Objetivo de eficiencia: Sortear las limitaciones de capacidad.\n• Limitación de la transferencia: Beneficios restringidos a tareas similares.\n• Efectos: Tiende a favorecer la hipótesis de magnificación."},{"tema":"Mecanismos de cambio.","desarrollo":"1. El Desajuste Adaptativo\nEl motor fundamental del cambio es la plasticidad. Los cambios plásticos se generan cuando existe un desajuste prolongado entre la capacidad funcional actual y las demandas externas.\n2. Modelo de Capacidad-Eficiencia\n• Aumento en la eficiencia: Uso más inteligente de la capacidad ya existente (estrategias, automatización).\n• Aumento en la capacidad: Incremento concreto de los recursos disponibles, derivado de cambios plásticos cerebrales.\n3. Moderadores del Cambio\n• Hipótesis de compensación: Mayor beneficio para quienes tienen niveles iniciales más bajos.\n• Hipótesis de magnificación: Mayor beneficio para quienes tienen niveles iniciales altos.\n4. Experiencia Individual y Desarrollo\nLos cambios dependen de la experiencia individual. La plasticidad dependiente de la experiencia permite adaptarse al entorno particular."},{"tema":"Criterios metodológicos básicos para la intervención.","desarrollo":"1. Análisis de la Transferencia\n• Transferencia cercana: Mejora en tareas del mismo proceso entrenado.\n• Transferencia lejana: Mejora en procesos o habilidades distintas.\n• Mantenimiento: Si los beneficios persisten más de un mes.\n2. Diseño de Investigación y Causalidad\n• Evaluación pre y post-test.\n• Aleatorización de los participantes.\n• Grupo control activo: Que realice una actividad creíble que no demande el proceso estudiado.\n3. Consideración de Moderadores\n• Nivel de desempeño de base.\n• Hipótesis de Compensación y Magnificación.\n4. Características de las Tareas (Enfoque de Procesos)\n• Práctica repetida y sistemática.\n• Dificultad adaptativa.\n• Demanda de dominio general."},{"tema":"Análisis de efectos de las intervenciones: transferencia cercana, lejana, a corto y largo plazo.","desarrollo":"1. Transferencia Cercana\nMejora en el desempeño de tareas que evalúan el mismo proceso cognitivo entrenado, pero distintas en modalidad.\n• Es el criterio fundamental para demostrar que la intervención ha mejorado el proceso subyacente.\n• Existe consenso general de que los entrenamientos cognitivos la producen de forma consistente.\n2. Transferencia Lejana\nMejoras que se generalizan a habilidades o procesos distintos al entrenado.\n• Ejemplo clásico: Entrenar memoria de trabajo y observar mejoras en comprensión lectora o inteligencia fluida.\n• Es altamente debatida y difícil de alcanzar.\n3. Efectos según la dimensión temporal\n• Efectos a corto plazo: Desde la finalización hasta aproximadamente un mes después.\n• Efectos a largo plazo (Mantenimiento): Más de un mes después del programa.\n  - Estudios locales han demostrado efectos que se mantienen incluso 6 meses después.\nConsideración Metodológica\nSe necesita diseño experimental con pre y post-test, aleatorización y grupo control activo."},{"tema":"B) Intervención en contextos escolares.","desarrollo":"La intervención en contextos escolares se centra principalmente en la infancia y niñez por su alta plasticidad cognitiva.\n1. Relevancia de la Intervención Escolar\n• Las FE modulan habilidades complejas como la lectura y las matemáticas.\n• El entrenamiento cognitivo puede reducir diferencias entre alumnos con mayores y menores recursos.\n• La corteza prefrontal es altamente sensible a las influencias del entorno escolar.\n2. Ejemplos de Programas en Escuelas (Argentina)\n• Entrenamiento en Inhibición (Aydmune, Lipina et al., 2021):\n  - Niños de 6 a 8 años. 6 sesiones de 15 minutos con dificultad adaptativa.\n  - Resultados: Transferencia cercana y lejana (inteligencia fluida).\n• Entrenamiento en Memoria de Trabajo (Vernucci et al., 2023):\n  - Niños de 9 y 10 años. 10-13 sesiones.\n  - Resultados: Mejoras que se mantuvieron 6 meses después.\n3. Criterios para una Intervención Efectiva\n• Adaptación al contexto local.\n• Uso de tecnología informatizada.\n• Enfoque en procesos con práctica repetida y adaptativa."},{"tema":"Los programas SEL.","desarrollo":"Los programas de Aprendizaje Socioemocional (SEL) son intervenciones psicoeducativas de carácter universal aplicadas en entornos naturales con fin preventivo y promocional.\n1. El marco SAFE\nPara ser efectivos deben cumplir:\n• S (Secuenciales): Actividades coordinadas y ordenadas.\n• A (Activas): Aprendizaje participativo y dinámico.\n• F (Focalizadas): Tiempo suficiente y exclusivo para cada habilidad.\n• E (Explícitas): Objetivos claros y definidos.\n2. Vínculo con las Funciones Ejecutivas (FE)\n• Las FE son procesos que intervienen directamente en el control de emociones y conductas.\n• Existe evidencia de que las FE contribuyen a la regulación emocional.\n3. Implementación y Plasticidad\n• Durante la infancia el sistema cognitivo es especialmente sensible.\n• El entrenamiento puede reducir brechas entre niños con distintos niveles de recursos.\n4. Ejemplo Local: El Programa PAS\nEn Argentina, trabaja el autocontrol y la regulación emocional alineado con los contenidos curriculares."},{"tema":"Criterios SAFE.","desarrollo":"El acrónimo SAFE define los criterios que deben cumplir los programas de Aprendizaje Socioemocional para ser efectivos:\n• S — Secuenciales: El programa debe seguir un conjunto de actividades coordinadas y vinculadas, ordenadas de menor a mayor complejidad, para lograr objetivos de desarrollo de habilidades.\n• A — Activas: Se deben utilizar formas de aprendizaje activo que ayuden a los estudiantes a practicar nuevas habilidades en situaciones reales o simuladas (role playing, dinámicas grupales).\n• F — Focalizadas: Debe haber componentes que dediquen tiempo suficiente y exclusivo al desarrollo de habilidades sociales y emocionales específicas.\n• E — Explícitas: El programa debe apuntar a habilidades socioemocionales específicas y claras, con objetivos de aprendizaje comunicados abiertamente a los estudiantes."},{"tema":"Evidencia de su importancia.","desarrollo":"La importancia de seguir criterios estructurados radica en la capacidad de generar transferencia y beneficios reales:\n• Transferencia de habilidades: Intervenciones bien diseñadas sobre las FE impactan en el desempeño académico, la regulación emocional y la habilidad lectora.\n• Impacto en la inteligencia: Estudios locales en Argentina han demostrado transferencia lejana, mejorando la inteligencia fluida.\n• Mantenimiento: Las mejoras en memoria de trabajo e inteligencia pueden mantenerse hasta 6 meses después de la intervención.\n• Compensación de desigualdades: Siguiendo la hipótesis de compensación, estas intervenciones benefician mayormente a quienes inician con niveles más bajos."},{"tema":"La intervención cognitiva.","desarrollo":"1. La Intervención Cognitiva\nConjunto de programas para mejorar la eficiencia de los mecanismos cognitivos y neurales mediante la práctica o instrucción intencional.\n• Supuesto de Plasticidad: La capacidad del sistema para modificarse ante demandas del ambiente.\n• Mecanismo de cambio: Desajuste prolongado entre capacidad actual y demandas ambientales.\n• Enfoques principales:\n  - Basado en procesos: Entrenamiento implícito con tareas repetitivas y adaptativas.\n  - Basado en estrategias: Entrenamiento explícito con técnicas conscientes (chunking, repetición)."}],"Tema XIV: Psicoterapias cognitivas":[{"tema":"A) Origen y Desarrollo del cognitivismo clínico.","desarrollo":"El cognitivismo clínico no es un ámbito homogéneo, sino un campo en constante proceso de expansión y diferenciación. Actualmente es posible distinguir unos veinte enfoques diferentes dentro de la terapia cognitiva.\nLo que une a los diversos enfoques cognitivos es el énfasis en las estructuras de significado y los procesos de elaboración de la información. En 1976, Beck acuñó el término psicoterapia cognitiva, favoreciendo la creación de una identidad cultural entre los terapeutas. Actualmente, la escuela de Beck es la más predominante a nivel mundial, con fuerte presencia en la Asociación Internacional de Psicoterapia Cognitiva (IACP)."},{"tema":"Nociones preliminares.","desarrollo":"• Identidad y diversidad: Lo que une los enfoques cognitivos es el énfasis en las estructuras de significado y los procesos de elaboración de la información.\n• Fundadores y terminología: Aaron Beck y Albert Ellis son los fundadores del cognitivismo clínico actual.\n• Consolidación: En 1976, Beck acuñó el término psicoterapia cognitiva.\n• Debate científico vs. Ortodoxia: A diferencia de otras corrientes, esta escuela no ha buscado fundar una ortodoxia, sino mantener el debate y el rigor académico.\n• Clasificación: El enfoque de Ellis y Beck es definido como una aproximación racionalista, en contraposición a constructivista.\n• Terapia Cognitiva Estándar (TCS): Término preferido por la escuela de Beck, considerado neutro al no implicar supremacía teórica."},{"tema":"Rol y caracterización de los pensamientos automáticos.","desarrollo":"Los pensamientos automáticos son representaciones que median entre una situación y la respuesta emocional del sujeto.\nCaracterización:\n• Naturaleza consciente y accesible: Pueden ser identificados si se entrena al paciente para prestarles atención.\n• Automaticidad: Se presentan espontáneamente, sin esfuerzo reflexivo.\n• Forma telegráfica: Expresados de manera breve y fragmentaria.\n• Credibilidad absoluta: El sujeto los acepta como verdades sin someterlos a crítica.\n• Recurrencia temática: Los pacientes presentan una constante en el tipo de significados que atribuyen.\nRol en el modelo cognitivo:\n• Acceso a la experiencia emocional: Permiten comprender las experiencias emocionales de manera más precisa.\n• Vínculo con los esquemas: Son la expresión de los esquemas cognitivos profundos.\n• Material base para el tratamiento: Permiten identificar errores sistemáticos de pensamiento.\n• Foco de la intervención: El descubrimiento guiado ayuda al paciente a observar y cuestionar su validez."},{"tema":"B) Conceptos básicos de la TCS en niños.","desarrollo":"• Plasticidad Cerebral: Durante la infancia, la plasticidad es especialmente elevada, permitiendo que el sistema cognitivo y neural se modifique frente a las demandas ambientales.\n• Funciones Ejecutivas (FE): Son el blanco principal de las intervenciones. Incluyen inhibición, memoria de trabajo y flexibilidad cognitiva, esenciales para la autorregulación.\n• Adaptación Evolutiva: A diferencia de los adultos, el tratamiento en niños debe considerar el desarrollo prolongado de regiones como la corteza prefrontal, sensibles a influencias ambientales positivas o adversas."},{"tema":"C) Teoría y Naturaleza de la Terapia Metacognitiva.","desarrollo":"La naturaleza y teoría de la metacognición en el ámbito clínico se centra en la capacidad del individuo para monitorear, regular y otorgar un sentido supraordenado a sus propios procesos de pensamiento.\n1. Naturaleza de la Metacognición en la Clínica\n• Punto de vista supraordenado: Capacidad para asumir una perspectiva por encima de los propios pensamientos, observando la mente desde fuera.\n• Del contenido al proceso: Interés en el modo de pensar y el flujo de ideas, no solo en qué piensa el paciente.\n• Toma de distancia crítica: Las creencias dejan de ser verdades absolutas para ser tratadas como hipótesis.\n2. Fundamentos Teóricos del Cambio Metacognitivo\n• El Insight como toma de conciencia: Objetivo es la actitud introspectiva dirigida al insight.\n• El Diálogo Socrático como motor: Preguntas que obligan al paciente a revisar sus procesos de valoración.\n• Corrección de errores de procedimiento: Lo que mantiene los trastornos son los errores sistemáticos de procedimiento.\n3. Metacognición en la Infancia y el Desarrollo\n• FE como procesos de control de pensamientos, emociones y conductas.\n• Autoconciencia (Self-Awareness): Reconocer emociones y pensamientos propios."},{"tema":"Características y principios técnicos de la Terapia Cognitiva Estándar.","desarrollo":"La TCS es un modelo de intervención activo, breve, focal y de fácil reproducción.\nCaracterísticas — Tres tesis fundamentales:\n1. Primacía de los esquemas cognitivos: Los trastornos se caracterizan por esquemas cognitivos inadaptados que regulan patológicamente la elaboración de la información.\n2. Expresión a través de pensamientos automáticos: Los esquemas se manifiestan mediante pensamientos automáticos e imaginación consciente.\n3. Verificación empírica y análisis lógico: Las creencias se tratan como hipótesis que deben someterse a prueba.\nPrincipios Técnicos Fundamentales:\n• Empirismo Colaborativo: Alianza terapéutica donde paciente y terapeuta colaboran como investigadores.\n• Diálogo Socrático: Herramienta principal de comunicación. El terapeuta hace preguntas para que el paciente identifique pensamientos automáticos y tome distancia crítica.\n• Descubrimiento Guiado: El alma de la terapia. Enseña al paciente a observar su flujo de pensamiento mediante registros de autoobservación."},{"tema":"Modelo A-B-C.","desarrollo":"El modelo A-B-C describe la relación entre los acontecimientos, el procesamiento cognitivo y las respuestas resultantes.\nEstructura:\n• A (Acontecimiento Activador): Situación u objetivo que inscribe la experiencia. Puede ser externo o interno.\n• B (Creencias o Pensamientos / Beliefs): Componente de mediación cognitiva.\n  - En Ellis: Convicciones irracionales y reglas absolutas sobre cómo deben ser las cosas.\n  - En Beck: Pensamientos automáticos y esquemas cognitivos.\n• C (Consecuencias): Emociones y conductas resultantes. Según el modelo, B es el responsable directo de C, no A.\nEl rol de la mediación cognitiva en la clínica:\n• Beck observó que ante un evento (A), existe un flujo de ideas (B) que es el responsable directo de la vivencia emocional (C).\n• Registros de autoobservación: Se entrena al paciente para identificar emoción (C), situación (A) y valoración (B).\n• El objetivo terapéutico es modificar las tesis inadaptadas en B para aligerar la sintomatología en C."},{"tema":"Intervenciones.","desarrollo":"• Entrenamiento Basado en Procesos: Tareas repetitivas y adaptativas para fortalecer capacidades de dominio general (ej. programas para inhibición como Armando Equipos).\n• Entrenamiento Basado en Estrategias: Enseña de forma explícita técnicas para manejar el material (repetición, agrupamiento de información).\n• Programas de Aprendizaje Socioemocional (SEL): Intervenciones universales en escuelas que trabajan autoconciencia, autogestión y habilidades sociales.\n• Programa PAS (Argentina): Programa local para 4to, 5to y 6to grado que trabaja mentalidad de crecimiento, autocontrol y regulación emocional."},{"tema":"Tratamiento.","desarrollo":"• Características: Es un enfoque activo, breve, focal y de fácil reproducción. Se centra en corregir los modelos inadaptados de procesamiento de la información.\n• Descubrimiento Guiado: Es el alma del tratamiento. Se enseña al niño/paciente a observar su flujo de pensamiento, identificar emociones y situaciones problemáticas para someter sus creencias a verificación empírica."},{"tema":"Modelos de comprensión e intervención psicoeducativa.","desarrollo":"• Modelo de Capacidad-Eficiencia: El cambio ocurre por un aumento en los recursos disponibles (capacidad) debido a cambios plásticos, o por uso más optimizado mediante estrategias (eficiencia).\n• Marco SAFE: Para programas de Aprendizaje Socioemocional (SEL):\n  - Secuencial: Actividades ordenadas de menor a mayor complejidad.\n  - Activa: Requiere el involucramiento participativo del niño (role playing).\n  - Focalizada: Dedica tiempo suficiente a cada habilidad.\n  - Explícita: Posee objetivos claros y específicos comunicados al niño."},{"tema":"Evaluación diagnóstica.","desarrollo":"• Nivel de Desempeño de Base: Es crucial evaluar el nivel previo del paciente en el proceso a entrenar (pre-test).\n  - Hipótesis de compensación: Mayores beneficios para quienes tienen niveles bajos.\n  - Hipótesis de magnificación: Mayores beneficios para quienes tienen niveles altos.\n• Diseño Experimental: Se recomienda el uso de diseños con pre-test, post-test, aleatorización y grupo control activo.\n• Transferencia: La evaluación verifica si la mejora se traslada a otras tareas (cercana) o a habilidades distintas como la inteligencia fluida (lejana)."},{"tema":"Rol del terapeuta.","desarrollo":"• Empirismo Colaborativo: El terapeuta establece una alianza terapéutica donde él y el paciente colaboran como investigadores.\n• Guía e Instructor: Actúa como instructor que proporciona consignas explícitas (en intervenciones de estrategias) o guía la práctica repetida (en intervenciones de procesos).\n• Uso del Diálogo Socrático: El terapeuta utiliza preguntas sencillas y claras para que el paciente identifique sus pensamientos automáticos y desarrolle una capacidad crítica frente a sus propias convicciones."},{"tema":"Naturaleza de la metacognición - Conocimiento y Creencias.","desarrollo":"La metacognición es la capacidad de pensar sobre el propio pensamiento. Se divide en dos componentes:\n1. Conocimiento Metacognitivo y Creencias\nConocimiento declarativo y procedimental sobre cómo procesamos la información. Se categoriza en tres variables:\n• Variables de Persona: Lo que uno sabe sobre sí mismo y los demás como procesadores cognitivos. (Ejemplo: Sé que tengo mayor facilidad para las matemáticas que para la memorización.)\n• Variables de Tarea: Conocimiento sobre la naturaleza de las demandas de la tarea. (Ejemplo: Un examen de opciones múltiples demanda un procesamiento distinto al de desarrollo.)\n• Variables de Estrategia: Conocimiento sobre los medios más efectivos para lograr metas cognitivas. (Ejemplo: Para retener información visoespacial es útil trazar un mapa.)\nEl rol de las Creencias (Mindsets):\n• Mentalidad Fija (Fixed Mindset): Las capacidades cognitivas son estáticas e inmodificables.\n• Mentalidad de Crecimiento (Growth Mindset): Las capacidades pueden desarrollarse mediante esfuerzo, instrucción y práctica sistemática."},{"tema":"Experiencias.","desarrollo":"Las experiencias metacognitivas son de naturaleza consciente, afectiva y episódica. Son pensamientos, sensaciones o sentimientos que ocurren durante el procesamiento de información.\nActúan como mecanismos de alarma y monitoreo en tiempo real. Las manifestaciones más comunes incluyen:\n• Sentimiento de Saber (FOK — Feeling of Knowing): Sensación de conocer la respuesta aunque no se pueda evocar de inmediato.\n• Sentimiento de Dificultad o Fluidez: Percepción de que una tarea demanda esfuerzo excesivo o, por el contrario, que el procesamiento fluye automáticamente.\n• Juicios de Aprendizaje (JOL — Judgments of Learning): Estimaciones sobre la probabilidad de recordar la información en el futuro.\nInteractividad entre componentes:\nEl conocimiento metacognitivo orienta la acción → genera una experiencia en tiempo real → activa estrategias de regulación (FE) → modifica el conocimiento metacognitivo posterior. Este bucle es la base de la autorregulación cognitiva."},{"tema":"Modelo metacognitivo del trastorno psicológico.","desarrollo":"El Modelo S-REF (Wells y Matthews) propone que en los trastornos psicológicos el problema no es qué piensa la persona, sino cómo responde a sus propios pensamientos.\n1. El Síndrome Cognitivo Atencional (CAS)\nPatrón rígido y disfuncional de procesamiento que se activa ante pensamientos intrusos. Compuesto por:\n• Preocupación y rumiación extensas.\n• Fijación de la atención en la amenaza (hipervigilancia).\n• Estrategias de afrontamiento ineficaces (evitación, supresión).\n2. La Arquitectura Cognitiva (S-REF)\nTres niveles de procesamiento:\n• Procesamiento Automático de Bajo Nivel.\n• Procesamiento Supervisor Central (S-REF): Donde se ejecuta el CAS.\n• Almacén de Conocimiento (Memoria a Largo Plazo): Contiene las creencias metacognitivas.\n3. El Rol de las Creencias Metacognitivas\n• Positivas: Justifican la utilidad del CAS. (Ejemplo: Preocuparme me ayuda a estar preparado.)\n• Negativas de Incontrolabilidad: La persona cree que no puede detener sus pensamientos.\n• Negativas de Peligro/Importancia: Los pensamientos pueden causar daño real.\n4. El Bucle Patológico\nEl CAS consume recursos de la memoria de trabajo, bloquea la flexibilidad cognitiva e impide que el sistema procese información disconfirmatoria, cronificando el trastorno."},{"tema":"El Síndrome Cognitivo Atencional (SCA): características, creencias y consecuencias.","desarrollo":"El SCA (CAS) es el constructo central del Modelo S-REF. Se define como un patrón rígido y perseverante de procesamiento cognitivo que se activa como respuesta a pensamientos intrusos o sensaciones desagradables.\n1. Características Principales\n• Rumiación: Procesamiento repetitivo sobre el pasado (¿Por qué me pasa esto?).\n• Preocupación: Anticipación de amenazas futuras (¿Y si pasa lo peor?).\n• Hipervigilancia: Escaneo obsesivo del entorno y señales internas.\n• Conductas de Seguridad: Supresión de pensamientos, evitación, reaseguramiento.\n2. Creencias que Activan y Sostienen el SCA\n• Creencias Metacognitivas Positivas: Justifican el CAS como útil. (Preocuparme me prepara.)\n• Creencias Metacognitivas Negativas:\n  - Incontrolabilidad: Mis pensamientos no pueden detenerse.\n  - Peligro/Significado: Tener este pensamiento significa que soy una mala persona.\n3. Consecuencias del SCA\n• Sobrecarga de la Memoria de Trabajo: Fatiga mental, dificultades de concentración.\n• Pérdida de Flexibilidad Cognitiva: El foco queda atrapado en la amenaza.\n• Bloqueo del Aprendizaje: El sistema nunca procesa información disconfirmatoria, cronificando el trastorno."},{"tema":"Modelo A-B-C reformulado.","desarrollo":"El Modelo A-B-C original de Ellis (lineal) fue reformulado por la psicología metacognitiva para reflejar los procesos de regulación y control atencional.\n1. La Reconceptualización de los Componentes\n• A (Estímulo Gatillo): Ya no solo un evento externo; puede ser una intrusión mental interna (pensamiento, imagen, sensación).\n• B (Procesamiento Metacognitivo): Se divide en dos subniveles:\n  1. Creencias Metacognitivas (El Plan): Conocimiento estable sobre la propia mente.\n  2. El Síndrome Cognitivo Atencional / SCA (La Acción): La rumiación, hipervigilancia y conductas ineficaces que se ejecutan.\n• C (Consecuencias): No causadas por el pensamiento A en sí, sino por la duración y rigidez del SCA en B.\n2. Dinámica del Modelo\nYa no existe una vía lineal de A hacia C. El malestar se cronifica porque B (a través del SCA) se retroalimenta a sí mismo, impidiendo que el estímulo A se desvanezca.\n3. Cuadro Comparativo\n| Dimensión | Modelo Clásico | Modelo Reformulado |\n| Naturaleza de A | Evento externo | Evento interno (intrusión) |\n| Foco en B | Contenido del pensamiento | Proceso cognitivo (SCA) |\n| Causa de C | Pensar de forma distorsionada | Mantener la atención rígidamente fija |\n| Pregunta Clínica | ¿Qué evidencia hay para este pensamiento? | ¿Qué pasa si dejás el pensamiento existir sin prestarle atención? |\n4. Implicación Práctica\nBajo el modelo reformulado, la intervención se dirige exclusivamente a B: identificar la creencia metacognitiva, desarmar el SCA y permitir que A permanezca como evento transitorio."}]};
+
+const ACCENTS = [
+  { name: 'IX',  color: '#7c9cf5', bg: 'rgba(124,156,245,0.08)', border: 'rgba(124,156,245,0.2)' },
+  { name: 'X',   color: '#f5a97c', bg: 'rgba(245,169,124,0.08)', border: 'rgba(245,169,124,0.2)' },
+  { name: 'XI',  color: '#9bf5a0', bg: 'rgba(155,245,160,0.08)', border: 'rgba(155,245,160,0.2)' },
+  { name: 'XII', color: '#f5d97c', bg: 'rgba(245,217,124,0.08)', border: 'rgba(245,217,124,0.2)' },
+  { name: 'XIII',color: '#d97cf5', bg: 'rgba(217,124,245,0.08)', border: 'rgba(217,124,245,0.2)' },
+  { name: 'XIV', color: '#f57c9b', bg: 'rgba(245,124,155,0.08)', border: 'rgba(245,124,155,0.2)' },
+];
+
+function formatDesarrollo(text) {
+  const lines = text.split('\n');
+  let html = '';
+  lines.forEach(line => {
+    const l = line.trim();
+    if (!l) return;
+    if (l.match(/^\d+\.\s+[A-ZÁÉÍÓÚ]/)) {
+      html += `<div class="section-title">${esc(l)}</div>`;
+    } else if (l.startsWith('• ') || l.startsWith('- ')) {
+      html += `<div class="bullet">${esc(l.slice(2))}</div>`;
+    } else {
+      html += `<p>${esc(l)}</p>`;
+    }
+  });
+  return html;
+}
+
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function highlight(text, q) {
+  if (!q) return text;
+  const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+let openCards = new Set();
+
+function buildUI(query) {
+  const container = document.getElementById('units-container');
+  const sidebar = document.getElementById('sidebar');
+  const noRes = document.getElementById('no-results');
+  container.innerHTML = '';
+  sidebar.innerHTML = '';
+  const q = (query || '').trim().toLowerCase();
+
+  let totalVisible = 0;
+  const units = Object.keys(DATA);
+
+  units.forEach((unitName, ui) => {
+    const accent = ACCENTS[ui];
+    const temas = DATA[unitName];
+    const label = unitName.replace('Tema ', '');
+
+    // filter
+    const visibleTemas = temas.filter(t => {
+      if (!q) return true;
+      return t.tema.toLowerCase().includes(q) || t.desarrollo.toLowerCase().includes(q);
+    });
+    if (visibleTemas.length === 0) return;
+    totalVisible += visibleTemas.length;
+
+    // -- Sidebar nav --
+    const navUnit = document.createElement('div');
+    navUnit.className = 'nav-unit';
+    const navBtn = document.createElement('button');
+    navBtn.className = 'nav-unit-btn';
+    navBtn.style.setProperty('--accent', accent.color);
+    navBtn.innerHTML = `<span class="dot" style="background:${accent.color}"></span>${esc(label)}<span class="count">${visibleTemas.length}</span>`;
+    const navSub = document.createElement('div');
+    navSub.className = 'nav-sub';
+    navBtn.addEventListener('click', () => {
+      navSub.classList.toggle('open');
+      navBtn.classList.toggle('active');
+      const el = document.getElementById('unit-' + ui);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    visibleTemas.forEach((t, ti) => {
+      const si = document.createElement('div');
+      si.className = 'nav-sub-item';
+      si.textContent = t.tema.length > 55 ? t.tema.slice(0, 52) + '…' : t.tema;
+      si.addEventListener('click', () => {
+        const card = document.getElementById(`card-${ui}-${ti}`);
+        if (card) { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); card.click && card.querySelector('.tema-header').click(); }
+      });
+      navSub.appendChild(si);
+    });
+    navUnit.appendChild(navBtn);
+    navUnit.appendChild(navSub);
+    sidebar.appendChild(navUnit);
+
+    // -- Content section --
+    const section = document.createElement('section');
+    section.className = 'unit-section';
+    section.id = 'unit-' + ui;
+
+    const header = document.createElement('div');
+    header.className = 'unit-header';
+
+    const pillSpan = document.createElement('span');
+    pillSpan.className = 'unit-pill';
+    pillSpan.style.cssText = `color:${accent.color};background:${accent.bg};border-color:${accent.border}`;
+    pillSpan.textContent = 'Tema ' + accent.name;
+
+    const titleSpan = document.createElement('h2');
+    titleSpan.className = 'unit-title';
+    const shortName = unitName.replace(/^Tema (IX|X|XI|XII|XIII|XIV):\s*/, '');
+    titleSpan.textContent = shortName;
+
+    const countSpan = document.createElement('span');
+    countSpan.className = 'unit-count';
+    countSpan.textContent = visibleTemas.length + ' temas';
+
+    header.appendChild(pillSpan);
+    header.appendChild(titleSpan);
+    header.appendChild(countSpan);
+    section.appendChild(header);
+
+    const grid = document.createElement('div');
+    grid.className = 'temas-grid';
+
+    visibleTemas.forEach((t, ti) => {
+      const card = document.createElement('div');
+      card.className = 'tema-card';
+      card.id = `card-${ui}-${ti}`;
+      card.style.setProperty('--accent', accent.color);
+
+      const th = document.createElement('div');
+      th.className = 'tema-header';
+
+      const num = document.createElement('span');
+      num.className = 'tema-num';
+      num.textContent = String(ti + 1).padStart(2, '0');
+      num.style.color = accent.color;
+
+      const ttl = document.createElement('div');
+      ttl.className = 'tema-title';
+      const temaText = q ? highlight(esc(t.tema), q) : esc(t.tema);
+      ttl.innerHTML = temaText;
+
+      const chev = document.createElement('div');
+      chev.className = 'tema-chevron';
+      chev.innerHTML = `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>`;
+
+      th.appendChild(num);
+      th.appendChild(ttl);
+      th.appendChild(chev);
+
+      const body = document.createElement('div');
+      body.className = 'tema-body';
+      const devText = q ? highlight(formatDesarrollo(t.desarrollo), q) : formatDesarrollo(t.desarrollo);
+      body.innerHTML = devText;
+
+      const cardKey = `${ui}-${ti}`;
+      if (openCards.has(cardKey) || (q && t.desarrollo.toLowerCase().includes(q))) {
+        card.classList.add('open');
+      }
+
+      th.addEventListener('click', () => {
+        const isOpen = card.classList.toggle('open');
+        if (isOpen) openCards.add(cardKey);
+        else openCards.delete(cardKey);
+      });
+
+      card.appendChild(th);
+      card.appendChild(body);
+      grid.appendChild(card);
+    });
+
+    section.appendChild(grid);
+    container.appendChild(section);
+  });
+
+  noRes.style.display = totalVisible === 0 ? 'block' : 'none';
+  const counter = document.getElementById('counter');
+  counter.textContent = q ? `${totalVisible} resultado${totalVisible !== 1 ? 's' : ''}` : '';
+}
+
+buildUI('');
+
+let debounce;
+document.getElementById('search').addEventListener('input', e => {
+  clearTimeout(debounce);
+  debounce = setTimeout(() => { openCards.clear(); buildUI(e.target.value); }, 250);
+});
+</script>
+</body>
+</html>

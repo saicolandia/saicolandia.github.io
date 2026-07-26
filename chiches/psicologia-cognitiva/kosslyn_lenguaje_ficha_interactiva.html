@@ -1,0 +1,477 @@
+
+<style>
+  :root {
+    --purple-50: #EEEDFE; --purple-100: #CECBF6; --purple-200: #AFA9EC;
+    --purple-400: #7F77DD; --purple-600: #534AB7; --purple-800: #3C3489; --purple-900: #26215C;
+    --teal-50: #E1F5EE; --teal-100: #9FE1CB; --teal-200: #5DCAA5;
+    --teal-400: #1D9E75; --teal-600: #0F6E56; --teal-800: #085041;
+    --amber-50: #FAEEDA; --amber-100: #FAC775; --amber-400: #BA7517; --amber-800: #633806;
+    --coral-50: #FAECE7; --coral-100: #F5C4B3; --coral-400: #D85A30; --coral-800: #4A1B0C;
+    --blue-50: #E6F1FB; --blue-100: #B5D4F4; --blue-400: #378ADD; --blue-800: #0C447C;
+    --green-50: #EAF3DE; --green-100: #C0DD97; --green-400: #639922; --green-800: #173404;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans, system-ui); color: var(--color-text-primary); }
+
+  .app { max-width: 720px; margin: 0 auto; padding: 1.5rem 1rem; }
+
+  .hero { text-align: center; padding: 2rem 1rem 1.5rem; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 2rem; }
+  .hero-badge { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; background: var(--purple-50); color: var(--purple-800); border-radius: 20px; padding: 4px 14px; margin-bottom: 1rem; }
+  .hero h1 { font-size: 22px; font-weight: 500; margin-bottom: 0.4rem; }
+  .hero p { font-size: 14px; color: var(--color-text-secondary); }
+
+  .tabs { display: flex; gap: 4px; background: var(--color-background-secondary); padding: 4px; border-radius: var(--border-radius-md); margin-bottom: 2rem; }
+  .tab { flex: 1; padding: 8px 12px; border: none; background: transparent; cursor: pointer; font-size: 13px; font-weight: 400; color: var(--color-text-secondary); border-radius: 6px; transition: all 0.15s; text-align: center; }
+  .tab.active { background: var(--color-background-primary); color: var(--color-text-primary); font-weight: 500; border: 0.5px solid var(--color-border-tertiary); }
+  .tab:hover:not(.active) { color: var(--color-text-primary); }
+
+  .section { display: none; }
+  .section.visible { display: block; }
+
+  .concept-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+  .concept-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.5rem; }
+  .concept-title { font-size: 16px; font-weight: 500; margin-bottom: 0.5rem; }
+  .concept-body { font-size: 14px; color: var(--color-text-secondary); line-height: 1.7; }
+  .concept-body b { color: var(--color-text-primary); font-weight: 500; }
+
+  .tag { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; margin: 2px; }
+  .tag-purple { background: var(--purple-50); color: var(--purple-800); }
+  .tag-teal { background: var(--teal-50); color: var(--teal-800); }
+  .tag-amber { background: var(--amber-50); color: var(--amber-800); }
+  .tag-coral { background: var(--coral-50); color: var(--coral-800); }
+  .tag-blue { background: var(--blue-50); color: var(--blue-800); }
+
+  .niveles-grid { display: grid; grid-template-columns: 1fr; gap: 0; margin-bottom: 1.5rem; }
+  .nivel-row { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 0.5px solid var(--color-border-tertiary); margin-top: -0.5px; }
+  .nivel-row:first-child { border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0; }
+  .nivel-row:last-child { border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg); }
+  .nivel-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; }
+  .nivel-content { flex: 1; }
+  .nivel-name { font-size: 14px; font-weight: 500; }
+  .nivel-desc { font-size: 13px; color: var(--color-text-secondary); margin-top: 2px; }
+  .nivel-example { font-size: 12px; font-style: italic; color: var(--color-text-secondary); }
+
+  .divider { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-secondary); padding: 1.5rem 0 0.75rem; border-top: 0.5px solid var(--color-border-tertiary); margin-top: 1.5rem; }
+
+  .quiz-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+  .quiz-progress-wrap { flex: 1; }
+  .quiz-progress-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 6px; }
+  .quiz-progress-bar { height: 4px; background: var(--color-background-secondary); border-radius: 2px; overflow: hidden; }
+  .quiz-progress-fill { height: 100%; background: var(--purple-400); border-radius: 2px; transition: width 0.3s; }
+  .quiz-score-badge { font-size: 13px; font-weight: 500; background: var(--purple-50); color: var(--purple-800); padding: 4px 12px; border-radius: 20px; margin-left: 12px; white-space: nowrap; }
+
+  .quiz-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.5rem; margin-bottom: 1rem; }
+  .quiz-type { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; color: var(--color-text-secondary); margin-bottom: 0.75rem; }
+  .quiz-question { font-size: 15px; font-weight: 500; line-height: 1.5; margin-bottom: 1.25rem; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt { width: 100%; text-align: left; padding: 12px 14px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-primary); cursor: pointer; font-size: 14px; color: var(--color-text-primary); transition: all 0.15s; display: flex; align-items: center; gap: 10px; }
+  .quiz-opt:hover:not(:disabled) { background: var(--color-background-secondary); }
+  .quiz-opt .opt-letter { width: 22px; height: 22px; border-radius: 50%; border: 0.5px solid var(--color-border-secondary); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; flex-shrink: 0; color: var(--color-text-secondary); }
+  .quiz-opt.correct { background: var(--green-50); border-color: var(--green-400); color: var(--green-800); }
+  .quiz-opt.correct .opt-letter { background: var(--green-400); border-color: var(--green-400); color: white; }
+  .quiz-opt.wrong { background: var(--coral-50); border-color: var(--coral-400); color: var(--coral-800); }
+  .quiz-opt.wrong .opt-letter { background: var(--coral-400); border-color: var(--coral-400); color: white; }
+  .quiz-opt.missed { border: 1.5px solid var(--green-400); }
+  .quiz-opt:disabled { cursor: default; }
+
+  .quiz-feedback { margin-top: 12px; padding: 10px 14px; border-radius: var(--border-radius-md); font-size: 13px; line-height: 1.6; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct-fb { background: var(--green-50); color: var(--green-800); }
+  .quiz-feedback.wrong-fb { background: var(--coral-50); color: var(--coral-800); }
+
+  .quiz-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 1.5rem; }
+  .btn { padding: 8px 18px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); font-size: 13px; font-weight: 500; cursor: pointer; color: var(--color-text-primary); }
+  .btn:hover { background: var(--color-background-secondary); }
+  .btn-primary { background: var(--purple-600); border-color: var(--purple-600); color: white; }
+  .btn-primary:hover { background: var(--purple-800); }
+  .btn:disabled { opacity: 0.4; cursor: default; }
+
+  .result-screen { text-align: center; padding: 2rem; }
+  .result-icon { font-size: 48px; margin-bottom: 1rem; }
+  .result-title { font-size: 22px; font-weight: 500; margin-bottom: 0.5rem; }
+  .result-sub { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 2rem; }
+  .result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 2rem; }
+  .result-metric { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem; }
+  .result-metric-val { font-size: 24px; font-weight: 500; }
+  .result-metric-lbl { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+
+  .glosario-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .glos-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 1rem; }
+  .glos-term { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+  .glos-def { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+  @media (max-width: 480px) { .glosario-grid { grid-template-columns: 1fr; } .result-grid { grid-template-columns: 1fr 1fr; } }
+</style>
+
+<div class="app">
+  <div class="hero">
+    <div class="hero-badge">Psicolingüística · Kosslyn & Rosenberg</div>
+    <h1>Capítulo 12 · Lenguaje</h1>
+    <p>Ficha de estudio interactiva · Procesos cognitivos: modelos y bases neurales</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showSection('contenido', this)">Contenido</button>
+    <button class="tab" onclick="showSection('quiz', this)">Evaluación</button>
+    <button class="tab" onclick="showSection('glosario', this)">Glosario</button>
+  </div>
+
+  <div id="contenido" class="section visible">
+
+    <div class="divider" style="border-top:none; padding-top:0; margin-top:0;">1 · Niveles de representación</div>
+    <div class="niveles-grid">
+      <div class="nivel-row">
+        <div class="nivel-num" style="background:var(--purple-100);color:var(--purple-800);">1</div>
+        <div class="nivel-content">
+          <div class="nivel-name">Discurso</div>
+          <div class="nivel-desc">Significado global de frases conectadas, proposiciones, relaciones agente-acción.</div>
+          <div class="nivel-example">Ej: quemar(chef, fideos)</div>
+        </div>
+      </div>
+      <div class="nivel-row">
+        <div class="nivel-num" style="background:var(--teal-100);color:var(--teal-800);">2</div>
+        <div class="nivel-content">
+          <div class="nivel-name">Sintaxis</div>
+          <div class="nivel-desc">Relaciones entre tipos de palabras; árbol de estructura de la frase.</div>
+          <div class="nivel-example">Ej: Sujeto–Verbo–Objeto directo</div>
+        </div>
+      </div>
+      <div class="nivel-row">
+        <div class="nivel-num" style="background:var(--amber-100);color:var(--amber-800);">3</div>
+        <div class="nivel-content">
+          <div class="nivel-name">Palabras y morfemas</div>
+          <div class="nivel-desc">Unidades mínimas de significado. Morfemas libres y ligados, de contenido y funcionales.</div>
+          <div class="nivel-example">Ej: quem- + -ado; fideo + -s</div>
+        </div>
+      </div>
+      <div class="nivel-row">
+        <div class="nivel-num" style="background:var(--coral-100);color:var(--coral-800);">4</div>
+        <div class="nivel-content">
+          <div class="nivel-name">Fonemas</div>
+          <div class="nivel-desc">Unidades mínimas de sonido distinguibles. Base de la percepción del habla.</div>
+          <div class="nivel-example">Ej: [g], [a], [t], [o] → gato</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">Propiedades del lenguaje humano</div>
+    <div class="concept-card">
+      <div class="concept-label" style="color:var(--purple-600);">Características únicas (Hockett)</div>
+      <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:0.5rem;">
+        <span class="tag tag-purple">Dualidad de patrón</span>
+        <span class="tag tag-purple">Arbitrariedad</span>
+        <span class="tag tag-purple">Capacidad generativa</span>
+        <span class="tag tag-purple">Recursividad</span>
+      </div>
+      <div class="concept-body" style="margin-top:0.75rem;">
+        <b>Dualidad de patrón:</b> unidades con significado (morfemas) formadas por unidades sin significado (fonemas) que se recombinan. <b>Capacidad generativa:</b> combinación potencialmente infinita de morfemas, palabras y frases. <b>Recursividad:</b> inclusión de fragmentos de frase dentro de otros — base del rechazo chomskiano al conductismo.
+      </div>
+    </div>
+
+    <div class="divider">2 · Comprensión del lenguaje</div>
+    <div class="concept-card">
+      <div class="concept-label" style="color:var(--teal-600);">Modelo triangular del léxico</div>
+      <div class="concept-body">
+        Tres vértices interconectados: <b>Significado</b> (parte superior) ↔ <b>Sonido / Fonología</b> (inferior derecho) ↔ <b>Ortografía</b> (inferior izquierdo). La percepción del habla va de sonido → significado; la lectura puede ir por ruta directa (ortografía → significado) o fonológica (ortografía → fonología → significado).
+      </div>
+    </div>
+    <div class="concept-card">
+      <div class="concept-label" style="color:var(--teal-600);">Ambigüedad y resolución</div>
+      <div class="concept-body">
+        Ocurre en todos los niveles: delimitación de palabras, pronunciación, significado léxico, estructura oracional. Se resuelve mediante integración <b>abajo-arriba</b> (señal física) y <b>arriba-abajo</b> (contexto y memoria a largo plazo). Se activan múltiples significados en paralelo (cohorte); el contexto los filtra en ~200 ms.
+      </div>
+    </div>
+    <div class="concept-card">
+      <div class="concept-label" style="color:var(--teal-600);">Percepción del habla</div>
+      <div class="concept-body">
+        No hay pausas entre palabras en la señal hablada. El sistema supone fronteras usando conocimiento fonotáctico. <b>Efecto de restauración del fonema</b> (Warren): un fonema sustituido por una tos es percibido como presente. <b>Efecto McGurk</b>: conflicto audio-visual produce percepción intermedia. <b>Modelo de cohorte</b> (Marslen-Wilson): se activan candidatas y se van eliminando; la densidad por vecindad afecta la velocidad de reconocimiento.
+      </div>
+    </div>
+
+    <div class="divider">Afasias: evidencia neurológica</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:1.5rem;">
+      <div class="concept-card" style="margin-bottom:0;">
+        <div class="concept-label" style="color:var(--amber-400);">Afasia de Broca (no fluida)</div>
+        <div class="concept-body">Lesión en hemisferio izquierdo (área frontal). Dificultad con <b>sintaxis</b> y <b>morfemas funcionales</b>. Habla entrecortada, omite palabras función. Ej: "niño... galleta... cae..."</div>
+      </div>
+      <div class="concept-card" style="margin-bottom:0;">
+        <div class="concept-label" style="color:var(--coral-400);">Afasia de Wernicke (fluida)</div>
+        <div class="concept-body">Lesión en lóbulo temporal. Dificultad con <b>morfemas de contenido</b>. Habla gramaticalmente correcta pero sin sentido semántico.</div>
+      </div>
+    </div>
+
+    <div class="divider">3 · Producción del lenguaje</div>
+    <div class="concept-card">
+      <div class="concept-label" style="color:var(--blue-400);">Etapas (Garrett / Levelt)</div>
+      <div class="concept-body">
+        <b>1. Mensaje</b> (no lingüístico) → <b>2. Codificación gramatical</b>: selección de palabras + estructura sintáctica; las palabras más accesibles se sitúan primero → <b>3. Codificación fonológica</b>: recuperación de pronunciación → <b>4. Articulación</b>. Los errores de intercambio de palabras (spoonerismos) evidencian la planificación paralela en múltiples niveles.
+      </div>
+    </div>
+    <div class="concept-card">
+      <div class="concept-label" style="color:var(--blue-400);">Estado "en la punta de la lengua" (PDL)</div>
+      <div class="concept-body">
+        Disociación entre acceso semántico (disponible) y recuperación fonológica (bloqueada). Evidencia de que elección de palabra y codificación fonológica son procesos separados. Ocurre más en bilingües y para palabras de baja frecuencia.
+      </div>
+    </div>
+
+    <div class="divider">4 · Lenguaje, pensamiento y bilingüismo</div>
+    <div class="concept-card">
+      <div class="concept-label" style="color:var(--purple-600);">Hipótesis de Sapir-Whorf</div>
+      <div class="concept-body">
+        El lenguaje que se habla perfila el pensamiento. La posición fuerte (Whorf) es debatida; la evidencia actual apoya una posición <b>moderada</b>: el lenguaje influye principalmente en pensamientos basados en él, no en procesos perceptivos tempranos.
+      </div>
+    </div>
+    <div class="concept-card">
+      <div class="concept-label" style="color:var(--purple-600);">Bilingüismo</div>
+      <div class="concept-body">
+        Los bilingües adquieren vocabulario más lentamente en cada idioma (aunque el total es comparable). Mayor frecuencia de estados PDL. Mayor control ejecutivo (inhiben constantemente un idioma). El período crítico para fonología parece existir; para sintaxis el factor más predictivo es la cantidad de práctica.
+      </div>
+    </div>
+
+  </div>
+
+  <div id="quiz" class="section">
+    <div id="quiz-active">
+      <div class="quiz-header">
+        <div class="quiz-progress-wrap">
+          <div class="quiz-progress-label" id="q-progress-label">Pregunta 1 de 12</div>
+          <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="q-progress-fill" style="width:8%"></div></div>
+        </div>
+        <div class="quiz-score-badge" id="q-score-badge">0 / 0</div>
+      </div>
+      <div class="quiz-card">
+        <div class="quiz-type" id="q-type">Opción múltiple</div>
+        <div class="quiz-question" id="q-question"></div>
+        <div class="quiz-options" id="q-options"></div>
+        <div class="quiz-feedback" id="q-feedback"></div>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn" id="btn-prev" onclick="prevQ()" disabled>← Anterior</button>
+        <button class="btn btn-primary" id="btn-next" onclick="nextQ()" disabled>Siguiente →</button>
+      </div>
+    </div>
+    <div id="quiz-result" style="display:none;">
+      <div class="result-screen">
+        <div class="result-icon" id="r-icon">🎉</div>
+        <div class="result-title" id="r-title">¡Muy bien!</div>
+        <div class="result-sub" id="r-sub"></div>
+        <div class="result-grid">
+          <div class="result-metric"><div class="result-metric-val" id="r-correct">0</div><div class="result-metric-lbl">Correctas</div></div>
+          <div class="result-metric"><div class="result-metric-val" id="r-wrong">0</div><div class="result-metric-lbl">Incorrectas</div></div>
+          <div class="result-metric"><div class="result-metric-val" id="r-pct">0%</div><div class="result-metric-lbl">Puntaje</div></div>
+        </div>
+        <button class="btn btn-primary" onclick="restartQuiz()">Volver a intentar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="glosario" class="section">
+    <div class="glosario-grid" id="glosario-grid"></div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    type: "Opción múltiple",
+    q: "¿Cuál es la unidad mínima significativa en el lenguaje?",
+    opts: ["Fonema", "Morfema", "Sílaba", "Proposición"],
+    correct: 1,
+    feedback: "El morfema es la unidad mínima con significado. El fonema es la unidad mínima de sonido distinguible, pero por sí solo no tiene significado."
+  },
+  {
+    type: "Opción múltiple",
+    q: "¿Qué nombre recibe la hipótesis de que la señal hablada activa múltiples candidatas a palabra, que luego se van eliminando?",
+    opts: ["Modelo triangular", "Efecto McGurk", "Modelo de cohorte", "Efecto de densidad por vecindad"],
+    correct: 2,
+    feedback: "El modelo de cohorte (Marslen-Wilson) propone que se activan simultáneamente varias palabras posibles (cohorte) y se van eliminando según avanza la señal sonora."
+  },
+  {
+    type: "Definición → Término",
+    q: "La capacidad del lenguaje humano de incluir fragmentos de frases dentro de otros fragmentos, generando oraciones potencialmente infinitas, se denomina:",
+    opts: ["Arbitrariedad", "Recursividad", "Dualidad de patrón", "Coarticulación"],
+    correct: 1,
+    feedback: "La recursividad (o recurrencia) permite que el lenguaje genere una variedad infinita de frases. Chomsky la usó para refutar el modelo conductista de Skinner."
+  },
+  {
+    type: "Opción múltiple",
+    q: "Un paciente describe un dibujo diciendo 'niño... galleta... cae...' omitiendo artículos y morfemas funcionales. ¿Qué tipo de afasia presenta?",
+    opts: ["Afasia de Wernicke", "Anomia", "Afasia de Broca", "Alexia"],
+    correct: 2,
+    feedback: "La afasia de Broca (no fluida) se caracteriza por habla entrecortada con pérdida de morfemas funcionales, aunque el vocabulario de contenido se conserva."
+  },
+  {
+    type: "Definición → Término",
+    q: "Cuando escuchamos una frase en la que un fonema fue reemplazado por una tos, pero lo percibimos completo, estamos ante:",
+    opts: ["Efecto McGurk", "Coarticulación", "Efecto de restauración del fonema", "Densidad por vecindad"],
+    correct: 2,
+    feedback: "El efecto de restauración del fonema (Warren, 1970) demuestra el papel de la información arriba-abajo en la percepción del habla: el contexto 'completa' el fonema ausente."
+  },
+  {
+    type: "Opción múltiple",
+    q: "En el modelo triangular del léxico, ¿cuáles son los tres vértices?",
+    opts: ["Fonema, morfema, sintaxis", "Significado, sonido y ortografía", "Discurso, sintaxis y fonema", "Léxico, semántica y pragmática"],
+    correct: 1,
+    feedback: "El modelo triangular (Seidenberg y McClelland) conecta Significado (parte superior) con Sonido/Fonología y Ortografía (vértices inferiores). Las tres representaciones se interconectan."
+  },
+  {
+    type: "Opción múltiple",
+    q: "¿Qué evidencia apoya la existencia de un período crítico para el lenguaje según el capítulo?",
+    opts: ["Los bilingües tienen más vocabulario total", "Los bebés de 6 meses perciben fonemas de idiomas no oídos, pero pierden esa capacidad a los 10 meses", "La sintaxis solo se puede aprender antes de los 5 años", "El acento extranjero no se puede eliminar a ninguna edad"],
+    correct: 1,
+    feedback: "Werker y Tees (1984) mostraron que a los 6 meses los bebés perciben fonemas de cualquier lengua, pero a los 10 meses ya solo perciben bien los de su lengua nativa, sugiriendo un período crítico fonológico."
+  },
+  {
+    type: "Definición → Término",
+    q: "La superposición de fonemas en el habla, en la que los articuladores se preparan para el sonido siguiente mientras producen el actual, se llama:",
+    opts: ["Cohorte", "Coarticulación", "Recursividad", "Sponerismo"],
+    correct: 1,
+    feedback: "La coarticulación explica por qué el mismo fonema suena diferente según el contexto (por ejemplo, la [ll] en 'llave' vs. 'yugo'), ya que los labios ya anticipan la vocal siguiente."
+  },
+  {
+    type: "Opción múltiple",
+    q: "En la producción del lenguaje, ¿cuál es el efecto de la 'accesibilidad léxica' en la estructura sintáctica de la oración?",
+    opts: ["Las palabras más largas siempre van al final", "Las palabras más accesibles tienden a colocarse al inicio de la frase, determinando la estructura activa o pasiva", "La sintaxis se elige antes de seleccionar las palabras", "No hay relación entre accesibilidad y sintaxis"],
+    correct: 1,
+    feedback: "Bock (1982) demostró con tareas de priming que la palabra más accesible tiende a ocupar la posición inicial, lo que determina si la frase será activa o pasiva."
+  },
+  {
+    type: "Opción múltiple",
+    q: "¿Qué distingue al lenguaje humano del sistema de comunicación de los chimpancés según Seidenberg y Petitto (1987)?",
+    opts: ["Los chimpancés no pueden usar gestos", "Los chimpancés pueden aprender fonemas", "Los chimpancés asocian símbolos con recompensas, pero no los interpretan como nombres de cosas", "Los chimpancés carecen de memoria a largo plazo"],
+    correct: 2,
+    feedback: "Seidenberg y Petitto argumentaron que los chimpancés usan símbolos instrumentalmente (para obtener algo), sin comprender que el símbolo 'nombra' el objeto específicamente."
+  },
+  {
+    type: "Definición → Término",
+    q: "La dificultad específica para recuperar la representación fonológica de palabras conocidas, sabiendo bien su significado, se denomina:",
+    opts: ["Afasia de Wernicke", "Anomia", "Alexia", "Dislexia"],
+    correct: 1,
+    feedback: "La anomia (del griego 'sin nombre') es la dificultad para nombrar cosas a pesar de conocer su significado. Es una disociación clara entre representación semántica y fonológica."
+  },
+  {
+    type: "Opción múltiple",
+    q: "Según los estudios de lectura, ¿qué sistema cerebral predomina en lectores expertos para relacionar directamente la ortografía con el significado?",
+    opts: ["Sistema temporoparietal izquierdo", "Área de Broca", "Sistema occipitotemporal", "Corteza motora primaria"],
+    correct: 2,
+    feedback: "El sistema occipitotemporal se desarrolla con la experiencia lectora y permite la ruta directa ortografía→significado. El sistema temporoparietal predomina en el aprendizaje inicial (ruta fonológica)."
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = new Array(questions.length).fill(null);
+let chosen = new Array(questions.length).fill(null);
+
+function renderQ() {
+  const q = questions[current];
+  const letters = ['A','B','C','D'];
+  document.getElementById('q-type').textContent = q.type;
+  document.getElementById('q-question').textContent = q.q;
+  document.getElementById('q-progress-label').textContent = `Pregunta ${current+1} de ${questions.length}`;
+  document.getElementById('q-progress-fill').style.width = `${((current+1)/questions.length)*100}%`;
+  document.getElementById('q-score-badge').textContent = `${score} / ${answered.filter(a=>a===true).length+answered.filter(a=>a===false).length}`;
+
+  const opts = document.getElementById('q-options');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    if(answered[current] !== null) {
+      btn.disabled = true;
+      if(i === q.correct) btn.classList.add('correct');
+      else if(i === chosen[current] && chosen[current] !== q.correct) btn.classList.add('wrong');
+    }
+    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span>${opt}`;
+    btn.onclick = () => selectAnswer(i);
+    opts.appendChild(btn);
+  });
+
+  const fb = document.getElementById('q-feedback');
+  if(answered[current] !== null) {
+    fb.textContent = q.feedback;
+    fb.className = 'quiz-feedback show ' + (answered[current] ? 'correct-fb' : 'wrong-fb');
+  } else {
+    fb.className = 'quiz-feedback';
+  }
+
+  document.getElementById('btn-prev').disabled = current === 0;
+  document.getElementById('btn-next').disabled = answered[current] === null;
+  document.getElementById('btn-next').textContent = current === questions.length-1 ? 'Ver resultados' : 'Siguiente →';
+}
+
+function selectAnswer(i) {
+  if(answered[current] !== null) return;
+  const q = questions[current];
+  chosen[current] = i;
+  answered[current] = (i === q.correct);
+  if(answered[current]) score++;
+  renderQ();
+}
+
+function nextQ() {
+  if(current < questions.length-1) { current++; renderQ(); }
+  else showResult();
+}
+
+function prevQ() {
+  if(current > 0) { current--; renderQ(); }
+}
+
+function showResult() {
+  document.getElementById('quiz-active').style.display = 'none';
+  document.getElementById('quiz-result').style.display = 'block';
+  const wrong = answered.filter(a=>a===false).length;
+  const pct = Math.round((score/questions.length)*100);
+  document.getElementById('r-correct').textContent = score;
+  document.getElementById('r-wrong').textContent = wrong;
+  document.getElementById('r-pct').textContent = pct+'%';
+  if(pct >= 80) { document.getElementById('r-icon').textContent='🎉'; document.getElementById('r-title').textContent='¡Excelente dominio!'; }
+  else if(pct >= 60) { document.getElementById('r-icon').textContent='👍'; document.getElementById('r-title').textContent='Buen progreso'; }
+  else { document.getElementById('r-icon').textContent='📚'; document.getElementById('r-title').textContent='Seguí estudiando'; }
+  document.getElementById('r-sub').textContent = `Respondiste correctamente ${score} de ${questions.length} preguntas.`;
+}
+
+function restartQuiz() {
+  current=0; score=0; answered=new Array(questions.length).fill(null); chosen=new Array(questions.length).fill(null);
+  document.getElementById('quiz-active').style.display='block';
+  document.getElementById('quiz-result').style.display='none';
+  renderQ();
+}
+
+const glosario = [
+  { term: "Psicolingüística", def: "Disciplina que estudia la comprensión, producción y adquisición del lenguaje." },
+  { term: "Morfema", def: "Unidad mínima significativa del lenguaje. Puede ser libre (chef) o ligado (-ado)." },
+  { term: "Fonema", def: "Unidad mínima de sonido distinguible que da lugar a morfemas." },
+  { term: "Léxico mental", def: "Conjunto de representaciones mentales de las palabras en red (significado, sonido, ortografía)." },
+  { term: "Coarticulación", def: "Superposición de fonemas: los articuladores anticipan el sonido siguiente." },
+  { term: "Modelo de cohorte", def: "Se activan múltiples candidatas a palabra y se eliminan hasta quedar una sola." },
+  { term: "Densidad por vecindad", def: "Número de palabras con sonido similar. Mayor densidad → reconocimiento más lento." },
+  { term: "Afasia de Broca", def: "Alteración de sintaxis y morfemas funcionales. Habla no fluida." },
+  { term: "Afasia de Wernicke", def: "Alteración de morfemas de contenido. Habla fluida pero sin sentido." },
+  { term: "Recursividad", def: "Inclusión de frases dentro de otras frases, generando oraciones infinitas." },
+  { term: "Anomia", def: "Dificultad para recuperar la forma fonológica de palabras cuyo significado se conoce." },
+  { term: "Accesibilidad léxica", def: "Facilidad con que una palabra puede recuperarse y disponerse para la producción." },
+  { term: "Efecto McGurk", def: "Percepción de un sonido intermedio cuando la información visual y auditiva del habla conflictan." },
+  { term: "Estado PDL", def: "'En la punta de la lengua': acceso semántico disponible pero recuperación fonológica bloqueada." }
+];
+
+function buildGlosario() {
+  const g = document.getElementById('glosario-grid');
+  glosario.forEach(item => {
+    const d = document.createElement('div');
+    d.className = 'glos-card';
+    d.innerHTML = `<div class="glos-term">${item.term}</div><div class="glos-def">${item.def}</div>`;
+    g.appendChild(d);
+  });
+}
+
+function showSection(id, tabEl) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('visible');
+  tabEl.classList.add('active');
+}
+
+renderQ();
+buildGlosario();
+</script>

@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capas del lenguaje · de fonema a discurso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0E0B12;
+    --bg-soft: #15111A;
+    --panel: #1A1620;
+    --panel-edge: #2A2433;
+    --bone: #F7F3EC;
+    --bone-dim: #B8AFC2;
+    --coral: #FF6B4A;
+    --mint: #5FD9C9;
+    --lav: #C9A4FF;
+    --display: 'Fraunces', serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+    --maxw: 760px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--bone);
+    font-family: var(--body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection{ background: var(--coral); color: var(--bg); }
+
+  a{ color: var(--mint); }
+
+  /* ---------- ambient backdrop ---------- */
+  .grain{
+    position: fixed; inset: 0; pointer-events: none; z-index: 1;
+    opacity: .035; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .skip-link{
+    position:absolute; left:-9999px; top:0;
+  }
+  .skip-link:focus{
+    left: 1rem; top: 1rem; z-index: 999;
+    background: var(--coral); color: var(--bg); padding: .5rem 1rem; border-radius: 6px;
+  }
+
+  :focus-visible{
+    outline: 2px solid var(--mint);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 6rem 1.5rem 4rem;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .hero-wave{
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: .55;
+  }
+
+  .hero-content{
+    position: relative; z-index: 2;
+    max-width: 680px;
+  }
+
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: .72rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--mint);
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: 1.4rem;
+  }
+  .eyebrow::before{
+    content:'';
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--mint);
+    box-shadow: 0 0 0 0 rgba(95,217,201,.6);
+    animation: pulse 2.4s infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow: 0 0 0 0 rgba(95,217,201,.55);}
+    70%{ box-shadow: 0 0 0 8px rgba(95,217,201,0);}
+    100%{ box-shadow: 0 0 0 0 rgba(95,217,201,0);}
+  }
+
+  .hero h1{
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(2.4rem, 7vw, 4.6rem);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    margin: 0 0 1.1rem;
+  }
+  .hero h1 em{
+    font-style: italic;
+    font-weight: 380;
+    color: var(--coral);
+  }
+
+  .hero p.lede{
+    font-size: clamp(1.02rem, 2vw, 1.2rem);
+    color: var(--bone-dim);
+    max-width: 540px;
+    margin: 0 auto 2.4rem;
+  }
+
+  .hero-words{
+    display:flex; flex-wrap: wrap; gap: .55rem; justify-content:center;
+    font-family: var(--mono);
+    font-size: .82rem;
+    color: var(--bone-dim);
+    margin-bottom: 2.6rem;
+  }
+  .hero-words span{
+    padding: .3rem .65rem;
+    border: 1px solid var(--panel-edge);
+    border-radius: 999px;
+    background: rgba(255,255,255,.02);
+    opacity: 0;
+    transform: translateY(6px);
+    animation: rise .6s ease forwards;
+  }
+  @keyframes rise{ to{ opacity: 1; transform: translateY(0); } }
+
+  .scroll-cue{
+    display:flex; flex-direction:column; align-items:center; gap:.5rem;
+    color: var(--bone-dim);
+    font-family: var(--mono);
+    font-size: .7rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .scroll-cue svg{ animation: bob 2s ease-in-out infinite; }
+  @keyframes bob{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(6px); } }
+
+  /* ---------- LEVEL LEGEND (signature control explainer) ---------- */
+  .legend{
+    max-width: var(--maxw);
+    margin: 0 auto 1.5rem;
+    padding: 0 1.5rem;
+  }
+  .legend-card{
+    background: var(--panel);
+    border: 1px solid var(--panel-edge);
+    border-radius: 16px;
+    padding: 1.3rem 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .legend-card .icon{
+    font-family: var(--mono);
+    font-size: .75rem;
+    color: var(--mint);
+    flex-shrink:0;
+  }
+  .legend-card p{
+    margin:0;
+    font-size: .92rem;
+    color: var(--bone-dim);
+  }
+  .legend-card strong{ color: var(--bone); font-weight: 600; }
+
+  /* ---------- MAIN SECTION LIST ---------- */
+  main{
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 2rem 1.5rem 6rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .topic{
+    position: relative;
+    border: 1px solid var(--panel-edge);
+    background: var(--panel);
+    border-radius: 18px;
+    margin-bottom: 1.1rem;
+    overflow: hidden;
+    transition: border-color .3s ease, box-shadow .3s ease;
+  }
+  .topic[data-level="0"]{ box-shadow: none; }
+  .topic.active{
+    border-color: color-mix(in srgb, var(--accent) 55%, var(--panel-edge));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent), 0 20px 50px -25px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  .topic-head{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.15rem 1.3rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    color: var(--bone);
+    font-family: inherit;
+  }
+
+  .num{
+    font-family: var(--mono);
+    font-size: .72rem;
+    color: var(--bg);
+    background: var(--accent);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink: 0;
+    font-weight: 600;
+  }
+
+  .topic-head h2{
+    font-family: var(--display);
+    font-weight: 560;
+    font-size: clamp(1.05rem, 2.4vw, 1.32rem);
+    margin: 0;
+    flex: 1;
+    line-height: 1.28;
+  }
+
+  .level-dots{
+    display:flex; gap: 5px; flex-shrink:0;
+    font-family: var(--mono);
+  }
+  .level-dots span{
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--panel-edge);
+    transition: background .25s ease, transform .25s ease;
+  }
+  .level-dots span.on{
+    background: var(--accent);
+    transform: scale(1.15);
+  }
+
+  .chevron{
+    color: var(--bone-dim);
+    transition: transform .35s ease;
+    flex-shrink:0;
+  }
+  .topic.active .chevron{ transform: rotate(90deg); color: var(--accent); }
+
+  .topic-body{
+    padding: 0 1.3rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .45s cubic-bezier(.2,.8,.2,1);
+  }
+  .topic.active .topic-body{
+    padding-bottom: 1.3rem;
+  }
+
+  .level-stage{
+    border-left: 2px solid var(--accent);
+    padding-left: 1rem;
+    margin-left: 2px;
+  }
+
+  .level-tag{
+    display:inline-flex;
+    align-items:center;
+    gap: .4rem;
+    font-family: var(--mono);
+    font-size: .68rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: .65rem;
+  }
+
+  .level-text{ display:none; }
+  .level-text.shown{ display:block; animation: fadein .35s ease; }
+  @keyframes fadein{ from{ opacity:0; transform: translateY(3px);} to{ opacity:1; transform:translateY(0);} }
+
+  .l1{
+    font-family: var(--display);
+    font-size: clamp(1.15rem, 2.6vw, 1.45rem);
+    font-weight: 500;
+    font-style: italic;
+    color: var(--bone);
+  }
+  .l2{
+    font-size: 1.02rem;
+    color: var(--bone);
+  }
+  .l3{
+    font-size: .97rem;
+    color: var(--bone-dim);
+  }
+  .l3 strong{ color: var(--bone); font-weight: 600; }
+  .l3 .term{ color: var(--accent); font-weight: 600; font-style: normal; }
+  .l3 ul{ margin: .6rem 0 .2rem; padding-left: 1.1rem; }
+  .l3 li{ margin-bottom: .45rem; }
+
+  .next-hint{
+    margin-top: .9rem;
+    font-family: var(--mono);
+    font-size: .68rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+    cursor: pointer;
+    display:inline-flex;
+    align-items:center;
+    gap: .4rem;
+    padding: .35rem .7rem;
+    border: 1px dashed var(--panel-edge);
+    border-radius: 999px;
+    background: transparent;
+    transition: border-color .2s ease, color .2s ease;
+  }
+  .next-hint:hover{ border-color: var(--accent); color: var(--accent); }
+
+  /* level color per topic via data attr */
+  .topic[data-accent="coral"]{ --accent: var(--coral); }
+  .topic[data-accent="mint"]{ --accent: var(--mint); }
+  .topic[data-accent="lav"]{ --accent: var(--lav); }
+
+  /* ---------- closing ---------- */
+  .closing{
+    text-align:center;
+    padding: 3rem 1.5rem 5rem;
+    border-top: 1px solid var(--panel-edge);
+    margin-top: 2rem;
+  }
+  .closing h3{
+    font-family: var(--display);
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 500;
+    margin-bottom: .8rem;
+  }
+  .closing p{ color: var(--bone-dim); max-width: 480px; margin: 0 auto; }
+  .closing .lavword{ color: var(--lav); font-style: italic; }
+
+  footer{
+    text-align:center;
+    padding: 1.5rem;
+    font-family: var(--mono);
+    font-size: .7rem;
+    color: var(--panel-edge);
+  }
+
+  @media (max-width: 480px){
+    .topic-head{ padding: 1rem; gap: .7rem; }
+    .legend-card{ padding: 1.1rem; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Saltar al contenido</a>
+<div class="grain" aria-hidden="true"></div>
+
+<section class="hero">
+  <svg class="hero-wave" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="waveGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#FF6B4A" stop-opacity="0.55"/>
+        <stop offset="50%" stop-color="#5FD9C9" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#C9A4FF" stop-opacity="0.5"/>
+      </linearGradient>
+    </defs>
+    <g id="bars"></g>
+  </svg>
+
+  <div class="hero-content">
+    <span class="eyebrow">Psicolingüística · mapa interactivo</span>
+    <h1>Del <em>fonema</em><br>al pensamiento.</h1>
+    <p class="lede">Diez preguntas sobre cómo el cerebro construye, ambigua y recompone el lenguaje — desde el sonido mínimo hasta el discurso completo. Tocá cada tarjeta para profundizar, capa por capa.</p>
+    <div class="hero-words" id="heroWords" aria-hidden="true"></div>
+    <div class="scroll-cue">
+      <span>desplazate</span>
+      <svg width="16" height="20" viewBox="0 0 16 20" fill="none"><path d="M8 1v17M2 12l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+</section>
+
+<div class="legend">
+  <div class="legend-card">
+    <span class="icon">①→③</span>
+    <p><strong>Cómo usar esto:</strong> cada tema empieza como una sola palabra clave. Hacé clic para pasar a una oración, y de nuevo para llegar al párrafo completo — igual que el lenguaje mismo se construye en capas, de fonema a discurso.</p>
+  </div>
+</div>
+
+<main id="main-content">
+
+  <!-- 1 -->
+  <article class="topic" data-accent="coral" data-level="0">
+    <button class="topic-head" aria-expanded="false">
+      <span class="num">1</span>
+      <h2>Niveles de representación del lenguaje</h2>
+      <span class="level-dots"><span></span><span></span><span></span></span>
+      <svg class="chevron" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l6 6-6 6" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="topic-body">
+      <div class="level-stage">
+        <p class="level-text l1 shown" data-l="1"><span class="level-tag">· palabra</span>Jerarquía.</p>
+        <p class="level-text l2" data-l="2"><span class="level-tag">·· oración</span>El lenguaje se organiza en niveles que van del sonido al significado global: fonemas, morfemas, sintaxis y discurso.</p>
+        <div class="level-text l3" data-l="3">
+          <span class="level-tag">··· párrafo</span>
+          El conocimiento lingüístico se organiza jerárquicamente en niveles de abstracción crecientes. Los <span class="term">fonemas</span> son las unidades mínimas de sonido que distinguen significados. Se combinan en <span class="term">morfemas y palabras</span> (con contenido semántico o función estructural). La <span class="term">sintaxis</span> especifica relaciones entre tipos de palabras mediante una estructura jerárquica. Y el <span class="term">discurso</span> —el nivel más alto— representa el significado global de varias frases conectadas con el contexto y la memoria a largo plazo, organizado en proposiciones sobre quién hace qué a quién. Los niveles están interconectados: el orden sintáctico determina el "agente" del discurso, y un fallo en la percepción de fonemas puede arrastrar errores hasta la comprensión global. Esta arquitectura se conecta con la representación del conocimiento en la mente porque las proposiciones traducen el lenguaje en unidades abstractas que el sistema cognitivo almacena y vincula con experiencias previas.
+        </div>
+      </div>
+      <button class="next-hint" data-action="advance">seguir profundizando →</button>
+    </div>
+  </article>
+
+  <!-- 2 -->
+  <article class="topic" data-accent="mint" data-level="0">
+    <button class="topic-head" aria-expanded="false">
+      <span class="num">2</span>
+      <h2>Lenguaje humano vs. comunicación animal</h2>
+      <span class="level-dots"><span></span><span></span><span></span></span>
+      <svg class="chevron" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l6 6-6 6" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="topic-body">
+      <div class="level-stage">
+        <p class="level-text l1 shown" data-l="1"><span class="level-tag">· palabra</span>Saltos discontinuos.</p>
+        <p class="level-text l2" data-l="2"><span class="level-tag">·· oración</span>El lenguaje humano se distingue por su dualidad de patrón, arbitrariedad, capacidad generativa y recurrencia.</p>
+        <div class="level-text l3" data-l="3">
+          <span class="level-tag">··· párrafo</span>
+          El lenguaje humano presenta "saltos discontinuos" frente a la comunicación animal. La <span class="term">dualidad de patrón</span> permite que unidades sin significado (fonemas) se recombinen en infinitos morfemas con significado. La <span class="term">arbitrariedad</span> implica que no hay relación intrínseca entre el sonido de una palabra y lo que designa —nada en "gato" se parece a un gato—. La <span class="term">capacidad generativa</span> deja recombinar un conjunto finito de elementos en un número potencialmente infinito de pensamientos y frases nuevas. Y la <span class="term">recurrencia</span> —anidar frases dentro de frases— permite expresiones indefinidamente largas, una propiedad que no se ha observado en ningún sistema de comunicación animal conocido.
+        </div>
+      </div>
+      <button class="next-hint" data-action="advance">seguir profundizando →</button>
+    </div>
+  </article>
+
+  <!-- 3 -->
+  <article class="topic" data-accent="lav" data-level="0">
+    <button class="topic-head" aria-expanded="false">
+      <span class="num">3</span>
+      <h2>El modelo triangular del léxico</h2>
+      <span class="level-dots"><span></span><span></span><span></span></span>
+      <svg class="chevron" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l6 6-6 6" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="topic-body">
+      <div class="level-stage">
+        <p class="level-text l1 shown" data-l="1"><span class="level-tag">· palabra</span>Triángulo.</p>
+        <p class="level-text l2" data-l="2"><span class="level-tag">·· oración</span>El léxico vincula tres vértices: significado, ortografía y fonología.</p>
+        <div class="level-text l3" data-l="3">
+          <span class="level-tag">··· párrafo</span>
+          El modelo postula que el conocimiento de las palabras se organiza en una red con tres componentes: el <span class="term">significado</span> (representaciones abstractas ligadas al pensamiento), la <span class="term">ortografía</span> (la forma visual escrita) y la <span class="term">fonología</span> (la forma sonora). Las rutas entre vértices no son únicas: la percepción del habla conecta sonido con significado directamente, mientras que la lectura puede ir de la ortografía al significado de forma directa, o pasar primero por la fonología (pronunciar mentalmente la palabra antes de entenderla).
+        </div>
+      </div>
+      <button class="next-hint" data-action="advance">seguir profundizando →</button>
+    </div>
+  </article>
+
+  <!-- 4 -->
+  <article class="topic" data-accent="coral" data-level="0">
+    <button class="topic-head" aria-expanded="false">
+      <span class="num">4</span>
+      <h2>Ambigüedad y cómo el cerebro la resuelve</h2>
+      <span class="level-dots"><span></span><span></span><span></span></span>
+      <svg class="chevron" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l6 6-6 6" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="topic-body">
+      <div class="level-stage">
+        <p class="level-text l1 shown" data-l="1"><span class="level-tag">· palabra</span>Desambiguación.</p>
+        <p class="level-text l2" data-l="2"><span class="level-tag">·· oración</span>El cerebro combina contexto (arriba-abajo) con señal sensorial (abajo-arriba) para elegir entre interpretaciones posibles.</p>
+        <div class="level-text l3" data-l="3">
+          <span class="level-tag">··· párrafo</span>
+          <p>La ambigüedad aparece en todos los niveles —fonético, léxico y estructural— y el sistema cognitivo la resuelve integrando información <span class="term">de abajo a arriba</span> (la señal sensorial directa) con información <span class="term">de arriba a abajo</span> (contexto, expectativas, memoria a largo plazo).</p>
+          <ul>
+            <li><strong>Modelo de cohorte:</strong> al escuchar habla, se activan a la vez todas las palabras posibles que coinciden con el sonido y se van eliminando candidatas según avanza el contexto.</li>
+            <li><strong>Efecto de restauración del fonema:</strong> el cerebro "rellena" sonidos perdidos o tapados por ruido usando el significado de las palabras alrededor.</li>
+            <li><strong>Inmediatez y reanálisis ("camino de jardín"):</strong> interpretamos cada palabra al instante; si la interpretación falla, el sistema reanaliza la oración al llegar a una región de precisión.</li>
+          </ul>
+        </div>
+      </div>
+      <button class="next-hint" data-action="advance">seguir profundizando →</button>
+    </div>
+  </article>
+
+  <!-- 5 -->
+  <article class="topic" data-accent="mint" data-level="0">
+    <button class="topic-head" aria-expanded="false">
+      <span class="num">5</span>
+      <h2>Neurolingüística: dónde vive el lenguaje</h2>
+      <span class="level-dots"><span></span><span></span><span></span></span>
+      <svg class="chevron" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l6 6-6 6" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="topic-body">
+      <div class="level-stage">
+        <p class="level-text l1 shown" data-l="1"><span class="level-tag">· palabra</span>Redes distribuidas.</p>
+        <p class="level-text l2" data-l="2"><span class="level-tag">·· oración</span>El conocimiento lingüístico no tiene una sola ubicación, sino que se reparte en redes cerebrales especializadas por tipo de información.</p>
+        <div class="level-text l3" data-l="3">
+          <span class="level-tag">··· párrafo</span>
+          <p>Los seres vivos se representan sobre todo por información perceptiva (forma, color) en áreas temporales, mientras que los objetos manufacturados se definen por su función y uso en áreas motoras. En la lectura, la <span class="term">ruta fonológica</span> usa el sistema temporoparietal y la <span class="term">ruta directa</span> (ortografía→significado) usa el sistema occipitotemporal. Cuando esta red falla, aparecen distintos cuadros:</p>
+          <ul>
+            <li><strong>Afasia de Broca</strong> (no fluida): dificultad sintáctica y con morfemas funcionales, lesión frontal izquierda.</li>
+            <li><strong>Afasia de Wernicke</strong> (fluida): habla sin sentido y dificultad para comprender morfemas de contenido, lesión temporal.</li>
+            <li><strong>Anomia:</strong> no se puede recuperar el sonido de una palabra aunque se conozca su significado.</li>
+            <li><strong>"Punta de la lengua":</strong> falla temporal de acceso a la pronunciación.</li>
+            <li><strong>Spoonerismos:</strong> intercambio de sonidos entre palabras cercanas.</li>
+          </ul>
+        </div>
+      </div>
+      <button class="next-hint" data-action="advance">seguir profundizando →</button>
+    </div>
+  </article>
+
+  <!-- 6 -->
+  <article class="topic" data-accent="lav" data-level="0">
+    <button class="topic-head" aria-expanded="false">
+      <span class="num">6</span>
+      <h2>Lenguaje figurativo y su función</h2>
+      <span class="level-dots"><span></span><span></span><span></span></span>
+      <svg class="chevron" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l6 6-6 6" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="topic-body">
+      <div class="level-stage">
+        <p class="level-text l1 shown" data-l="1"><span class="level-tag">· palabra</span>Metáfora.</p>
+        <p class="level-text l2" data-l="2"><span class="level-tag">·· oración</span>El uso figurativo dice una cosa para significar otra, y nos permite describir emociones y abstracciones que no existen físicamente.</p>
+        <div class="level-text l3" data-l="3">
+          <span class="level-tag">··· párrafo</span>
+          <p>El lenguaje figurativo usa deliberadamente una palabra para significar otra, vía metáforas o similitudes, lo que permite describir emociones y conceptos abstractos sin correspondencia física directa en el mundo. En la comunicación oral, el hemisferio derecho cumple un rol clave al interpretar la entonación —sarcasmo, ironía— para distinguir lo literal de lo figurado.</p>
+          <ul>
+            <li>Tratar el tiempo como dinero: <em>"perder el tiempo", "ahorrar tiempo", "invertir tiempo"</em>.</li>
+            <li>Metáforas de situación: <em>"el registro era como un zoo"</em>, para evocar caos.</li>
+            <li>Verbos no literales: <em>"nuestra amiga pescó un menú de su mochila"</em>, sugiriendo hurgar y buscar.</li>
+          </ul>
+        </div>
+      </div>
+      <button class="next-hint" data-action="advance">seguir profundizando →</button>
+    </div>
+  </article>
+
+  <!-- 7 -->
+  <article class="topic" data-accent="coral" data-level="0">
+    <button class="topic-head" aria-expanded="false">
+      <span class="num">7</span>
+      <h2>Comprensión lectora y comunicación escrita</h2>
+      <span class="level-dots"><span></span><span></span><span></span></span>
+      <svg class="chevron" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l6 6-6 6" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="topic-body">
+      <div class="level-stage">
+        <p class="level-text l1 shown" data-l="1"><span class="level-tag">· palabra</span>Dos rutas.</p>
+        <p class="level-text l2" data-l="2"><span class="level-tag">·· oración</span>Leer traduce la forma visual de las palabras en significado, ya sea pasando por el sonido o yendo directo.</p>
+        <div class="level-text l3" data-l="3">
+          <span class="level-tag">··· párrafo</span>
+          <p>La comprensión lectora traduce información visual (ortografía) en significado mediante dos rutas: la <span class="term">fonológica</span> (ortografía→sonido→significado, predominante al aprender a leer o con palabras poco frecuentes) y la <span class="term">directa</span> (ortografía→significado, sin pasar por la pronunciación, más rápida y propia de palabras frecuentes). La escritura tiene particularidades frente al habla: presenta espacios físicos claros entre palabras, es permanente —se puede releer—, implica movimientos motores oculares (sacádicos y fijaciones), y solo la fóvea ve con nitidez, por lo que el cerebro usa información de arriba-abajo para anticipar qué sigue en la periferia visual.</p>
+        </div>
+      </div>
+      <button class="next-hint" data-action="advance">seguir profundizando →</button>
+    </div>
+  </article>
+
+  <!-- 8 -->
+  <article class="topic" data-accent="mint" data-level="0">
+    <button class="topic-head" aria-expanded="false">
+      <span class="num">8</span>
+      <h2>Fases de la producción del lenguaje</h2>
+      <span class="level-dots"><span></span><span></span><span></span></span>
+      <svg class="chevron" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l6 6-6 6" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="topic-body">
+      <div class="level-stage">
+        <p class="level-text l1 shown" data-l="1"><span class="level-tag">· palabra</span>Mensaje → sonido.</p>
+        <p class="level-text l2" data-l="2"><span class="level-tag">·· oración</span>Pensar algo, elegir palabras y armar la sintaxis, recuperar su sonido y, finalmente, articular.</p>
+        <div class="level-text l3" data-l="3">
+          <span class="level-tag">··· párrafo</span>
+          <p>Según el modelo de Garrett y Levelt, producir lenguaje convierte un pensamiento no lingüístico en una expresión oral o escrita en cuatro fases:</p>
+          <ul>
+            <li><strong>Nivel del mensaje:</strong> se formula la intención de forma no lingüística (ej. el deseo de recuperar un objeto).</li>
+            <li><strong>Codificación gramatical:</strong> selección léxica y estructura sintáctica; las palabras más accesibles tienden a ir primero en la frase.</li>
+            <li><strong>Codificación fonológica:</strong> se recupera la pronunciación de las palabras elegidas.</li>
+            <li><strong>Articulación:</strong> ejecución motora —hablar, gesticular, escribir.</li>
+          </ul>
+          <p>Estos niveles interactúan: la similitud de sonidos puede provocar errores de orden gramatical, como en los spoonerismos.</p>
+        </div>
+      </div>
+      <button class="next-hint" data-action="advance">seguir profundizando →</button>
+    </div>
+  </article>
+
+  <!-- 9 -->
+  <article class="topic" data-accent="lav" data-level="0">
+    <button class="topic-head" aria-expanded="false">
+      <span class="num">9</span>
+      <h2>Hipótesis de Sapir-Whorf</h2>
+      <span class="level-dots"><span></span><span></span><span></span></span>
+      <svg class="chevron" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l6 6-6 6" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="topic-body">
+      <div class="level-stage">
+        <p class="level-text l1 shown" data-l="1"><span class="level-tag">· palabra</span>Relatividad lingüística.</p>
+        <p class="level-text l2" data-l="2"><span class="level-tag">·· oración</span>El idioma que hablamos perfila —no necesariamente determina— cómo percibimos el mundo.</p>
+        <div class="level-text l3" data-l="3">
+          <span class="level-tag">··· párrafo</span>
+          <p>La hipótesis postula que el lenguaje que hablamos da forma a cómo percibimos y concebimos el mundo, en dos versiones: la <span class="term">determinista (estricta)</span>, donde el lenguaje determina totalmente el pensamiento, y la <span class="term">relativista (moderada)</span>, donde el lenguaje influye o perfila lo que pensamos sin determinarlo por completo. La evidencia actual apoya más bien la versión moderada: pensar es una colaboración entre procesos lingüísticos y no lingüísticos, y el idioma influye en dominios como la navegación espacial, la percepción de colores y el razonamiento sobre el tiempo.</p>
+        </div>
+      </div>
+      <button class="next-hint" data-action="advance">seguir profundizando →</button>
+    </div>
+  </article>
+
+  <!-- 10 -->
+  <article class="topic" data-accent="coral" data-level="0">
+    <button class="topic-head" aria-expanded="false">
+      <span class="num">10</span>
+      <h2>Bilingüismo: dos sistemas, una mente</h2>
+      <span class="level-dots"><span></span><span></span><span></span></span>
+      <svg class="chevron" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l6 6-6 6" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+    <div class="topic-body">
+      <div class="level-stage">
+        <p class="level-text l1 shown" data-l="1"><span class="level-tag">· palabra</span>Inhibición constante.</p>
+        <p class="level-text l2" data-l="2"><span class="level-tag">·· oración</span>Gestionar dos idiomas exige inhibir uno mientras se usa el otro, lo que entrena el control cognitivo general.</p>
+        <div class="level-text l3" data-l="3">
+          <span class="level-tag">··· párrafo</span>
+          <p>Las personas bilingües gestionan dos sistemas lingüísticos que interactúan entre sí. En el desarrollo inicial, los niños bilingües pueden mostrar vocabulario y sintaxis algo más lentos en cada idioma por separado —por la carga de aprender dos estructuras para la misma realidad—, aunque su vocabulario total suele igualar o superar al de monolingües. Hablar exige <span class="term">inhibir constantemente</span> el idioma que no se está usando, lo que con la práctica mejora la memoria de trabajo y el control ejecutivo en tareas no verbales. Como contrapartida, los adultos bilingües experimentan con más frecuencia el fenómeno de la "punta de la lengua", por tener la práctica repartida entre dos lenguas.</p>
+        </div>
+      </div>
+      <button class="next-hint" data-action="advance">seguir profundizando →</button>
+    </div>
+  </article>
+
+</main>
+
+<div class="closing">
+  <h3>Un mismo sistema, leído en distintas resoluciones.</h3>
+  <p>Cada tema acá es, en sí mismo, un ejemplo de lo que describe: una unidad mínima que se expande en estructura, y la estructura en <span class="lavword">significado</span>.</p>
+</div>
+
+<footer>capas del lenguaje — material de estudio interactivo</footer>
+
+<script>
+  // ---- hero waveform bars ----
+  (function(){
+    const g = document.getElementById('bars');
+    const n = 80;
+    const w = 1000, h = 600;
+    const barW = w / n;
+    let bars = [];
+    for(let i=0;i<n;i++){
+      const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      const baseH = 40 + Math.random()*180;
+      rect.setAttribute('x', i*barW + barW*0.18);
+      rect.setAttribute('width', barW*0.64);
+      rect.setAttribute('y', h/2 - baseH/2);
+      rect.setAttribute('height', baseH);
+      rect.setAttribute('rx', barW*0.3);
+      rect.setAttribute('fill', 'url(#waveGrad)');
+      g.appendChild(rect);
+      bars.push({el: rect, base: baseH, phase: Math.random()*Math.PI*2, speed: 0.6 + Math.random()*0.8});
+    }
+    let t = 0;
+    function animate(){
+      t += 0.02;
+      bars.forEach(b=>{
+        const mod = Math.sin(t*b.speed + b.phase);
+        const hgt = Math.max(14, b.base * (0.55 + 0.45*mod));
+        b.el.setAttribute('height', hgt);
+        b.el.setAttribute('y', h/2 - hgt/2);
+      });
+      requestAnimationFrame(animate);
+    }
+    if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      animate();
+    }
+  })();
+
+  // ---- hero floating word chips ----
+  (function(){
+    const words = ['fonema','morfema','sintaxis','discurso','léxico','prosodia','afasia','metáfora','cohorte','bilingüe'];
+    const wrap = document.getElementById('heroWords');
+    words.forEach((w,i)=>{
+      const span = document.createElement('span');
+      span.textContent = w;
+      span.style.animationDelay = (i*0.09)+'s';
+      wrap.appendChild(span);
+    });
+  })();
+
+  // ---- topic level interaction ----
+  document.querySelectorAll('.topic').forEach(topic=>{
+    const head = topic.querySelector('.topic-head');
+    const body = topic.querySelector('.topic-body');
+    const dots = topic.querySelectorAll('.level-dots span');
+    const levels = topic.querySelectorAll('.level-text');
+    const hint = topic.querySelector('.next-hint');
+
+    function setLevel(n){
+      topic.dataset.level = n;
+      levels.forEach(lv=>{
+        lv.classList.toggle('shown', Number(lv.dataset.l) === n);
+      });
+      dots.forEach((d,i)=>{
+        d.classList.toggle('on', i < n);
+      });
+      if(n >= 3){
+        hint.style.display = 'none';
+      } else {
+        hint.style.display = 'inline-flex';
+        hint.textContent = n === 0 ? 'seguir profundizando →' : (n===1 ? 'seguir profundizando →' : 'ver párrafo completo →');
+      }
+      // recompute max-height for smooth transition
+      requestAnimationFrame(()=>{
+        body.style.maxHeight = topic.classList.contains('active') ? body.scrollHeight + 'px' : '0px';
+      });
+    }
+
+    function openToLevel(n){
+      const wasActive = topic.classList.contains('active');
+      if(!wasActive){
+        topic.classList.add('active');
+        head.setAttribute('aria-expanded','true');
+      }
+      setLevel(n);
+    }
+
+    head.addEventListener('click', ()=>{
+      const isActive = topic.classList.contains('active');
+      if(!isActive){
+        openToLevel(1);
+      } else {
+        const current = Number(topic.dataset.level);
+        if(current >= 3){
+          // collapse back
+          topic.classList.remove('active');
+          head.setAttribute('aria-expanded','false');
+          body.style.maxHeight = '0px';
+          setTimeout(()=> setLevel(0), 50);
+        } else {
+          openToLevel(current + 1);
+        }
+      }
+    });
+
+    hint.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const current = Number(topic.dataset.level);
+      openToLevel(Math.min(3, current + 1));
+    });
+
+    // recalc on resize while open
+    window.addEventListener('resize', ()=>{
+      if(topic.classList.contains('active')){
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casos de Aula · Teorías del Aprendizaje</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --border: #E2DDD6;
+    --text: #1A1714;
+    --muted: #6B6560;
+    --accent1: #5C63D8; /* MASRL / metacognición */
+    --accent2: #D45D2C; /* dislexia / lectura */
+    --accent3: #2C9E6A; /* matemática */
+    --accent4: #B8390E; /* dificultades de aprendizaje */
+    --accent5: #7A3DBF; /* motivación */
+    --accent6: #1E7E9A; /* memoria */
+    --faq-bg: #F0EDE8;
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 2.5rem 2rem 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  header .label {
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: .6rem;
+  }
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.1;
+    color: var(--text);
+  }
+  header h1 em {
+    font-style: italic;
+    color: var(--accent1);
+  }
+  header p {
+    margin-top: .8rem;
+    color: var(--muted);
+    font-size: .92rem;
+    max-width: 560px;
+    line-height: 1.6;
+  }
+
+  /* ── TABS ── */
+  .tabs-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1rem 4rem;
+  }
+
+  .tab-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .45rem .9rem;
+    border-radius: 999px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .8rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all .18s;
+  }
+  .tab-btn .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .tab-btn:hover { border-color: currentColor; color: var(--text); }
+  .tab-btn.active {
+    color: var(--surface);
+    border-color: transparent;
+  }
+
+  /* per-tab accent colours */
+  .tab-btn[data-tab="0"] .dot { background: var(--accent1); }
+  .tab-btn[data-tab="1"] .dot { background: var(--accent2); }
+  .tab-btn[data-tab="2"] .dot { background: var(--accent3); }
+  .tab-btn[data-tab="3"] .dot { background: var(--accent4); }
+  .tab-btn[data-tab="4"] .dot { background: var(--accent5); }
+  .tab-btn[data-tab="5"] .dot { background: var(--accent6); }
+
+  .tab-btn[data-tab="0"].active { background: var(--accent1); }
+  .tab-btn[data-tab="1"].active { background: var(--accent2); }
+  .tab-btn[data-tab="2"].active { background: var(--accent3); }
+  .tab-btn[data-tab="3"].active { background: var(--accent4); }
+  .tab-btn[data-tab="4"].active { background: var(--accent5); }
+  .tab-btn[data-tab="5"].active { background: var(--accent6); }
+
+  /* ── PANEL ── */
+  .tab-panel { display: none; animation: fadeIn .22s ease; }
+  .tab-panel.active { display: block; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .panel-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1.5px solid var(--border);
+    overflow: hidden;
+  }
+
+  /* accent stripe on top */
+  .panel-card::before {
+    content: '';
+    display: block;
+    height: 4px;
+  }
+  .tab-panel[data-panel="0"] .panel-card::before { background: var(--accent1); }
+  .tab-panel[data-panel="1"] .panel-card::before { background: var(--accent2); }
+  .tab-panel[data-panel="2"] .panel-card::before { background: var(--accent3); }
+  .tab-panel[data-panel="3"] .panel-card::before { background: var(--accent4); }
+  .tab-panel[data-panel="4"] .panel-card::before { background: var(--accent5); }
+  .tab-panel[data-panel="5"] .panel-card::before { background: var(--accent6); }
+
+  /* VIGNETTE */
+  .vignette {
+    padding: 1.8rem 2rem 1.5rem;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .vignette-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+  }
+  .vignette-emoji {
+    font-size: 2.4rem;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: .1rem;
+  }
+  .vignette-meta .eyebrow {
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: .25rem;
+  }
+  .vignette-meta h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.35rem;
+    line-height: 1.2;
+  }
+  .vignette-body {
+    font-size: .93rem;
+    line-height: 1.75;
+    color: #302C28;
+  }
+  .vignette-body p + p { margin-top: .8rem; }
+
+  /* callout highlight inside vignette */
+  .highlight-box {
+    margin: 1.2rem 0 .4rem;
+    padding: .8rem 1rem;
+    border-radius: 8px;
+    font-size: .88rem;
+    line-height: 1.6;
+    border-left: 3px solid;
+  }
+  .tab-panel[data-panel="0"] .highlight-box { background: #EEF0FB; border-color: var(--accent1); color: #2A2E7A; }
+  .tab-panel[data-panel="1"] .highlight-box { background: #FBF0EC; border-color: var(--accent2); color: #7A2A0E; }
+  .tab-panel[data-panel="2"] .highlight-box { background: #EAF7F2; border-color: var(--accent3); color: #1A5C40; }
+  .tab-panel[data-panel="3"] .highlight-box { background: #FCEEE9; border-color: var(--accent4); color: #6E1C06; }
+  .tab-panel[data-panel="4"] .highlight-box { background: #F3EDF9; border-color: var(--accent5); color: #47196E; }
+  .tab-panel[data-panel="5"] .highlight-box { background: #E8F4F8; border-color: var(--accent6); color: #0D4A5C; }
+
+  /* FAQ */
+  .faq-section { padding: 1.5rem 2rem 2rem; }
+  .faq-section h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: var(--muted);
+    letter-spacing: .01em;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+  }
+  .faq-item:last-child { border-bottom: none; }
+
+  .faq-q {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .85rem 0;
+    background: none;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .88rem;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    color: var(--text);
+    gap: 1rem;
+  }
+  .faq-q .chevron {
+    flex-shrink: 0;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .7rem;
+    transition: transform .2s, background .2s;
+    background: var(--faq-bg);
+    color: var(--muted);
+  }
+  .faq-q.open .chevron { transform: rotate(180deg); }
+
+  .tab-panel[data-panel="0"] .faq-q.open .chevron { background: var(--accent1); color: #fff; }
+  .tab-panel[data-panel="1"] .faq-q.open .chevron { background: var(--accent2); color: #fff; }
+  .tab-panel[data-panel="2"] .faq-q.open .chevron { background: var(--accent3); color: #fff; }
+  .tab-panel[data-panel="3"] .faq-q.open .chevron { background: var(--accent4); color: #fff; }
+  .tab-panel[data-panel="4"] .faq-q.open .chevron { background: var(--accent5); color: #fff; }
+  .tab-panel[data-panel="5"] .faq-q.open .chevron { background: var(--accent6); color: #fff; }
+
+  .faq-a {
+    display: none;
+    padding: 0 0 1rem;
+    font-size: .86rem;
+    line-height: 1.75;
+    color: #4A4540;
+  }
+  .faq-a.open { display: block; }
+  .faq-a strong { color: var(--text); }
+
+  /* tag chips inside faq */
+  .tag {
+    display: inline-block;
+    font-size: .7rem;
+    font-weight: 600;
+    padding: .1rem .45rem;
+    border-radius: 4px;
+    margin-right: .25rem;
+    letter-spacing: .04em;
+    vertical-align: middle;
+  }
+  .tag-blue  { background: #E0E3FA; color: var(--accent1); }
+  .tag-red   { background: #FAE0D8; color: var(--accent2); }
+  .tag-green { background: #D6F2E7; color: var(--accent3); }
+  .tag-orange{ background: #FAE4DC; color: var(--accent4); }
+  .tag-purple{ background: #EDE0F7; color: var(--accent5); }
+  .tag-teal  { background: #D6EFF6; color: var(--accent6); }
+
+  @media (max-width: 600px) {
+    .vignette, .faq-section { padding-left: 1.2rem; padding-right: 1.2rem; }
+    .vignette-header { flex-direction: column; gap: .6rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="label">Teorías del Aprendizaje · UNMDP · 2do Parcial</div>
+  <h1>Casos de aula <em>en acción</em></h1>
+  <p>Viñetas ficticias de situaciones reales en el aula, con análisis teórico expandible abajo de cada una.</p>
+</header>
+
+<div class="tabs-wrapper">
+
+  <!-- NAV -->
+  <div class="tab-nav" role="tablist">
+    <button class="tab-btn active" data-tab="0" role="tab">
+      <span class="dot"></span> MASRL &amp; Metacognición
+    </button>
+    <button class="tab-btn" data-tab="1" role="tab">
+      <span class="dot"></span> Aprendizaje de la Lectura
+    </button>
+    <button class="tab-btn" data-tab="2" role="tab">
+      <span class="dot"></span> Matemática temprana
+    </button>
+    <button class="tab-btn" data-tab="3" role="tab">
+      <span class="dot"></span> Dificultades de aprendizaje
+    </button>
+    <button class="tab-btn" data-tab="4" role="tab">
+      <span class="dot"></span> Motivación &amp; Cambio conceptual
+    </button>
+    <button class="tab-btn" data-tab="5" role="tab">
+      <span class="dot"></span> Memoria &amp; Estrategias
+    </button>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       PANEL 0 · MASRL
+  ══════════════════════════════════════ -->
+  <div class="tab-panel active" data-panel="0">
+    <div class="panel-card">
+      <div class="vignette">
+        <div class="vignette-header">
+          <div class="vignette-emoji">🧠</div>
+          <div class="vignette-meta">
+            <div class="eyebrow">Viñeta · 7mo grado · Química</div>
+            <h2>Valentina y el sentimiento de dificultad</h2>
+          </div>
+        </div>
+        <div class="vignette-body">
+          <p>Valentina tiene 12 años y es, por lo general, una alumna muy segura de sí misma. Cuando la profesora de Ciencias Naturales entrega la guía de "mezclas y soluciones", Valentina la ojea rápido y piensa: <em>"Esto lo sé, es fácil."</em> Directamente empieza a responder sin releer los enunciados. A mitad de la guía, frente a una pregunta sobre concentración molar, algo se traba. Las palabras están ahí pero no encajan. Siente un malestar vago: quiere avanzar, pero cada vez que relee la pregunta, el enunciado parece más confuso.</p>
+          <p>La profesora pasa por su banco y le pregunta cómo va. Valentina dice "bien" casi por reflejo, aunque en su interior ya está calculando si vale la pena el esfuerzo de entender eso ahora o si puede dejar esa pregunta en blanco y compensar con el resto.</p>
+          <div class="highlight-box">
+            💬 <strong>El momento clave:</strong> Valentina pasa de procesamiento automático (Top-Down, guiado por su autoconcepto positivo) a una interrupción cognitiva real. El Sentimiento de Dificultad —una experiencia metacognitiva Bottom-Up— acaba de dispararse.
+          </div>
+          <p>Finalmente, Valentina decide releer la pregunta en voz baja, dibujar un pequeño esquema de lo que entiende y preguntar a una compañera. Termina comprendiendo el concepto y responde correctamente. Al final de clase, cuando la profesora corrige, Valentina siente una satisfacción puntual: "Ah, lo entendí al final." Esa pequeña sensación de confianza, repetida en varias clases, irá actualizando su autoconcepto en Ciencias.</p>
+        </div>
+      </div>
+
+      <div class="faq-section">
+        <h3>❓ Preguntas teóricas sobre la viñeta</h3>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué es el modelo MASRL y qué niveles están presentes acá?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            El <strong>modelo MASRL</strong> (Efklides, 2011) integra metacognición, motivación y afecto en el Aprendizaje Autorregulado. Tiene dos niveles: el <strong>Nivel Persona</strong> (rasgos estables: autoconcepto positivo de Valentina en ciencias, su motivación, su conocimiento metacognitivo) y el <strong>Nivel Tarea × Persona</strong> (eventos transitorios: la interacción concreta con la guía). En la viñeta, el autoconcepto estable ("soy buena en esto") guía la decisión <em>go</em> inicial; luego el nivel tarea genera experiencias metacognitivas que entran en conflicto con esa expectativa.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué es una Experiencia Metacognitiva (ME) y cuáles aparecen acá?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Las <strong>Experiencias Metacognitivas</strong> son señales subjetivas, generalmente afectivas, que informan sobre la fluidez del procesamiento cognitivo. En la viñeta aparecen tres:<br><br>
+            <span class="tag tag-blue">Prospectiva</span> Juicio de facilidad (EOL): "Esto lo sé, es fácil."<br>
+            <span class="tag tag-blue">Durante la tarea</span> Sentimiento de Dificultad: malestar al no poder procesar el enunciado de concentración molar.<br>
+            <span class="tag tag-blue">Retrospectiva</span> Sentimiento de Confianza + Satisfacción al corroborar su respuesta correcta.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Por qué Valentina dice "bien" aunque siente dificultad?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Esto ilustra la <strong>co-regulación mal calibrada</strong> que menciona Efklides: docentes y alumnos suelen "leerse mal". El afecto negativo del sentimiento de dificultad actúa como señal informativa interna, pero Valentina no la comunica porque su autoconcepto positivo y la presencia de la profesora generan una presión hacia mostrar competencia. El esfuerzo de autorregulación ocurre "en silencio" antes de activar ayuda externa.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué relación hay entre el Sentimiento de Dificultad y la motivación?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Según el MASRL, el esfuerzo requiere un <strong>análisis costo-beneficio</strong> mediado por la motivación. Valentina evalúa: ¿vale la pena invertir recursos en esta pregunta? Su decisión final (sí, releer y dibujar esquema) indica que el valor subjetivo de entender supera el costo del esfuerzo. Si hubiera tenido baja motivación o autoeficacia, posiblemente habría optado por dejar la pregunta en blanco —una respuesta de evitación.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Cómo la experiencia de esta clase afecta el Nivel Persona de Valentina?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            El modelo es <strong>recíproco</strong>: los eventos transitorios (Nivel Tarea × Persona) retroalimentan el Nivel Persona. La Sensación de Confianza repetida a lo largo del tiempo consolida el autoconcepto en Ciencias. Efklides llama a esto <strong>síntesis longitudinal</strong>: ME positivas acumuladas actualizan y solidifican representaciones estables del yo como aprendiz competente.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       PANEL 1 · LECTURA
+  ══════════════════════════════════════ -->
+  <div class="tab-panel" data-panel="1">
+    <div class="panel-card">
+      <div class="vignette">
+        <div class="vignette-header">
+          <div class="vignette-emoji">📖</div>
+          <div class="vignette-meta">
+            <div class="eyebrow">Viñeta · 1er grado · Lengua</div>
+            <h2>Tomás lee en voz alta (pero no comprende)</h2>
+          </div>
+        </div>
+        <div class="vignette-body">
+          <p>Es marzo y la maestra Lorena le pide a Tomás que lea en voz alta el primer párrafo del cuento. Tomás lee con fluidez impresionante: ritmo correcto, pausas en los puntos, buena entonación. La maestra lo felicita. Pero cuando le pregunta "¿qué pasó en ese párrafo?", Tomás la mira con cara de nada: "No sé, leí nomás."</p>
+          <p>Lorena, desconcertada, revisa su cuaderno de registro. El mes anterior, Tomás tardaba mucho en leer y cometía errores de sustitución (leía "bote" por "vote"). Ahora decodifica perfectamente. Sin embargo, cuando la maestra le pide que explique la historia, Tomás no puede establecer relaciones causales entre los personajes ni hacer inferencias simples.</p>
+          <div class="highlight-box">
+            💬 <strong>El momento clave:</strong> Tomás automatizó la decodificación (ruta subléxica → léxica), pero construye modelos de situación muy pobres. Decodificación ≠ comprensión.
+          </div>
+          <p>Lorena decide cambiar la estrategia: antes de leer, activan juntos conocimientos previos sobre el tema del cuento. Durante la lectura, detiene a Tomás cada dos oraciones y le pregunta qué imagina. Al final, Tomás puede narrar la historia con sus palabras. La maestra anota en su registro: "Tomás necesita andamiaje en activación de conocimientos previos e inferencias. Decodificación: OK."</p>
+        </div>
+      </div>
+
+      <div class="faq-section">
+        <h3>❓ Preguntas teóricas sobre la viñeta</h3>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Por qué decodificar bien no garantiza comprensión?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Abusamra et al. (2014) distinguen explícitamente ambos procesos: la <strong>decodificación</strong> depende de procesos automáticos (reconocimiento de palabras) mientras que la <strong>comprensión</strong> implica construir una representación mental coherente, generar inferencias e integrar información con conocimientos previos. Un alumno puede leer fluido y sin errores pero construir un modelo de situación vacío. La "comprensión de textos" exige procesos de alto nivel que no se activan automáticamente.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué son los modelos de situación y por qué Tomás no los construye?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Van Dijk y Kintsch distinguen tres niveles de representación: estructura superficial (palabras exactas), texto base proposicional (significado general) y <strong>modelo de situación</strong> (representación construida inferencialmente integrando texto + conocimiento del mundo). Tomás accede al nivel superficial y parcialmente al base, pero no construye el modelo de situación porque no activa conocimientos previos relevantes ni genera inferencias. El sistema cognitivo procesa la forma sonora de las palabras sin anclarlas a significados integrados.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué cambió cuando Lorena activó conocimientos previos antes de leer?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Bransford y Johnson señalan tres requisitos para comprender: poseer conocimientos sobre el tema, <strong>activarlos</strong> y activarlos <em>en el momento apropiado</em>. El problema de Tomás no era carecer de conocimientos, sino no activarlos durante la lectura. Al activarlos antes, la nueva información del texto pudo integrarse a esquemas existentes, facilitando inferencias y la construcción de un modelo de situación rico. Esto es lo que hace posible la <strong>comprensión genuina</strong>.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿En qué etapa de aprendizaje lector está Tomás según Abusamra (2022)?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Tomás parece haber llegado a la <strong>etapa ortográfica</strong>: reconoce palabras completas con una sola fijación, sin necesidad de decodificación letra por letra. Ya no usa la ruta subléxica (conversión grafema→fonema) sino la ruta léxica directa. Eso explica su fluidez y sus correcciones del mes anterior. Pero la etapa ortográfica automatiza el <em>acceso al léxico</em>, no la comprensión del discurso —ese proceso requiere desarrollo separado.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué dice la metacognición de los buenos y malos comprendedores?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Abusamra et al. retoman a Brown: los malos comprendedores suelen centrarse en <strong>decodificar</strong> en vez de construir significado y tienen menor conciencia de la necesidad de comprender. Tomás encaja: no monitorea si está entendiendo, porque para él "leer bien" = leer en voz alta sin errores. Los buenos comprendedores, en cambio, regulan el tiempo, focalizan la atención en info relevante y monitorean activamente su comprensión. El trabajo de Lorena apunta exactamente a desarrollar esa metacognición lectora.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       PANEL 2 · MATEMÁTICA
+  ══════════════════════════════════════ -->
+  <div class="tab-panel" data-panel="2">
+    <div class="panel-card">
+      <div class="vignette">
+        <div class="vignette-header">
+          <div class="vignette-emoji">🔢</div>
+          <div class="vignette-meta">
+            <div class="eyebrow">Viñeta · Sala de 5 años · Jardín</div>
+            <h2>Sofía y los montoncitos de piedritas</h2>
+          </div>
+        </div>
+        <div class="vignette-body">
+          <p>La maestra jardinera Paola trae dos bolsas transparentes llenas de piedritas de colores y las apoya sobre la mesa. Sin decir nada, señala las dos bolsas y pregunta: "¿En cuál hay más?" Sofía, de cinco años, mira ambas bolsas brevemente —ni dos segundos— y señala la de la derecha. Está en lo correcto. Paola varía la cantidad varias veces; Sofía acierta casi siempre cuando la diferencia es grande, pero duda cuando los conjuntos son casi iguales.</p>
+          <p>Más tarde, con el mismo grupo, Paola les pide contar los elementos de cada bolsa para verificar. Sofía cuenta en voz alta señalando cada piedrita, pero a veces pierde la cuenta al llegar a ocho o nueve y tiene que volver a empezar. Cuando Paola le pregunta cuántas piedritas hay en la bolsa derecha, Sofía responde "ocho" —lo cual es correcto— pero lo dice con poca seguridad: "creo que ocho".</p>
+          <div class="highlight-box">
+            💬 <strong>El momento clave:</strong> Sofía tiene un Sistema Numérico Aproximado (ANS) funcional pero su conteo exacto todavía no está consolidado, y su confianza matemática es baja aun cuando acierta.
+          </div>
+          <p>Paola decide incorporar juegos semanales de estimación rápida: "sin contar, ¿cuál tiene más?". En pocas semanas, nota que Sofía levanta la mano más seguido en las actividades de números y que ya no dice "creo que" antes de sus respuestas.</p>
+        </div>
+      </div>
+
+      <div class="faq-section">
+        <h3>❓ Preguntas teóricas sobre la viñeta</h3>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué es el Sistema Numérico Aproximado (ANS) que muestra Sofía?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Según De León y Maiche (2023), el <strong>ANS (Approximate Number System)</strong> es una capacidad perceptiva que permite estimar cantidades sin contar exactamente. Es una habilidad básica presente desde edades muy tempranas. Sofía la demuestra cuando señala la bolsa correcta en menos de dos segundos. La precisión del ANS depende de la <em>ratio</em> entre las cantidades: diferencias grandes (ej. 5 vs 15) se discriminan fácilmente; diferencias pequeñas (ej. 8 vs 9) son más difíciles —lo que explica las dudas de Sofía en esos casos.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Por qué importa la confianza matemática en esta edad?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            De León y Maiche señalan que la <strong>seguridad en las propias capacidades</strong> influye fuertemente en el rendimiento matemático. Sofía acierta "ocho" pero lo dice con incertidumbre. Esta baja confianza puede llevarla a evitar responder, a participar menos y —con el tiempo— a construir un autoconcepto matemático negativo. Las investigaciones muestran que intervenciones breves basadas en estimación aproximada (como las de Paola) producen mejoras tanto en el rendimiento como en la <strong>seguridad</strong> de los niños.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué papel juega la familia en las habilidades matemáticas tempranas de Sofía?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Los autores señalan que las desigualdades matemáticas comienzan antes del ingreso escolar y se vinculan con el nivel socioeconómico y las <strong>prácticas del hogar</strong>. Las familias de NSE medio-alto tienden a realizar actividades matemáticas más estructuradas (contar monedas, medir, jugar con números). Sin saber el contexto de Sofía, si su familia no ha incorporado estas prácticas, la maestra Paola está compensando desde la sala de 5 esa falta de estimulación temprana —lo cual es crucial dado el carácter acumulativo del aprendizaje matemático.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué relación hay entre conteo y memoria de trabajo en este caso?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Sofía pierde la cuenta al llegar a ocho o nueve. El conteo exacto exige mantener activo el resultado parcial mientras se etiqueta cada nuevo elemento —una tarea de <strong>memoria de trabajo</strong>. A los cinco años, esta capacidad todavía está en desarrollo. Abusamra et al. (2014) y Padilla Mora (2010) coinciden en que la memoria de trabajo es un recurso central para el aprendizaje. Las dificultades de Sofía no son un signo de dificultad específica, sino de desarrollo típico que necesita práctica.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué creencias docentes pueden perjudicar el desarrollo matemático de niñas como Sofía?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            De León y Maiche advierten sobre <strong>sesgos de género</strong> en las expectativas docentes: todavía persiste la idea de que los varones tienen mayor facilidad para la matemática. Si Paola (u otra docente) evaluara más favorablemente a niños que a niñas, o atribuyera los aciertos de Sofía a la suerte y los errores a falta de habilidad, estaría contribuyendo a un autoconcepto matemático negativo. Las investigaciones actuales muestran que no hay diferencias cognitivas fundacionales entre géneros; las brechas observadas son de origen sociocultural.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       PANEL 3 · DIFICULTADES DE APRENDIZAJE
+  ══════════════════════════════════════ -->
+  <div class="tab-panel" data-panel="3">
+    <div class="panel-card">
+      <div class="vignette">
+        <div class="vignette-header">
+          <div class="vignette-emoji">🔍</div>
+          <div class="vignette-meta">
+            <div class="eyebrow">Viñeta · 3er grado · Lengua</div>
+            <h2>El caso de Mateo: ¿vago o disléxico?</h2>
+          </div>
+        </div>
+        <div class="vignette-body">
+          <p>Mateo tiene 8 años y repite los mismos errores de escritura desde primer grado: escribe "baca" en vez de "vaca", confunde "d" con "b", y en los dictados suele omitir sílabas completas. La maestra anterior anotó en su legajo: "alumno con poco esfuerzo, disperso, necesita más práctica en casa." Este año, la nueva maestra, Cecilia, nota que Mateo es brillante en las actividades orales y de resolución de problemas matemáticos, pero evita cualquier tarea de lectura o escritura. Cuando lee en voz alta, lo hace muy lento, letra por letra, como si volviera a primer grado.</p>
+          <p>Cecilia decide registrar sistemáticamente los errores de Mateo. El patrón es consistente: confusión de grafemas visualmente similares, omisión de sílabas, inversiones. No son errores aleatorios. Mateo tampoco mejora con la práctica adicional que le mandaron antes. Habla con la familia y descubre que el papá de Mateo tuvo problemas similares de chico y nunca fue bien diagnosticado.</p>
+          <div class="highlight-box">
+            💬 <strong>El momento clave:</strong> Los errores de Mateo son específicos, persistentes a pesar de intervención, y no explicados por déficit intelectual ni falta de enseñanza. El patrón sugiere dislexia.
+          </div>
+          <p>Cecilia deriva a Mateo a la psicopedagoga escolar para evaluación. Mientras tanto, adapta sus consignas: más tiempo en evaluaciones, enunciados orales, y lectura en voz alta a cargo de otra persona. Mateo, por primera vez, puede demostrar que entiende el contenido de los textos.</p>
+        </div>
+      </div>
+
+      <div class="faq-section">
+        <h3>❓ Preguntas teóricas sobre la viñeta</h3>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué criterios se usan para identificar un Trastorno Específico de Aprendizaje (TEA)?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Según Padilla Mora (2010), los TEA requieren dos <strong>criterios de inclusión</strong>: bajo desempeño verificado en pruebas estandarizadas <em>y</em> persistencia de las dificultades a pesar de la intervención educativa. También un <strong>criterio de exclusión</strong>: ausencia de déficits intelectuales, sensoriales o educativos. Mateo cumple todos: errores consistentes, no mejora con práctica adicional, y muestra buen desempeño oral y matemático (descarta déficit intelectual general).
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué diferencia hay entre DA y TEA según el marco teórico?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            <strong>Dificultades de Aprendizaje (DA)</strong> es el término más amplio (Defior, 2000), que incluye problemas específicos en lectura, escritura o matemática que no se explican por déficit intelectual, sensorial o sociocultural. Los <strong>Trastornos Específicos de Aprendizaje (TEA)</strong> (Padilla Mora, 2010) enfatizan el origen neurobiológico: tienen componente genético que interactúa con factores epigenéticos y ambientales. La dislexia es el caso más frecuente de TEA: baja precisión y fluidez lectora, pobre decodificación, baja velocidad.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué proceso cognitivo básico está afectado en la dislexia?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            La dislexia se vincula principalmente con dificultades en el procesamiento <strong>fonológico</strong>: la capacidad de representar y manipular los fonemas del habla. Esto afecta la ruta subléxica (conversión grafema→fonema) del modelo de doble ruta DRC (Abusamra et al., 2022). Mateo lee "letra por letra" porque no ha automatizado la correspondencia grafema-fonema y tampoco ha construido representaciones ortográficas estables en el léxico mental. Sus confusiones b/d son típicas: letras con igual forma rotada, lo que exige una representación fonológica precisa para discriminarlas.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Por qué el criterio de "discrepancia" puede ser problemático para diagnosticar a Mateo?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            El <strong>criterio de discrepancia</strong> (Defior, 2000) sostiene que hay DA cuando el rendimiento es significativamente menor al esperado según el cociente intelectual. En Mateo esto podría subestimar el problema: su CI verbal podría resultar artificialmente bajo si la prueba incluye tareas de lectura. Además, la discrepancia requiere que ya haya una brecha documentada, lo que puede retrasar el diagnóstico en niños pequeños. Los autores que Defior cita (Morrison, Siegel) critican este criterio por generar clasificaciones poco precisas.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué dice la teoría sobre el acompañamiento que debería recibir Mateo?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Padilla Mora señala que la intervención en TEA debe ser <strong>directa, explícita y sostenida en el tiempo</strong>. Esto significa instrucciones no ambiguas, sin asumir que el niño inferirá las reglas solo. Además, el entorno familiar debe creer en los logros y proporcionar un ambiente estimulante. Crucialmente, <strong>Mateo debe conocer su condición</strong> con información accesible y participar en las decisiones sobre su acompañamiento. Las adaptaciones que hace Cecilia (más tiempo, enunciados orales) son ajustes razonables, no "hacerle trampa": permiten que Mateo demuestre lo que sabe a pesar de su dificultad específica.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       PANEL 4 · MOTIVACIÓN Y CAMBIO CONCEPTUAL
+  ══════════════════════════════════════ -->
+  <div class="tab-panel" data-panel="4">
+    <div class="panel-card">
+      <div class="vignette">
+        <div class="vignette-header">
+          <div class="vignette-emoji">🌱</div>
+          <div class="vignette-meta">
+            <div class="eyebrow">Viñeta · 5to grado · Ciencias Naturales</div>
+            <h2>Lucía y la Tierra que "no puede ser redonda"</h2>
+          </div>
+        </div>
+        <div class="vignette-body">
+          <p>La maestra Inés introduce la unidad de astronomía con una imagen de la Tierra desde el espacio. Lucía, de 10 años, levanta la mano inmediatamente: "Pero profe, si la Tierra fuera redonda, los de abajo se caerían." Varios compañeros asienten. La maestra pregunta: "¿Y por qué creés que no se caen?" Lucía piensa un momento: "Porque Dios los agarra, o… no sé, quizás hay un piso debajo."</p>
+          <p>La maestra decide no corregir de frente. En cambio, propone un experimento: sostienen una pelota de telgopor y le pegan figuritas de personas en distintos puntos. "¿Se caen?" pregunta. Los chicos observan que no. "¿Por qué?" Lucía propone: "Porque les pusimos pegamento." La maestra introduce entonces el concepto de gravedad como "pegamento invisible que jala hacia el centro".</p>
+          <div class="highlight-box">
+            💬 <strong>El momento clave:</strong> Lucía tiene una teoría personal coherente (modelo plano + soporte externo). No abandona la creencia de golpe; la reforma parcialmente incorporando la gravedad pero manteniendo algunas intuiciones previas.
+          </div>
+          <p>Dos semanas después, en un examen, Lucía escribe: "La Tierra es redonda y la gravedad nos atrae hacia el centro, aunque todavía no entiendo bien cómo las personas de Australia no sienten que están al revés." El cambio conceptual está en curso, pero no está completo.</p>
+        </div>
+      </div>
+
+      <div class="faq-section">
+        <h3>❓ Preguntas teóricas sobre la viñeta</h3>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué es el cambio conceptual y por qué es tan difícil en este caso?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Ormrod (2005) define el <strong>cambio conceptual</strong> como el proceso de sustitución de una teoría personal por otra mejor. Es difícil porque las creencias de Lucía son coherentes con su experiencia cotidiana (nunca "vio" que alguien se caiga de la Tierra), están integradas en un sistema más amplio (cómo funciona el mundo físico), y tienen consistencia interna. Ormrod lista siete razones por las que los conceptos erróneos resisten: sesgo de confirmación, consistencia con la experiencia diaria, coherencia sistémica, implicación personal, entorno social que apoya la creencia.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Por qué la maestra no corrigió de frente la idea de Lucía?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Carretero (2006) muestra que el cambio conceptual no ocurre por sustitución brusca sino por <strong>reorganización gradual</strong>. Decirle a Lucía directamente "estás equivocada" activa el sesgo de confirmación y puede generar resistencia. En cambio, la maestra provoca una <em>contradicción lógico-empírica</em> (el experimento de la pelota) que Lucía no puede ignorar. Carretero también destaca los <strong>factores afectivos</strong>: las creencias sobre la naturaleza del mundo físico no suelen tener carga emocional como la de Papá Noel, pero sí tienen anclaje en la identidad de "entiendo cómo funciona el mundo".
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Cuál es el rol de la motivación intrínseca en la curiosidad de Lucía?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Lucía levanta la mano inmediatamente: hay <strong>curiosidad genuina</strong>. Dehaene (2019) explica que la curiosidad aparece cuando el cerebro detecta una brecha entre lo que sabe y lo que desea saber. El desafío de la maestra ("¿Y por qué no se caen?") mantiene esa brecha abierta sin cerrarla de golpe, lo cual es más motivante que dar la respuesta directamente. Ormrod (2005) complementa: los <strong>objetivos de pericia</strong> (querer entender) producen relaciones más saludables con el error que los objetivos de rendimiento (querer quedar bien).
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué relación hay entre las ideas previas de Lucía y el aprendizaje significativo de Ausubel?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Para Ausubel (1986), el aprendizaje significativo requiere que el nuevo material pueda relacionarse de modo <em>no arbitrario y sustancial</em> con lo que el alumno ya sabe —las <strong>ideas inclusoras</strong>. El problema es que las ideas inclusoras de Lucía son erróneas (modelo plano + soporte externo). La maestra inteligentemente usa la estructura de la idea de Lucía ("algo que sostiene") y la transforma: la gravedad <em>es</em> ese "sostén", pero hacia adentro, no desde afuera. Así ancla el nuevo concepto a algo ya existente, facilitando la asimilación.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué significa que el cambio conceptual de Lucía "está en curso pero no completo"?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Carretero señala que el cambio conceptual es un proceso de <strong>reorganización gradual</strong> donde las nuevas explicaciones coexisten con elementos de teorías previas antes de producirse transformaciones más profundas. La respuesta de Lucía en el examen lo ilustra perfectamente: acepta la Tierra redonda y la gravedad, pero todavía no puede extrapolar el modelo a la perspectiva de los australianos —esa extrapolación requiere un nivel de abstracción mayor que su teoría renovada todavía no alcanza. El cambio es parcial, pero es un cambio real.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       PANEL 5 · MEMORIA Y ESTRATEGIAS
+  ══════════════════════════════════════ -->
+  <div class="tab-panel" data-panel="5">
+    <div class="panel-card">
+      <div class="vignette">
+        <div class="vignette-header">
+          <div class="vignette-emoji">🗂️</div>
+          <div class="vignette-meta">
+            <div class="eyebrow">Viñeta · Secundaria · Víspera de parcial</div>
+            <h2>Nico estudia toda la noche y al día siguiente no recuerda nada</h2>
+          </div>
+        </div>
+        <div class="vignette-body">
+          <p>Son las 11 de la noche. Nico tiene el parcial de Historia mañana a las 8. Abre el manual en la página 80 y empieza a leer y subrayar todo —casi cada línea tiene color. A medianoche siente que "lo tiene clarísimo". Repasa sus subrayados dos veces más. A la 1 AM se duerme con el manual en la mano.</p>
+          <p>Al día siguiente, en el parcial, la primera pregunta es: "¿Cuáles fueron las causas económicas de la Primera Guerra Mundial?" Nico siente que sabe la respuesta, pero las palabras no vienen. Recuerda haber leído algo sobre eso, la imagen de la página, incluso el color del subrayado, pero el contenido se le escapa. Termina escribiendo tres oraciones vagas y confunde dos fechas.</p>
+          <div class="highlight-box">
+            💬 <strong>El momento clave:</strong> Nico confundió familiaridad con aprendizaje. El estudio masivo generó sensación de dominio pero no consolidó la memoria. No hubo práctica de recuperación, espaciado, ni sueño suficiente.
+          </div>
+          <p>Su profesora devuelve el parcial con una nota que dice: "Desarrollá más. ¿Pudiste estudiar?" Nico, enojado, se pregunta qué hizo mal. En la siguiente unidad, decide probar algo diferente: cada día repasa 20 minutos las notas de clase, se hace preguntas en voz alta tapando el resumen, y duerme 8 horas antes del examen. La nota sube 3 puntos.</p>
+        </div>
+      </div>
+
+      <div class="faq-section">
+        <h3>❓ Preguntas teóricas sobre la viñeta</h3>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Por qué el subrayado masivo no le funcionó a Nico?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Marsh y Butler (2013) señalan que el subrayado sirve para aumentar la codificación, pero el <strong>uso excesivo reduce el procesamiento de la información</strong>: si todo está subrayado, nada se destaca. Además, Nico subrayó sin procesar el significado —codificó la forma visual (color, posición en la página) pero no el contenido semántico. Laurino y Kaczer (2023) complementan: el estudio masivo genera <em>sensación inmediata de dominio</em> (familiaridad) que no equivale a aprendizaje real. La memoria de largo plazo necesita más que exposición repetida.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué es el efecto de evaluación y cómo lo aplicó Nico en la segunda unidad?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            El <strong>efecto de evaluación</strong> (o efecto de prueba) es el fenómeno por el cual recuperar activamente información mediante preguntas produce mejor memoria que releer el contenido. Marsh y Butler (2013) y Laurino y Kaczer (2023) lo documentan: la práctica de recuperación activa el compromiso cognitivo, detecta errores y fortalece la memoria. Cuando Nico se "hace preguntas en voz alta tapando el resumen", está usando exactamente esta estrategia —cada intento de recuperación, incluso fallido, fortalece la traza mnémica más que una nueva lectura.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Por qué importa dormir antes del examen según las neurociencias?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Laurino y Kaczer (2023) y Dehaene (2019) explican que durante el sueño el cerebro <strong>reactiva las redes neuronales</strong> involucradas en lo aprendido y fortalece las huellas mnémicas. El sueño profundo favorece la consolidación de conocimientos generales (como Historia); el REM fortalece aprendizajes perceptivos y motores. Nico se durmió a la 1 AM con pocas horas de sueño: interrumpió el proceso de consolidación sistémica antes de que la información se transfiriera del hipocampo a la corteza. Además, presentarse privado de sueño deteriora la memoria de trabajo y la recuperación en el examen.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué es el efecto de espaciado y por qué funciona mejor que estudiar todo junto?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            El <strong>efecto de espaciado</strong> refiere a que distribuir el estudio en el tiempo produce mejor retención que el estudio masivo. Marsh y Butler (2013) y Dehaene (2019) coinciden en que el espaciado: genera más asociaciones entre conceptos; reduce el agotamiento cognitivo; favorece la consolidación y reconsolidación (cada repaso recupera la memoria, la hace temporalmente inestable y la re-estabiliza más fuerte); y genera "dificultad deseable" que obliga al cerebro a trabajar más. La sensación de "tenerlo clarísimo" a medianoche que siente Nico es una ilusión de fluidez, no evidencia de aprendizaje sólido.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q">¿Qué problema metacognitivo tiene Nico y cómo podría resolverlo?
+            <span class="chevron">▾</span></button>
+          <div class="faq-a">
+            Nico confunde <strong>familiaridad con aprendizaje real</strong>: la sensación de "lo sé" no coincide con lo que realmente puede recuperar en el examen. Esto es exactamente lo que Laurino y Kaczer describen como limitación metacognitiva: el juicio de conocimiento (feeling of knowing) puede estar inflado por la alta exposición al material. Para mejorar su metacognición, Nico necesita calibrarse: hacer autoevaluaciones sin mirar el material, espaciar revisiones, reflexionar sobre sus errores. Las preguntas en voz alta que adopta en la segunda unidad son justamente herramientas de <em>calibración metacognitiva</em> —le permiten distinguir lo que de verdad sabe de lo que solo le parece conocido.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /tabs-wrapper -->
+
+<script>
+  // Tab switching
+  const btns = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.tab-panel');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = btn.dataset.tab;
+      btns.forEach(b => b.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelector(`.tab-panel[data-panel="${idx}"]`).classList.add('active');
+      document.querySelector('.tabs-wrapper').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const isOpen = q.classList.contains('open');
+      // close siblings in same panel
+      const panel = q.closest('.tab-panel');
+      panel.querySelectorAll('.faq-q').forEach(o => {
+        o.classList.remove('open');
+        o.nextElementSibling.classList.remove('open');
+      });
+      if (!isOpen) {
+        q.classList.add('open');
+        q.nextElementSibling.classList.add('open');
+      }
+    });
+  });
+</script>
+</body>
+</html>

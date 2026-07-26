@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temario Interactivo</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #f5f5fa;
+  color: #1a1a2e;
+  min-height: 100vh;
+}
+
+/* ── BARRA PROGRESO ── */
+#topbar {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: #fff;
+  border-bottom: 2px solid #e8e8f0;
+  padding: 10px 16px 8px;
+}
+#prog-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 6px;
+}
+#prog-track {
+  height: 16px;
+  background: #ececf5;
+  border-radius: 99px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+#prog-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.5s ease;
+  background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #c77dff, #ff6b6b);
+  background-size: 300%;
+  animation: shift 4s linear infinite;
+}
+@keyframes shift { 0%{background-position:0%} 100%{background-position:300%} }
+
+/* ── ESTACIONES ── */
+#stations {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+#stations::-webkit-scrollbar { display: none; }
+.stn {
+  flex-shrink: 0;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  font-size: 9px;
+  font-weight: 800;
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.18s, box-shadow 0.18s;
+  outline: none;
+}
+.stn:hover { transform: scale(1.25); }
+.stn.active { border-color: #1a1a2e; transform: scale(1.3); box-shadow: 0 0 0 3px rgba(0,0,0,0.15); }
+.stn.done { opacity: 0.5; }
+
+/* ── CONTENIDO ── */
+#wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 28px 20px 60px;
+}
+
+/* ── CHIP UNIDAD ── */
+.chip {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 99px;
+  margin-bottom: 12px;
+}
+
+/* ── TARJETA ── */
+.card {
+  background: #fff;
+  border-radius: 18px;
+  border-top: 6px solid #ccc;
+  padding: 28px 28px 24px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  animation: fadeUp 0.35s ease both;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+.card-title {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 18px;
+  color: #1a1a2e;
+}
+
+.card-body {
+  font-size: 14.5px;
+  line-height: 1.85;
+  color: #333350;
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+.card-body::-webkit-scrollbar { width: 4px; }
+.card-body::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+
+/* ── CONCEPTOS LINKEABLES ── */
+.cl {
+  border-bottom: 2.5px dashed;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0 2px;
+  border-radius: 3px;
+  transition: background 0.15s;
+}
+.cl:hover { background: rgba(0,0,0,0.06); }
+
+/* ── POPUP DEFINICIÓN ── */
+#popup {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(360px, 90vw);
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px 22px 18px;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.22);
+  border-top: 5px solid #ccc;
+  animation: popIn 0.2s ease;
+}
+@keyframes popIn { from{opacity:0;transform:translate(-50%,-54%)} to{opacity:1;transform:translate(-50%,-50%)} }
+#popup h4 { font-size: 15px; font-weight: 800; margin-bottom: 10px; color: #1a1a2e; }
+#popup p  { font-size: 13.5px; line-height: 1.7; color: #444460; }
+#popup-close {
+  position: absolute; top: 10px; right: 12px;
+  background: none; border: none; font-size: 20px;
+  cursor: pointer; color: #aaa; line-height: 1;
+}
+#popup-close:hover { color: #333; }
+#overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 998;
+}
+
+/* ── NAVEGACIÓN ── */
+#nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 22px;
+  gap: 12px;
+}
+.nav-btn {
+  padding: 11px 26px;
+  border-radius: 99px;
+  border: none;
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.15s;
+  letter-spacing: 0.02em;
+}
+.nav-btn:hover { transform: scale(1.05); opacity: 0.9; }
+.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; transform: none; }
+#counter { font-size: 13px; font-weight: 700; color: #888; text-align: center; }
+
+/* ── FINAL ── */
+#finish {
+  display: none;
+  text-align: center;
+  padding: 60px 20px;
+  animation: fadeUp 0.5s ease;
+}
+#finish .big { font-size: 64px; display: block; margin-bottom: 12px; animation: bounce 1s ease infinite alternate; }
+@keyframes bounce { from{transform:translateY(0)} to{transform:translateY(-10px)} }
+#finish h2 { font-size: 34px; font-weight: 800; color: #1a1a2e; margin-bottom: 10px; }
+#finish p  { font-size: 16px; color: #666; }
+.restart {
+  margin-top: 24px;
+  padding: 14px 36px;
+  border-radius: 99px;
+  border: none;
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ff6b6b, #c77dff);
+  transition: transform 0.15s;
+}
+.restart:hover { transform: scale(1.05); }
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <div id="prog-label">Progreso: <span id="prog-txt">1 / 23</span></div>
+  <div id="prog-track"><div id="prog-fill" style="width:4%"></div></div>
+  <div id="stations"></div>
+</div>
+
+<div id="wrap">
+  <div id="main-card"></div>
+  <div id="finish">
+    <span class="big">🎉</span>
+    <h2>¡Temario completado!</h2>
+    <p>Recorriste todos los temas del programa.<br>¡Estás listo/a para el parcial!</p>
+    <button class="restart" onclick="goTo(0)">Volver al inicio</button>
+  </div>
+  <div id="nav">
+    <button class="nav-btn" id="btn-prev" onclick="prev()">← Anterior</button>
+    <div id="counter"></div>
+    <button class="nav-btn" id="btn-next" onclick="next()">Siguiente →</button>
+  </div>
+</div>
+
+<div id="overlay" onclick="closePopup()"></div>
+<div id="popup">
+  <button id="popup-close" onclick="closePopup()">×</button>
+  <h4 id="popup-title"></h4>
+  <p id="popup-body"></p>
+</div>
+
+<script>
+const PALETTE = [
+  '#e63946','#e07a00','#2a9d8f','#4361ee','#9b5de5',
+  '#f77f00','#06a77d','#d62246','#4cc9f0','#6a0572'
+];
+
+const CHIP_COLORS = {
+  'VII':  { bg:'#fff0f0', text:'#c0392b' },
+  'VIII': { bg:'#eef3ff', text:'#2c4dbd' },
+  'IX':   { bg:'#f0fff4', text:'#1a7a40' },
+  'X':    { bg:'#f5f0ff', text:'#6a1db5' },
+};
+
+function ukey(u) {
+  if (u.includes('VIII')) return 'VIII';
+  if (u.includes('VII'))  return 'VII';
+  if (u.includes('IX'))   return 'IX';
+  if (u.includes('X'))    return 'X';
+  return 'VII';
+}
+
+const DEFS = {
+  'engrama': 'Huella neurológica que deja el aprendizaje en el cerebro. Es la representación física de un recuerdo, formada por redes de neuronas que se activaron juntas durante la experiencia.',
+  'memoria de trabajo': 'Sistema cognitivo de capacidad limitada que mantiene y manipula información de forma activa. Funciona como una "pizarra mental" o cuello de botella del procesamiento consciente.',
+  'plasticidad neuronal': 'Capacidad del cerebro para modificarse estructural y funcionalmente en respuesta a la experiencia. Ocurre principalmente en las sinapsis mediante el fortalecimiento de conexiones.',
+  'sinapsis': 'Punto de contacto entre dos neuronas a través del cual se transmite información. Es el mecanismo biológico fundamental de la plasticidad neuronal.',
+  'aprendizaje significativo': 'Concepto de Ausubel: proceso por el cual nueva información se vincula de forma no arbitraria con conocimientos previos del alumno, produciendo comprensión duradera.',
+  'metacognición': 'Capacidad de reflexionar y monitorear los propios procesos cognitivos. Incluye saber qué sabemos, regular cómo estudiamos y detectar lagunas en el conocimiento.',
+  'mentalidad de crecimiento': 'Concepto de Carol Dweck: creencia de que la inteligencia y las capacidades pueden desarrollarse mediante el esfuerzo, la práctica y las estrategias adecuadas.',
+  'mentalidad fija': 'Concepto de Carol Dweck: creencia de que la inteligencia es un atributo innato e inmutable. Lleva a evitar desafíos por miedo a parecer incompetente.',
+  'consolidación': 'Proceso mediante el cual un recuerdo frágil se estabiliza y vuelve permanente. Implica síntesis de proteínas y la transferencia desde el hipocampo hacia la corteza cerebral.',
+  'hipocampo': 'Estructura cerebral en el lóbulo temporal, crucial para la formación de nuevos recuerdos explícitos y su transferencia a la memoria de largo plazo.',
+  'funciones ejecutivas': 'Conjunto de procesos cognitivos de alto nivel que permiten planificar, inhibir respuestas, monitorear el comportamiento y alcanzar metas. Residen principalmente en la corteza prefrontal.',
+  'corteza prefrontal': 'Región frontal del cerebro que alberga las funciones ejecutivas. Actúa como el "escritorio mental" donde se organiza información activa. Es la última en madurar (hasta los 20 años).',
+  'práctica espaciada': 'Estrategia de distribuir el estudio en intervalos de tiempo crecientes. Fortalece la memoria a largo plazo al generar esfuerzo de recuperación en momentos estratégicos.',
+  'dislexia': 'Dificultad específica del aprendizaje que afecta la decodificación fluida de palabras escritas. Se origina en una falla en la automatización del procesamiento fonológico.',
+  'discalculia': 'Dificultad específica en la adquisición de habilidades matemáticas. Puede estar asociada a fallas en la memoria de trabajo y agravarse por ansiedad matemática.',
+  'conciencia fonológica': 'Capacidad metalingüística de reflexionar conscientemente sobre los sonidos del propio lenguaje (fonemas, sílabas). Es un predictor clave del éxito en la lectura inicial.',
+  'esquemas': 'Estructuras de conocimiento organizadas en la memoria de largo plazo que sirven como "anclas" para integrar información nueva. Clave en las teorías cognitivas del aprendizaje.',
+  'dopamina': 'Neurotransmisor vinculado al circuito de recompensa del cerebro. Se libera ante el descubrimiento de información nueva, otorgando al aprendizaje un valor placentero e intrínseco.',
+  'reconsolidación': 'Proceso por el cual un recuerdo evocado vuelve a un estado inestable y puede ser actualizado o modificado antes de re-estabilizarse. Permite que el conocimiento se adapte.',
+  'control inhibitorio': 'Función ejecutiva que permite suprimir respuestas inadecuadas e ignorar estímulos irrelevantes. Una falla en este sistema genera susceptibilidad a la distracción.',
+  'cambio conceptual': 'Proceso de sustitución de una teoría personal por una más adecuada o científicamente válida. Requiere que el alumno note la contradicción y evalúe la nueva idea como más plausible.',
+  'ideas de anclaje': 'Conocimientos previos relevantes en la estructura cognitiva del alumno que permiten vincular e integrar nueva información de forma significativa (Ausubel).',
+  'decodificación': 'Proceso de reconocer y nombrar palabras escritas mediante la conversión de grafemas en fonemas. En lectores expertos se vuelve automática; en la dislexia este proceso falla.',
+  'efecto de evaluación': 'También llamado "retrieval practice": el acto de intentar recordar información (evaluarse) fortalece la memoria mucho más que releer pasivamente el material.',
+  'feedback': 'Información correctiva que recibe el aprendiz. Para ser efectivo debe ser rápido, preciso y neutro, sin carga punitiva que genere estrés emocional bloqueante.',
+  'dificultades de aprendizaje': 'Trastornos específicos (dislexia, discalculia, disgrafía) que resultan de disfunciones en procesos cognitivos básicos, sin implicar falta de inteligencia general.',
+};
+
+const TOPICS = [
+  {u:'UNIDAD VII: Enfoques del aprendizaje desde el punto de vista cognitivo.',t:'Modelos cognitivos: Implicaciones para la enseñanza.',c:`Desde la perspectiva neurocognitiva, el aprendizaje se define como el proceso de adquirir información a partir de la experiencia, generando una representación interna o «engrama» en el cerebro.
+
+<b>Los cuatro pilares del aprendizaje:</b> La enseñanza efectiva debe basarse en la atención, el compromiso activo, el feedback a partir del error y la consolidación. El éxito docente depende de canalizar la atención hacia el objeto de aprendizaje adecuado.
+
+<b>Rechazo al descubrimiento puro:</b> Los modelos cognitivos demuestran que las pedagogías sin guía explícita son ineficientes. Se requiere un entorno estructurado, gradual y explícito donde el docente guíe activamente el avance cognitivo.
+
+<b>Gestión de la memoria de trabajo:</b> Dado que funciona como un «cuello de botella», la enseñanza no debe sobrecargar este sistema exigiendo aprender dos cosas complejas a la vez.
+
+<b>Dificultades deseables:</b>
+• Práctica espaciada: distribuir los temas en el tiempo en lugar de dar bloques aislados.
+• Efecto de evaluación: usar la evaluación como herramienta de aprendizaje, no como sanción.
+
+<b>Activación de esquemas previos:</b> Revisar y activar lo que el alumno ya sabe antes de introducir temas nuevos, generando «anclas» psicológicas para la nueva información.
+
+<b>Feedback informativo y neutro:</b> La devolución debe ser rápida, precisa y neutra. El estrés excesivo genera un «tsunami emocional» que bloquea el aprendizaje.`},
+
+  {u:'UNIDAD VIII: Relación entre aprendizaje y desarrollo.',t:'La teoría de Ausubel.',c:`La teoría de David Ausubel propone que el aprendizaje humano en el aula debe entenderse a través del concepto central de aprendizaje significativo.
+
+<b>Dos ejes independientes:</b>
+• <b>Recepción vs. descubrimiento:</b> en el aprendizaje por recepción el contenido se presenta en su forma final; en el de descubrimiento, el alumno debe hallarlo por sí mismo.
+• <b>Significativo vs. mecánico:</b> el significativo relaciona la nueva información de forma no arbitraria con conocimientos previos; el mecánico produce asociaciones arbitrarias, retención breve y vulnerable al olvido.
+
+<b>Tres requisitos para el aprendizaje significativo:</b>
+1. Significado lógico del material: debe ser intrínsecamente relacional y no azaroso.
+2. Ideas de anclaje relevantes en la estructura cognitiva del alumno.
+3. Actitud de aprendizaje: disposición a relacionar el nuevo material de forma sustancial.
+
+<b>Tipos de aprendizaje significativo:</b>
+• Representaciones: asignar significados a símbolos.
+• Conceptos: adquirir ideas genéricas o categorías.
+• Proposiciones: subordinadas, supraordinadas o combinatorias.
+
+<b>Variables que afectan el aprendizaje:</b>
+• Intrapersonales: estructura cognitiva previa, etapa de desarrollo, motivación, personalidad.
+• Situacionales: práctica, organización de materiales, clima social del aula.`},
+
+  {u:'UNIDAD IX: Aprendizaje de la lectura, escritura y matemática: aspectos cognitivos.',t:'Decodificación y comprensión de textos.',c:`<b>Decodificación:</b> Capacidad de reconocer y nombrar correctamente las palabras de un texto. Proceso de bajo nivel jerárquico que, en lectores expertos, se vuelve automático y consume pocos recursos cognitivos.
+
+<b>Dos rutas de reconocimiento:</b>
+• Ruta fonológica (subléxica): convierte grafemas en fonemas. Esencial para palabras nuevas, pero más lenta y consume más memoria de trabajo.
+• Ruta léxica (visual): accede directamente al significado desde la forma ortográfica. Más rápida; la usan los lectores expertos.
+
+<b>Etapas:</b> logográfica → alfabética → ortográfica.
+
+El español es un sistema «transparente»: las correspondencias grafema-fonema son consistentes, lo que facilita que los niños alcancen la precisión más rápidamente que en inglés.
+
+<b>Comprensión de textos:</b> Proceso de alto nivel, no automático, que requiere recursos cognitivos. Tres niveles de representación (Van Dijk & Kintsch):
+1. Código de superficie: la forma exacta de las palabras.
+2. Texto de base (proposicional): red de ideas que preserva el significado.
+3. Modelo de situación: representación del «micromundo» del texto, integrado con conocimiento previo e inferencias.
+
+Procesos implicados: memoria de trabajo, control inhibitorio, actualización y generación de inferencias.
+
+<b>Relación entre ambos:</b> La decodificación lenta consume tantos recursos de memoria de trabajo que no deja espacio para la comprensión profunda. La fluidez lectora actúa como puente.`},
+
+  {u:'UNIDAD X: Bases neuroanatómicas del aprendizaje y de la memoria.',t:'Plasticidad neuronal.',c:`La plasticidad neuronal es el enorme potencial del cerebro para modificarse y adaptarse según los estímulos del ambiente. Es el principio biológico fundamental del aprendizaje.
+
+<b>El mecanismo de las sinapsis:</b>
+• Fortalecimiento de la conexión: se modifican las moléculas para que el mensaje se transmita con más fuerza.
+• Cambio en la excitabilidad: se altera la capacidad de la neurona para activarse.
+
+<b>La formación del engrama:</b> Durante el aprendizaje, un grupo de neuronas se activa simultáneamente creando una red única: la huella de memoria o engrama.
+
+<b>Consolidación y síntesis de proteínas:</b> El núcleo neuronal fabrica proteínas nuevas que actúan como un «asfalto» que estabiliza las conexiones, permitiendo que la señal pase más velozmente con menor esfuerzo cognitivo.
+
+<b>Factores que potencian la plasticidad:</b>
+• Atención consciente: amplifica los mensajes sensoriales y facilita la potenciación a largo plazo.
+• Entrenamiento y educación: el sistema de control ejecutivo es altamente plástico; puede desarrollarse mediante educación, práctica musical, meditación o juego estructurado.
+
+<b>Evocación y reconsolidación:</b> Al recordar algo, la huella vuelve a un estado inestable —oportunidad para actualizar o rectificar el recuerdo antes de que se re-estabilice.`},
+
+  {u:'UNIDAD VII: Enfoques del aprendizaje desde el punto de vista cognitivo.',t:'El rol de la memoria en el aprendizaje.',c:`La memoria es el producto del aprendizaje: el aprendizaje es el proceso de adquirir nueva información; la memoria es la representación interna o «huella» (engrama) que perdura.
+
+<b>Sistemas de memoria:</b>
+• <b>Memoria de Trabajo (MT):</b> espacio mental de procesamiento activo. «Pizarra mental» con capacidad limitada (cuello de botella). Si el esfuerzo de procesamiento es muy alto, la comprensión se ve afectada.
+• <b>Memoria de Largo Plazo (MLP):</b>
+  – Episódica: recuerdos de eventos personales situados en tiempo y espacio.
+  – Semántica: conocimiento general del mundo, independiente del contexto de adquisición.
+  – Procedimental: hábitos y habilidades motoras. No depende del hipocampo.
+
+<b>Arquitectura cerebral:</b>
+• Lóbulo Prefrontal: «escritorio» de la MT.
+• Hipocampo: «empleado administrativo» que transfiere info a estantes permanentes. Sin él, la info se pierde.
+• Corteza Cerebral: «archivo general» de la MLP.
+
+<b>Dinamismo de la memoria (3 fases):</b>
+1. Codificación: las neuronas crean una red ante la nueva experiencia.
+2. Consolidación: pasaje de memoria frágil a estable. El sueño reactiva lo aprendido hasta 20 veces más rápido.
+3. Evocación y reconsolidación: al recordar, la memoria se vuelve inestable y puede modificarse.
+
+<b>Estrategias para optimizar:</b> práctica de recuperación (efecto de evaluación), repetición espaciada, elaboración de esquemas.`},
+
+  {u:'UNIDAD VII: Enfoques del aprendizaje desde el punto de vista cognitivo.',t:'Atención, codificación, almacenamiento y recuperación.',c:`<b>1. Atención:</b> Mecanismo de selección y amplificación de información. Tres sistemas (Posner):
+• Alerta: nivel de vigilancia y disposición para reaccionar.
+• Orientación: «reflector» que selecciona estímulos específicos.
+• Control Ejecutivo: procesa información, selecciona planes y supervisa errores. Cuello de botella central → el multitasking eficiente es imposible.
+
+<b>2. Codificación:</b> Transformación de estímulos sensoriales en representaciones neuronales.
+• Compromiso Activo: el cerebro debe generar modelos mentales e hipótesis activas; un organismo pasivo no aprende.
+• Profundidad del procesamiento: el procesamiento semántico profundo produce aprendizaje más duradero que el superficial.
+
+<b>3. Almacenamiento (Consolidación):</b>
+• Consolidación molecular: síntesis de proteínas en las primeras horas.
+• Consolidación sistémica: desplazamiento desde el hipocampo hacia la corteza cerebral.
+• El sueño: reactivación espontánea de patrones neuronales hasta 20 veces más rápido para fijar lo aprendido.
+
+<b>4. Recuperación (Evocación y Reconsolidación):</b>
+• Efecto de evaluación (retrieval practice): recordar activamente fortalece mucho más que releer.
+• Reconsolidación: al evocar, la memoria se vuelve temporalmente inestable y puede actualizarse con nueva información.`},
+
+  {u:'UNIDAD VII: Enfoques del aprendizaje desde el punto de vista cognitivo.',t:'Estrategias y hábitos de aprendizaje.',c:`<b>1. Práctica Espaciada (Regla de Oro):</b> Distribuir el estudio en el tiempo es significativamente más efectivo que el «cramming».
+• El espaciado genera «dificultad deseable»: el esfuerzo de recuperar información que empezó a olvidarse fortalece la huella de memoria.
+• Aplicación en el aula: intercalar temas en lugar de darlos en bloques aislados.
+
+<b>2. Efecto de Evaluación (Retrieval Practice):</b>
+• Evaluarse periódicamente obliga al cerebro a un «baño de realidad» sobre lo que realmente se sabe.
+• Fichas de revisión: tarjeta con pregunta por un lado y respuesta por el otro.
+• El error es la condición biológica fundamental para el aprendizaje, no un fracaso.
+
+<b>3. Elaboración de Esquemas (Anclaje Cognitivo):</b>
+• El cerebro consolida redes de significado, no datos sueltos.
+• Información congruente con esquemas previos se incorpora más rápido e independiza del hipocampo velozmente.
+• Estrategia docente: activar esquemas previos antes de introducir temas nuevos.
+
+<b>4. Metacognición:</b>
+• Permite identificar qué se asimiló bien y qué requiere más estudio.
+• Combate la falsa sensación de confianza generada por la relectura masiva.
+
+<b>5. El Sueño como Trabajo Cognitivo:</b>
+• Las neuronas del hipocampo reactivan lo aprendido hasta 20 veces más rápido.
+• Fija y automatiza conocimientos; no permite adquirir información nueva.
+
+<b>6. Compromiso Activo:</b>
+• Procesamiento semántico (por significado) produce recuerdo más detallado que el superficial.
+• El foco en una sola tarea maximiza el aprendizaje.`},
+
+  {u:'UNIDAD VII: Enfoques del aprendizaje desde el punto de vista cognitivo.',t:'Metacognición, motivación y emoción.',c:`<b>Metacognición:</b> Habilidad de pensar sobre lo que sabemos. «Saber qué sabemos».
+• Regulación del estudio: identificar qué se asimiló bien y qué genera dificultad.
+• Combate la falsa sensación de confianza del estudio masivo o la relectura pasiva.
+• Estrategia: evaluaciones con retardo temporal para que la dificultad real salga a la luz.
+
+<b>Motivación y Curiosidad:</b>
+• La curiosidad es un algoritmo biológico que impulsa al cerebro a buscar información nueva.
+• Circuito de la Recompensa: descubrir información desconocida activa el circuito de la dopamina.
+• El Algoritmo del Desfase: la curiosidad surge cuando el cerebro detecta una brecha entre lo que sabe y lo que quiere conocer. Sigue una curva de campana: lo demasiado simple aburre; lo demasiado complejo desalienta.
+• Rol docente: evitar el castigo al error y proporcionar desafíos graduales que incentiven el apetito por el saber.
+
+<b>Emoción:</b>
+• Las emociones fuertes aumentan las probabilidades de que una huella de memoria pase a la MLP.
+• El «Tsunami Emocional»: el estrés excesivo o el miedo al error anula la memoria de trabajo, desviando recursos cognitivos hacia el procesamiento del malestar.
+• Mentalidad y feedback: la mentalidad fija percibe el error como prueba de incompetencia → estrés. La mentalidad de crecimiento lo ve como ejercicio necesario.
+• El feedback debe ser siempre neutro, rápido e informativo.`},
+
+  {u:'UNIDAD VII: Enfoques del aprendizaje desde el punto de vista cognitivo.',t:'Creencias sobre la inteligencia y el conocimiento.',c:`<b>Mentalidad Fija vs. Mentalidad de Crecimiento (Carol Dweck):</b>
+• <b>Mentalidad Fija:</b> la inteligencia es un atributo inmutable e innato. Los alumnos evitan desafíos, perciben el esfuerzo como señal de falta de habilidad. El error genera «tsunami emocional» que anula la memoria de trabajo.
+• <b>Mentalidad de Crecimiento:</b> las capacidades se desarrollan mediante el esfuerzo, la práctica y estrategias adecuadas. Los desafíos son oportunidades para «estirar los músculos del pensamiento».
+
+<b>El Rol del Docente en la Formación de Creencias:</b>
+• Elogio del proceso: recompensar curiosidad, persistencia y método («¿Cómo lo lograste?») en lugar de habilidades innatas.
+• Redefinición del error: señal informativa neutra que indica un desfase entre predicción y realidad, no una sanción.
+• Evitar la condescendencia: no saber algo es solo un síntoma de que se requiere más trabajo, no una incapacidad definitiva.
+
+<b>Mitos Educativos (Creencias Erróneas):</b>
+• <b>Estilos de Aprendizaje:</b> falso que existan niños «visuales», «auditivos» o «táctiles». Todos compartimos el mismo algoritmo de aprendizaje.
+• <b>Nativo Digital:</b> estar rodeado de tecnología no garantiza conocimiento profundo; solo un uso crítico lo logra.
+• <b>Falsa Sensación de Confianza:</b> la familiaridad lograda por relectura pasiva no equivale a conocimiento sólido a largo plazo.`},
+
+  {u:'UNIDAD VII: Enfoques del aprendizaje desde el punto de vista cognitivo.',t:'Objetivos de aprendizaje y de rendimiento.',c:`<b>Objetivos de Rendimiento + Mentalidad Fija:</b> Se centran en el resultado final (calificación).
+• La nota numérica es un «feedback pobre»: no informa al alumno por qué se equivocó ni cómo mejorar.
+• Las malas notas como sanción generan «tsunami emocional» que bloquea la memoria de trabajo, llevando al alumno a evitar desafíos.
+
+<b>Objetivos de Aprendizaje + Mentalidad de Crecimiento:</b> Priorizan el proceso de adquisición, el esfuerzo y la persistencia.
+• Las evaluaciones se convierten en herramientas de aprendizaje (práctica de recuperación).
+• Se recompensa la curiosidad, el coraje y el método empleado («¿Cómo lo lograste?»), no la habilidad innata.
+
+<b>El cambio hacia el aprendizaje real:</b>
+• Feedback auténtico: rápido, preciso y neutro, sin carga punitiva.
+• Dificultad deseable: presentarla como algo que «estira los músculos del pensamiento».
+• Monitoreo metacognitivo: fomentar que los alumnos evalúen autónomamente su propio progreso.`},
+
+  {u:'UNIDAD VII: Enfoques del aprendizaje desde el punto de vista cognitivo.',t:'El cambio de actitudes y creencias.',c:`<b>De la Mentalidad Fija a la Mentalidad de Crecimiento:</b>
+• Mentalidad Fija → evitar desafíos, ver el esfuerzo como señal de falla, «tsunami emocional» ante el error que anula la memoria de trabajo.
+• Mentalidad de Crecimiento → los desafíos fortalecen el cerebro; los errores son oportunidades de ajuste.
+
+<b>Redefinición del Error y el Feedback:</b>
+• El error como motor: el cerebro solo aprende cuando los eventos contrarían sus expectativas (sorpresa).
+• Feedback auténtico: devolución rápida, precisa y neutra vs. sanción personalizante.
+• La nota numérica sola es un feedback pobre que genera estrés y estigmatización.
+
+<b>Estrategias Docentes para el Cambio:</b>
+• Elogio del proceso: valorar la curiosidad, el coraje y la persistencia.
+• Redefinir la dificultad: tareas difíciles «estiran los músculos del pensamiento».
+• Evitar la condescendencia: no saber algo solo significa que se requiere más trabajo.
+
+<b>Enseñar «Cómo aprendemos»:</b> Al comprender que el cerebro es plástico y que cada esfuerzo fortalece físicamente las conexiones neuronales (fabricando proteínas que «asfaLtan» la señal), el alumno puede cambiar su imagen de sí mismo.
+
+<b>Desmitificación:</b>
+• Estilos de aprendizaje: mito. Todos compartimos el mismo algoritmo.
+• Nativo digital: mito. La tecnología no garantiza profundidad.
+• Falsa sensación de confianza: la relectura pasiva no es aprendizaje real.`},
+
+  {u:'UNIDAD VIII: Relación entre aprendizaje y desarrollo.',t:'Aprendizaje significativo.',c:`El aprendizaje significativo (Ausubel) es el proceso por el cual nueva información se relaciona de forma no arbitraria y sustancial con los conocimientos previos del alumno.
+
+<b>Tres condiciones fundamentales:</b>
+1. <b>Significado lógico del material:</b> debe ser intrínsecamente relacional, plausible y no azaroso. Los experimentos de Skinner tienen significado lógico; los nombres de las bases del ADN son arbitrarios.
+2. <b>Ideas de anclaje:</b> el alumno debe poseer conocimientos previos relevantes con qué vincular lo nuevo. Sin estas bases, la asimilación significativa es imposible.
+3. <b>Actitud de aprendizaje:</b> disposición de relacionar el material nuevo con la estructura cognitiva de forma sustancial.
+
+La interacción entre significado lógico e ideas de anclaje produce el <b>significado psicológico</b>, único e idiosincrático para cada alumno.
+
+<b>Tipos de aprendizaje significativo:</b>
+1. Representaciones: asignar significados a símbolos (palabras → referentes).
+2. Conceptos: captar ideas genéricas o categorías.
+3. Proposiciones:
+   • Subordinada: la nueva idea se vincula bajo un concepto más amplio.
+   • Supraordinada: una nueva proposición integra ideas más específicas ya conocidas.
+   • Combinatoria: la nueva idea se relaciona con conocimientos de nivel de generalidad similar.
+
+<b>Por qué es importante:</b> El aprendizaje significativo es más duradero que el mecánico porque la mente humana procesa mejor la información con sentido que los datos arbitrarios.`},
+
+  {u:'UNIDAD VIII: Relación entre aprendizaje y desarrollo.',t:'Aprendizaje de conceptos.',c:`<b>Formación vs. Asimilación:</b>
+• Formación: descubrimiento inductivo típico de la infancia. El niño abstrae rasgos comunes de múltiples objetos.
+• Asimilación: etapas avanzadas mediante aprendizaje por recepción verbal (definiciones, explicaciones). Requiere mayor madurez cognitiva.
+
+<b>Tipos de conceptos:</b>
+• Concretos: identificables por apariencia física (vaca, rojo).
+• Abstractos: requieren definición formal e instrucción específica (inteligencia, primo, trabajo).
+
+<b>Teorías sobre cómo se aprenden:</b>
+• Evaluación de hipótesis: el aprendiz formula y prueba suposiciones mediante feedback.
+• Prototipos: se forma un ejemplo representativo de la categoría y se compara con él (ej. gorrión como prototipo de «pájaro»).
+• Listas de características: definitorias (esenciales), correlacionales (frecuentes, no esenciales) e irrelevantes.
+• Ejemplares: se almacenan ejemplos específicos para captar la variabilidad de la categoría.
+
+<b>Factores que facilitan el aprendizaje:</b>
+• Destacar rasgos definitorios; minimizar los irrelevantes.
+• Combinar definiciones con gran variedad de ejemplos positivos.
+• Mostrar casos negativos (qué NO es el concepto) para evitar sobregeneralización.
+• Presentación simultánea de ejemplos positivos y negativos: reduce la carga en la memoria de trabajo.
+
+<b>El Cambio Conceptual:</b> Cuando los alumnos poseen ideas erróneas, el cambio puede ser parcial (pequeñas modificaciones) o sustancial (reestructuración completa).`},
+
+  {u:'UNIDAD VIII: Relación entre aprendizaje y desarrollo.',t:'Ideas previas y conocimiento intuitivo. Concepciones implícitas.',c:`<b>Ideas previas y conocimiento intuitivo:</b> Las personas elaboran teorías personales para organizar la realidad antes de recibir instrucción formal.
+
+• Origen temprano: a los 3-4 meses los bebés ya tienen comprensión rudimentaria de la gravedad y la impenetrabilidad de los sólidos.
+• Función adaptativa: reducen la complejidad del entorno y permiten realizar inferencias.
+• Inconsistencia científica: frecuentemente no coinciden con las teorías de los expertos (ej. «el sol gira alrededor de la Tierra», «la lluvia es el sudor de las nubes»).
+• Fuentes de error: apariencia física de las cosas, lenguaje cotidiano («el sol se pone»), influencias culturales y de los medios.
+
+<b>Concepciones implícitas:</b> Ideas erróneas que toman la forma de conocimiento inconsciente.
+• Naturaleza inconsciente: el individuo las posee sin conciencia clara, impidiendo notar contradicciones.
+• Coexistencia de ideas: un alumno puede almacenar simultáneamente la teoría científica aprendida de memoria y su concepción intuitiva implícita, que seguirá aplicando en la vida cotidiana.
+
+<b>Resistencia al cambio:</b>
+• Coherencia interna con la experiencia diaria (ej. la inercia: «necesito una fuerza constante para mantener algo en movimiento»).
+• Factores afectivos y sociales: compromiso emocional con una creencia.
+• Sesgo de confirmación: buscar información que confirme lo que ya se cree.
+
+Para Ausubel, estas ideas previas funcionan como ideas de anclaje; si no se consideran, la nueva información se aprende de forma mecánica o se distorsiona.`},
+
+  {u:'UNIDAD VIII: Relación entre aprendizaje y desarrollo.',t:'Cambio conceptual. Resistencia al cambio.',c:`El cambio conceptual es el proceso de sustituir una teoría personal por otra más adecuada o científicamente aceptada. No es una acumulación de hechos, sino una reestructuración del conocimiento.
+
+<b>Tipos de cambio conceptual:</b>
+• Parcial o superficial: pequeñas alteraciones sin modificar la estructura profunda (ej. «Papá Noel existe pero recibe ayuda de los padres»).
+• Sustancial o radical: reestructuración profunda y sustitución completa de un cuerpo de conocimiento.
+
+<b>Resistencia al Cambio:</b>
+• Sesgo de confirmación: buscar pruebas que confirmen lo que ya se cree e ignorar evidencia en contra.
+• Consistencia con la experiencia diaria: las teorías ingenuas parecen más «lógicas» (ej. empujar un objeto requiere fuerza constante).
+• Conocimiento implícito: las creencias inconscientes no detectan la incoherencia → coexistencia de dos ideas contradictorias.
+• Integración en sistemas coherentes: las ideas erróneas no son hechos aislados; forman parte de teorías donde todo «cuadra».
+• Factores afectivos: compromiso emocional con creencias por religión, cultura o identidad personal.
+
+<b>Condiciones para promover el cambio conceptual:</b>
+1. Provocar el desequilibrio: presentar fenómenos que las ideas actuales no puedan explicar.
+2. Aprendizaje significativo: procesar profundamente la nueva información.
+3. Comparación explícita: mantener en la memoria de trabajo la idea errónea y la científica simultáneamente para compararlas.
+4. Motivación y clima social: entorno que apoye la revisión de ideas sin ridiculizar el error.`},
+
+  {u:'UNIDAD IX: Aprendizaje de la lectura, escritura y matemática: aspectos cognitivos.',t:'La escritura como actividad de solución de problemas.',c:`La escritura es un invento cultural que exige una gestión consciente y compleja de recursos cognitivos, a diferencia del habla, que es biológicamente innata.
+
+<b>El rol de las Funciones Ejecutivas:</b> La escritura demanda funciones ejecutivas porque implica:
+• Fijación y sostenimiento de metas: decidir qué comunicar.
+• Programación y planificación: organizar la estructura de ideas.
+• Monitoreo: supervisar si lo escrito coincide con la intención original.
+• Inhibición y flexibilidad: descartar ideas irrelevantes y adaptar el texto.
+
+<b>El desafío ortográfico del español:</b> Aunque el español es «transparente» para la lectura, no lo es para la escritura: un mismo sonido puede representarse con distintas letras (ej. /b/ → «b» o «v»; /s/ → «s», «c» o «z»). La escritura exige representaciones ortográficas completamente especificadas en la memoria.
+
+<b>El descubrimiento del principio alfabético:</b>
+• La escritura exige reflexión consciente (metacognitiva) sobre las unidades sonoras.
+• Los niños generan «ortografías inventadas» como solución al gap entre lo que oyen y lo que pueden representar gráficamente.
+
+<b>La escritura como motor del aprendizaje:</b>
+• Las habilidades de escritura están vinculadas a la adquisición de la lectura.
+• El esfuerzo de escribir palabras ayuda a formar «huellas» de las letras en la memoria, consolidando información ortográfica, sonido y significado.`},
+
+  {u:'UNIDAD IX: Aprendizaje de la lectura, escritura y matemática: aspectos cognitivos.',t:'Métodos para enseñar a leer.',c:`<b>1. Métodos Fonéticos (Sintéticos):</b> Fundamentales para la alfabetización inicial en sistemas transparentes como el español.
+• Enseñanza explícita de la relación grafema-fonema.
+• Los estudiantes aprenden a segmentar palabras en fonemas y luego a combinarlos.
+• En español solo hay unas 50 reglas de correspondencia (vs. cientos en inglés).
+• Eficacia: el dominio de la decodificación fonética permite al niño alcanzar rápidamente la precisión y facilita el autoaprendizaje de nuevas palabras.
+
+<b>2. Desarrollo de la Conciencia Fonológica:</b>
+• Trabajar la capacidad de manipular los sonidos del lenguaje antes y durante el aprendizaje de las letras.
+• Se recomienda implementar programas en preescolar.
+
+<b>3. Métodos para la Fluidez y el Reconocimiento Automático:</b>
+• Lecturas repetidas: leer el mismo pasaje varias veces hasta alcanzar fluidez. Efectivo especialmente con niños en riesgo.
+• Lectura acelerada: programas con exposición progresivamente más reducida para forzar el procesamiento automático.
+• Uso de «sight words»: asociar visualmente palabras completas con su pronunciación y significado.
+
+<b>4. Instrucción en Morfología:</b> Enseñar explícitamente raíces, prefijos y sufijos mejora la calidad de la representación ortográfica y facilita el acceso al léxico.
+
+<b>5. Consideraciones Integrales:</b>
+• Combinar decodificación con vocabulario y comprensión desde el primer día.
+• La exposición repetida es el factor más poderoso para automatizar el reconocimiento. Un niño que lee 20 min/día se expone a 2 millones de palabras al año.`},
+
+  {u:'UNIDAD IX: Aprendizaje de la lectura, escritura y matemática: aspectos cognitivos.',t:'Interacción entre estructuras preexistentes y ambiente. Relaciones con el lenguaje.',c:`<b>Interacción entre estructuras preexistentes y ambiente:</b>
+• La lectura es un invento cultural reciente (~5.000 años) → el cerebro no tiene circuitos genéticamente determinados para ella.
+• Reciclaje neuronal: la alfabetización explota la plasticidad neuronal para «reciclar» circuitos de visión y lenguaje originalmente seleccionados para otros fines.
+• La «división del trabajo» (Byrne): en el lenguaje, el niño aporta casi todo con entrada mínima del entorno. En la lectura, la contribución del entorno debe ser rica y altamente estructurada porque la conciencia fonémica no emerge espontáneamente.
+
+<b>Relaciones con el lenguaje:</b>
+• El lenguaje oral es biológicamente innato y emerge por sola exposición (Pinker: es casi imposible que un niño no aprenda a hablar en contacto con otros; la lectura no se adquiere sin instrucción).
+• Sustrato neural compartido: la lectura activa redes del lenguaje en el hemisferio izquierdo (procesamiento fonológico, semántico y visual). El lector experto activa la misma información fonológica que al oír palabras.
+• Relación recíproca: el lenguaje es la base para leer, pero la lectura también modifica el lenguaje → impulsa la conciencia fonológica creando influencia mutua.
+• Transparencia del sistema: en español, las correspondencias grafema-fonema son consistentes, facilitando que el niño establezca vínculos seguros entre lo que oye y lo que lee.`},
+
+  {u:'UNIDAD IX: Aprendizaje de la lectura, escritura y matemática: aspectos cognitivos.',t:'El desarrollo de las habilidades matemáticas.',c:`Las matemáticas requieren que la entrada desde el entorno sea rica y altamente estructurada.
+
+<b>Diferencia con el lenguaje natural:</b>
+• El habla se desarrolla espontáneamente con entrada mínima del entorno.
+• Las matemáticas se ubican en el extremo opuesto del espectro: el estudiante no puede lograr el conocimiento por sí solo; la instrucción externa es mucho más importante.
+
+<b>Carga cognitiva del cálculo:</b> Resolver una operación como 24×13 mentalmente exige que la memoria de trabajo realice múltiples tareas simultáneas:
+• Descomponer el problema.
+• Mantener resultados parciales en un «estante mental».
+• Procesar nuevas operaciones.
+
+Una discalculia implica una falla en coordinar estos pasos o en la recuperación de datos desde la memoria de largo plazo.
+
+<b>Ansiedad matemática:</b> El estrés ante los números genera un «tsunami emocional» que arrasa con las capacidades de cálculo y bloquea la memoria de trabajo, impidiendo que el alumno demuestre lo que realmente sabe.
+
+<b>Implicación pedagógica:</b> La enseñanza debe ser explícita, graduada y estructurada, acompañada de un clima emocional que no amplifique el miedo al error.`},
+
+  {u:'UNIDAD X: Bases neuroanatómicas del aprendizaje y de la memoria.',t:'Manifestaciones más frecuentes: dislexia, discalculia y disgrafía.',c:`Las dificultades específicas de aprendizaje son resultado de una disfunción en procesos básicos (memoria de trabajo, control inhibitorio, planificación). No indican falta de inteligencia general, sino una falla en la automatización de procesos.
+
+<b>Dislexia (dificultad en la lectura):</b>
+• La automatización del reconocimiento de palabras falla → el proceso sigue siendo lento y consciente.
+• Ecuación de la Comprensión: Comprensión = Recursos de MT − Esfuerzo de decodificación. Un alumno con dislexia consume toda su memoria de trabajo descifrando letras → sin espacio para la comprensión.
+• Requiere enseñanza explícita de la relación grafema-fonema y desarrollo de la conciencia fonológica.
+
+<b>Discalculia (dificultad en las matemáticas):</b>
+• Falla en coordinar múltiples operaciones mentales simultáneas o en recuperar datos desde la MLP.
+• La ansiedad matemática genera «tsunami emocional» que bloquea la memoria de trabajo.
+
+<b>Disgrafía (dificultad en la escritura):</b>
+• El acto físico de escribir no está automatizado → demasiada atención consciente al trazo de letras.
+• Cuello de botella en el control ejecutivo prefrontal → no puede concentrarse simultáneamente en ortografía, sintaxis y coherencia del texto.
+
+<b>Abordaje desde la Mentalidad de Crecimiento:</b>
+• Redefinir la dificultad como algo que «estira los músculos del pensamiento».
+• Objetivo pedagógico: automatización de operaciones lentas para liberar recursos cognitivos.
+• Feedback informativo y neutro: evitar la sanción que amplifica el bloqueo emocional.`},
+
+  {u:'UNIDAD X: Bases neuroanatómicas del aprendizaje y de la memoria.',t:'Disfunción en procesos básicos: memoria de trabajo, control inhibitorio, planificación.',c:`Las disfunciones en procesos básicos son fallas en el sistema de control ejecutivo de la corteza prefrontal — el «escritorio del investigador».
+
+<b>1. Memoria de Trabajo (MT):</b>
+• La disfunción: saturación del sistema por capacidad limitada. Si procesos básicos (decodificación, tablas) no están automatizados, consumen toda la MT.
+• Impacto en el aula: el alumno pierde la cohesión de lo que lee o el hilo de un cálculo mental porque los resultados parciales se «borran» de la pizarra.
+
+<b>2. Control Inhibitorio:</b>
+• La disfunción: el cerebro no actúa como filtro eficiente. El alumno se vuelve extremadamente sensible a la distracción (estímulos externos o pensamientos internos).
+• Impacto en el aula: sin control inhibitorio, cualquier novedad «captura» el sistema de orientación atencional, aniquilando el compromiso activo.
+
+<b>3. Planificación:</b>
+• La disfunción: incapacidad de gestionar recursos mentales de forma estratégica. Dificultad para descomponer problemas complejos o elegir estrategias adecuadas.
+• Impacto en el aula: el cuello de botella central provoca intentos de multitasking → gran retraso y detrimento severo en la calidad del aprendizaje.
+
+<b>Consecuencias:</b>
+• En dislexia: el esfuerzo de decodificación agota la MT y anula la comprensión.
+• En ansiedad matemática: el estrés bloquea estos procesos ejecutivos.
+
+El sistema de control ejecutivo madura entre los 15 y 20 años, pero es altamente plástico y puede mejorarse mediante educación y juego estructurado.`},
+
+  {u:'UNIDAD X: Bases neuroanatómicas del aprendizaje y de la memoria.',t:'Enfoque neurocognitivo.',c:`El enfoque neurocognitivo define el aprendizaje como un fenómeno biológico y mental interdependiente: el aprendizaje es el proceso de adquirir información; la memoria es la huella (engrama) que perdura.
+
+<b>Arquitectura de la mente (analogía del escritorio):</b>
+• Lóbulo Prefrontal (escritorio): memoria de trabajo. Espacio donde el «investigador» trabaja activamente con la información.
+• Hipocampo (empleado administrativo): transfiere lo del escritorio a los estantes permanentes. Sin él, la info se pierde al «limpiar el escritorio».
+• Corteza Cerebral (archivo general): memoria de largo plazo distribuida por el cerebro.
+
+<b>Los cuatro pilares del aprendizaje (Dehaene):</b>
+1. Atención (El Filtro): lo que no se atiende «muere» en los circuitos sensoriales.
+2. Compromiso Activo (El Motor): el cerebro actúa como científico que genera y evalúa hipótesis. Un organismo pasivo no aprende.
+3. Feedback / Señal de Error (La Brújula): el cerebro aprende cuando hay desfase entre lo esperado y la realidad. Requiere devolución rápida, precisa y neutra.
+4. Consolidación (El Archivo): automatización que traslada info a compartimentos más eficaces. El sueño es vital.
+
+<b>Dinámica de la MT:</b>
+• Ecuación: Comprensión = Recursos de MT − Esfuerzo de decodificación.
+• La automatización de procesos básicos libera la MT para aprendizajes más complejos.
+
+<b>Implicaciones pedagógicas:</b>
+• Mentalidad de crecimiento: la inteligencia se desarrolla; el error es señal informativa.
+• Estrategias basadas en evidencia: práctica espaciada + efecto de evaluación sobre relectura pasiva.`},
+
+  {u:'UNIDAD X: Bases neuroanatómicas del aprendizaje y de la memoria.',t:'Dificultades específicas de aprendizaje: Etiología – Diagnóstico – Intervención – Clasificación.',c:`<b>Etiología (Causas):</b>
+• Disfunción en la memoria de trabajo, el control inhibitorio y la planificación.
+• La capacidad limitada de la MT actúa como «cuello de botella»: si este sistema es deficiente → problemas significativos en el aprendizaje.
+• Impacto emocional: el estrés y la ansiedad (especialmente en matemáticas) generan «tsunami emocional» que anula la MT.
+
+<b>Diagnóstico (Indicadores en el aula):</b>
+• Ecuación de recursos: Comprensión = Recursos de MT − Esfuerzo de decodificación. Se observa cuando el alumno consume toda la MT en decodificación superficial.
+• Monitoreo Metacognitivo: un mal monitoreo impide detectar errores y lagunas propias.
+• «Datos sueltos»: si el alumno no puede integrar lo nuevo con esquemas previos, la información se descarta durante el sueño.
+
+<b>Intervención:</b>
+• Rechazo al descubrimiento puro: se requiere entorno estructurado, gradual y explícito.
+• Automatización de procesos: convertir operaciones lentas en rutinas inconscientes para liberar el control ejecutivo prefrontal.
+• Feedback informativo y neutro: evitar la sanción punitiva que incrementa la ansiedad.
+• Práctica de Recuperación Espaciada: evaluar formalmente con intervalos crecientes para combatir la curva del olvido.
+
+<b>Clasificación:</b>
+• Dislexia: dificultad específica en la lectura y decodificación.
+• Discalculia: dificultad en las habilidades matemáticas y el cálculo.
+• Disgrafía: dificultad en la escritura.`},
+];
+
+let cur = 0;
+const visited = new Set();
+
+function col(i) { return PALETTE[i % PALETTE.length]; }
+
+function buildStations() {
+  const c = document.getElementById('stations');
+  TOPICS.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.className = 'stn';
+    b.textContent = i+1;
+    b.title = TOPICS[i].t.split('.')[0];
+    b.style.background = col(i);
+    b.onclick = () => goTo(i);
+    c.appendChild(b);
+  });
+}
+
+function syncStations() {
+  document.querySelectorAll('.stn').forEach((b, i) => {
+    b.classList.toggle('active', i === cur);
+    b.classList.toggle('done', visited.has(i) && i !== cur);
+  });
+  document.querySelectorAll('.stn')[cur]?.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+}
+
+function syncProgress() {
+  const pct = ((cur+1)/TOPICS.length*100).toFixed(1);
+  document.getElementById('prog-fill').style.width = pct+'%';
+  document.getElementById('prog-txt').textContent = `${cur+1} / ${TOPICS.length}`;
+}
+
+function linkTerms(text, accentColor) {
+  let out = text;
+  const sorted = Object.keys(DEFS).sort((a,b) => b.length - a.length);
+  sorted.forEach(term => {
+    const re = new RegExp(`(?<![>\\w])(${term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})(?![\\w<])`, 'gi');
+    out = out.replace(re, (m) =>
+      `<span class="cl" style="color:${accentColor};border-color:${accentColor}" onclick="showDef('${term}')">${m}</span>`
+    );
+  });
+  return out;
+}
+
+function render(i) {
+  visited.add(i);
+  const top = TOPICS[i];
+  const ck = ukey(top.u);
+  const chipStyle = CHIP_COLORS[ck] || CHIP_COLORS['VII'];
+  const accent = col(i);
+
+  document.getElementById('finish').style.display = 'none';
+  document.getElementById('main-card').style.display = '';
+  document.getElementById('nav').style.display = '';
+
+  const unNum = top.u.match(/UNIDAD\s+(\w+)/)?.[1] || '';
+  const unName = top.u.split(':')[1]?.trim() || '';
+
+  const body = linkTerms(top.c, accent);
+
+  document.getElementById('main-card').innerHTML = `
+    <div class="chip" style="background:${chipStyle.bg};color:${chipStyle.text}">
+      Unidad ${unNum}: ${unName}
+    </div>
+    <div class="card" style="border-top-color:${accent}">
+      <div class="card-title" style="color:${accent}">${top.t.replace(/\n/g,' / ')}</div>
+      <div class="card-body">${body}</div>
+    </div>
+  `;
+
+  document.getElementById('counter').textContent = `Tema ${i+1} de ${TOPICS.length}`;
+  document.getElementById('btn-prev').disabled = i === 0;
+  document.getElementById('btn-prev').style.background = accent;
+  document.getElementById('btn-next').style.background = accent;
+  document.getElementById('btn-next').textContent = i === TOPICS.length-1 ? '¡Finalizar! 🎉' : 'Siguiente →';
+
+  syncProgress();
+  syncStations();
+}
+
+function goTo(i) { cur = i; render(i); }
+function next() {
+  if (cur < TOPICS.length-1) { cur++; render(cur); }
+  else showFinish();
+}
+function prev() { if (cur > 0) { cur--; render(cur); } }
+
+function showFinish() {
+  document.getElementById('main-card').style.display = 'none';
+  document.getElementById('nav').style.display = 'none';
+  document.getElementById('finish').style.display = 'block';
+  document.getElementById('prog-fill').style.width = '100%';
+  document.getElementById('prog-txt').textContent = `${TOPICS.length} / ${TOPICS.length}`;
+  visited.add(cur);
+  syncStations();
+}
+
+function showDef(term) {
+  const def = DEFS[term]; if(!def) return;
+  const accent = col(cur);
+  document.getElementById('popup-title').textContent = term.charAt(0).toUpperCase()+term.slice(1);
+  document.getElementById('popup-title').style.color = accent;
+  document.getElementById('popup-body').textContent = def;
+  document.getElementById('popup').style.borderTopColor = accent;
+  document.getElementById('popup').style.display = 'block';
+  document.getElementById('overlay').style.display = 'block';
+}
+function closePopup() {
+  document.getElementById('popup').style.display = 'none';
+  document.getElementById('overlay').style.display = 'none';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closePopup();
+  if (e.key === 'ArrowRight' && document.getElementById('popup').style.display === 'none') next();
+  if (e.key === 'ArrowLeft'  && document.getElementById('popup').style.display === 'none') prev();
+});
+
+buildStations();
+render(0);
+</script>
+</body>
+</html>
