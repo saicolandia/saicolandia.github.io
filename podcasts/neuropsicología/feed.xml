@@ -1,51 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <rss version="2.0">
-
 <channel>
-
 <title>Neuropsicología</title>
-
 <link>https://saicolandia.github.io/podcasts/neuropsicología/</link>
-
 <description>
 Podcast generado automáticamente para estudiar Neuropsicología.
 </description>
-
 <language>es-ar</language>
-
 <item>
-
 <title>Epilepsias</title>
-
 <description>
-
 Explicación progresiva sobre epilepsias.
-
 </description>
-
 <pubDate>
-
 Mon, 27 Jul 2026 18:00:00 GMT
-
 </pubDate>
-
 <enclosure
-
-url="https://saicolandia.github.io/podcasts/neuropsicología/002-epilepsias.mp3"
-
+url="https://saicolandia.github.io/podcasts/neuropsicología/001-np-epilepsias.mp3"
 length="15342421"
-
 type="audio/mpeg"/>
-
 <guid>
-
-002-epilepsias
-
+001-epilepsias
 </guid>
-
 </item>
-
+<item>
+<title>Epilepsias</title>
+<description>
+Explicación progresiva sobre epilepsias.
+</description>
+<pubDate>
+Mon, 27 Jul 2026 18:00:00 GMT
+</pubDate>
+<enclosure
+url="https://saicolandia.github.io/podcasts/neuropsicología/002-epilepsias.mp3"
+length="15342421"
+type="audio/mpeg"/>
+<guid>
+002-epilepsias
+</guid>
+</item>
 </channel>
-
 </rss>
