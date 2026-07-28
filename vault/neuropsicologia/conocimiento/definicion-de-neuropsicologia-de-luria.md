@@ -1,0 +1,2 @@
+**Definición** de [[neuropsicologia]] de Luria
+"Rama de la ciencia cuyo fin único y específico es investigar el papel de los sistemas cerebrales particulares en las formas complejas de la actividad mental."

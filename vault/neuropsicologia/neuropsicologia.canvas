@@ -1,0 +1,11 @@
+{
+	"nodes":[
+		{"id":"cd66bc7f37f18f11","type":"text","text":"### [[np-unidad-1.canvas|1- OBJETO, MÉTODO Y MODELOS]]","x":-995,"y":-622,"width":455,"height":60},
+		{"id":"bd7c3bc172e8b141","type":"text","text":"# Neuropsicología","x":-1760,"y":-10,"width":260,"height":70,"color":"6"},
+		{"id":"e15263b6aca08889","type":"text","text":"1-2- Cómo aborda su objeto","x":-995,"y":220,"width":250,"height":60}
+	],
+	"edges":[
+		{"id":"15de5361450fcd56","fromNode":"bd7c3bc172e8b141","fromSide":"right","toNode":"cd66bc7f37f18f11","toSide":"left"},
+		{"id":"6b6a36fd2dc0bcc0","fromNode":"bd7c3bc172e8b141","fromSide":"right","toNode":"e15263b6aca08889","toSide":"left"}
+	]
+}

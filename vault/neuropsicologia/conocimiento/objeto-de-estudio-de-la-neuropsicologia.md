@@ -1,0 +1,1 @@
+**Objeto de estudio: de la Neuropsicología** la relación entre el funcionamiento del SNC y los procesos psíquicos/conductuales (normales y patológicos), con foco en las **Funciones Cerebrales Superiores (FCS)**.

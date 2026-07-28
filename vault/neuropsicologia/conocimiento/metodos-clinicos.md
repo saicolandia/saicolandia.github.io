@@ -1,0 +1,5 @@
+### Métodos clínicos
+- **Observación**: no estructurada (atención flotante) vs. estructurada (condiciones controladas). Ejemplo del cuarto chino de Searle (para discutir los límites de la observación conductual).
+- **Tests**: estímulos estandarizados; importa la evaluación ecológica y la validación por nivel sociocultural.
+- **Método anátomo-clínico**: correlaciona lesión (autopsia) con conducta observada en vida. Riesgo: caer en "localizacionismo ingenuo". Se corrige con ablaciones experimentales, estimulación eléctrica y el **Test de Wada** (inyección intracarotídea de barbitúrico para determinar dominancia hemisférica del lenguaje).
+- **Disociación y doble disociación** (Neuropsicología Cognitiva): un paciente falla en tarea A con B preservada; si otro paciente muestra el patrón inverso, se confirma independencia modular.
