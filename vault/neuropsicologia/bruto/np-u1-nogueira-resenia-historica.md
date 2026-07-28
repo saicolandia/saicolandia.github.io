@@ -1,3 +1,15 @@
+---
+title: La Neuropsicología. Definición. Reseña histórica. Vinculación con la Psicología.
+authors:
+  - Guillermo Javier Nogueira
+date: 2010
+asignatura: Neuropsicología
+unidad: 1
+tags:
+  - neuropsicología
+  - historia
+  - definición
+---
 # LA NEUROPSICOLOGÍA. DEFINICIÓN. RESEÑA HISTÓRICA. VINCULACIÓN
 CON LA PSICOLOGÍA. ÁREAS DE INTÉRES. PERSPECTIVAS FUTURAS
 
@@ -57,7 +69,7 @@ Gall, a fines del Siglo XVIII, puede ser considerado como el fundador de la Neur
 
 Si bien con errores, también debe reconocerse en Gall el comienzo -al menos explícito de lo que más adelante sería perfeccionado y configurara un importante modelo de funcionamiento cerebral: el Localizacionismo.
 
-En 1865, Bouillaud también considera que las funciones cerebrales son localizadas y es su discípulo Auburtin quien contribuye para que finalmente Broca en 1865 de un paso fundamental en ese aspecto al demostrar la conexión entre una zona del hemisferio izquierdo y el habla.
+In 1865, Bouillaud también considera que las funciones cerebrales son localizadas y es su discípulo Auburtin quien contribuye para que finalmente Broca en 1865 de un paso fundamental en ese aspecto al demostrar la conexión entre una zona del hemisferio izquierdo y el habla.
 
 Hughlins Jackson en 1869 observa que hay dos tipos de afásicos y describe una forma de convulsiones limitadas, llamadas focales y que ulteriormente llevarán su nombre.
 
@@ -71,15 +83,13 @@ Lashley, quien trabajaba experimentalmente, se sorprende al ver que lesiones cir
 
 En 1926, Head, reexaminando los casos de Wernicke y los suyos propios, critica toda la construcción anterior y la considera como un ejemplo de la manera en que algunos pensadores tergiversan y "retuercen" los hechos para que encajen en sus teorías. Éste es un ejemplo interesante de vinculación entre el marco ideológico vigente y su aplicación.
 
-E. Kant influencia fuertemente a la comunidad científica europea y su idea de que si bien el conocimiento no puede trascender la experiencia, éste es, sin embargo, al menos en parte, "a priori"; dicho de otro modo: las razones del experimento están implicitas en el experimento o la respuesta está implicita en la pregunta, alimenta la sospecha de algunos investigadores al poner en primer plano la duda sobre la influencia de las pre-concepciones en los diseños experimentales y en la recolección de datos.
+E. Kant influencia fuertemente a la comunidad científica europea y su idea de que si bien el conocimiento no puede trascender la experiencia, éste es, sin embargo, al menos en parte, "a priori"; dicho de otro modo: las razones del experimento están implicitas en el experimento o la respuesta está implícita en la pregunta, alimenta la sospecha de algunos investigadores al poner en primer plano la duda sobre la influencia de las pre-concepciones en los diseños experimentales y en la recolección de datos.
 
 Por el contrario las ideas de Locke influenciaron fuertemente a las comunidades inglesas y norteamericanas, con una mayor valoración de la experiencia como fuente de las ideas y la conducta.
 
 De aquí en más, ya estamos en tiempos que podríamos considerar contemporáneos y los nombres se multiplican y dividen en variados enfoques, a veces con un área geográfica como determinante de una "escuela".
 
-Algunos nombres deben ser tenidos en cuenta como Sherrington, Pavlov, Cajal, Magoum, Pribram, Geshwind, Penfield, Ajuriaguerra, Hecaen, Vigotsky, Betcherev, Piaget, Damasio, Gazzaniga, Barraquer Bordas, Peña Casanova, Mesulam, Ardila, Dalmas, Mendilaharzu, que desde distintas áreas como la neurofisiología, la neurología, la neurocirugía, la psiquiatría, la psicología, han trascendido los límites estrictos de su
-
-quehacer para intentar crear modelos de funcionamiento cerebral y dar respuesta al interrogante de las conductas humanas.
+Algunos nombres deben ser tenidos en cuenta como Sherrington, Pavlov, Cajal, Magoum, Pribram, Geshwind, Penfield, Ajuriaguerra, Hecaen, Vigotsky, Betcherev, Piaget, Damasio, Gazzaniga, Barraquer Bordas, Peña Casanova, Mesulam, Ardila, Dalmas, Mendilaharzu, que desde distintas áreas como la neurofisiología, la neurología, la neurocirugía, la psiquiatría, la psicología, han trascendido los límites estrictos de su quehacer para intentar crear modelos de funcionamiento cerebral y dar respuesta al interrogante de las conductas humanas.
 
 La aparición del concepto de cognición junto con toda una teoría que hace uso prioritario del concepto de información y su procesamiento y se nutre de los modelos computaciones y de la aproximaciones de la inteligencia artificial traen otro grupo de personalidades relevantes como Fodor, Caramazza, Churchland, Shallice, Ellis e incluso algunos de la lista anterior y muchos más que sería imposible nombrar en su totalidad, dado lo reciente de su trabajo. La Neuropsicología Cognitiva adquiere un fuerte desarrollo a partir de 1970 aproximadamente.
 
@@ -95,9 +105,7 @@ El otro es el Dr. Juan Azcoaga, quien desde A.P.I.N.E.P. ha logrado una vasta pr
 
 Dejo para el final y como una situación especial por estar esta materia incluida en la carrera de Psicología, a Sigmund Freud.
 
-Es inútil e irrelevante engarzarse en la discusión sobre si era neurólogo que abandonó la neurología, si nunca realmente la abandonó, si su obra quedó trunca y en realidad el futuro habría contenido el redondeo final de sus teorías y la puesta de ellas en el cerebro, es decir el regreso final a la neurología, o si nunca fue realmente neurólogo. Adivinar intenciones es siempre riesgoso y presumido. Simplemente deben recordarse y leerse atentamente su "Proyecto de una Psicología para Neurólogos" y su libro "La Afasia". Personalmente creo que de esta lectura y de su obra posterior se evidencia un genio a quien las limitaciones del conocimiento científico vigente no le permitían avanzar más allá en el intento de explicación
-
-de las conductas, por eso "El Proyecto", nos parece ahora inconcluso. Frente a esta carencia de soporte en lo conocido hizo lo que sólo pueden hacer los genios: abandona el paradigma que no puede ofrecerle más y crea uno nuevo, que le permite seguir avanzando. La Neuropsicología contemporánea es quizás el intento de redondeo o de regreso al cerebro que algunos suponen era su objetivo final.
+Es inútil e irrelevante engarzarse en la discusión sobre si era neurólogo que abandonó la neurología, si nunca realmente la abandonó, si su obra quedó trunca y en realidad el futuro habría contenido el redondeo final de sus teorías y la puesta de ellas en el cerebro, es decir el regreso final a la neurología, o si nunca fue realmente neurólogo. Adivinar intenciones es siempre riesgoso y presumido. Simplemente deben recordarse y leerse atentamente su "Proyecto de una Psicología para Neurólogos" y su libro "La Afasia". Personalmente creo que de esta lectura y de su obra posterior se evidencia un genio a quien las limitaciones del conocimiento científico vigente no le permitían avanzar más allá en el intento de explicación de las conductas, por eso "El Proyecto", nos parece ahora inconcluso. Frente a esta carencia de soporte en lo conocido hizo lo que sólo pueden hacer los genios: abandona el paradigma que no puede ofrecerle más y crea uno nuevo, que le permite seguir avanzando. La Neuropsicología contemporánea es quizás el intento de redondeo o de regreso al cerebro que algunos suponen era su objetivo final.
 
 ## Vinculación con la Psicología - Áreas de interés - Perspectivas
 
@@ -111,9 +119,7 @@ También le permitirá darse cuenta de cómo diferentes abordajes (ejemplo: psic
 
 El estudiante tiene una dificultad estructural derivada de un traumatismo de cráneo previo. Es decir, que tiene dañados aquellos circuitos de cuya interconexión apropiada depende un determinado aspecto del aprendizaje. El ejemplo más dramático sería el de un ciego a quien quisiéramos enseñarle algo que dependa exclusivamente de estimulos visuales. Será un imposible estructural.
 
-a) El estudiante altera su proceso de aprendizaje porque funcionalmente desvia, altera, impide, exagera las interconexiones constituyendo así circuitos estructuralmente sanos, pero
-
-funcionalmente enfermos. Un ejemplo sería el procesamiento de material inconciente con gran carga afectiva que "inunda" el procesamiento conciente de información. "Estudio pero no me queda", "Tengo la cabeza en otra cosa".
+a) El estudiante altera su proceso de aprendizaje porque funcionalmente desvia, altera, impide, exagera las interconexiones constituyendo así circuitos estructuralmente sanos, pero funcionalmente enfermos. Un ejemplo sería el procesamiento de material inconciente con gran carga afectiva que "inunda" el procesamiento conciente de información. "Estudio pero no me queda", "Tengo la cabeza en otra cosa".
 
 Existe una tercera opción c) y es que a) y b) se sumen o que una de ellas se convierta en la otra. Así podría suceder que el sujeto ciego, emocionalmente perturbado por otras causas extienda su dificultad de aprendizaje a áreas no dependientes de la visión. Una situación sostenida indefinidamente así, puede quedar finalmente "fijada" estructuralmente.
 

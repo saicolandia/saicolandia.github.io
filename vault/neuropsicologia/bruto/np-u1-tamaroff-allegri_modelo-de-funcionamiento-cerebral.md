@@ -1,3 +1,16 @@
+---
+title: Modelo de funcionamiento cerebral
+authors:
+  - Tamaroff
+  - Allegri
+date: Placeholder
+asignatura: Neuropsicología
+unidad: 1
+tags:
+  - neuropsicología
+  - modelo-funcional
+  - cerebro
+---
 # "Modelo de funcionamiento cerebral" Tamaroff-Allegri
 
 ## ORGANIZACIÓN FUNCIONAL DEL SISTEMA NERVIOSO

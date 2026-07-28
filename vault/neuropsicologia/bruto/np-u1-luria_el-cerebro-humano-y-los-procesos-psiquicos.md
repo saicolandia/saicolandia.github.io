@@ -1,7 +1,16 @@
-# EL CEREBRO HUMANO Y LOS PROCESOS PSIQUICOS
-A. R. Luria
-Análisis neuropsicológico de la actividad consciente
-Primera edición: marzo 1979
+---
+title: El cerebro humano y los procesos psíquicos
+authors:
+  - A. R. Luria
+date: 1979
+asignatura: Neuropsicología
+unidad: 1
+tags:
+  - neuropsicología
+  - luria
+  - procesos-psíquicos
+---
+
 
 El primer tomo del presente estudio, aparecido en 1963, estuvo dedicado a las investigaciones teóricas acerca de la localización de las funciones en el córtex del cerebro humano y al análisis neuropsicológico de las perturbaciones de los procesos motores y mentales debidas a lesiones de los lóbulos frontales del cerebro.
 

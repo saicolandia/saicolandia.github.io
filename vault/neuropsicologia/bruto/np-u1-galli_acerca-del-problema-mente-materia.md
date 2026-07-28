@@ -1,8 +1,20 @@
-Asignatura: Neuropsicología. Facultad de Psicología. Universidad Nacional de Mar del Plata
-# DESCRIPCIÓN DE ALGUNAS DE LAS PRINCIPALES POSTURAS
-ACERCA DEL PROBLEMA MENTE-MATERIA
+---
+title: Descripción de algunas de las principales posturas acerca del problema mente-materia
+authors:
+  - Juan Ignacio Galli
+  - Hernán López Morales
+date: 2018
+asignatura: Neuropsicología
+facultad: Psicología
+universidad: Universidad Nacional de Mar del Plata
+tags:
+  - neuropsicología
+  - mente-materia
+  - filosofía-de-la-mente
+---
 
-Juan Ignacio Galli & Hernán López Morales, 2018
+# Descripción de algunas de las principales posturas acerca del problema mente-materia
+
 ## INTRODUCCIÓN
 
 El problema mente-materia es, tal vez, uno de los enigmas más antiguos y fascinantes de la historia del pensamiento occidental. Emergente de la confluencia entre filosofía y ciencia, el problema de la relación entre mente y materia está presente en los sistemas filosóficos de las grandes figuras intelectuales, desde los antiguos griegos hasta la actualidad.

@@ -1,18 +1,21 @@
-UNMDP 
-FACULTAD de PSICOLOGÍA 
-CÁTEDRA de NEUROPSICOLOGÍA 
-(2016) 
-Conceptos fundamentales del modelo de funcionamiento cerebral 
-propuesto por Azcoaga 
-Lic. María Carolina Grossi, Lic. Florencia Nogueira. 
-Las funciones cerebrales superiores, caracterización. Diferencias con los 
-dispositivos básicos del aprendizaje 
-La denominación “funciones cerebrales superiores” (FCS) aparece en los escritos de Azcoaga 
-desde 1971, incluyendo a las praxias, las gnosias y el lenguaje. De acuerdo a este autor, las FCS 
-reúnen las siguientes características: 
- son específicas del hombre,  
- son productos de procesos de aprendizaje, y  
- no son indispensables en todos los procesos de aprendizaje.  
+---
+title: Conceptos fundamentales del modelo de funcionamiento cerebral propuesto por Azcoaga
+authors:
+  - María Carolina Grossi
+  - Florencia Nogueira
+date: 2016
+asignatura: Neuropsicología
+facultad: Psicología
+universidad: Universidad Nacional de Mar del Plata
+unidad: 1
+tags:
+  - neuropsicología
+  - azcoaga
+  - funciones-cerebrales-superiores
+---
+
+# Conceptos fundamentales del modelo de funcionamiento cerebral propuesto por Azcoaga
+  
 Estas tres características permiten diferenciarlas de los Dispositivos Básicos del Aprendizaje 
 (DBA), pues éstos son comunes al hombre y a los animales, no resultan de procesos anteriores de 
 aprendizaje (aunque sí son modificados en sus características por éstos) y son indispensables en 

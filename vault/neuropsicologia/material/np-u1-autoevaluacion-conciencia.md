@@ -1,3 +1,15 @@
+---
+title: Autoevaluación Conciencia
+tipo:
+  - autoevaluacion
+date: 2021
+asignatura: Neuropsicología
+unidad: 1
+tags:
+  - neuropsicología
+  - autoevaluación
+  - conciencia
+---
 **Pregunta 1:** En el texto sobre la taxonomía de la conciencia de Tirapu-Ustárroz, ¿con qué modalidad de atención se vincula el nivel inferior en el que se encuentra el estado de alerta y el estar consciente?
 
 - **Respuesta correcta:** e. Atención matriz y atención vectorial.

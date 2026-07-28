@@ -1,3 +1,15 @@
+---
+title: Autoevaluación Métodos de Estudio
+authors:
+  - Placeholder
+date: 2021
+asignatura: Neuropsicología
+unidad: 1
+tags:
+  - neuropsicología
+  - autoevaluación
+  - métodos-estudio
+---
 **Pregunta 1:** La principal limitación del Electroencefalograma (EEG) como método de estudio es:
 
 - **Respuesta correcta:** b. Que sus registros poseen una pobre resolución espacial.

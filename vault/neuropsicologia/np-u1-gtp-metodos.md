@@ -1,10 +1,20 @@
-## Cátedra de Neuropsicología – Facultad de Psicología – Universidad Nacional de Mar del Plata
+---
+title: Guía de trabajos prácticos - Métodos de estudio en Neuropsicología
+authors:
+  - G. Nogueira
+date: 2016
+asignatura: Neuropsicología
+facultad: Psicología
+universidad: Universidad Nacional de Mar del Plata
+unidad: 1
+tags:
+  - neuropsicología
+  - métodos
+  - guía-de-estudio
+---
 
-Guía de trabajos prácticos sobre la bibliografía obligatoria del tema: MÉTODOS DE ESTUDIO EN
+# Guía de trabajos prácticos - Métodos de estudio en Neuropsicología
 
-NEUROPSICOLOGÍA
-
-Nombre del texto: "Los métodos de estudio en Neuropsicología". Autor: G. Nogueira.
 
 1. Complete el siguiente cuadro con los métodos de estudio que propone la bibliografía y describa cada uno.
 

@@ -1,3 +1,15 @@
+---
+title: Autoevaluación Modelos de Funcionamiento Cerebral
+authors:
+  - Placeholder
+date: 2021
+asignatura: Neuropsicología
+unidad: 1
+tags:
+  - neuropsicología
+  - autoevaluación
+  - modelos-funcionales
+---
 **Pregunta 1:** El método de Gall se fundamenta en la misma idea que configurará el modelo:
 
 - **Respuesta correcta:** c. localizacionista.

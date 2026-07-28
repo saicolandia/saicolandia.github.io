@@ -1,12 +1,15 @@
-# LOS MÉTODOS DE ESTUDIO EN NEUROPSICOLOGÍA
+---
+title: Los métodos de estudio en Neuropsicología
+authors:
+  - Guillermo Javier Nogueira
+date: 2013
+asignatura: Neuropsicología
+unidad: 1
+tags:
+  - neuropsicología
+  - métodos-de-estudio
+---
 
-Dr. Guillermo Javier Nogueira
-
-La Neuropsicologia se nutre de múltiples ramas de las ciencias, y por ende, los métodos propios de cada una de ellas pueden ser utilizados según el enfoque y área de estudio.
-
-El orden en que los describiremos refleja de alguna manera la evolución de su utilización, la que a su vez refleja las posibilidades técnicas y conceptuales de cada época. No debe caerse en el error de considerar que los métodos se desplazan o excluyen unos a otros. En realidad se complementan y por ello si bien los más modernos parecen ofrecer más riqueza informática, aun los más simples y antiguos siguen teniendo vigencia. Nada reemplaza una buena observación, a partir de la cual surgirán interrogantes, se formularán y verificarán hipótesis, etc.
-
-![[np-u1-metodos.png]]
 
 ## 1. MÉTODOS CLÍNICOS
 

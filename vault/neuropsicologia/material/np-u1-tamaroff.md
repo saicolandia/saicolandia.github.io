@@ -1,3 +1,17 @@
+---
+title: El Modelo de Organización Funcional de Tamaroff y Allegri
+authors:
+  - Tamaroff
+  - Allegri
+date: Placeholder
+asignatura: Neuropsicología
+unidad: 1
+tags:
+  - neuropsicología
+  - tamaroff
+  - allegri
+  - modelo-funcional
+---
 # El Modelo de Organización Funcional de Tamaroff y Allegri
 
 Este modelo, propuesto por los neurólogos argentinos **Leopoldo Tamaroff** y **Ricardo Allegri**, presenta una organización jerárquica del sistema nervioso dividida en niveles funcionales, sistemas en paralelo y un sistema de control superior.

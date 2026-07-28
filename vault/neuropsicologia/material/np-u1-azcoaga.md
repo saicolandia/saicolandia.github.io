@@ -1,3 +1,15 @@
+---
+title: El Modelo de Funcionamiento Cerebral de Juan Enrique Azcoaga
+authors:
+  - Juan Enrique Azcoaga
+date: Placeholder
+asignatura: Neuropsicología
+unidad: 1
+tags:
+  - neuropsicología
+  - azcoaga
+  - aprendizaje
+---
 Aquí tienes el contenido de la nota [[np-video-u1-modelo-de-azcoaga]] organizado, corregido y formateado en Markdown para una mejor lectura y estudio.
 
 ---

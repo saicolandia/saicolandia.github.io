@@ -1,3 +1,15 @@
+---
+title: Introducción a la Neuropsicología y el Problema Mente-Materia
+authors:
+  - Placeholder
+date: Placeholder
+asignatura: Neuropsicología
+unidad: 1
+tags:
+  - neuropsicología
+  - mente-materia
+  - epistemología
+---
 # Introducción a la Neuropsicología y el Problema Mente-Materia
 
 ## 1. Definición de Neuropsicología
@@ -40,7 +52,7 @@ Bunge utiliza la letra griega $\phi$ (fi) para representar lo físico/cerebral y
 - **Idealismo / Panpsiquismo:** Todo es mental.
 - **Conductismo / Materialismo Eliminativo:** Nada es mental, todo es material o físico.
 - **Materialismo Reductivo (Fisicalismo):** Lo mental es idéntico a los fenómenos físico-químicos del sistema nervioso.
-- **Materialismo Emergentista (Bunge / Luria):** Lo mental es un conjunto de funciones cerebrales **emergentes**.
+- **Materialismo Emergentista (Bunge / Luria):** Lo mental es un conjunto de funciones cerebrales **emergentas**.
 
 #### B. Dualismos (Dos entidades ontológicas diferentes)
 - **Autonomismo:** La mente y la materia son independientes.

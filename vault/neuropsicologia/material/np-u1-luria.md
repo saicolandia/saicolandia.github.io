@@ -1,3 +1,15 @@
+---
+title: El Modelo de Funcionamiento Cerebral de Alexander Luria
+authors:
+  - Alexander Luria
+date: Placeholder
+asignatura: Neuropsicología
+unidad: 1
+tags:
+  - neuropsicología
+  - luria
+  - sistemas-funcionales
+---
 # El Modelo de Funcionamiento Cerebral de Alexander Luria
 
 **Alexander Luria**, eminente psicólogo y médico ruso, es considerado uno de los pioneros de la neuropsicología actual. Su modelo supera las visiones simplistas del pasado al introducir el concepto de **Sistema Funcional Complejo**.
