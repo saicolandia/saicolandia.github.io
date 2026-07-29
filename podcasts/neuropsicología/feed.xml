@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
 <channel>
 <title>Neuropsicología</title>
 <link>https://saicolandia.github.io/podcasts/neuropsicología/</link>
@@ -7,6 +7,7 @@
 Podcast generado automáticamente para estudiar Neuropsicología.
 </description>
 <language>es-ar</language>
+<itunes:image href="https://saicolandia.github.io/podcasts/neuropsicología/neuro.png"/>
 <item>
 <title>Epilepsias 1</title>
 <description>
@@ -22,6 +23,7 @@ type="audio/mpeg"/>
 <guid>
 001-epilepsias
 </guid>
+<itunes:image href="https://saicolandia.github.io/podcasts/neuropsicología/001.png"/>
 </item>
 <item>
 <title>Epilepsias 2</title>
@@ -38,6 +40,7 @@ type="audio/mpeg"/>
 <guid>
 002-epilepsias
 </guid>
+<itunes:image href="https://saicolandia.github.io/podcasts/neuropsicología/002.png"/>
 </item>
 <item>
 <title>Afasias</title>
@@ -54,6 +57,7 @@ type="audio/mpeg"/>
 <guid>
 003-afasias
 </guid>
+<itunes:image href="https://saicolandia.github.io/podcasts/neuropsicología/003.png"/>
 </item>
 <item>
 <title>Demencias</title>
@@ -70,6 +74,7 @@ type="audio/mpeg"/>
 <guid>
 004-demencias
 </guid>
+<itunes:image href="https://saicolandia.github.io/podcasts/neuropsicología/004.png"/>
 </item>
 </channel>
 </rss>
