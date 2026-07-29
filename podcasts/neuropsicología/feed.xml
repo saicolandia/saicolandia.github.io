@@ -8,7 +8,7 @@ Podcast generado automáticamente para estudiar Neuropsicología.
 </description>
 <language>es-ar</language>
 <item>
-<title>Epilepsias</title>
+<title>Epilepsias 1</title>
 <description>
 Explicación progresiva sobre epilepsias.
 </description>
@@ -17,14 +17,14 @@ Mon, 27 Jul 2026 18:00:00 GMT
 </pubDate>
 <enclosure
 url="https://saicolandia.github.io/podcasts/neuropsicología/001-np-epilepsias.mp3"
-length="15342421"
+length="8257200"
 type="audio/mpeg"/>
 <guid>
 001-epilepsias
 </guid>
 </item>
 <item>
-<title>Epilepsias</title>
+<title>Epilepsias 2</title>
 <description>
 Explicación progresiva sobre epilepsias.
 </description>
@@ -33,10 +33,42 @@ Mon, 27 Jul 2026 18:00:00 GMT
 </pubDate>
 <enclosure
 url="https://saicolandia.github.io/podcasts/neuropsicología/002-epilepsias.mp3"
-length="15342421"
+length="5405529"
 type="audio/mpeg"/>
 <guid>
 002-epilepsias
+</guid>
+</item>
+<item>
+<title>Afasias</title>
+<description>
+Explicación sobre afasias.
+</description>
+<pubDate>
+Tue, 28 Jul 2026 12:00:00 GMT
+</pubDate>
+<enclosure
+url="https://saicolandia.github.io/podcasts/neuropsicología/003-afasias.mp3"
+length="2048834"
+type="audio/mpeg"/>
+<guid>
+003-afasias
+</guid>
+</item>
+<item>
+<title>Demencias</title>
+<description>
+Explicación sobre demencias.
+</description>
+<pubDate>
+Tue, 28 Jul 2026 12:00:00 GMT
+</pubDate>
+<enclosure
+url="https://saicolandia.github.io/podcasts/neuropsicología/004-demencias.mp3"
+length="4052113"
+type="audio/mpeg"/>
+<guid>
+004-demencias
 </guid>
 </item>
 </channel>
