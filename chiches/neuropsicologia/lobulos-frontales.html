@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Director de Orquesta 🧠 · Lóbulos Frontales y Corteza Prefrontal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#0f0d1a;
+    --bg-1:#161228;
+    --bg-2:#1e1936;
+    --ink:#f2effa;
+    --ink-muted:#a79fc4;
+    --ink-faint:#6f688e;
+    --dl:#5aa9ff;     /* dorsolateral - "¿Cómo?" */
+    --dl-soft:#5aa9ff22;
+    --orb:#ff9d5c;    /* orbital - "¿Qué?" */
+    --orb-soft:#ff9d5c22;
+    --med:#49dbb4;    /* medial - "¿Cuándo?" */
+    --med-soft:#49dbb422;
+    --line:#33304f;
+    --serif:'Fraunces', serif;
+    --sans:'Inter', sans-serif;
+    --mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -5%, #2a2350 0%, transparent 60%),
+      radial-gradient(ellipse 700px 500px at 90% 10%, #1e3350 0%, transparent 55%),
+      var(--bg-0);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--dl); color:#0f0d1a; }
+  a{ color:inherit; }
+
+  h1,h2,h3,h4{ font-family:var(--serif); font-weight:700; letter-spacing:-0.01em; }
+  .eyebrow{
+    font-family:var(--mono); font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--ink-faint); display:flex; align-items:center; gap:0.5rem; margin-bottom:0.9rem;
+  }
+  .eyebrow::before{ content:''; width:22px; height:1px; background:var(--ink-faint); display:inline-block; }
+
+  section{ position:relative; padding:7rem 6vw; max-width:1180px; margin:0 auto; }
+  @media (max-width:720px){ section{ padding:5rem 6vw; } }
+
+  /* ---------- nav dots ---------- */
+  #navdots{
+    position:fixed; right:2.2vw; top:50%; transform:translateY(-50%);
+    display:flex; flex-direction:column; gap:14px; z-index:50;
+  }
+  #navdots button{
+    width:9px; height:9px; border-radius:50%; border:1px solid var(--ink-faint);
+    background:transparent; cursor:pointer; padding:0; transition:all .3s;
+  }
+  #navdots button.active{ background:var(--dl); border-color:var(--dl); box-shadow:0 0 12px var(--dl); transform:scale(1.35); }
+  @media (max-width:720px){ #navdots{ display:none; } }
+
+  /* ---------- top progress bar ---------- */
+  #progress{ position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg,var(--dl),var(--med),var(--orb)); z-index:60; width:0%; transition:width .1s; }
+
+  /* ---------- HERO ---------- */
+  .hero{ min-height:100svh; display:flex; flex-direction:column; justify-content:center; padding-top:4rem; }
+  .hero .kicker{ font-family:var(--mono); color:var(--dl); font-size:0.85rem; letter-spacing:.15em; text-transform:uppercase; margin-bottom:1.4rem; }
+  .hero h1{ font-size:clamp(2.6rem, 7vw, 5.6rem); line-height:0.98; }
+  .hero h1 em{ font-style:italic; font-weight:500; color:var(--dl); }
+  .hero p.lead{ max-width:640px; margin-top:1.8rem; font-size:1.15rem; color:var(--ink-muted); }
+  .stat-row{ display:flex; gap:3rem; margin-top:3.2rem; flex-wrap:wrap; }
+  .stat{ }
+  .stat .n{ font-family:var(--serif); font-size:2.6rem; font-weight:700; color:var(--ink); }
+  .stat .l{ font-family:var(--mono); font-size:0.72rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.08em; }
+  .scrollhint{ position:absolute; bottom:2.4rem; left:6vw; font-family:var(--mono); font-size:0.75rem; color:var(--ink-faint); display:flex; align-items:center; gap:.5rem; animation:bob 2s infinite; }
+  @keyframes bob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(6px);} }
+
+  /* floating neurons bg */
+  .neuron{ position:absolute; border-radius:50%; filter:blur(1px); opacity:.5; animation:float 9s ease-in-out infinite; }
+  @keyframes float{ 0%,100%{ transform:translateY(0) translateX(0);} 50%{ transform:translateY(-24px) translateX(10px);} }
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- section headers ---------- */
+  .sec-head{ max-width:720px; margin-bottom:3rem; }
+  .sec-head h2{ font-size:clamp(1.9rem,4vw,2.9rem); }
+  .sec-head p{ color:var(--ink-muted); margin-top:0.8rem; font-size:1.05rem; }
+
+  /* ---------- EVOLUCION bars ---------- */
+  .evo-wrap{ display:flex; flex-direction:column; gap:1.6rem; max-width:640px; }
+  .evo-row{ display:grid; grid-template-columns:110px 1fr 70px; align-items:center; gap:1rem; }
+  .evo-label{ font-family:var(--mono); font-size:0.85rem; color:var(--ink-muted); }
+  .evo-track{ height:14px; background:var(--bg-2); border-radius:8px; overflow:hidden; border:1px solid var(--line); }
+  .evo-fill{ height:100%; width:0%; border-radius:8px; transition:width 1.4s cubic-bezier(.16,1,.3,1); }
+  .evo-pct{ font-family:var(--mono); font-weight:600; text-align:right; }
+  .evo-note{ margin-top:1.6rem; color:var(--ink-muted); font-size:0.95rem; max-width:600px; }
+
+  /* ---------- JERARQUIA ---------- */
+  .stack{ display:flex; flex-direction:column; gap:0; max-width:760px; }
+  .layer{ border:1px solid var(--line); border-radius:14px; padding:1.6rem 1.9rem; margin-top:-1px; background:var(--bg-1); transition:transform .3s, background .3s; position:relative; }
+  .layer:hover{ transform:translateX(10px); background:var(--bg-2); }
+  .layer .tag{ font-family:var(--mono); font-size:0.7rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.08em; }
+  .layer h3{ font-size:1.3rem; margin:.3rem 0 .5rem; }
+  .layer p{ color:var(--ink-muted); font-size:0.95rem; }
+  .layer.l1{ border-left:4px solid #9d8bff; }
+  .layer.l2{ border-left:4px solid #ff9d5c; margin-left:1.6rem; }
+  .layer.l3{ border-left:4px solid #5aa9ff; margin-left:3.2rem; }
+  @media (max-width:640px){ .layer.l2{margin-left:.8rem;} .layer.l3{margin-left:1.6rem;} }
+
+  /* ---------- MAPA CPF (signature) ---------- */
+  .brainmap-wrap{ display:grid; grid-template-columns: 1.1fr 1fr; gap:3rem; align-items:center; }
+  @media (max-width:860px){ .brainmap-wrap{ grid-template-columns:1fr; } }
+  .brain-svg{ width:100%; height:auto; }
+  .brain-region{ cursor:pointer; transition:opacity .25s, filter .25s; opacity:.32; }
+  .brain-region:hover, .brain-region.active{ opacity:.85; filter:drop-shadow(0 0 10px currentColor); }
+  .brain-outline{ fill:none; stroke:var(--ink-faint); stroke-width:2; }
+  .region-legend{ display:flex; flex-direction:column; gap:0.7rem; margin-top:1.6rem; }
+  .region-pill{ display:flex; align-items:center; gap:0.7rem; font-family:var(--mono); font-size:0.82rem; cursor:pointer; padding:.4rem .6rem; border-radius:8px; transition:background .2s; }
+  .region-pill:hover{ background:var(--bg-2); }
+  .region-pill .dot{ width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .cpf-card{ background:var(--bg-1); border:1px solid var(--line); border-radius:18px; padding:2.2rem; min-height:280px; transition:border-color .3s; }
+  .cpf-card .q{ font-family:var(--serif); font-style:italic; font-size:1.8rem; margin-bottom:.3rem; }
+  .cpf-card .region-name{ font-family:var(--mono); font-size:0.78rem; text-transform:uppercase; letter-spacing:.08em; margin-bottom:1.2rem; }
+  .cpf-card p{ color:var(--ink-muted); }
+  .cpf-card .badge{ display:inline-block; margin-top:1.2rem; font-family:var(--mono); font-size:.75rem; padding:.35rem .7rem; border-radius:20px; border:1px solid var(--line); }
+
+  /* ---------- SINDROMES ---------- */
+  .synd-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; }
+  @media (max-width:900px){ .synd-grid{ grid-template-columns:1fr; } }
+  .synd-card{ background:var(--bg-1); border:1px solid var(--line); border-radius:16px; padding:1.7rem; cursor:pointer; border-top:3px solid var(--c); transition:transform .25s; }
+  .synd-card:hover{ transform:translateY(-6px); }
+  .synd-card .emo{ font-size:1.9rem; }
+  .synd-card h3{ font-size:1.15rem; margin:.6rem 0 .3rem; }
+  .synd-card .sub{ font-family:var(--mono); font-size:0.72rem; color:var(--ink-faint); text-transform:uppercase; margin-bottom:.8rem; }
+  .synd-card .more{ display:none; margin-top:.9rem; color:var(--ink-muted); font-size:0.92rem; border-top:1px dashed var(--line); padding-top:.9rem; }
+  .synd-card.open .more{ display:block; }
+  .synd-card .toggle{ font-family:var(--mono); font-size:.72rem; color:var(--ink-faint); margin-top:.7rem; }
+
+  /* ---------- FUNCIONES EJECUTIVAS ---------- */
+  .fe-intro{ display:flex; gap:1.4rem; align-items:center; background:var(--bg-1); border:1px solid var(--line); border-radius:16px; padding:1.6rem 1.8rem; margin-bottom:2.4rem; }
+  .fe-intro .big{ font-size:2.2rem; }
+  .fe-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; perspective:1200px; }
+  @media (max-width:900px){ .fe-grid{ grid-template-columns:1fr; } }
+  .flip{ height:220px; }
+  .flip-inner{ position:relative; width:100%; height:100%; transition:transform .6s; transform-style:preserve-3d; cursor:pointer; }
+  .flip.flipped .flip-inner{ transform:rotateY(180deg); }
+  .flip-face{ position:absolute; inset:0; backface-visibility:hidden; border-radius:16px; padding:1.6rem; display:flex; flex-direction:column; justify-content:center; border:1px solid var(--line); }
+  .flip-front{ background:var(--bg-1); }
+  .flip-back{ background:var(--bg-2); transform:rotateY(180deg); }
+  .flip-face .emo{ font-size:1.8rem; margin-bottom:.5rem; }
+  .flip-face h4{ font-size:1.15rem; }
+  .flip-face .hint{ font-family:var(--mono); font-size:.68rem; color:var(--ink-faint); margin-top:.8rem; }
+  .flip-face .test{ font-family:var(--mono); font-size:.75rem; color:var(--dl); margin-top:.9rem; }
+  .fe-higher{ margin-top:2rem; display:flex; gap:.7rem; flex-wrap:wrap; }
+  .fe-higher span{ font-family:var(--mono); font-size:.78rem; padding:.5rem .9rem; border:1px solid var(--line); border-radius:20px; color:var(--ink-muted); }
+
+  /* ---------- CASO GAGE ---------- */
+  .gage-wrap{ background:var(--bg-1); border:1px solid var(--line); border-radius:20px; padding:2.4rem; }
+  .gage-toggle{ display:inline-flex; border:1px solid var(--line); border-radius:30px; padding:4px; margin-bottom:1.6rem; }
+  .gage-toggle button{ font-family:var(--mono); font-size:.8rem; padding:.55rem 1.3rem; border-radius:26px; border:none; background:transparent; color:var(--ink-muted); cursor:pointer; transition:all .3s; }
+  .gage-toggle button.active{ background:var(--orb); color:#1a1108; font-weight:600; }
+  .gage-panel{ display:none; }
+  .gage-panel.active{ display:block; animation:fadein .4s; }
+  @keyframes fadein{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  .gage-panel ul{ list-style:none; display:flex; flex-direction:column; gap:.7rem; margin-top:1rem; }
+  .gage-panel li{ display:flex; gap:.7rem; align-items:baseline; color:var(--ink-muted); }
+  .gage-panel li::before{ content:'—'; color:var(--orb); }
+
+  /* ---------- REHAB ---------- */
+  .rehab-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; }
+  @media (max-width:900px){ .rehab-grid{ grid-template-columns:1fr; } }
+  .rehab-card{ background:var(--bg-1); border:1px solid var(--line); border-radius:16px; padding:1.8rem; text-align:left; }
+  .rehab-card .emo{ font-size:2rem; }
+  .rehab-card h4{ margin:.7rem 0 .4rem; font-size:1.15rem; }
+  .rehab-card p{ color:var(--ink-muted); font-size:.92rem; }
+
+  /* ---------- QUIZ ---------- */
+  .quiz-list{ display:flex; flex-direction:column; gap:1rem; max-width:820px; }
+  .quiz-item{ background:var(--bg-1); border:1px solid var(--line); border-radius:14px; padding:1.3rem 1.6rem; cursor:pointer; }
+  .quiz-item .q{ display:flex; justify-content:space-between; align-items:center; font-weight:600; }
+  .quiz-item .arrow{ font-family:var(--mono); color:var(--ink-faint); transition:transform .3s; }
+  .quiz-item.open .arrow{ transform:rotate(90deg); }
+  .quiz-item .a{ display:none; margin-top:.9rem; padding-top:.9rem; border-top:1px dashed var(--line); color:var(--ink-muted); }
+  .quiz-item.open .a{ display:block; }
+  #score{ margin-top:1.4rem; font-family:var(--mono); color:var(--ink-faint); font-size:.85rem; }
+
+  footer{ text-align:center; padding:4rem 6vw 3rem; color:var(--ink-faint); font-family:var(--mono); font-size:.78rem; }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<nav id="navdots">
+  <button data-target="hero" class="active" title="Portada"></button>
+  <button data-target="evolucion" title="Evolución"></button>
+  <button data-target="jerarquia" title="Jerarquía"></button>
+  <button data-target="mapa" title="Mapa CPF"></button>
+  <button data-target="sindromes" title="Síndromes"></button>
+  <button data-target="funciones" title="Func. Ejecutivas"></button>
+  <button data-target="gage" title="Caso Gage"></button>
+  <button data-target="rehab" title="Rehabilitación"></button>
+  <button data-target="quiz" title="Autoevaluación"></button>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="neuron" style="width:10px;height:10px;background:var(--dl); top:18%; left:8%;"></div>
+  <div class="neuron" style="width:6px;height:6px;background:var(--med); top:65%; left:22%; animation-delay:1s;"></div>
+  <div class="neuron" style="width:8px;height:8px;background:var(--orb); top:30%; left:80%; animation-delay:2s;"></div>
+  <div class="neuron" style="width:5px;height:5px;background:var(--dl); top:75%; left:70%; animation-delay:1.4s;"></div>
+  <div class="kicker">🧠 Neuropsicología · Corteza Prefrontal</div>
+  <h1>El <em>director</em><br>de orquesta.</h1>
+  <p class="lead">No toca ningún instrumento — pero sin él, la orquesta entera desafina. Así funcionan los lóbulos frontales: coordinan sin ejecutar directamente. Un recorrido por su anatomía, sus funciones y lo que ocurre cuando el director deja de dirigir.</p>
+  <div class="stat-row">
+    <div class="stat reveal"><div class="n">~33%</div><div class="l">de la corteza cerebral humana</div></div>
+    <div class="stat reveal"><div class="n">29%</div><div class="l">vs. 8.5% en lémures</div></div>
+    <div class="stat reveal"><div class="n">3</div><div class="l">regiones prefrontales, 3 preguntas</div></div>
+  </div>
+  <div class="scrollhint">↓ desplazate para empezar</div>
+</section>
+
+<!-- ============ EVOLUCION ============ -->
+<section id="evolucion">
+  <div class="sec-head reveal">
+    <div class="eyebrow">01 · Filogenia</div>
+    <h2>🦍 Cuanto más "arriba" en la escala evolutiva, más frontal.</h2>
+    <p>El crecimiento de la corteza frontal es uno de los datos más citados en neuropsicología comparada: no es un cambio de grado, es un salto.</p>
+  </div>
+  <div class="evo-wrap reveal">
+    <div class="evo-row">
+      <div class="evo-label">🐒 Lémures</div>
+      <div class="evo-track"><div class="evo-fill" data-pct="8.5" style="background:linear-gradient(90deg,#6f688e,#9d8bff);"></div></div>
+      <div class="evo-pct">8.5%</div>
+    </div>
+    <div class="evo-row">
+      <div class="evo-label">🦧 Chimpancés</div>
+      <div class="evo-track"><div class="evo-fill" data-pct="17" style="background:linear-gradient(90deg,#5a7fff,var(--dl));"></div></div>
+      <div class="evo-pct">17%</div>
+    </div>
+    <div class="evo-row">
+      <div class="evo-label">🧑 Humanos</div>
+      <div class="evo-track"><div class="evo-fill" data-pct="29" style="background:linear-gradient(90deg,var(--dl),var(--med));"></div></div>
+      <div class="evo-pct">29%</div>
+    </div>
+  </div>
+  <p class="evo-note reveal">Estas cifras representan la proporción del lóbulo frontal sobre la masa total de cada hemisferio. El salto humano no es solo de tamaño: es lo que permite planificar a futuro, inhibir impulsos y sostener metas abstractas en el tiempo. 🎯</p>
+</section>
+
+<!-- ============ JERARQUIA ============ -->
+<section id="jerarquia">
+  <div class="sec-head reveal">
+    <div class="eyebrow">02 · Organización jerárquica</div>
+    <h2>⚙️ Tres pisos, tres niveles de abstracción.</h2>
+    <p>La corteza frontal no es una unidad homogénea. Se organiza en niveles: el de más atrás ejecuta, el del medio programa, el de más adelante planifica.</p>
+  </div>
+  <div class="stack">
+    <div class="layer l3 reveal">
+      <div class="tag">Área 4 de Brodmann</div>
+      <h3>🏃 Corteza motora primaria</h3>
+      <p>La "plataforma de salida". Ejecuta los movimientos voluntarios de boca y extremidades, controlando fuerza y dirección — pero no decide qué movimiento hacer. Solo obedece.</p>
+    </div>
+    <div class="layer l2 reveal">
+      <div class="tag">Áreas 6, 8, 44 y 45</div>
+      <h3>🎛️ Corteza premotora / asociación motora</h3>
+      <p>Organiza y programa movimientos complejos orientados a una meta, y regula el control postural. Aquí vive el área de Broca (articulación del lenguaje) y los campos oculares frontales.</p>
+    </div>
+    <div class="layer l1 reveal">
+      <div class="tag">Nivel de mayor abstracción</div>
+      <h3>🧭 Corteza prefrontal (CPF)</h3>
+      <p>Por delante de todo lo anterior. Elabora y ajusta esquemas o planes de acción complejos. Es donde ocurre todo lo que exploramos a continuación. ⬇️</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MAPA CPF (SIGNATURE) ============ -->
+<section id="mapa">
+  <div class="sec-head reveal">
+    <div class="eyebrow">03 · Anatomía funcional</div>
+    <h2>🗺️ La CPF le responde a tres preguntas.</h2>
+    <p>Cada región prefrontal se puede pensar como la respuesta a una pregunta distinta sobre la conducta. Tocá el mapa o los nombres para explorar cada una.</p>
+  </div>
+
+  <div class="brainmap-wrap reveal">
+    <div>
+      <svg class="brain-svg" viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg">
+        <path class="brain-outline" d="M60 180 C40 120 80 55 160 45 C220 37 300 55 340 100 C375 138 370 190 345 220 C355 245 335 270 305 268 C300 285 270 295 250 280 C225 300 185 298 165 278 C130 285 100 265 100 235 C70 230 50 210 60 180 Z"/>
+        <!-- dorsolateral: upper-front zone -->
+        <path id="reg-dl" class="brain-region" data-region="dl" style="color:var(--dl); fill:var(--dl);" d="M95 95 C130 60 210 50 250 70 C270 82 265 120 235 130 C195 145 140 140 110 125 C95 118 88 106 95 95 Z"/>
+        <!-- orbital: lower-front zone -->
+        <path id="reg-orb" class="brain-region" data-region="orb" style="color:var(--orb); fill:var(--orb);" d="M85 165 C110 145 165 140 195 155 C210 163 208 190 185 198 C150 210 105 205 85 190 C75 182 76 173 85 165 Z"/>
+        <!-- medial: inner core, drawn as dashed inset -->
+        <ellipse id="reg-med" class="brain-region" data-region="med" style="color:var(--med); fill:var(--med);" cx="205" cy="145" rx="46" ry="30"/>
+      </svg>
+      <div class="region-legend">
+        <div class="region-pill" data-region="dl"><span class="dot" style="background:var(--dl);"></span> Dorsolateral</div>
+        <div class="region-pill" data-region="orb"><span class="dot" style="background:var(--orb);"></span> Orbital</div>
+        <div class="region-pill" data-region="med"><span class="dot" style="background:var(--med);"></span> Medial / Ventral</div>
+      </div>
+    </div>
+
+    <div class="cpf-card" id="cpf-card">
+      <div class="q" id="cpf-q">"¿Cómo hacerlo?"</div>
+      <div class="region-name" id="cpf-name" style="color:var(--dl);">CPF Dorsolateral</div>
+      <p id="cpf-desc">Media en la planificación y organización temporal de las acciones dirigidas a una meta. Es el sustrato de la <strong>memoria de trabajo</strong> (mantener y manipular información), la conceptualización, el establecimiento de categorías y la capacidad de beneficiarse de ayudas externas.</p>
+      <span class="badge" id="cpf-badge">📎 Lesión → Síndrome disejecutivo</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SINDROMES ============ -->
+<section id="sindromes">
+  <div class="sec-head reveal">
+    <div class="eyebrow">04 · Neuropsicopatología</div>
+    <h2>💥 Cuando el director se lesiona.</h2>
+    <p>Cada región tiene su propio síndrome cuando se daña — y el color te dice de qué región viene. Tocá cada tarjeta para expandirla.</p>
+  </div>
+  <div class="synd-grid">
+    <div class="synd-card reveal" style="--c:var(--dl);">
+      <div class="emo">🧩</div>
+      <h3>Síndrome disejecutivo</h3>
+      <div class="sub">Lesión dorsolateral</div>
+      <p>Pérdida de la flexibilidad mental, fallas en planificación, secuenciación y resolución de problemas.</p>
+      <div class="toggle">+ ver más</div>
+      <div class="more">El paciente muestra apatía, inatención y dificultades en la memoria de trabajo. Dato clínico clave: si la lesión es <strong>izquierda</strong>, suele cursar con síntomas depresivos.</div>
+    </div>
+    <div class="synd-card reveal" style="--c:var(--orb);">
+      <div class="emo">🔥</div>
+      <h3>Síndrome de desinhibición</h3>
+      <div class="sub">Lesión orbital</div>
+      <p>Alteraciones graves en el control de impulsos: irritabilidad, labilidad emocional, conductas socialmente inapropiadas.</p>
+      <div class="toggle">+ ver más</div>
+      <div class="more">Incluye el <strong>síndrome de dependencia ambiental</strong>: el paciente imita gestos del otro o utiliza objetos al alcance sin un fin claro, como si el entorno "capturara" la conducta.</div>
+    </div>
+    <div class="synd-card reveal" style="--c:var(--med);">
+      <div class="emo">😶</div>
+      <h3>Síndrome apático-abúlico</h3>
+      <div class="sub">Lesión medial</div>
+      <p>Su síntoma máximo: el paciente está despierto, pero sin iniciativa, casi sin habla ni movimiento.</p>
+      <div class="toggle">+ ver más</div>
+      <div class="more"><strong>Mutismo acinético</strong>: no es parálisis ni desconexión de conciencia, es abulia total — ausencia de motivación y deseo para actuar.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FUNCIONES EJECUTIVAS ============ -->
+<section id="funciones">
+  <div class="sec-head reveal">
+    <div class="eyebrow">05 · Funciones ejecutivas</div>
+    <h2>🎼 El modelo de Diamond: 3 funciones centrales.</h2>
+    <p>Las FE son procesos de alto nivel que regulan cognición, emoción y comportamiento — esenciales ante situaciones novedosas o complejas, donde el "piloto automático" no alcanza. Tocá cada tarjeta para ver cómo se evalúan.</p>
+  </div>
+
+  <div class="fe-intro reveal">
+    <div class="big">🎻</div>
+    <div>Como un director de orquesta o el CEO de una empresa: las FE <strong>coordinan</strong> otros procesos cognitivos, pero no los ejecutan directamente.</div>
+  </div>
+
+  <div class="fe-grid reveal">
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-face flip-front">
+          <div class="emo">🧮</div>
+          <h4>Memoria de trabajo</h4>
+          <div class="hint">tocá para ver la evaluación →</div>
+        </div>
+        <div class="flip-face flip-back">
+          <p>Retener y manipular información simultáneamente.</p>
+          <div class="test">🧪 Dígitos inversos · Cubos de Corsi inverso</div>
+        </div>
+      </div>
+    </div>
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-face flip-front">
+          <div class="emo">🛑</div>
+          <h4>Inhibición</h4>
+          <div class="hint">tocá para ver la evaluación →</div>
+        </div>
+        <div class="flip-face flip-back">
+          <p>Frenar respuestas automáticas o tentaciones.</p>
+          <div class="test">🧪 Test de Stroop · Paradigmas Go/No-go</div>
+        </div>
+      </div>
+    </div>
+    <div class="flip">
+      <div class="flip-inner">
+        <div class="flip-face flip-front">
+          <div class="emo">🔄</div>
+          <h4>Flexibilidad cognitiva</h4>
+          <div class="hint">tocá para ver la evaluación →</div>
+        </div>
+        <div class="flip-face flip-back">
+          <p>Cambiar de perspectiva o de regla ante demandas variables.</p>
+          <div class="test">🧪 Test de Wisconsin · TMT-B</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fe-higher reveal">
+    <span>↳ a partir de estas tres nacen las FE de orden superior:</span>
+    <span>🧠 Razonamiento</span>
+    <span>📐 Planificación</span>
+    <span>🧩 Resolución de problemas</span>
+  </div>
+</section>
+
+<!-- ============ CASO GAGE ============ -->
+<section id="gage">
+  <div class="sec-head reveal">
+    <div class="eyebrow">06 · Caso clínico</div>
+    <h2>🚧 Phineas Gage: la barra que reescribió la neuropsicología.</h2>
+    <p>El ejemplo histórico fundamental de una lesión prefrontal ventromedial/orbital. Una barra de hierro atravesó su cráneo — y su intelecto quedó intacto, pero su personalidad no.</p>
+  </div>
+  <div class="gage-wrap reveal">
+    <div class="gage-toggle">
+      <button class="gtab active" data-panel="antes">Antes del accidente</button>
+      <button class="gtab" data-panel="despues">Después del accidente</button>
+    </div>
+    <div class="gage-panel active" id="antes">
+      <ul>
+        <li>Capataz responsable, eficiente y muy valorado por su empresa</li>
+        <li>Prudente en la toma de decisiones</li>
+        <li>Buen equilibrio entre facultades intelectuales e instintos</li>
+      </ul>
+    </div>
+    <div class="gage-panel" id="despues">
+      <ul>
+        <li>Facultades intelectuales básicas conservadas 🧠✔️</li>
+        <li>Cambio radical de personalidad: irascible, profano e irresponsable</li>
+        <li>Pérdida del equilibrio entre facultades y deseos instintivos</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REHABILITACION ============ -->
+<section id="rehab">
+  <div class="sec-head reveal">
+    <div class="eyebrow">07 · Intervención</div>
+    <h2>🛠️ Rehabilitar: las 3 estrategias.</h2>
+    <p>La rehabilitación se apoya en la neuroplasticidad y el involucramiento familiar. El éxito se mide por la capacidad de <strong>generalizar</strong> lo aprendido a la vida cotidiana.</p>
+  </div>
+  <div class="rehab-grid">
+    <div class="rehab-card reveal">
+      <div class="emo">🔁</div>
+      <h4>Restauración</h4>
+      <p>Estimulación directa de la función afectada mediante repetición sistemática.</p>
+    </div>
+    <div class="rehab-card reveal">
+      <div class="emo">⚖️</div>
+      <h4>Compensación</h4>
+      <p>Uso de habilidades preservadas para suplir las funciones que fallan.</p>
+    </div>
+    <div class="rehab-card reveal">
+      <div class="emo">⏰</div>
+      <h4>Sustitución</h4>
+      <p>Ayudas externas — agendas, alarmas, recordatorios — que reemplazan la función perdida.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section id="quiz">
+  <div class="sec-head reveal">
+    <div class="eyebrow">08 · Autoevaluación rápida</div>
+    <h2>✅ ¿Quedó claro? Repasá sin presión.</h2>
+    <p>Sin puntaje, sin penalidad — tocá cada pregunta para ver la respuesta.</p>
+  </div>
+  <div class="quiz-list reveal">
+    <div class="quiz-item">
+      <div class="q">¿Qué región prefrontal responde a "¿cuándo hacerlo?" <span class="arrow">›</span></div>
+      <div class="a">La CPF medial o ventral, que canaliza motivación y emoción hacia objetivos, funcionando como un "temporizador" que inicia la acción y sostiene la atención focalizada.</div>
+    </div>
+    <div class="quiz-item">
+      <div class="q">¿Qué diferencia hay entre lesión dorsolateral izquierda y derecha? <span class="arrow">›</span></div>
+      <div class="a">Ambas producen síndrome disejecutivo, pero la lesión izquierda suele cursar además con síntomas depresivos.</div>
+    </div>
+    <div class="quiz-item">
+      <div class="q">¿Qué instrumentos evalúan la inhibición como función ejecutiva? <span class="arrow">›</span></div>
+      <div class="a">El Test de Stroop y los paradigmas Go/No-go.</div>
+    </div>
+    <div class="quiz-item">
+      <div class="q">¿Qué es el síndrome de dependencia ambiental? <span class="arrow">›</span></div>
+      <div class="a">Un componente del síndrome de desinhibición (lesión orbital): el paciente imita gestos ajenos o utiliza objetos al alcance sin un propósito claro.</div>
+    </div>
+    <div class="quiz-item">
+      <div class="q">¿Cuáles son las tres estrategias de rehabilitación? <span class="arrow">›</span></div>
+      <div class="a">Restauración (repetición), compensación (habilidades preservadas) y sustitución (ayudas externas como agendas o alarmas).</div>
+    </div>
+  </div>
+</section>
+
+<footer>🧠 CPF · lóbulos frontales — material de estudio interactivo</footer>
+
+<script>
+  // reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+
+  // progress bar + nav dots active state
+  const sections = document.querySelectorAll('section[id]');
+  const dots = document.querySelectorAll('#navdots button');
+  function onScroll(){
+    const doc = document.documentElement;
+    const pct = (window.scrollY / (doc.scrollHeight - doc.clientHeight)) * 100;
+    document.getElementById('progress').style.width = pct + '%';
+
+    let current = sections[0].id;
+    sections.forEach(s=>{
+      if (window.scrollY >= s.offsetTop - window.innerHeight*0.5) current = s.id;
+    });
+    dots.forEach(d=> d.classList.toggle('active', d.dataset.target === current));
+
+    // evolucion bars fill when visible
+    document.querySelectorAll('.evo-fill').forEach(f=>{
+      const rect = f.getBoundingClientRect();
+      if (rect.top < window.innerHeight*0.85 && !f.dataset.filled){
+        f.style.width = f.dataset.pct + '%';
+        f.dataset.filled = '1';
+      }
+    });
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+
+  dots.forEach(d=> d.addEventListener('click', ()=>{
+    document.getElementById(d.dataset.target).scrollIntoView({behavior:'smooth'});
+  }));
+
+  // brain map interactivity
+  const cpfData = {
+    dl: {
+      q: '"¿Cómo hacerlo?"',
+      name: 'CPF Dorsolateral',
+      color: 'var(--dl)',
+      desc: 'Media en la planificación y organización temporal de las acciones dirigidas a una meta. Es el sustrato de la <strong>memoria de trabajo</strong> (mantener y manipular información), la conceptualización, el establecimiento de categorías y la capacidad de beneficiarse de ayudas externas.',
+      badge: '📎 Lesión → Síndrome disejecutivo'
+    },
+    orb: {
+      q: '"¿Qué hacer?"',
+      name: 'CPF Orbital',
+      color: 'var(--orb)',
+      desc: 'Se encarga del <strong>ajuste personal y social</strong> y del control inhibitorio: suprime impulsos instintivos o estímulos irrelevantes para dirigir la atención hacia la acción apropiada según el contexto.',
+      badge: '📎 Lesión → Síndrome de desinhibición'
+    },
+    med: {
+      q: '"¿Cuándo hacerlo?"',
+      name: 'CPF Medial / Ventral',
+      color: 'var(--med)',
+      desc: 'Implicada en canalizar la <strong>motivación y la emoción</strong> hacia objetivos apropiados. Actúa como un "temporizador" que media en la iniciación de las acciones, la actividad exploratoria y el mantenimiento de la atención focalizada.',
+      badge: '📎 Lesión → Síndrome apático-abúlico'
+    }
+  };
+  function setRegion(key){
+    const d = cpfData[key];
+    document.getElementById('cpf-q').textContent = d.q;
+    document.getElementById('cpf-name').textContent = d.name;
+    document.getElementById('cpf-name').style.color = d.color;
+    document.getElementById('cpf-desc').innerHTML = d.desc;
+    document.getElementById('cpf-badge').textContent = d.badge;
+    document.getElementById('cpf-card').style.borderColor = d.color;
+    document.querySelectorAll('.brain-region').forEach(r=> r.classList.toggle('active', r.dataset.region===key));
+    document.querySelectorAll('.region-pill').forEach(p=> p.style.color = p.dataset.region===key ? d.color : '');
+  }
+  document.querySelectorAll('.brain-region, .region-pill').forEach(el=>{
+    el.addEventListener('click', ()=> setRegion(el.dataset.region));
+    el.addEventListener('mouseenter', ()=> setRegion(el.dataset.region));
+  });
+  setRegion('dl');
+
+  // syndrome cards expand
+  document.querySelectorAll('.synd-card').forEach(c=>{
+    c.addEventListener('click', ()=>{
+      c.classList.toggle('open');
+      c.querySelector('.toggle').textContent = c.classList.contains('open') ? '− ver menos' : '+ ver más';
+    });
+  });
+
+  // flip cards
+  document.querySelectorAll('.flip').forEach(f=>{
+    f.addEventListener('click', ()=> f.classList.toggle('flipped'));
+  });
+
+  // gage toggle
+  document.querySelectorAll('.gtab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.gtab').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.gage-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.panel).classList.add('active');
+    });
+  });
+
+  // quiz accordion
+  document.querySelectorAll('.quiz-item').forEach(item=>{
+    item.addEventListener('click', ()=> item.classList.toggle('open'));
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroMind: Explorando la Memoria</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --gradient-1: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --gradient-2: linear-gradient(135deg, #38bdf8 0%, #2dd4bf 100%);
+            --gradient-3: linear-gradient(135deg, #f472b6 0%, #fb7185 100%);
+            --gradient-4: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        p.subtitle { color: var(--text-secondary); font-size: 1.1rem; }
+
+        /* Filtros */
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .filter-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--text-secondary);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg-color);
+            font-weight: bold;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
+        }
+
+        /* Grid de Tarjetas */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* Estilo de la Tarjeta (Flip Effect) */
+        .card-scene {
+            height: 350px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        /* Cara Frontal */
+        .card-front {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .emoji-icon { font-size: 4rem; margin-bottom: 15px; }
+        .concept-title { font-size: 1.5rem; font-weight: bold; color: var(--accent); }
+        .hint { margin-top: 15px; font-size: 0.8rem; color: var(--text-secondary); opacity: 0.7; }
+
+        /* Cara Trasera */
+        .card-back {
+            background: #253346;
+            transform: rotateY(180deg);
+            border-left: 5px solid var(--accent);
+        }
+
+        .back-section { margin-bottom: 12px; }
+        .back-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 4px; font-weight: bold; }
+        .back-content { font-size: 0.95rem; line-height: 1.4; }
+        
+        .highlight { color: #fbbf24; font-weight: bold; }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .grid-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🧠 NeuroMind Interactive</h1>
+        <p class="subtitle">Explora los conceptos clave de la Neuropsicología de la Memoria</p>
+    </header>
+
+    <div class="filters" id="filterContainer">
+        <button class="filter-btn active" data-filter="all">Todo</button>
+        <button class="filter-btn" data-filter="basico">Conceptos Básicos</button>
+        <button class="filter-btn" data-filter="sistemas">Sistemas de Memoria</button>
+        <button class="filter-btn" data-filter="biologia">Biología</button>
+        <button class="filter-btn" data-filter="clinica">Clínica y Patología</button>
+    </div>
+
+    <div class="grid-container" id="cardGrid">
+        <!-- Las tarjetas se generan con JS -->
+    </div>
+
+    <script>
+        // Datos procesados de la tabla
+        const data = [
+            // Conceptos Básicos
+            {
+                category: "basico",
+                emoji: "💾",
+                title: "Memoria",
+                def: "Capacidad para codificar, almacenar y recuperar información.",
+                chars: "Proceso activo y dinámico; base del aprendizaje.",
+                comp: "Se diferencia del aprendizaje: éste produce cambios; la memoria los conserva.",
+                justif: "Permite comprender cómo el cerebro adquiere, mantiene y recupera información."
+            },
+            {
+                category: "basico",
+                emoji: "📈",
+                title: "Aprendizaje",
+                def: "Cambio relativamente permanente producido por la experiencia.",
+                chars: "Depende de la plasticidad neuronal; modifica la conducta.",
+                comp: "El aprendizaje genera información; la memoria la almacena y recupera.",
+                justif: "Explica la adquisición de habilidades y la rehabilitación neuropsicológica."
+            },
+            {
+                category: "basico",
+                emoji: "⌨️",
+                title: "Codificación",
+                def: "Transformación de la información para poder almacenarse.",
+                chars: "Depende de la atención y del procesamiento inicial.",
+                comp: "Se diferencia del almacenamiento y de la recuperación.",
+                justif: "Su alteración dificulta la formación de nuevos recuerdos."
+            },
+            {
+                category: "basico",
+                emoji: "📦",
+                title: "Almacenamiento",
+                def: "Conservación de la información a lo largo del tiempo.",
+                chars: "Puede ser de corta o larga duración.",
+                comp: "Es posterior a la codificación y previo a la recuperación.",
+                justif: "Permite comprender la consolidación de la memoria."
+            },
+            {
+                category: "basico",
+                emoji: "🔍",
+                title: "Recuperación",
+                def: "Acceso a la información previamente almacenada.",
+                chars: "Puede ser libre o facilitada por claves.",
+                comp: "Puede fallar aunque el recuerdo esté almacenado.",
+                justif: "Explica algunos trastornos mnésicos (no recordar ≠ no tener)."
+            },
+            
+            // Sistemas de Memoria
+            {
+                category: "sistemas",
+                emoji: "👁️",
+                title: "Memoria Sensorial",
+                def: "Retiene información sensorial brevemente.",
+                chars: "Milisegundos a segundos; gran capacidad.",
+                comp: "Precede a la memoria de trabajo.",
+                justif: "Primer nivel del procesamiento de la información."
+            },
+            {
+                category: "sistemas",
+                emoji: "📝",
+                title: "Memoria de Trabajo",
+                def: "Mantiene y manipula info temporalmente para tareas cognitivas.",
+                chars: "Capacidad limitada; esencial para razonamiento y planificación.",
+                comp: "Sustituye el concepto clásico de memoria a corto plazo.",
+                justif: "Componente esencial de las funciones ejecutivas."
+            },
+            {
+                category: "sistemas",
+                emoji: "🗄️",
+                title: "Memoria a Largo Plazo",
+                def: "Almacenamiento relativamente permanente.",
+                chars: "Gran capacidad y duración prolongada.",
+                comp: "Se divide en declarativa y no declarativa.",
+                justif: "Principal objeto de estudio de las amnesias."
+            },
+            {
+                category: "sistemas",
+                emoji: "🗣️",
+                title: "Memoria Declarativa",
+                def: "Memoria consciente de hechos y acontecimientos (Explícita).",
+                chars: "Incluye episódica y semántica.",
+                comp: "Requiere evocación consciente vs. Implícita.",
+                justif: "Depende del lóbulo temporal medial e hipocampo."
+            },
+            {
+                category: "sistemas",
+                emoji: "📅",
+                title: "Memoria Episódica",
+                def: "Acontecimientos personales (tiempo y lugar).",
+                chars: "Contexto autobiográfico.",
+                comp: "Se diferencia de la semántica (datos).",
+                justif: "Afectada tempranamente en Alzheimer."
+            },
+            {
+                category: "sistemas",
+                emoji: "🌍",
+                title: "Memoria Semántica",
+                def: "Conocimientos generales del mundo.",
+                chars: "Independiente del contexto de aprendizaje.",
+                comp: "Datos puros vs. Experiencias personales.",
+                justif: "Se preserva más tiempo en síndromes amnésicos."
+            },
+            {
+                category: "sistemas",
+                emoji: "🚲",
+                title: "Memoria No Declarativa",
+                def: "Se expresa mediante la ejecución (Implícita).",
+                chars: "Automática, sin recuerdo consciente.",
+                comp: "No requiere conciencia vs. Declarativa.",
+                justif: "Permite aprender habilidades sin saber que se aprendió."
+            },
+            {
+                category: "sistemas",
+                emoji: "🎹",
+                title: "Memoria Procedimental",
+                def: "Habilidades motoras o cognitivas.",
+                chars: "Adquirida por práctica, automática.",
+                comp: "Subtipo de memoria implícita.",
+                justif: "Se conserva en lesiones hipocampales."
+            },
+
+            // Biología
+            {
+                category: "biologia",
+                emoji: "🏗️",
+                title: "Consolidación",
+                def: "Estabilización del recuerdo reciente a largo plazo.",
+                chars: "Requiere tiempo y participación del hipocampo.",
+                comp: "Fase distinta a la recuperación.",
+                justif: "Explica amnesias tras lesiones temporales recientes."
+            },
+            {
+                category: "biologia",
+                emoji: "🐴",
+                title: "Hipocampo",
+                def: "Estructura clave para la memoria declarativa.",
+                chars: "Formación de nuevos recuerdos.",
+                comp: "Vs. Ganglios basales/Cerebelo (procedimental).",
+                justif: "Su lesión causa amnesia anterógrada."
+            },
+            {
+                category: "biologia",
+                emoji: "🧠",
+                title: "Lóbulo Temporal Medial",
+                def: "Región con hipocampo y corteza entorrinal.",
+                chars: "Esencial para consolidación declarativa.",
+                comp: "Vs. Corteza prefrontal (memoria de trabajo).",
+                justif: "Lesiones causan graves alteraciones mnésicas."
+            },
+            {
+                category: "biologia",
+                emoji: "🔌",
+                title: "Plasticidad Neuronal",
+                def: "Capacidad de modificar conexiones por experiencia.",
+                chars: "Base biológica del aprendizaje.",
+                comp: "Visión dinámica vs. estática del cerebro.",
+                justif: "Fundamenta la rehabilitación neuropsicológica."
+            },
+
+            // Clínica
+            {
+                category: "clinica",
+                emoji: "👤",
+                title: "Caso H.M.",
+                def: "Paciente con resección bilateral del lóbulo temporal.",
+                chars: "Amnesia anterógrada grave, inteligencia conservada.",
+                comp: "Demostró sistemas múltiples de memoria.",
+                justif: "Hito histórico de la Neuropsicología."
+            },
+            {
+                category: "clinica",
+                emoji: "⚠️",
+                title: "Amnesia",
+                def: "Alteración adquirida de la memoria por lesión.",
+                chars: "Afecta codificación, consolidación o recuperación.",
+                comp: "Patológico vs. Olvido normal.",
+                justif: "Síndrome neuropsicológico principal."
+            },
+            {
+                category: "clinica",
+                emoji: "🛑",
+                title: "Amnesia Anterógrada",
+                def: "Incapacidad para formar NUEVOS recuerdos.",
+                chars: "Conserva recuerdos previos.",
+                comp: "Futuro afectado vs. Pasado afectado (Retrógrada).",
+                justif: "Típica de lesiones hipocampales."
+            },
+            {
+                category: "clinica",
+                emoji: "⏪",
+                title: "Amnesia Retrógrada",
+                def: "Pérdida de recuerdos ANTERIORES a la lesión.",
+                chars: "Gradiente temporal (recientes se pierden más).",
+                comp: "Pasado afectado vs. Futuro (Anterógrada).",
+                justif: "Estudio de organización temporal."
+            },
+            {
+                category: "clinica",
+                emoji: "📉",
+                title: "Ley de Ribot",
+                def: "Los recuerdos antiguos se preservan mejor que los recientes.",
+                chars: "Gradiente temporal de pérdida.",
+                comp: "Explica la recuperación diferencial.",
+                justif: "Frecuente en amnesias orgánicas y demencias."
+            },
+            {
+                category: "clinica",
+                emoji: "🎭",
+                title: "Confabulación",
+                def: "Producción involuntaria de recuerdos falsos.",
+                chars: "El paciente cree que son verdaderos.",
+                comp: "No es mentira consciente.",
+                justif: "Típico en síndrome de Korsakoff y daño frontal."
+            },
+            {
+                category: "clinica",
+                emoji: "🍷",
+                title: "Síndrome de Korsakoff",
+                def: "Trastorno amnésico por déficit de tiamina (Alcoholismo).",
+                chars: "Amnesia + Confabulaciones.",
+                comp: "Origen metabólico vs. Degenerativo (Alzheimer).",
+                justif: "Ejemplo clásico de amnesia diencefálica."
+            },
+            {
+                category: "clinica",
+                emoji: "🩺",
+                title: "Síndrome Amnésico",
+                def: "Déficit de memoria con otras funciones preservadas.",
+                chars: "Inteligencia y lenguaje intactos.",
+                comp: "Focal vs. Global (Demencia).",
+                justif: "Permite localizar lesiones específicas."
+            }
+        ];
+
+        const grid = document.getElementById('cardGrid');
+        const filters = document.querySelectorAll('.filter-btn');
+
+        function renderCards(filter) {
+            grid.innerHTML = '';
+            
+            const filteredData = filter === 'all' 
+                ? data 
+                : data.filter(item => item.category === filter);
+
+            filteredData.forEach((item, index) => {
+                const cardScene = document.createElement('div');
+                cardScene.className = 'card-scene';
+                
+                // Animación de entrada escalonada
+                cardScene.style.animation = `fadeIn 0.5s ease forwards ${index * 0.1}s`;
+                cardScene.style.opacity = '0'; 
+
+                cardScene.innerHTML = `
+                    <div class="card" onclick="this.classList.toggle('is-flipped')">
+                        <div class="card-face card-front">
+                            <div class="emoji-icon">${item.emoji}</div>
+                            <div class="concept-title">${item.title}</div>
+                            <div class="hint">Click para ver detalles 👆</div>
+                        </div>
+                        <div class="card-face card-back">
+                            <div class="back-section">
+                                <div class="back-title">Definición</div>
+                                <div class="back-content">${item.def}</div>
+                            </div>
+                            <div class="back-section">
+                                <div class="back-title">Características</div>
+                                <div class="back-content">${item.chars}</div>
+                            </div>
+                            <div class="back-section">
+                                <div class="back-title">Comparación</div>
+                                <div class="back-content">${item.comp}</div>
+                            </div>
+                            <div class="back-section">
+                                <div class="back-title" style="color:#fbbf24">Aplicación Neuropsico.</div>
+                                <div class="back-content highlight">${item.justif}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(cardScene);
+            });
+        }
+
+        // Event Listeners para filtros
+        filters.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remover clase activa de todos
+                filters.forEach(b => b.classList.remove('active'));
+                // Añadir a actual
+                btn.classList.add('active');
+                // Renderizar
+                renderCards(btn.dataset.filter);
+            });
+        });
+
+        // Render inicial
+        renderCards('all');
+
+    </script>
+</body>
+</html>

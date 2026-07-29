@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 Epilepsias · Neuropsicología</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: linear-gradient(145deg, #f0f4ff 0%, #dfe8f5 100%);
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            color: #1e2a3a;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* header */
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e4a7a, #3a6ea5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #2c405a;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 2rem;
+            border-radius: 40px;
+            display: inline-block;
+            margin-top: 0.3rem;
+        }
+
+        /* tabs */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(4px);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: #1e2a3a;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .tab-btn:hover {
+            background: #c5d6ed;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 74, 122, 0.15);
+        }
+
+        .tab-btn.active {
+            background: #1e4a7a;
+            color: white;
+            border-color: #1e4a7a;
+            box-shadow: 0 8px 24px rgba(30, 74, 122, 0.35);
+        }
+
+        .tab-btn .emoji {
+            font-size: 1.4rem;
+        }
+
+        /* panels */
+        .panel {
+            display: none;
+            animation: fadeUp 0.4s ease;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 28px;
+            padding: 1.8rem 1.8rem 2rem;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: transform 0.2s ease, box-shadow 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 44px rgba(30, 74, 122, 0.12);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: #1a3a5e;
+        }
+
+        .card h4 {
+            font-size: 1.1rem;
+            margin: 1rem 0 0.3rem;
+            color: #2a4f7a;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .card ul,
+        .card p {
+            margin: 0.3rem 0 0.6rem;
+            line-height: 1.6;
+            color: #1e2a3a;
+        }
+
+        .card ul {
+            padding-left: 1.4rem;
+        }
+
+        .card li {
+            margin-bottom: 0.25rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #d4e0f0;
+            color: #1a3a5e;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            margin-right: 0.3rem;
+        }
+
+        .highlight {
+            background: #e6effa;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        /* accordion dentro de cards */
+        .accordion {
+            margin-top: 0.8rem;
+            border-top: 1px solid rgba(30, 74, 122, 0.12);
+            padding-top: 0.8rem;
+        }
+
+        .accordion-item {
+            margin-bottom: 0.4rem;
+        }
+
+        .accordion-header {
+            background: rgba(30, 74, 122, 0.06);
+            border: none;
+            width: 100%;
+            text-align: left;
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            color: #1e2a3a;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .accordion-header:hover {
+            background: rgba(30, 74, 122, 0.12);
+        }
+
+        .accordion-header .arrow {
+            transition: transform 0.25s;
+            font-size: 1.1rem;
+        }
+
+        .accordion-header.open .arrow {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.3s ease;
+            padding: 0 0.5rem;
+        }
+
+        .accordion-content.open {
+            max-height: 800px;
+            padding: 0.8rem 0.5rem 0.2rem;
+        }
+
+        .accordion-content ul {
+            margin: 0.2rem 0 0.4rem;
+        }
+
+        .stage-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 0.5rem 0;
+        }
+
+        .stage-tag {
+            background: #dce6f5;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .footnote {
+            font-size: 0.85rem;
+            color: #3d5a7a;
+            margin-top: 0.5rem;
+            opacity: 0.85;
+        }
+
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem 0.8rem;
+            align-items: center;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(to right, transparent, #b0c8e0, transparent);
+            margin: 1.8rem 0;
+        }
+
+        .first-aid {
+            background: #f0f7ff;
+            border-left: 5px solid #1e4a7a;
+            padding: 0.8rem 1.2rem;
+            border-radius: 16px;
+            margin: 0.6rem 0;
+        }
+
+        .first-aid strong {
+            color: #0d2a47;
+        }
+
+        @media (max-width: 700px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .tab-btn {
+                padding: 0.5rem 1.2rem;
+                font-size: 0.9rem;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            .card {
+                padding: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- header -->
+        <div class="header">
+            <h1>⚡ Epilepsias · Neuropsicología</h1>
+            <p>🧠 Trastorno neurológico crónico · Crisis epilépticas</p>
+        </div>
+
+        <!-- tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="tab1"><span class="emoji">📖</span> Conceptos clave</button>
+            <button class="tab-btn" data-tab="tab2"><span class="emoji">🧩</span> Síndromes epilépticos</button>
+            <button class="tab-btn" data-tab="tab3"><span class="emoji">🩺</span> Diagnóstico &amp; abordaje</button>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- PANEL 1: CONCEPTOS CLAVE                      -->
+        <!-- ============================================ -->
+        <div id="tab1" class="panel active">
+
+            <div class="card-grid">
+
+                <!-- card: definición y criterios -->
+                <div class="card">
+                    <h3>🧬 Definición y criterios</h3>
+                    <p><span class="badge">Epilepsia</span> Trastorno neurológico crónico</p>
+                    <ul>
+                        <li><strong>Predisposición</strong> del cerebro a generar crisis epilépticas de manera recurrente.</li>
+                        <li><strong>Correlato neurofisiológico:</strong> descargas neuronales <em>paroxísticas</em>, <em>hipersincronizadas</em> y de mayor voltaje.</li>
+                    </ul>
+                    <div style="background:#e6effa; border-radius:16px; padding:0.8rem 1rem; margin:0.6rem 0;">
+                        <p style="font-weight:600; margin:0;">📌 <strong>Criterios diagnósticos actuales:</strong></p>
+                        <ul style="margin:0.2rem 0 0;">
+                            <li>✅ Dos o más crisis no provocadas separadas &gt;24 h.</li>
+                            <li>✅ Una crisis no provocada con alto riesgo de recurrencia.</li>
+                            <li>✅ Diagnóstico de síndrome epiléptico específico.</li>
+                        </ul>
+                    </div>
+                    <div class="footnote">🔹 <strong>Crisis provocadas</strong> vs. <strong>no provocadas</strong> (reflejas o sin causa inmediata).</div>
+                </div>
+
+                <!-- card: clasificación de crisis -->
+                <div class="card">
+                    <h3>📊 Clasificación de crisis</h3>
+                    <p><span class="badge">ILAE 2017</span> Tres ejes principales</p>
+                    <ul>
+                        <li><strong>🔹 Inicio:</strong> Focal, generalizado o desconocido.</li>
+                        <li><strong>🔹 Afectación de conciencia:</strong> preservada o alterada (solo crisis focales).</li>
+                        <li><strong>🔹 Tipo de inicio:</strong> motor (tónico, clónico, mioclónico, etc.) o no motor (ausencias, cognitivo, sensorial, etc.).</li>
+                    </ul>
+                    <div style="display:flex; flex-wrap:wrap; gap:0.3rem; margin:0.5rem 0;">
+                        <span class="stage-tag">⚡ Focal</span>
+                        <span class="stage-tag">⚡ Generalizada</span>
+                        <span class="stage-tag">⚡ Inicio desconocido</span>
+                    </div>
+                    <div class="footnote">🔹 Las crisis focales pueden evolucionar a <strong>bilaterales tónico-clónicas</strong>.</div>
+                </div>
+
+                <!-- card: etiología y factores -->
+                <div class="card">
+                    <h3>🔍 Etiología</h3>
+                    <p><span class="badge">Causas</span> Seis categorías principales</p>
+                    <ul>
+                        <li><strong>Genética:</strong> anomalías patogénicas o antecedentes familiares.</li>
+                        <li><strong>Estructural:</strong> lesión visible en neuroimagen (RNM, TAC).</li>
+                        <li><strong>Metabólica:</strong> defectos metabólicos.</li>
+                        <li><strong>Inmunitaria:</strong> enfermedades autoinmunes (ej. encefalitis límbica).</li>
+                        <li><strong>Infecciosa:</strong> infección no aguda que genera lesión (ej. HIV).</li>
+                        <li><strong>Desconocida:</strong> sin causa identificada.</li>
+                    </ul>
+                    <div style="margin-top:0.6rem; background:#f0f7ff; border-radius:16px; padding:0.5rem 1rem;">
+                        <p style="margin:0;">⚠️ <strong>Factores desencadenantes:</strong> falta de sueño, estrés, alcohol, luces intermitentes (en fotosensibles).</p>
+                    </div>
+                </div>
+
+            </div> <!-- end card-grid -->
+
+        </div> <!-- end panel 1 -->
+
+        <!-- ============================================ -->
+        <!-- PANEL 2: SÍNDROMES EPILÉPTICOS               -->
+        <!-- ============================================ -->
+        <div id="tab2" class="panel">
+
+            <div class="card-grid">
+
+                <!-- card: síndromes de inicio en lactantes/infancia -->
+                <div class="card">
+                    <h3>👶 Síndromes en lactantes e infancia</h3>
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <button class="accordion-header open">
+                                <span>🔸 <strong>Síndrome de espasmos epilépticos infantiles (SEEI)</strong></span>
+                                <span class="arrow">▾</span>
+                            </button>
+                            <div class="accordion-content open">
+                                <ul>
+                                    <li><strong>Tríada clásica:</strong> espasmos epilépticos + hipsarritmia + regresión del desarrollo.</li>
+                                    <li>Inicio entre 1 mes y 24 meses, más frecuente en varones.</li>
+                                    <li>Espasmos: contracciones breves (&lt;3s) en series (flexión/extensión).</li>
+                                    <li>Pronóstico variable: puede persistir o evolucionar a otros síndromes.</li>
+                                    <li><span class="highlight">Rol del psicólogo:</span> evaluación del desarrollo, apoyo familiar, intervención temprana.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                <span>🔸 <strong>Síndrome de Lennox-Gastaut (SLG)</strong></span>
+                                <span class="arrow">▾</span>
+                            </button>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li><strong>Encefalopatía epiléptica y del desarrollo</strong> (entre 18 meses y 8 años).</li>
+                                    <li>Crisis múltiples resistentes a fármacos (tónicas obligatorias).</li>
+                                    <li>Deterioro cognitivo y conductual progresivo, EEG con punta-onda lenta.</li>
+                                    <li>Más del 90% desarrolla discapacidad intelectual moderada/severa.</li>
+                                    <li>Persiste en la adultez; tratamiento muy complejo.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                <span>🔸 <strong>Epilepsia de ausencias de la infancia</strong></span>
+                                <span class="arrow">▾</span>
+                            </button>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Edad 4–10 años, más en niñas. Crisis de ausencia diarias (3–20 s).</li>
+                                    <li>Pérdida completa de conciencia, mirada fija, interrupción de actividad.</li>
+                                    <li>EEG: punta-onda generalizada a 3 Hz.</li>
+                                    <li>Buen pronóstico: responde a tratamiento, tiende a desaparecer.</li>
+                                    <li>Puede interferir en el aprendizaje si son muy frecuentes.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- card: síndromes de inicio variable y juveniles -->
+                <div class="card">
+                    <h3>🧑‍🎓 Síndromes de inicio variable / juvenil</h3>
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <button class="accordion-header open">
+                                <span>🔹 <strong>Epilepsia mioclónica juvenil (EMJ)</strong></span>
+                                <span class="arrow">▾</span>
+                            </button>
+                            <div class="accordion-content open">
+                                <ul>
+                                    <li>Inicio 10–24 años, más en mujeres.</li>
+                                    <li>Crisis mioclónicas (obligatorias) + tónico-clónicas generalizadas.</li>
+                                    <li>Desarrollo previo normal, aunque puede haber ansiedad/depresión.</li>
+                                    <li>Tratamiento crónico, buena respuesta a fármacos.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                <span>🔹 <strong>Epilepsia con crisis tónico-clónicas generalizadas aisladas</strong></span>
+                                <span class="arrow">▾</span>
+                            </button>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Antiguamente <strong>Gran Mal</strong>. Inicio 10–25 años.</li>
+                                    <li>Crisis tónico-clónicas generalizadas (fase tónica + fase clónica).</li>
+                                    <li>Frecuencia baja (1 vez al año o menos).</li>
+                                    <li>Desencadenantes: privación de sueño, fatiga, alcohol.</li>
+                                    <li>Buen pronóstico con tratamiento.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                <span>🔹 <strong>Epilepsia del lóbulo temporal mesial con esclerosis hipocampal</strong></span>
+                                <span class="arrow">▾</span>
+                            </button>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Epilepsia focal frecuente en adultos, inicio en adolescencia/adultez temprana.</li>
+                                    <li><strong>Esclerosis hipocampal</strong> (pérdida neuronal y cicatrización).</li>
+                                    <li>Antecedentes de crisis febriles prolongadas en la infancia.</li>
+                                    <li>Crisis focales con conciencia preservada o alterada (automatismos, déjà vu, miedo súbito).</li>
+                                    <li>Resistente a fármacos; candidata a cirugía.</li>
+                                    <li>Déficits de memoria (verbal si izquierdo, visoespacial si derecho).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- card: impacto y rol del psicólogo -->
+                <div class="card">
+                    <h3>🧠 Impacto neuropsicológico</h3>
+                    <p><span class="badge">Evaluación e intervención</span></p>
+                    <ul>
+                        <li><strong>Déficits cognitivos</strong> según el síndrome y localización: memoria, atención, funciones ejecutivas.</li>
+                        <li><strong>Comorbilidades psiquiátricas:</strong> ansiedad, depresión, trastornos de conducta.</li>
+                        <li><strong>Rol del neuropsicólogo:</strong>
+                            <ul>
+                                <li>Evaluación pre y postquirúrgica (cirugía de epilepsia).</li>
+                                <li>Monitoreo intraoperatorio (paciente despierto).</li>
+                                <li>Detección de efectos cognitivos de fármacos antiepilépticos.</li>
+                                <li>Rehabilitación cognitiva y psicoeducación.</li>
+                                <li>Apoyo a la familia y manejo del estigma.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="footnote">🔹 La cirugía de epilepsia es una opción en casos refractarios (≥2 fármacos adecuados sin control).</div>
+                </div>
+
+            </div> <!-- end card-grid -->
+
+        </div> <!-- end panel 2 -->
+
+        <!-- ============================================ -->
+        <!-- PANEL 3: DIAGNÓSTICO Y ABORDAJE              -->
+        <!-- ============================================ -->
+        <div id="tab3" class="panel">
+
+            <div class="card-grid">
+
+                <!-- card: diagnóstico y pruebas -->
+                <div class="card">
+                    <h3>🩺 Diagnóstico clínico</h3>
+                    <p><span class="badge">Historia clínica + complementarios</span></p>
+                    <ul>
+                        <li><strong>Historia clínica:</strong> descripción detallada de las crisis (inicio, duración, síntomas, frecuencia).</li>
+                        <li><strong>Examen físico:</strong> descartar otras causas, evaluar funciones cognitivas/motoras.</li>
+                        <li><strong>Pruebas complementarias:</strong>
+                            <ul>
+                                <li>🧪 <strong>EEG</strong> – fundamental para el diagnóstico y clasificación (actividad paroxística, punta-onda).</li>
+                                <li>🧠 <strong>RNM (Resonancia Magnética Nuclear)</strong> – identifica lesiones estructurales.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div style="background:#e6effa; border-radius:16px; padding:0.6rem 1rem; margin-top:0.4rem;">
+                        <p style="margin:0; font-weight:600;">⚠️ Diagnóstico diferencial: descartar síncope, trastornos psiquiátricos, migraña, etc.</p>
+                    </div>
+                </div>
+
+                <!-- card: primeros auxilios y mitos -->
+                <div class="card">
+                    <h3>🚑 Primeros auxilios durante una crisis</h3>
+                    <div class="first-aid">
+                        <p><strong>✅ QUÉ HACER</strong></p>
+                        <ul style="margin:0.2rem 0;">
+                            <li>Conservar la calma.</li>
+                            <li>Quitar objetos cercanos que puedan lastimar.</li>
+                            <li>Colocar a la persona de costado, con algo blando bajo la cabeza.</li>
+                            <li>Controlar la duración (si &gt;5 min, llamar a emergencias).</li>
+                            <li>Permanecer con la persona hasta que recupere la conciencia.</li>
+                        </ul>
+                    </div>
+                    <div class="first-aid" style="border-left-color: #b22222;">
+                        <p><strong>❌ QUÉ NO HACER</strong></p>
+                        <ul style="margin:0.2rem 0;">
+                            <li>No mover a la persona durante la crisis.</li>
+                            <li>No inmovilizar ni sujetar.</li>
+                            <li>No dar agua, alimentos ni medicamentos.</li>
+                            <li>No introducir objetos en la boca.</li>
+                            <li>No realizar maniobras de RCP (a menos que no respire).</li>
+                        </ul>
+                    </div>
+                    <div style="margin-top:0.6rem; background:#f4f0fa; border-radius:16px; padding:0.5rem 1rem;">
+                        <p style="margin:0;">🧠 <strong>Mitos:</strong> "Todas las crisis son convulsivas" ❌ · "Las personas con epilepsia no pueden manejar" ❌</p>
+                    </div>
+                </div>
+
+                <!-- card: evaluación neuropsicológica e intervención -->
+                <div class="card">
+                    <h3>🧪 Evaluación neuropsicológica</h3>
+                    <p><span class="badge">Objetivos</span> Integral y multidisciplinar</p>
+                    <ul>
+                        <li><strong>Línea de base</strong> para evaluar cambios cognitivos y conductuales.</li>
+                        <li>Ayuda a la <strong>localización del foco</strong> epiléptico (lateralización/focalización).</li>
+                        <li>Detecta <strong>efectos cognitivos</strong> de fármacos antiepilépticos.</li>
+                        <li>Identifica <strong>comorbilidades</strong> (depresión, ansiedad, TDAH).</li>
+                        <li>Orienta la <strong>rehabilitación</strong> y el apoyo educativo/laboral.</li>
+                    </ul>
+                    <div style="margin-top:0.6rem; background:#e6effa; border-radius:16px; padding:0.5rem 1rem;">
+                        <p style="margin:0; font-weight:600;">🔹 <strong>Intervención psicoeducativa:</strong> información, manejo del estrés, reducción del estigma, adherencia al tratamiento.</p>
+                    </div>
+                    <div class="footnote" style="margin-top:0.4rem;">🔹 En cirugía de epilepsia, el neuropsicólogo participa en la <strong>evaluación prequirúrgica</strong> y en el <strong>monitoreo intraoperatorio</strong> (paciente despierto).</div>
+                </div>
+
+            </div> <!-- end card-grid -->
+
+        </div> <!-- end panel 3 -->
+
+        <!-- footer -->
+        <div style="text-align:center; margin-top:3rem; color:#3a5a7a; font-size:0.9rem; border-top:1px solid #c0d0e5; padding-top:1.5rem;">
+            ⚡ Basado en el material de la Cátedra de Neuropsicología · UNMDP · 2025
+        </div>
+
+    </div> <!-- end container -->
+
+    <script>
+        // ---- Tabs ----
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const panels = {
+            tab1: document.getElementById('tab1'),
+            tab2: document.getElementById('tab2'),
+            tab3: document.getElementById('tab3')
+        };
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                Object.values(panels).forEach(p => p.classList.remove('active'));
+
+                this.classList.add('active');
+                const target = this.getAttribute('data-tab');
+                if (panels[target]) panels[target].classList.add('active');
+            });
+        });
+
+        // ---- Accordion ----
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const isOpen = content.classList.contains('open');
+
+                // cerrar los demás en el mismo accordion
+                const parent = this.closest('.accordion');
+                if (parent) {
+                    parent.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
+                    parent.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('open'));
+                }
+
+                if (!isOpen) {
+                    content.classList.add('open');
+                    this.classList.add('open');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

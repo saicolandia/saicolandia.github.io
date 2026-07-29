@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Epilepsias ⚡ Neuropsicología</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e1a;
+    --bg-panel:#121a2c;
+    --bg-panel-alt:#17203a;
+    --line:rgba(255,255,255,0.09);
+    --text:#eef2f9;
+    --text-dim:#8d99b7;
+    --accent:#6ee7d8;     /* teal eléctrico */
+    --accent-soft:rgba(110,231,216,0.14);
+    --amber:#ffb648;
+    --amber-soft:rgba(255,182,72,0.14);
+    --coral:#ff7a90;
+    --coral-soft:rgba(255,122,144,0.14);
+    --violet:#b98bff;
+    --violet-soft:rgba(185,139,255,0.14);
+    --radius:20px;
+    --serif-mono:'IBM Plex Mono', monospace;
+    --display:'Space Grotesk', sans-serif;
+    --body:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(110,231,216,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 110%, rgba(185,139,255,0.10), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    overflow:hidden;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important;}
+  }
+
+  /* ---------- EEG strip (signature element) ---------- */
+  .eeg-strip{
+    position:relative;
+    width:100%;
+    height:64px;
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    flex-shrink:0;
+    overflow:hidden;
+  }
+  .eeg-strip svg{width:100%; height:100%; display:block;}
+  .eeg-path{
+    fill:none;
+    stroke:var(--accent);
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    filter:drop-shadow(0 0 6px rgba(110,231,216,0.55));
+    stroke-dasharray:2000;
+    stroke-dashoffset:2000;
+    transition:stroke .6s ease, filter .6s ease;
+    animation:draw 2.6s ease forwards;
+  }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  .eeg-label{
+    position:absolute; left:14px; top:6px;
+    font-family:var(--serif-mono);
+    font-size:10px;
+    letter-spacing:.06em;
+    color:var(--text-dim);
+    text-transform:uppercase;
+  }
+  .eeg-label b{color:var(--accent); font-weight:600;}
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 28px;
+    border-bottom:1px solid var(--line);
+    flex-shrink:0;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--display);
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:.01em;
+  }
+  .brand .pulse-dot{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 0 rgba(110,231,216,.6);
+    animation:softpulse 2.4s ease-in-out infinite;
+  }
+  @keyframes softpulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(110,231,216,.5);}
+    50%{box-shadow:0 0 0 6px rgba(110,231,216,0);}
+  }
+  .progress-dots{display:flex; gap:6px; flex-wrap:wrap; max-width:46%; justify-content:center;}
+  .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--line);
+    cursor:pointer;
+    transition:transform .25s ease, background .25s ease;
+  }
+  .dot:hover{transform:scale(1.3);}
+  .dot.active{background:var(--accent); transform:scale(1.4);}
+  .counter{
+    font-family:var(--serif-mono);
+    font-size:12px;
+    color:var(--text-dim);
+    min-width:60px;
+    text-align:right;
+  }
+
+  /* ---------- Stage ---------- */
+  .stage{
+    flex:1;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:26px 40px;
+    overflow:hidden;
+  }
+  .slide{
+    position:absolute;
+    inset:26px 40px;
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    max-width:980px;
+    margin:0 auto;
+    opacity:0;
+    transform:translateY(18px) scale(.985);
+  }
+  .slide.active{
+    display:flex;
+    animation:slideIn .6s cubic-bezier(.22,.9,.3,1) forwards;
+  }
+  @keyframes slideIn{
+    to{ opacity:1; transform:translateY(0) scale(1); }
+  }
+  .eyebrow{
+    font-family:var(--serif-mono);
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:10px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow::before{content:"⚡"; font-size:12px;}
+  h1.slide-title{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:clamp(28px, 4.2vw, 46px);
+    line-height:1.08;
+    margin-bottom:14px;
+    letter-spacing:-.01em;
+  }
+  h1.slide-title .accent{color:var(--accent);}
+  .lede{
+    font-size:16px;
+    color:var(--text-dim);
+    max-width:640px;
+    margin-bottom:22px;
+    line-height:1.55;
+  }
+  .card-grid{
+    display:grid;
+    gap:14px;
+    margin-top:6px;
+  }
+  .grid-2{grid-template-columns:1fr 1fr;}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  @media(max-width:820px){ .grid-2, .grid-3{grid-template-columns:1fr;} }
+
+  .card{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px 20px;
+    transition:transform .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .card:hover{transform:translateY(-3px); border-color:rgba(110,231,216,.35); background:var(--bg-panel-alt);}
+  .card .ic{font-size:26px; margin-bottom:8px; display:block;}
+  .card h3{font-family:var(--display); font-size:16px; margin-bottom:6px; font-weight:600;}
+  .card p{font-size:13.5px; color:var(--text-dim); line-height:1.5;}
+  .card small{display:block; margin-top:8px; font-family:var(--serif-mono); font-size:11px; color:var(--accent); letter-spacing:.03em;}
+
+  .tag{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--serif-mono); font-size:11px; letter-spacing:.04em;
+    padding:4px 10px; border-radius:999px;
+    background:var(--accent-soft); color:var(--accent);
+    margin-right:8px; margin-bottom:8px;
+  }
+  .tag.amber{background:var(--amber-soft); color:var(--amber);}
+  .tag.coral{background:var(--coral-soft); color:var(--coral);}
+  .tag.violet{background:var(--violet-soft); color:var(--violet);}
+
+  ol.steps{list-style:none; counter-reset:step; margin-top:8px; display:flex; flex-direction:column; gap:12px;}
+  ol.steps li{
+    counter-increment:step;
+    display:flex; gap:14px; align-items:flex-start;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px 16px;
+    font-size:14.5px;
+    line-height:1.5;
+  }
+  ol.steps li::before{
+    content:counter(step);
+    font-family:var(--serif-mono);
+    font-weight:600;
+    color:var(--bg);
+    background:var(--accent);
+    width:26px; height:26px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; font-size:13px;
+  }
+
+  ul.bullets{list-style:none; display:flex; flex-direction:column; gap:9px; margin-top:6px;}
+  ul.bullets li{
+    padding-left:22px; position:relative;
+    font-size:14.5px; line-height:1.55; color:var(--text);
+  }
+  ul.bullets li::before{
+    content:"◆"; position:absolute; left:0; top:1px;
+    color:var(--accent); font-size:10px;
+  }
+
+  .split{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:8px;}
+  @media(max-width:820px){ .split{grid-template-columns:1fr;} }
+  .panel{border-radius:var(--radius); padding:18px 20px; border:1px solid var(--line);}
+  .panel.good{background:var(--accent-soft); border-color:rgba(110,231,216,.3);}
+  .panel.bad{background:var(--coral-soft); border-color:rgba(255,122,144,.3);}
+  .panel h3{font-family:var(--display); font-size:15px; margin-bottom:10px; display:flex; gap:8px; align-items:center;}
+  .panel ul{list-style:none; display:flex; flex-direction:column; gap:8px;}
+  .panel li{font-size:13.5px; line-height:1.5; display:flex; gap:8px;}
+  .panel.good li::before{content:"✅";}
+  .panel.bad li::before{content:"⊗"; color:var(--coral); font-weight:700;}
+
+  .syndrome-head{display:flex; align-items:center; gap:14px; margin-bottom:12px;}
+  .syndrome-emoji{
+    font-size:34px; width:56px; height:56px; border-radius:16px;
+    background:var(--bg-panel); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .meta-row{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;}
+  .meta-chip{
+    font-family:var(--serif-mono); font-size:11.5px;
+    background:var(--bg-panel-alt); border:1px solid var(--line);
+    padding:5px 10px; border-radius:8px; color:var(--text-dim);
+  }
+  .meta-chip b{color:var(--text);}
+
+  .footnote{margin-top:16px; font-size:12px; color:var(--text-dim); font-style:italic;}
+
+  .hero-slide{align-items:flex-start;}
+  .hero-badge{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--serif-mono); font-size:12px;
+    color:var(--text-dim); border:1px solid var(--line);
+    padding:6px 12px; border-radius:999px; margin-bottom:22px;
+  }
+  .hero-big{font-family:var(--display); font-weight:700; font-size:clamp(40px,7vw,72px); line-height:1.02; margin-bottom:16px;}
+  .hero-big .accent{color:var(--accent);}
+  .start-btn{
+    margin-top:26px;
+    align-self:flex-start;
+    font-family:var(--display); font-weight:600; font-size:14px;
+    background:var(--accent); color:#062018;
+    border:none; padding:13px 26px; border-radius:999px;
+    cursor:pointer; transition:transform .2s ease, box-shadow .2s ease;
+    box-shadow:0 0 0 rgba(110,231,216,0);
+  }
+  .start-btn:hover{transform:translateY(-2px); box-shadow:0 8px 24px rgba(110,231,216,.25);}
+
+  .end-emoji-row{font-size:30px; letter-spacing:8px; margin:20px 0;}
+
+  /* ---------- Bottom nav ---------- */
+  .bottombar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 28px; border-top:1px solid var(--line);
+    flex-shrink:0;
+  }
+  .nav-btn{
+    display:flex; align-items:center; gap:8px;
+    background:var(--bg-panel); border:1px solid var(--line);
+    color:var(--text); font-family:var(--body); font-weight:600; font-size:13px;
+    padding:10px 18px; border-radius:999px; cursor:pointer;
+    transition:background .2s ease, border-color .2s ease, transform .15s ease;
+  }
+  .nav-btn:hover:not(:disabled){background:var(--bg-panel-alt); border-color:rgba(110,231,216,.35); transform:translateY(-1px);}
+  .nav-btn:disabled{opacity:.35; cursor:not-allowed;}
+  .kbd-hint{
+    font-family:var(--serif-mono); font-size:11px; color:var(--text-dim);
+    display:flex; align-items:center; gap:6px;
+  }
+  .kbd-hint kbd{
+    border:1px solid var(--line); border-radius:5px; padding:2px 6px;
+    background:var(--bg-panel); font-family:var(--serif-mono);
+  }
+
+  ::selection{background:rgba(110,231,216,.3);}
+</style>
+</head>
+<body>
+
+  <div class="eeg-strip">
+    <span class="eeg-label">EEG <b id="eegLabel">Ritmo alfa · basal</b></span>
+    <svg viewBox="0 0 1000 64" preserveAspectRatio="none">
+      <path id="eegPath" class="eeg-path" d=""></path>
+    </svg>
+  </div>
+
+  <div class="topbar">
+    <div class="brand"><span class="pulse-dot"></span> Epilepsias — Neuropsicología</div>
+    <div class="progress-dots" id="dots"></div>
+    <div class="counter"><span id="curNum">01</span> / <span id="totNum">21</span></div>
+  </div>
+
+  <div class="stage" id="stage"></div>
+
+  <div class="bottombar">
+    <button class="nav-btn" id="prevBtn">← Anterior</button>
+    <span class="kbd-hint"><kbd>←</kbd><kbd>→</kbd> navegar · <kbd>espacio</kbd> avanzar</span>
+    <button class="nav-btn" id="nextBtn">Siguiente →</button>
+  </div>
+
+<script>
+/* ============ DATA ============ */
+// eeg pattern keys map to path shapes drawn procedurally below
+const SLIDES = [
+{
+  eeg:'alpha', eegLabel:'Ritmo alfa · basal',
+  html:`
+    <div class="hero-slide">
+      <div class="hero-badge">🧠 Neuropsicología · UNMDP · Unidad 3</div>
+      <h1 class="hero-big">Epilepsias<span class="accent">.</span><br>Una mirada <span class="accent">neuropsicológica</span> ⚡</h1>
+      <p class="lede">Basado en la clase de Mg. Juan Ignacio Galli. Recorré la definición, la clasificación de las crisis, los síndromes epilépticos más importantes, la etiología, el diagnóstico y el rol del neuropsicólogo — todo en un repaso interactivo.</p>
+      <button class="start-btn" onclick="go(1)">Comenzar el repaso →</button>
+    </div>`
+},
+{
+  eeg:'flat', eegLabel:'Antes de la neurociencia',
+  html:`
+    <div class="eyebrow">Un poco de historia</div>
+    <h1 class="slide-title">¿Enfermedad <span class="accent">sagrada</span>? 🏛️</h1>
+    <p class="lede">Durante siglos, a las crisis epilépticas se las llamó <b>"la gran demostración"</b>: manifestaciones tan intensas que se atribuían a causas divinas o sobrenaturales. Hoy sabemos que se trata de un fenómeno eléctrico cerebral, perfectamente estudiable.</p>
+    <div class="card-grid grid-3">
+      <div class="card"><span class="ic">⚡</span><h3>Fenómeno eléctrico</h3><p>Descargas neuronales que alteran la actividad normal del cerebro.</p></div>
+      <div class="card"><span class="ic">🔬</span><h3>Estudiable</h3><p>Hoy se diagnostica con historia clínica, examen físico y EEG/RNM.</p></div>
+      <div class="card"><span class="ic">🧩</span><h3>Multicausal</h3><p>Genética, estructural, metabólica, inmunitaria, infecciosa o desconocida.</p></div>
+    </div>`
+},
+{
+  eeg:'sync', eegLabel:'Hipersincronización',
+  html:`
+    <div class="eyebrow">Definición</div>
+    <h1 class="slide-title">Un trastorno <span class="accent">crónico</span> del cerebro 🧠</h1>
+    <p class="lede">La <b>epilepsia</b> es un trastorno neurológico crónico que implica una predisposición del cerebro a generar <b>crisis epilépticas de manera recurrente</b>.</p>
+    <div class="card-grid grid-2">
+      <div class="card"><span class="ic">🌊</span><h3>Correlato neurofisiológico</h3><p>Perturbación cerebral que origina descargas neuronales <b>paroxísticas</b> (aparición brusca) y <b>recurrentes</b>.</p></div>
+      <div class="card"><span class="ic">🔗</span><h3>Hipersincronización</h3><p>La descarga irrumpe en la actividad eléctrica normal: muchas neuronas "disparan" al mismo tiempo, con mayor voltaje que lo habitual.</p></div>
+    </div>
+    <p class="footnote">Las crisis adquieren distintas formas según el tipo de descarga y el lugar del cerebro donde ocurren.</p>`
+},
+{
+  eeg:'spike', eegLabel:'Punta-onda',
+  html:`
+    <div class="eyebrow">Criterios diagnósticos</div>
+    <h1 class="slide-title">¿Cuándo se considera <span class="accent">epilepsia</span>? 📋</h1>
+    <ol class="steps">
+      <li>Tuvo <b>dos o más crisis no provocadas</b> (o reflejas), separadas por más de 24 horas.</li>
+      <li>Tuvo <b>una sola crisis no provocada</b>, pero presenta un riesgo elevado de tener otra en el futuro.</li>
+      <li>Tiene diagnóstico de un <b>síndrome epiléptico específico</b>, que ya implica de por sí una predisposición a presentar crisis.</li>
+    </ol>
+    <p class="footnote">💡 Importante: crisis provocadas ≠ crisis no provocadas. Una fiebre alta puntual, por ejemplo, no equivale a epilepsia.</p>`
+},
+{
+  eeg:'focal', eegLabel:'Inicio focal',
+  html:`
+    <div class="eyebrow">Clasificación de las crisis</div>
+    <h1 class="slide-title">Según su <span class="accent">origen</span> 🎯</h1>
+    <p class="lede">Las crisis se clasifican según el origen de la descarga, la afectación de la consciencia y el tipo de inicio (motor o no motor).</p>
+    <div class="card-grid grid-3">
+      <div class="card"><span class="ic">🎯</span><h3>Inicio focal</h3><p>Comienza en una zona concreta del cerebro. La consciencia puede estar preservada o alterada.</p><small>Automatismos · tónica · clónica · sensorial…</small></div>
+      <div class="card"><span class="ic">🌐</span><h3>Inicio generalizado</h3><p>Compromete ambos hemisferios desde el inicio. La consciencia suele estar alterada.</p><small>Tónico-clónica · mioclónica · ausencias…</small></div>
+      <div class="card"><span class="ic">❓</span><h3>Inicio desconocido</h3><p>No se puede determinar con certeza dónde comienza la descarga.</p><small>Suele cursar con alteración de conciencia</small></div>
+    </div>`
+},
+{
+  eeg:'chaotic', eegLabel:'Actividad paroxística',
+  html:`
+    <div class="eyebrow">Más allá de la crisis</div>
+    <h1 class="slide-title">Los <span class="accent">síndromes</span> epilépticos 🧬</h1>
+    <p class="lede">Un síndrome epiléptico es un <b>conjunto característico de manifestaciones clínicas y electroencefalográficas</b>, respaldado por hallazgos etiológicos específicos (estructurales, genéticos, metabólicos, inmunológicos o infecciosos).</p>
+    <div class="card-grid grid-2">
+      <div class="card"><span class="ic">🩺</span><h3>No es solo la crisis</h3><p>Muchos síndromes son <b>encefalopatías</b>: las crisis contribuyen al deterioro de funciones cognitivas y conductuales, afectando el desarrollo global.</p></div>
+      <div class="card"><span class="ic">📈</span><h3>Incidencia por edad</h3><p>Las incidencias más altas (más de 60 cada 100.000 habitantes) se dan en <b>menores de 5 años</b> y en <b>mayores de 65</b>.</p></div>
+    </div>
+    <p class="footnote">A continuación, un recorrido por los síndromes más relevantes para la clínica neuropsicológica →</p>`
+},
+{
+  eeg:'hypsarrhythmia', eegLabel:'Hipsarritmia',
+  html:`
+    <div class="eyebrow">Síndrome 1 · Inicio en lactantes</div>
+    <div class="syndrome-head">
+      <div class="syndrome-emoji">👶</div>
+      <div><h1 class="slide-title" style="margin-bottom:2px;">Espasmos epilépticos infantiles <span class="accent">(SEEI)</span></h1></div>
+    </div>
+    <div class="meta-row">
+      <span class="meta-chip">🗓️ <b>1 mes – 24 meses</b></span>
+      <span class="meta-chip">📊 Incidencia <b>~30 / 100.000</b></span>
+      <span class="meta-chip">♂️ Más frecuente en varones</span>
+    </div>
+    <div class="card-grid grid-2">
+      <div class="card"><span class="ic">🌀</span><h3>Tríada clásica (Sme. de West)</h3><p>Espasmos epilépticos + hipsarritmia (EEG caótico) + estancamiento o regresión del desarrollo.</p></div>
+      <div class="card"><span class="ic">🧠</span><h3>Impacto neuropsicológico</h3><p>Retraso global (sostener cabeza, balbucear, mirar), alteraciones de atención y comunicación social.</p></div>
+    </div>
+    <p class="footnote">👨‍⚕️ Rol del psicólogo: evaluación del desarrollo, apoyo a la familia e intervención temprana junto a fonoaudiología y neurología.</p>`
+},
+{
+  eeg:'slowspike', eegLabel:'Punta-onda lenta 1.5–2.5Hz',
+  html:`
+    <div class="eyebrow">Síndrome 2 · Inicio en la infancia</div>
+    <div class="syndrome-head">
+      <div class="syndrome-emoji">🌪️</div>
+      <div><h1 class="slide-title" style="margin-bottom:2px;">Síndrome de <span class="accent">Lennox-Gastaut</span></h1></div>
+    </div>
+    <div class="meta-row">
+      <span class="meta-chip">🗓️ Inicio <b>18 meses – 8 años</b></span>
+      <span class="meta-chip">⚠️ Resistente a fármacos</span>
+      <span class="meta-chip">🔁 Suele evolucionar desde el SEEI</span>
+    </div>
+    <div class="card-grid grid-2">
+      <div class="card"><span class="ic">🌀</span><h3>Múltiples tipos de crisis</h3><p>Tónicas (obligatorias, más frecuentes en sueño), atónicas ("drop attacks"), mioclónicas, tónico-clónicas y ausencias.</p></div>
+      <div class="card"><span class="ic">📉</span><h3>Evolución</h3><p>Persiste en la adultez en casi todos los casos. Discapacidad intelectual moderada-severa en más del 90% de los casos.</p></div>
+    </div>
+    <p class="footnote">👨‍⚕️ Rol del psicólogo: evaluación de funciones cognitivas, intervención temprana y trabajo interdisciplinario (neurología, escuela, terapia ocupacional).</p>`
+},
+{
+  eeg:'spike3hz', eegLabel:'Punta-onda 3Hz generalizada',
+  html:`
+    <div class="eyebrow">Síndrome 3 · Importante ⭐</div>
+    <div class="syndrome-head">
+      <div class="syndrome-emoji">😶</div>
+      <div><h1 class="slide-title" style="margin-bottom:2px;">Ausencias de la <span class="accent">infancia</span></h1></div>
+    </div>
+    <div class="meta-row">
+      <span class="meta-chip">🗓️ <b>4–10 años</b></span>
+      <span class="meta-chip">👧 Más frecuente en niñas</span>
+      <span class="meta-chip">✅ Buen pronóstico</span>
+    </div>
+    <div class="card-grid grid-2">
+      <div class="card"><span class="ic">👁️</span><h3>Crisis de ausencia típica</h3><p>Pérdida completa de conciencia (3–20s), mirada fija, se interrumpe la actividad en curso. "Se queda ido en clase."</p></div>
+      <div class="card"><span class="ic">🎓</span><h3>Impacto escolar</h3><p>Si son frecuentes, afectan atención sostenida, memoria de trabajo y rendimiento. Se confunde con distracción.</p></div>
+    </div>
+    <p class="footnote">👨‍⚕️ Rol del psicólogo: detección de episodios de "desconexión", psicoeducación familiar y estrategias organizativas.</p>`
+},
+{
+  eeg:'jme', eegLabel:'Polipunta-onda',
+  html:`
+    <div class="eyebrow">Síndrome 4 · Importante ⭐</div>
+    <div class="syndrome-head">
+      <div class="syndrome-emoji">💥</div>
+      <div><h1 class="slide-title" style="margin-bottom:2px;">Epilepsia mioclónica <span class="accent">juvenil</span></h1></div>
+    </div>
+    <div class="meta-row">
+      <span class="meta-chip">🗓️ <b>10–24 años</b></span>
+      <span class="meta-chip">💊 Tratamiento crónico</span>
+      <span class="meta-chip">😴 Ligada a privación de sueño</span>
+    </div>
+    <div class="card-grid grid-2">
+      <div class="card"><span class="ic">⚡</span><h3>Crisis obligatorias</h3><p>Sacudidas mioclónicas breves e involuntarias (brazos/manos), frecuentes al despertar. Pueden sumarse crisis tónico-clónicas.</p></div>
+      <div class="card"><span class="ic">🍷</span><h3>Factores facilitadores</h3><p>Privación de sueño, estrés, alcohol y fotoestimulación (luces intermitentes).</p></div>
+    </div>
+    <p class="footnote">📊 Tasas más altas de ansiedad y depresión respecto de la población general.</p>`
+},
+{
+  eeg:'gtc', eegLabel:'Tónico-clónica generalizada',
+  html:`
+    <div class="eyebrow">Síndrome 5</div>
+    <div class="syndrome-head">
+      <div class="syndrome-emoji">🌩️</div>
+      <div><h1 class="slide-title" style="margin-bottom:2px;">Crisis tónico-clónicas <span class="accent">aisladas</span></h1></div>
+    </div>
+    <div class="meta-row">
+      <span class="meta-chip">🗓️ <b>10–25 años</b></span>
+      <span class="meta-chip">📛 Antes: "Gran mal"</span>
+      <span class="meta-chip">🧠 Cognición normal</span>
+    </div>
+    <div class="card-grid grid-2">
+      <div class="card"><span class="ic">🦴</span><h3>Fase tónica</h3><p>Rigidez muscular generalizada al inicio de la crisis.</p></div>
+      <div class="card"><span class="ic">🔁</span><h3>Fase clónica</h3><p>Sacudidas rítmicas en todo el cuerpo. Frecuentes al despertar (2 hs post).</p></div>
+    </div>
+    <p class="footnote">Crisis infrecuentes (una vez al año o menos). Responde bien al tratamiento farmacológico, aunque puede ser de por vida.</p>`
+},
+{
+  eeg:'temporal', eegLabel:'Foco temporal mesial',
+  html:`
+    <div class="eyebrow">Síndrome 6 · Foco estructural</div>
+    <div class="syndrome-head">
+      <div class="syndrome-emoji">🫀</div>
+      <div><h1 class="slide-title" style="margin-bottom:2px;">Lóbulo temporal mesial + <span class="accent">esclerosis hipocampal</span></h1></div>
+    </div>
+    <div class="meta-row">
+      <span class="meta-chip">🗓️ Adolescencia / adultez temprana</span>
+      <span class="meta-chip">🔬 Requiere neuroimagen</span>
+      <span class="meta-chip">✂️ Candidata a cirugía</span>
+    </div>
+    <div class="card-grid grid-2">
+      <div class="card"><span class="ic">👃</span><h3>Crisis focales (consciencia preservada)</h3><p>Sensación epigástrica, taquicardia, déjà vu / jamais vu, miedo súbito, olores o sabores extraños.</p></div>
+      <div class="card"><span class="ic">🌀</span><h3>Crisis con alteración de conciencia</h3><p>Desconexión + automatismos: masticar, chasquear los dedos, murmurar.</p></div>
+    </div>
+    <p class="footnote">🧠 Déficits de memoria: verbal (hemisferio izquierdo) o visoespacial (hemisferio derecho). Frecuentemente resistente a fármacos; la cirugía puede lograr remisión completa.</p>`
+},
+{
+  eeg:'flat', eegLabel:'Estudio etiológico',
+  html:`
+    <div class="eyebrow">Causas</div>
+    <h1 class="slide-title">Etiología de la <span class="accent">epilepsia</span> 🔍</h1>
+    <div class="card-grid grid-3">
+      <div class="card"><span class="ic">🧬</span><h3>Genética</h3><p>Anomalía genética patogénica, o antecedentes familiares + hallazgos típicos en EEG.</p></div>
+      <div class="card"><span class="ic">🩻</span><h3>Estructural</h3><p>Lesión visible en RNM o TAC, coincidente con el EEG y el tipo de crisis.</p></div>
+      <div class="card"><span class="ic">⚗️</span><h3>Metabólica</h3><p>Provocada por un defecto metabólico.</p></div>
+      <div class="card"><span class="ic">🛡️</span><h3>Inmunitaria</h3><p>Enfermedad autoinmune responsable (ej. encefalitis límbica).</p></div>
+      <div class="card"><span class="ic">🦠</span><h3>Infecciosa</h3><p>Infección no aguda que genera lesión cerebral (ej. HIV).</p></div>
+      <div class="card"><span class="ic">❓</span><h3>Desconocida</h3><p>No se identifica una causa.</p></div>
+    </div>`
+},
+{
+  eeg:'alpha', eegLabel:'Historia clínica',
+  html:`
+    <div class="eyebrow">Diagnóstico</div>
+    <h1 class="slide-title">Un diagnóstico <span class="accent">clínico</span> 🩺</h1>
+    <p class="lede">El diagnóstico de epilepsia es clínico: combina historia clínica, examen físico y pruebas complementarias.</p>
+    <div class="card-grid grid-3">
+      <div class="card"><span class="ic">📖</span><h3>Historia clínica</h3><p>El elemento más importante del diagnóstico.</p></div>
+      <div class="card"><span class="ic">🖐️</span><h3>Examen físico</h3><p>Descarta otras causas y evalúa funciones cognitivas, motoras y sensoriales.</p></div>
+      <div class="card"><span class="ic">🧪</span><h3>Pruebas complementarias</h3><p>EEG y RNM orientan el diagnóstico y descartan otras causas.</p></div>
+    </div>`
+},
+{
+  eeg:'spike', eegLabel:'Durante la crisis',
+  html:`
+    <div class="eyebrow">Primeros auxilios</div>
+    <h1 class="slide-title">Ante una crisis, <span class="accent">¿qué hacer?</span> 🆘</h1>
+    <div class="split">
+      <div class="panel good">
+        <h3>✅ Qué SÍ hacer</h3>
+        <ul>
+          <li>Conservar la calma</li>
+          <li>Quitar objetos cercanos que puedan lastimar a la persona</li>
+          <li>Colocarla de costado, con algo blando bajo la cabeza</li>
+          <li>Controlar la duración (la mayoría dura 2–3 min); si se supera, llamar a emergencias</li>
+          <li>Permanecer hasta que finalice y recupere la conciencia</li>
+        </ul>
+      </div>
+      <div class="panel bad">
+        <h3>⊗ Qué NO hacer</h3>
+        <ul>
+          <li>Mover a la persona durante la crisis</li>
+          <li>Inmovilizarla</li>
+          <li>Darle agua, alimentos o medicamentos</li>
+          <li>Ponerle objetos en la boca</li>
+          <li>Realizar maniobras de reanimación (RCP)</li>
+        </ul>
+      </div>
+    </div>`
+},
+{
+  eeg:'trigger', eegLabel:'Factores facilitadores',
+  html:`
+    <div class="eyebrow">Prevención</div>
+    <h1 class="slide-title">Factores <span class="accent">desencadenantes</span> ⚠️</h1>
+    <p class="lede">Factores internos o externos que pueden aumentar la probabilidad de aparición de una crisis:</p>
+    <div class="card-grid grid-3">
+      <div class="card"><span class="ic">💊</span><h3>Medicación irregular</h3><p>No tomar los antiepilépticos en la dosis y frecuencia indicada.</p></div>
+      <div class="card"><span class="ic">😴</span><h3>Falta de sueño</h3><p>Dormir pocas horas es uno de los factores más comunes.</p></div>
+      <div class="card"><span class="ic">😰</span><h3>Estrés</h3><p>Situaciones de tensión emocional sostenida.</p></div>
+      <div class="card"><span class="ic">🍷</span><h3>Alcohol / drogas</h3><p>Consumo excesivo de sustancias.</p></div>
+      <div class="card"><span class="ic">💡</span><h3>Luces destellantes</h3><p>Pantallas o luces intermitentes, en epilepsia fotosensible.</p></div>
+      <div class="card"><span class="ic">🧬</span><h3>Curso individual</h3><p>Cada persona tiene su propio patrón de factores facilitadores.</p></div>
+    </div>`
+},
+{
+  eeg:'flat', eegLabel:'Desmontando mitos',
+  html:`
+    <div class="eyebrow">Estigma</div>
+    <h1 class="slide-title">Mitos sobre la <span class="accent">epilepsia</span> 🚫</h1>
+    <div class="card-grid grid-2">
+      <div class="card"><span class="ic">🗯️</span><h3>"Todas las crisis son convulsivas"</h3><p>Falso: existen crisis de ausencia, focales sensoriales, mioclónicas y muchas otras formas no convulsivas.</p></div>
+      <div class="card"><span class="ic">🚗</span><h3>"Las personas con epilepsia no pueden manejar"</h3><p>Depende del control de las crisis y la evaluación médica individual, no es una prohibición universal.</p></div>
+    </div>
+    <p class="footnote">El estigma social es una de las principales barreras para la inclusión de las personas con epilepsia.</p>`
+},
+{
+  eeg:'sync', eegLabel:'Línea de base cognitiva',
+  html:`
+    <div class="eyebrow">Rol profesional</div>
+    <h1 class="slide-title">Evaluación <span class="accent">neuropsicológica</span> 📝</h1>
+    <p class="lede">Punto de partida para cualquier intervención. Indicada por Neurología para valorar el estado cognitivo, y fundamental en evaluaciones pre y postquirúrgicas.</p>
+    <ul class="bullets">
+      <li>Incluye entrevista clínica, pruebas estandarizadas, observación conductual y coordinación con Neurología.</li>
+      <li>Establece una <b>línea de base</b> para evaluar cambios cognitivos y conductuales.</li>
+      <li>Contribuye a la localización de los focos epilépticos (lateralización y focalización).</li>
+      <li>Detecta trastornos neurológicos o psiquiátricos comórbidos.</li>
+      <li>Evalúa efectos cognitivos y conductuales de los fármacos antiepilépticos.</li>
+    </ul>`
+},
+{
+  eeg:'alpha', eegLabel:'Rehabilitación',
+  html:`
+    <div class="eyebrow">Intervención</div>
+    <h1 class="slide-title">Intervención neuropsicológica y <span class="accent">psicoeducación</span> 🎓</h1>
+    <div class="card-grid grid-2">
+      <div class="card"><span class="ic">🧩</span><h3>Rehabilitar funciones cognitivas</h3><p>Programas diseñados según los desafíos detectados en la evaluación.</p></div>
+      <div class="card"><span class="ic">💛</span><h3>Manejar emociones y estrés</h3><p>Estrategias para afrontar el impacto psicológico de vivir con epilepsia.</p></div>
+      <div class="card"><span class="ic">🤝</span><h3>Promover la inclusión social</h3><p>Trabajar el estigma y mejorar el desempeño social.</p></div>
+      <div class="card"><span class="ic">🏫</span><h3>Acompañar lo educativo/laboral</h3><p>Adaptar estrategias para optimizar el rendimiento.</p></div>
+    </div>
+    <p class="footnote">📚 Psicoeducación: brindar información científica y accesible sobre la epilepsia, cómo reconocer y manejar las crisis, y reducir miedo, culpa o falsas creencias.</p>`
+},
+{
+  eeg:'temporal', eegLabel:'Monitoreo intraoperatorio',
+  html:`
+    <div class="eyebrow">Casos refractarios</div>
+    <h1 class="slide-title">Cirugía de epilepsia y el <span class="accent">neuropsicólogo</span> 🔬</h1>
+    <p class="lede">Opción terapéutica cuando no hay respuesta satisfactoria a 2 o más fármacos bien tolerados y a dosis máximas (refractaria tras 1 año sin control de crisis). Objetivo: reducir o eliminar las crisis preservando la calidad de vida.</p>
+    <ol class="steps">
+      <li><b>Evaluación prequirúrgica:</b> memoria, lenguaje, atención y funciones ejecutivas.</li>
+      <li><b>Durante la cirugía</b> (paciente despierto): monitoreo en tiempo real de funciones cognitivas ante la estimulación eléctrica, para evitar daños funcionales.</li>
+      <li><b>Evaluación postquirúrgica:</b> análisis de cambios cognitivos, emocionales y funcionales, y planificación de la rehabilitación.</li>
+    </ol>`
+},
+{
+  eeg:'alpha', eegLabel:'Fin del registro',
+  html:`
+    <div class="hero-slide">
+      <div class="hero-badge">🏁 Repaso completo</div>
+      <h1 class="hero-big">Listo para el <span class="accent">final</span> ⚡</h1>
+      <div class="end-emoji-row">🧠 ⚡ 👶 🌪️ 😶 💥 🌩️ 🫀 🩺</div>
+      <p class="lede">Repasaste definición, criterios diagnósticos, clasificación de crisis, seis síndromes epilépticos clave, etiología, diagnóstico, primeros auxilios, factores desencadenantes, mitos y el rol del neuropsicólogo en la evaluación, intervención y cirugía.</p>
+      <button class="start-btn" onclick="go(0)">↺ Repasar de nuevo</button>
+    </div>`
+}
+];
+
+/* ============ EEG waveform generator ============ */
+function genPath(type){
+  const W=1000, H=64, mid=32;
+  let pts=[];
+  const N=200;
+  for(let i=0;i<=N;i++){
+    const x = i/N*W;
+    let y = mid;
+    const t = i/N;
+    switch(type){
+      case 'alpha':
+        y = mid + Math.sin(t*60)*6; break;
+      case 'flat':
+        y = mid + Math.sin(t*20)*2; break;
+      case 'sync':
+        y = mid + Math.sin(t*40)*4 + (Math.abs(Math.sin(t*8))>0.94 ? (i%2?-20:20) : 0); break;
+      case 'spike':
+        y = mid + (Math.abs(Math.sin(t*30))>0.9 ? (i%2?-24:22) : Math.sin(t*50)*3); break;
+      case 'spike3hz':
+        y = mid + (i%14<2 ? (i%2? -26:24) : Math.sin(t*30)*3); break;
+      case 'focal':
+        y = mid + (t>0.35 && t<0.55 ? Math.sin(t*140)*22 : Math.sin(t*20)*4); break;
+      case 'chaotic':
+      case 'hypsarrhythmia':
+        y = mid + (Math.sin(t*97)+Math.sin(t*53)+Math.sin(t*137))*7; break;
+      case 'slowspike':
+        y = mid + (i%20<3 ? (i%2?-22:20) : Math.sin(t*10)*8); break;
+      case 'jme':
+        y = mid + (i%26<2 ? (i%2?-25:23) : Math.sin(t*45)*4); break;
+      case 'gtc':
+        y = mid + (t<0.5 ? Math.sin(t*90)*10 : (i%3<1? (i%2?-24:22):Math.sin(t*70)*14)); break;
+      case 'temporal':
+        y = mid + Math.sin(t*35)*8 + (t>0.6&&t<0.66? 18:0); break;
+      case 'trigger':
+        y = mid + Math.sin(t*25)*5 + (t>0.7 ? Math.sin(t*160)*14 : 0); break;
+      default:
+        y = mid + Math.sin(t*40)*5;
+    }
+    pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+  }
+  return 'M'+pts.join(' L');
+}
+
+/* ============ Render engine ============ */
+const stage = document.getElementById('stage');
+const dotsWrap = document.getElementById('dots');
+const curNum = document.getElementById('curNum');
+const totNum = document.getElementById('totNum');
+const eegPath = document.getElementById('eegPath');
+const eegLabel = document.getElementById('eegLabel');
+let current = 0;
+
+function build(){
+  SLIDES.forEach((s,i)=>{
+    const div = document.createElement('div');
+    div.className = 'slide' + (i===0?' active':'');
+    div.dataset.index = i;
+    div.innerHTML = s.html;
+    stage.appendChild(div);
+
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i===0?' active':'');
+    dot.title = 'Ir a diapositiva ' + (i+1);
+    dot.addEventListener('click', ()=>go(i));
+    dotsWrap.appendChild(dot);
+  });
+  totNum.textContent = String(SLIDES.length).padStart(2,'0');
+  updateEEG(0);
+}
+
+function updateEEG(i){
+  eegPath.setAttribute('d', genPath(SLIDES[i].eeg));
+  eegLabel.textContent = SLIDES[i].eegLabel;
+  // restart draw animation smoothly (no strobing, single smooth draw)
+  eegPath.style.animation = 'none';
+  void eegPath.offsetWidth;
+  eegPath.style.animation = 'draw 1.4s ease forwards';
+}
+
+function go(i){
+  if(i<0 || i>=SLIDES.length || i===current) return;
+  const slides = document.querySelectorAll('.slide');
+  slides[current].classList.remove('active');
+  slides[i].classList.add('active');
+  document.querySelectorAll('.dot')[current].classList.remove('active');
+  document.querySelectorAll('.dot')[i].classList.add('active');
+  current = i;
+  curNum.textContent = String(i+1).padStart(2,'0');
+  updateEEG(i);
+  document.getElementById('prevBtn').disabled = i===0;
+  document.getElementById('nextBtn').disabled = i===SLIDES.length-1;
+}
+
+document.getElementById('prevBtn').addEventListener('click', ()=>go(current-1));
+document.getElementById('nextBtn').addEventListener('click', ()=>go(current+1));
+document.addEventListener('keydown', (e)=>{
+  if(e.key==='ArrowRight' || e.key===' '){ e.preventDefault(); go(current+1); }
+  if(e.key==='ArrowLeft'){ e.preventDefault(); go(current-1); }
+});
+
+// swipe support
+let touchX=null;
+stage.addEventListener('touchstart', e=>{ touchX = e.touches[0].clientX; });
+stage.addEventListener('touchend', e=>{
+  if(touchX===null) return;
+  const dx = e.changedTouches[0].clientX - touchX;
+  if(dx>50) go(current-1);
+  else if(dx<-50) go(current+1);
+  touchX=null;
+});
+
+build();
+document.getElementById('prevBtn').disabled = true;
+</script>
+</body>
+</html>

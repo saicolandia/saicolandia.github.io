@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧠 Neuropsicología — Mapa Interactivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-deep:#0E1020;
+  --bg-panel:#171A33;
+  --bg-panel-2:#1E2140;
+  --line: rgba(237,237,247,0.09);
+  --text:#EDEDF7;
+  --text-muted:#9A9CC0;
+  --frontal:#FF9F1C;
+  --frontal-dim: rgba(255,159,28,0.14);
+  --parietal:#3E92FF;
+  --parietal-dim: rgba(62,146,255,0.14);
+  --temporal:#08D6A0;
+  --temporal-dim: rgba(8,214,160,0.14);
+  --occipital:#C08CFF;
+  --occipital-dim: rgba(192,140,255,0.14);
+  --electric:#FFD23F;
+  --electric-dim: rgba(255,210,63,0.14);
+  --alert:#FF5D73;
+  --alert-dim: rgba(255,93,115,0.14);
+  --radius:18px;
+  --shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+}
+body{
+  margin:0;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(62,146,255,0.13), transparent 60%),
+    radial-gradient(1000px 500px at 10% 0%, rgba(255,159,28,0.10), transparent 55%),
+    var(--bg-deep);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.display{font-family:'Fraunces',serif;}
+.mono{font-family:'JetBrains Mono',monospace;}
+a{color:inherit;}
+::selection{background:var(--electric); color:#0E1020;}
+
+/* ---------- progress bar ---------- */
+#progress{
+  position:fixed; top:0; left:0; height:3px; width:0%;
+  background:linear-gradient(90deg,var(--frontal),var(--parietal),var(--temporal),var(--occipital));
+  z-index:1000; transition:width .1s linear;
+}
+
+/* ---------- top nav ---------- */
+nav.topnav{
+  position:sticky; top:0; z-index:900;
+  backdrop-filter: blur(14px);
+  background:rgba(14,16,32,0.72);
+  border-bottom:1px solid var(--line);
+  display:flex; align-items:center; gap:6px;
+  padding:10px 18px; overflow-x:auto;
+  scrollbar-width:none;
+}
+nav.topnav::-webkit-scrollbar{display:none;}
+.brand{
+  font-family:'Fraunces',serif; font-weight:700; font-size:1.05rem;
+  padding-right:14px; margin-right:6px; border-right:1px solid var(--line);
+  white-space:nowrap; flex-shrink:0;
+}
+.navlink{
+  white-space:nowrap; flex-shrink:0;
+  font-size:0.82rem; font-weight:600; letter-spacing:.01em;
+  padding:7px 13px; border-radius:100px; color:var(--text-muted);
+  border:1px solid transparent; cursor:pointer; text-decoration:none;
+  transition:all .2s ease;
+  display:inline-flex; align-items:center; gap:6px;
+}
+.navlink:hover{color:var(--text); border-color:var(--line); background:var(--bg-panel);}
+.navlink.active{color:#0E1020; background:var(--chip,var(--electric)); border-color:transparent;}
+
+/* ---------- hero ---------- */
+.hero{
+  max-width:1180px; margin:0 auto; padding:64px 24px 40px;
+  display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center;
+}
+.hero .eyebrow{
+  font-family:'JetBrains Mono',monospace; font-size:.78rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--electric); margin-bottom:14px; display:block;
+}
+.hero h1{font-size:clamp(2.3rem,4.4vw,3.6rem); line-height:1.04; margin:0 0 18px; font-weight:700;}
+.hero h1 em{font-style:normal; background:linear-gradient(90deg,var(--parietal),var(--temporal)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.hero p{color:var(--text-muted); font-size:1.05rem; max-width:46ch; margin:0 0 26px;}
+.hero-tags{display:flex; flex-wrap:wrap; gap:8px;}
+.tag{
+  font-size:.76rem; font-weight:600; padding:6px 12px; border-radius:100px;
+  border:1px solid var(--line); color:var(--text-muted);
+}
+.brain-wrap{position:relative; display:flex; justify-content:center;}
+.brain-hint{
+  position:absolute; bottom:-6px; left:50%; transform:translateX(-50%);
+  font-size:.72rem; color:var(--text-muted); white-space:nowrap; font-family:'JetBrains Mono',monospace;
+}
+svg#brain{width:100%; max-width:420px; height:auto; cursor:pointer;}
+.lobe{transition:opacity .25s ease, filter .25s ease; opacity:.88;}
+.lobe:hover{opacity:1; filter:drop-shadow(0 0 14px currentColor);}
+.lobe-label{
+  font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; fill:var(--text);
+  pointer-events:none; opacity:0; transition:opacity .2s ease;
+}
+.brain-group:hover .lobe-label{opacity:1;}
+
+/* ---------- sections ---------- */
+main{max-width:1180px; margin:0 auto; padding:0 24px;}
+section.chapter{padding:70px 0 30px; border-top:1px solid var(--line);}
+section.chapter:first-of-type{border-top:none;}
+.chapter-head{display:flex; align-items:flex-start; gap:18px; margin-bottom:10px;}
+.chapter-emoji{
+  font-size:2.1rem; width:64px; height:64px; border-radius:20px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--chip-dim); border:1px solid var(--line);
+}
+.chapter-title{font-size:clamp(1.5rem,3vw,2.1rem); margin:0 0 6px; font-weight:700;}
+.chapter-sub{color:var(--text-muted); max-width:70ch; margin:0; font-size:.98rem;}
+
+.tabs{display:flex; flex-wrap:wrap; gap:8px; margin:26px 0 22px;}
+.tabbtn{
+  font-family:'Inter',sans-serif; font-size:.85rem; font-weight:600;
+  padding:9px 16px; border-radius:12px; border:1px solid var(--line);
+  background:var(--bg-panel); color:var(--text-muted); cursor:pointer; transition:all .2s ease;
+}
+.tabbtn:hover{color:var(--text);}
+.tabbtn.active{background:var(--chip); color:#0E1020; border-color:transparent;}
+.tabpanel{display:none;}
+.tabpanel.active{display:block; animation:fadeUp .35s ease;}
+@keyframes fadeUp{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
+
+.subintro{color:var(--text-muted); font-size:.92rem; margin:0 0 18px; max-width:75ch;}
+
+/* card grid + flip cards */
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:16px;}
+.card{
+  position:relative; height:230px; perspective:1400px; cursor:pointer;
+}
+.card-inner{
+  position:relative; width:100%; height:100%; transition:transform .55s cubic-bezier(.2,.8,.2,1);
+  transform-style:preserve-3d;
+}
+.card.flipped .card-inner{transform:rotateY(180deg);}
+.card-face{
+  position:absolute; inset:0; border-radius:var(--radius); backface-visibility:hidden;
+  border:1px solid var(--line); padding:18px; overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.card-front{
+  background:var(--bg-panel);
+  border-left:4px solid var(--chip);
+  display:flex; flex-direction:column; justify-content:space-between;
+}
+.card-front .term{font-family:'Fraunces',serif; font-weight:700; font-size:1.28rem; line-height:1.15;}
+.card-front .meta{color:var(--text-muted); font-size:.84rem; margin-top:8px;}
+.card-front .emoji-badge{font-size:1.6rem;}
+.flip-hint{font-size:.72rem; color:var(--chip); font-family:'JetBrains Mono',monospace; display:flex; align-items:center; gap:6px;}
+.card-back{
+  background:var(--bg-panel-2); transform:rotateY(180deg);
+  overflow-y:auto; font-size:.83rem;
+}
+.card-back::-webkit-scrollbar{width:5px;}
+.card-back::-webkit-scrollbar-thumb{background:var(--line); border-radius:10px;}
+.field{margin-bottom:10px;}
+.field .label{
+  font-family:'JetBrains Mono',monospace; font-size:.66rem; text-transform:uppercase; letter-spacing:.06em;
+  color:var(--chip); display:block; margin-bottom:2px;
+}
+.field .value{color:var(--text); font-size:.83rem;}
+
+/* timeline (adquisicion del lenguaje) */
+.timeline{position:relative; margin:20px 0 10px; padding-left:26px; border-left:2px dashed var(--line);}
+.tl-item{position:relative; margin-bottom:26px;}
+.tl-item::before{
+  content:''; position:absolute; left:-33px; top:4px; width:14px; height:14px; border-radius:50%;
+  background:var(--chip); box-shadow:0 0 0 4px var(--chip-dim);
+}
+.tl-age{font-family:'JetBrains Mono',monospace; font-size:.74rem; color:var(--chip); font-weight:600;}
+.tl-title{font-family:'Fraunces',serif; font-weight:700; font-size:1.15rem; margin:4px 0 8px;}
+.tl-body{color:var(--text-muted); font-size:.9rem;}
+.tl-body b{color:var(--text);}
+
+/* afasia comparison */
+.afasia-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:16px;}
+.afasia-card{background:var(--bg-panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px; border-top:4px solid var(--chip);}
+.afasia-card h3{margin:0 0 4px; font-size:1.2rem;}
+.afasia-loc{font-size:.78rem; color:var(--text-muted); margin-bottom:14px; font-family:'JetBrains Mono',monospace;}
+.dim-row{display:flex; align-items:center; gap:10px; margin-bottom:8px; font-size:.86rem;}
+.dim-row .dot{width:9px; height:9px; border-radius:50%; flex-shrink:0;}
+.dot.good{background:#08D6A0;} .dot.bad{background:#FF5D73;} .dot.mid{background:#FFD23F;}
+.afasia-detail{font-size:.85rem; color:var(--text-muted); margin-top:12px; padding-top:12px; border-top:1px solid var(--line);}
+
+/* syndrome fun cards */
+.synd-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:18px;}
+.synd-card{
+  background:var(--bg-panel); border:1px solid var(--line); border-radius:var(--radius);
+  padding:22px; cursor:pointer; transition:transform .2s ease, border-color .2s ease;
+}
+.synd-card:hover{transform:translateY(-3px); border-color:var(--chip);}
+.synd-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+.synd-emoji{font-size:2rem;}
+.synd-name{font-family:'Fraunces',serif; font-weight:700; font-size:1.1rem; margin:10px 0 6px;}
+.synd-desc{font-size:.87rem; color:var(--text-muted);}
+.synd-extra{
+  max-height:0; overflow:hidden; transition:max-height .4s ease, margin-top .4s ease;
+  font-size:.85rem; border-top:1px dashed var(--line); margin-top:0;
+}
+.synd-card.open .synd-extra{max-height:400px; margin-top:14px; padding-top:14px;}
+.synd-extra .label{font-family:'JetBrains Mono',monospace; font-size:.66rem; text-transform:uppercase; color:var(--chip); display:block; margin:10px 0 2px;}
+.toggle-cue{font-size:.72rem; color:var(--chip); font-family:'JetBrains Mono',monospace;}
+
+/* epilepsy - electric theme */
+.epi-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px;}
+.epi-card{background:var(--bg-panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px; position:relative; overflow:hidden;}
+.epi-card::after{
+  content:'⚡'; position:absolute; right:12px; top:8px; font-size:2.4rem; opacity:.07;
+}
+.epi-name{font-family:'Fraunces',serif; font-weight:700; font-size:1.08rem; margin:0 0 6px;}
+.epi-age{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--electric); background:var(--electric-dim); padding:3px 9px; border-radius:100px; margin-bottom:10px;}
+.epi-desc{font-size:.85rem; color:var(--text-muted); margin-bottom:8px;}
+.epi-prog{font-size:.8rem; color:var(--text); border-top:1px solid var(--line); padding-top:8px; margin-top:8px;}
+.epi-prog b{color:var(--electric);}
+
+footer{
+  margin-top:60px; padding:34px 24px 50px; text-align:center;
+  color:var(--text-muted); font-size:.82rem; border-top:1px solid var(--line);
+}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr; padding-top:36px;}
+  .brain-wrap{order:-1;}
+}
+@media (max-width:480px){
+  .chapter-head{gap:12px;}
+  .chapter-emoji{width:50px; height:50px; font-size:1.6rem; border-radius:16px;}
+}
+button{font-family:inherit;}
+:focus-visible{outline:2px solid var(--electric); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav class="topnav" id="topnav">
+  <span class="brand">🧠 NP</span>
+  <a class="navlink" data-chip="#3E92FF" href="#ch-gnosias">👁️ Gnosias &amp; Praxias</a>
+  <a class="navlink" data-chip="#08D6A0" href="#ch-lenguaje">🗣️ Lenguaje</a>
+  <a class="navlink" data-chip="#FF9F1C" href="#ch-frontal">🧩 Lóbulo Frontal</a>
+  <a class="navlink" data-chip="#C08CFF" href="#ch-demencias">🧬 Demencias</a>
+  <a class="navlink" data-chip="#FF5D73" href="#ch-sindromes">🎭 Síndromes raros</a>
+  <a class="navlink" data-chip="#FFD23F" href="#ch-epilepsia">⚡ Epilepsia</a>
+</nav>
+
+<header class="hero">
+  <div>
+    <span class="eyebrow">Guía interactiva · Neuropsicología clínica</span>
+    <h1>El cerebro contado<br>en <em>seis mapas</em></h1>
+    <p>Un recorrido visual por gnosias, praxias, lenguaje, funciones ejecutivas, demencias, síndromes poco frecuentes y epilepsia. Tocá las tarjetas para dar vuelta la información. Tocá un lóbulo del cerebro para saltar directo al tema. 🧠✨</p>
+    <div class="hero-tags">
+      <span class="tag">🖱️ Tarjetas interactivas</span>
+      <span class="tag">🎨 Color por lóbulo</span>
+      <span class="tag">📱 Responsive</span>
+    </div>
+  </div>
+  <div class="brain-wrap">
+    <svg id="brain" viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+      <g class="brain-group" data-target="#ch-frontal">
+        <path class="lobe" fill="#FF9F1C" d="M70 150 C60 90, 130 45, 200 55 C210 90, 190 130, 175 150 C140 165, 100 165, 70 150 Z"/>
+        <text class="lobe-label" x="105" y="95">FRONTAL</text>
+      </g>
+      <g class="brain-group" data-target="#ch-gnosias">
+        <path class="lobe" fill="#3E92FF" d="M200 55 C260 45, 310 65, 320 105 C310 130, 275 145, 240 145 C210 130, 195 90, 200 55 Z"/>
+        <text class="lobe-label" x="245" y="90">PARIETAL</text>
+      </g>
+      <g class="brain-group" data-target="#ch-sindromes">
+        <path class="lobe" fill="#C08CFF" d="M320 105 C345 120, 345 155, 320 175 C300 180, 275 170, 265 150 C280 130, 300 115, 320 105 Z"/>
+        <text class="lobe-label" x="285" y="150">OCCIPITAL</text>
+      </g>
+      <g class="brain-group" data-target="#ch-lenguaje">
+        <path class="lobe" fill="#08D6A0" d="M175 150 C210 150, 245 155, 265 150 C275 175, 265 205, 235 215 C195 220, 150 205, 140 180 C150 165, 162 155, 175 150 Z"/>
+        <text class="lobe-label" x="175" y="190">TEMPORAL</text>
+      </g>
+      <path d="M60 150 C50 175, 60 200, 85 205" stroke="#4a4d6b" stroke-width="2" fill="none"/>
+      <ellipse cx="235" cy="235" rx="55" ry="26" fill="#2a2d4d" opacity="0.7"/>
+    </svg>
+    <span class="brain-hint">↳ tocá un lóbulo para explorar</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= CAPÍTULO 1: GNOSIAS Y PRAXIAS ================= -->
+  <section class="chapter" id="ch-gnosias" style="--chip:#3E92FF; --chip-dim:var(--parietal-dim);">
+    <div class="chapter-head">
+      <div class="chapter-emoji">👁️</div>
+      <div>
+        <h2 class="chapter-title">Gnosias &amp; Praxias</h2>
+        <p class="chapter-sub">Cómo reconocemos el mundo (gnosias) y cómo organizamos el movimiento con un propósito (praxias) — y qué pasa cuando esos sistemas fallan.</p>
+      </div>
+    </div>
+
+    <div class="tabs" data-group="gnosias-tabs">
+      <button class="tabbtn active" data-tab="gt-1">🧠 Gnosias &amp; Agnosias</button>
+      <button class="tabbtn" data-tab="gt-2">🤲 Praxias &amp; Apraxias</button>
+    </div>
+
+    <div class="tabpanel active" id="gt-1">
+      <p class="subintro">El reconocimiento no es "ver" o "tocar": es reconocer algo que ya aprendimos. Cuando ese reconocimiento falla a pesar de que los sentidos funcionan, hablamos de agnosia.</p>
+      <div class="grid" id="grid-gnosias"></div>
+    </div>
+    <div class="tabpanel" id="gt-2">
+      <p class="subintro">Las praxias son secuencias de movimiento aprendidas. Las apraxias no son parálisis ni torpeza: son fallas en el "plan" del movimiento.</p>
+      <div class="grid" id="grid-praxias"></div>
+    </div>
+  </section>
+
+  <!-- ================= CAPÍTULO 2: LENGUAJE ================= -->
+  <section class="chapter" id="ch-lenguaje" style="--chip:#08D6A0; --chip-dim:var(--temporal-dim);">
+    <div class="chapter-head">
+      <div class="chapter-emoji">🗣️</div>
+      <div>
+        <h2 class="chapter-title">Lenguaje</h2>
+        <p class="chapter-sub">Desde los niveles que componen al lenguaje, pasando por cómo se adquiere, hasta lo que ocurre cuando se lesiona o se desarrolla de forma atípica.</p>
+      </div>
+    </div>
+
+    <div class="tabs" data-group="len-tabs">
+      <button class="tabbtn active" data-tab="lt-1">🔤 Niveles</button>
+      <button class="tabbtn" data-tab="lt-2">👶 Adquisición</button>
+      <button class="tabbtn" data-tab="lt-3">📋 TDL / TL</button>
+      <button class="tabbtn" data-tab="lt-4">💬 Afasias</button>
+      <button class="tabbtn" data-tab="lt-5">🎤 Otros trastornos</button>
+    </div>
+
+    <div class="tabpanel active" id="lt-1">
+      <p class="subintro">Cuatro niveles se combinan para que un enunciado tenga forma, sentido y uso.</p>
+      <div class="grid" id="grid-niveles"></div>
+    </div>
+
+    <div class="tabpanel" id="lt-2">
+      <p class="subintro">Según Azcoaga, la adquisición del lenguaje materno atraviesa tres grandes etapas de comunicación.</p>
+      <div class="timeline" id="timeline-adq"></div>
+    </div>
+
+    <div class="tabpanel" id="lt-3">
+      <p class="subintro">El consenso CATALISE (Bishop et al., 2016-2017) ordenó cómo nombrar las dificultades del lenguaje en la infancia.</p>
+      <div class="grid" id="grid-tdl"></div>
+    </div>
+
+    <div class="tabpanel" id="lt-4">
+      <p class="subintro">Los cuatro síndromes afásicos clásicos, comparados en tres ejes: fluencia, comprensión y repetición.</p>
+      <div class="afasia-grid" id="grid-afasias"></div>
+    </div>
+
+    <div class="tabpanel" id="lt-5">
+      <p class="subintro">No todo lo que afecta al habla es un trastorno del lenguaje. Estos cuadros comprometen otros niveles.</p>
+      <div class="grid" id="grid-otros"></div>
+    </div>
+  </section>
+
+  <!-- ================= CAPÍTULO 3: LÓBULO FRONTAL ================= -->
+  <section class="chapter" id="ch-frontal" style="--chip:#FF9F1C; --chip-dim:var(--frontal-dim);">
+    <div class="chapter-head">
+      <div class="chapter-emoji">🧩</div>
+      <div>
+        <h2 class="chapter-title">Lóbulo Frontal &amp; Funciones Ejecutivas</h2>
+        <p class="chapter-sub">El "director de orquesta" del cerebro: desde la corteza motora primaria hasta el control fino de la conducta.</p>
+      </div>
+    </div>
+
+    <div class="tabs" data-group="fr-tabs">
+      <button class="tabbtn active" data-tab="ft-1">🗺️ Áreas frontales</button>
+      <button class="tabbtn" data-tab="ft-2">🎯 Regiones de la CPF</button>
+      <button class="tabbtn" data-tab="ft-3">⚙️ Funciones ejecutivas</button>
+    </div>
+
+    <div class="tabpanel active" id="ft-1">
+      <div class="grid" id="grid-areas"></div>
+    </div>
+    <div class="tabpanel" id="ft-2">
+      <p class="subintro">Tres preguntas, tres regiones de la corteza prefrontal.</p>
+      <div class="grid" id="grid-cpf"></div>
+    </div>
+    <div class="tabpanel" id="ft-3">
+      <p class="subintro">Procesos de dominio general que supervisan al resto de la cognición.</p>
+      <div class="grid" id="grid-fe"></div>
+    </div>
+  </section>
+
+  <!-- ================= CAPÍTULO 4: DEMENCIAS ================= -->
+  <section class="chapter" id="ch-demencias" style="--chip:#C08CFF; --chip-dim:var(--occipital-dim);">
+    <div class="chapter-head">
+      <div class="chapter-emoji">🧬</div>
+      <div>
+        <h2 class="chapter-title">Demencias</h2>
+        <p class="chapter-sub">Tres formas de clasificarlas — por origen, por localización — y los cuatro tipos específicos más relevantes en la clínica.</p>
+      </div>
+    </div>
+
+    <div class="tabs" data-group="dem-tabs">
+      <button class="tabbtn active" data-tab="dt-1">🧪 Por etiología</button>
+      <button class="tabbtn" data-tab="dt-2">📍 Por localización</button>
+      <button class="tabbtn" data-tab="dt-3">🔬 Tipos específicos</button>
+    </div>
+
+    <div class="tabpanel active" id="dt-1">
+      <div class="grid" id="grid-etiologia"></div>
+    </div>
+    <div class="tabpanel" id="dt-2">
+      <div class="grid" id="grid-localizacion"></div>
+    </div>
+    <div class="tabpanel" id="dt-3">
+      <div class="grid" id="grid-tipos"></div>
+    </div>
+  </section>
+
+  <!-- ================= CAPÍTULO 5: SÍNDROMES RAROS ================= -->
+  <section class="chapter" id="ch-sindromes" style="--chip:#FF5D73; --chip-dim:var(--alert-dim);">
+    <div class="chapter-head">
+      <div class="chapter-emoji">🎭</div>
+      <div>
+        <h2 class="chapter-title">Síndromes neuropsiquiátricos poco frecuentes</h2>
+        <p class="chapter-sub">Cuando el cerebro se lesiona en lugares muy específicos, el resultado puede ser tan extraño como fascinante. Tocá cada tarjeta para desplegarla. 🔍</p>
+      </div>
+    </div>
+    <div class="synd-grid" id="grid-sindromes"></div>
+  </section>
+
+  <!-- ================= CAPÍTULO 6: EPILEPSIA ================= -->
+  <section class="chapter" id="ch-epilepsia" style="--chip:#FFD23F; --chip-dim:var(--electric-dim);">
+    <div class="chapter-head">
+      <div class="chapter-emoji">⚡</div>
+      <div>
+        <h2 class="chapter-title">Epilepsia</h2>
+        <p class="chapter-sub">Una predisposición cerebral a generar descargas eléctricas recurrentes. Cada síndrome tiene su propia edad de aparición y su propio pronóstico.</p>
+      </div>
+    </div>
+    <div class="epi-grid" id="grid-epilepsia"></div>
+  </section>
+
+</main>
+
+<footer>
+  🧠 Material de estudio de Neuropsicología · Hecho para explorar, no para memorizar de una sentada.
+</footer>
+
+<script>
+/* ================= DATA ================= */
+
+const gnosias = [
+ {term:"Gnosia", emoji:"🧠", meta:"Simples y complejas", chip:"#3E92FF", fields:[
+   ["Tipo / Clasificación","Simples (un solo analizador) o Complejas (más de un analizador — la mayoría de los casos)."],
+   ["Sustrato neuroanatómico","Varía según el analizador implicado. Corteza cerebral."],
+   ["Lateralidad","Bilateral en su adquisición."],
+   ["Definición clave","Estereotipos sensoperceptivos adquiridos: capacidad de reconocer un referente concreto ya aprendido. Requieren estimulación simultánea y reiterada para consolidarse."]
+ ]},
+ {term:"Agnosia", emoji:"🚫👁️", meta:"Visual · Auditiva · Táctil", chip:"#C08CFF", fields:[
+   ["Tipo","Visuales, auditivas o táctiles, según el analizador afectado."],
+   ["Sustrato neuroanatómico","Áreas secundarias y terciarias (corteza de asociación unimodal). Lesión más frecuente: parietal (táctiles), occipital (visuales), temporal (auditivas)."],
+   ["Lateralidad","Bilateral: el déficit ocurre a pesar de que la sensación está intacta."],
+   ["Definición clave","Incapacidad de reconocer un estímulo familiar aunque la sensación esté conservada. El estímulo debe ser conocido: es un trastorno del reconocimiento, no del conocimiento."]
+ ]},
+ {term:"Esquema Corporal", emoji:"🧍", meta:"Gnosia compleja · Somatognosia", chip:"#3E92FF", fields:[
+   ["Tipo","Gnosia compleja (Somatognosia)."],
+   ["Sustrato neuroanatómico","Lóbulo parietal, con predominio del hemisferio derecho."],
+   ["Definición clave","Percepción espacial del propio cuerpo, estructurada y plástica. Se construye integrando información cinestésica, visual, táctil y laberíntica."]
+ ]},
+ {term:"Asomatognosia", emoji:"🫥", meta:"Bilateral o unilateral", chip:"#3E92FF", fields:[
+   ["Tipo","Bilaterales (afectan ambos lados, ej. autotopagnosia, agnosia digital) o unilaterales (hemiasomatognosia)."],
+   ["Sustrato neuroanatómico","Las bilaterales suelen deberse a lesión unilateral de la zona parieto-témporo-occipital izquierda. La hemiasomatognosia se debe a lesión del lóbulo parietal derecho."],
+   ["Lateralidad","Bilateral o unilateral, según el subtipo."],
+   ["Definición clave","Alteración en el conocimiento o percepción del esquema corporal como consecuencia de una lesión cerebral."]
+ ]}
+];
+
+const praxias = [
+ {term:"Praxia", emoji:"🤲", meta:"Simples y complejas", chip:"#FF9F1C", fields:[
+   ["Tipo","Simples (gestos elementales, actividades vegetativas) o Complejas (procedimientos instrumentales, vestirse)."],
+   ["Sustrato neuroanatómico","Sistemas prácticos parietales y fronto-subcorticales (planificación). Basados en estereotipos cinestésico-motores."],
+   ["Lateralidad","Bilateral en su organización."],
+   ["Definición clave","Organización determinada de movimientos, producto de un proceso de aprendizaje motor."]
+ ]},
+ {term:"Apraxia", emoji:"🙅", meta:"Bilaterales y unilaterales", chip:"#FF9F1C", fields:[
+   ["Tipo","Bilaterales (ideatoria, ideomotora, constructiva, del vestir) o Unilaterales (mielocinética, buco-linguo-facial, de la marcha, ideomotora unilateral)."],
+   ["Sustrato neuroanatómico","Lesiones que alteran la organización secuencial del movimiento ('fórmula'). Fallas en la planificación motora."],
+   ["Definición clave","Dificultad o imposibilidad de ejecutar un acto motor ya aprendido, sin parálisis, ataxia, rigidez ni trastorno sensitivo."]
+ ]},
+ {term:"Apraxia Ideatoria", emoji:"🗺️", meta:"Bilateral", chip:"#08D6A0", fields:[
+   ["Sustrato neuroanatómico","Lesiones parieto-temporales posteriores."],
+   ["Definición clave","Pérdida del plan de acción (sistema conceptual alterado). Falla en la secuenciación y encadenamiento de actos simples en complejos."]
+ ]},
+ {term:"Apraxia Ideomotora", emoji:"✋", meta:"Bilateral", chip:"#FF9F1C", fields:[
+   ["Sustrato neuroanatómico","Falla en la transmisión hacia el área motora del lóbulo frontal. El sistema conceptual está preservado."],
+   ["Definición clave","No puede realizar movimientos simples ni imitar gestos a la orden, aunque la manipulación espontánea del objeto puede ser correcta."]
+ ]},
+ {term:"Apraxia Constructiva", emoji:"🧱", meta:"Bilateral", chip:"#3E92FF", fields:[
+   ["Sustrato neuroanatómico","Zonas de asociación parietales, derechas o izquierdas."],
+   ["Definición clave","Dificultad para realizar construcciones (cubos, piezas) o reproducir dibujos en 2D o 3D."]
+ ]},
+ {term:"Apraxia del Vestir", emoji:"👕", meta:"Bilateral", chip:"#C08CFF", fields:[
+   ["Sustrato neuroanatómico","Lesiones posteriores parieto-occipitales del hemisferio derecho."],
+   ["Definición clave","Dificultad para orientarse y colocarse la ropa: incapacidad para vestirse de forma autónoma."]
+ ]},
+ {term:"Apraxia Mielocinética", emoji:"👋", meta:"Unilateral", chip:"#FF9F1C", fields:[
+   ["Sustrato","Se centra en un segmento corporal, no un área específica."],
+   ["Definición clave","Dificultad de un segmento del cuerpo para realizar movimientos rápidos alternantes: pierde armonía entre reflejos prensiles y evitativos."]
+ ]},
+ {term:"Apraxia Buco-linguo-facial", emoji:"👄", meta:"Unilateral / segmental", chip:"#FF9F1C", fields:[
+   ["Sustrato neuroanatómico","Lesiones premotoras en el lóbulo frontal."],
+   ["Definición clave","No puede mover voluntariamente cara, labios o lengua a la orden, pero sí de forma espontánea."]
+ ]}
+];
+
+const niveles = [
+ {term:"Fonológico", emoji:"🔤", meta:"Selección de fonemas", chip:"#FF9F1C", fields:[
+   ["Descripción","Especifica las reglas de pronunciación de las unidades lingüísticas: selección de fonemas, la mínima unidad física del habla."],
+   ["Sustrato","Estereotipos fonemáticos (praxias). Analizador sinestésico motor verbal (Área de Broca). Reconocimiento: corteza auditiva primaria (Brodmann 41 y 42)."]
+ ]},
+ {term:"Morfosintáctico", emoji:"🧩", meta:"Combinación de morfemas", chip:"#08D6A0", fields:[
+   ["Descripción","Reglas que gobiernan la combinación de morfemas y palabras en oraciones y discursos. El morfema es la mínima unidad con significado."],
+   ["Sustrato","No especificado directamente; implicado en la sintaxis y la estructura del discurso."]
+ ]},
+ {term:"Semántico", emoji:"💭", meta:"Significado del enunciado", chip:"#08D6A0", fields:[
+   ["Descripción","Reglas para asignar significado a cada enunciado verbal y establecer relaciones semánticas. El sema es el rasgo de significado."],
+   ["Sustrato","Unidad mnésica: el estereotipo verbal. Depende del analizador verbal — sustrato: área de Wernicke."]
+ ]},
+ {term:"Pragmático", emoji:"🤝", meta:"Uso en contexto social", chip:"#08D6A0", fields:[
+   ["Descripción","Permite producir e interpretar actos de comunicación adecuados al contexto. Incluye signos no verbales y capacidad de empatizar/mentalizar."],
+   ["Sustrato","No especificado directamente en las fuentes."]
+ ]}
+];
+
+const adquisicion = [
+ {age:"2 a 11-12 meses", chip:"#08D6A0", title:"1. Primera etapa de comunicación — Nivel pre-lingüístico",
+  body:"Empieza con el <b>juego vocal propioceptivo</b> (2–6 meses), congénito, en momentos de tranquilidad. Sigue el <b>juego vocal propioceptivo-auditivo</b> (6–11 meses): la maduración de la vía auditiva refuerza los fonemas de la lengua materna."},
+ {age:"1 a 3 años", chip:"#3E92FF", title:"2. Segunda etapa de comunicación — Primer nivel lingüístico",
+  body:"<b>Monosílabo intencional</b> (1 a 1,5 años): una sílaba expresa una intención. <b>Holofrase</b> (1,5 a 2 años): una palabra con sentido de frase. <b>Habla telegráfica</b> (2 a 3 años): dos palabras, típicamente sustantivo + verbo. <b>Oración simple</b> (desde los 3 años): sujeto y predicado, con concordancia."},
+ {age:"Desde los 5 años", chip:"#FF9F1C", title:"3. Tercera etapa de comunicación — Segundo nivel lingüístico",
+  body:"<b>Primera subetapa</b> (5–7 años): nivel sintáctico similar al adulto; domina adjetivos y adverbios. <b>Segunda subetapa</b> (7–12 años): mayor desarrollo semántico y vocabulario; domina oraciones subordinadas y relativas."}
+];
+
+const tdl = [
+ {term:"Trastornos del Lenguaje (TL)", emoji:"🩺", meta:"Con condición biomédica conocida", chip:"#FF5D73", fields:[
+   ["Asociación causal","Asociados a una condición biomédica conocida."],
+   ["Notas clave","Dificultades severas y persistentes que forman parte de un cuadro más amplio (daño cerebral, hipoacusia, TEA, discapacidad intelectual). Se recomienda decir 'Trastornos del Lenguaje asociados con...'."]
+ ]},
+ {term:"Trastornos del Desarrollo del Lenguaje (TDL)", emoji:"🧒", meta:"Sin condición biomédica conocida", chip:"#08D6A0", fields:[
+   ["Asociación causal","No asociados a una condición biomédica conocida."],
+   ["Notas clave","Trastornos del neurodesarrollo que persisten en la adultez. Se diagnostican por el impacto funcional en la vida diaria, social y escolar."]
+ ]},
+ {term:"Especificadores de TDL", emoji:"🏷️", meta:"Áreas afectadas", chip:"#3E92FF", fields:[
+   ["Notas clave","Dada la heterogeneidad, se usan especificadores para señalar una o varias áreas: fonología, sintaxis, morfología, semántica, acceso al léxico, pragmática, discurso, aprendizaje y memoria verbal."]
+ ]}
+];
+
+const otros = [
+ {term:"Disartria", emoji:"🗣️", meta:"Nivel motor del habla", chip:"#FF9F1C", fields:[
+   ["Descripción","Imposibilidad de realizar los movimientos motores del habla por lesión cerebral. Trastorno del orden y control de la motricidad faringobucal."]
+ ]},
+ {term:"Dispraxia Verbal", emoji:"🎯", meta:"Praxias / programación", chip:"#FF9F1C", fields:[
+   ["Descripción","Alteración de las praxias para producir fonemas. La dificultad está en estabilizar los estereotipos sinestésico-motores verbales; habla poco fluida e inentendible. Sin lesión cerebral que lo cause."]
+ ]},
+ {term:"Trastornos de la Voz", emoji:"🎙️", meta:"Cuerdas vocales", chip:"#3E92FF", fields:[
+   ["Descripción","Se deben a afección de las cuerdas vocales (laringitis, nódulos). Pueden afectar solo el habla o también la capacidad de cantar."]
+ ]},
+ {term:"Disfemia / Tartamudez", emoji:"🔁", meta:"Ritmo del habla", chip:"#C08CFF", fields:[
+   ["Descripción","Alteración del ritmo del habla: expresión verbal entrecortada, con esfuerzo excesivo."]
+ ]},
+ {term:"Falta de familiaridad con el idioma", emoji:"🌍", meta:"Comunicación, no TDL", chip:"#08D6A0", fields:[
+   ["Descripción","Niños con dificultades en el idioma del lugar donde viven, pero no en su lengua materna. Por eso no constituye un TDL."]
+ ]}
+];
+
+const afasias = [
+ {name:"Afasia de Broca", chip:"#FF9F1C", loc:"Área de Broca (AB 44), corteza motora/premotora (AB 6 y 4), ínsula y sustancia blanca subyacente.",
+  fluencia:"bad", comprension:"mid", repeticion:"bad",
+  detail:"Errores fonéticos y fonémicos; dificultad para recuperar formas fonológicas. Habla no fluente, mal articulada, disprosódica y agramática."},
+ {name:"Afasia de Wernicke", chip:"#08D6A0", loc:"Región perisilviana posterior: área de Wernicke (AB 22) y áreas auditivas primarias (AB 41 y 42).",
+  fluencia:"good", comprension:"bad", repeticion:"bad",
+  detail:"Discurso fluido y logorreico, sin alteración fonética. Parafasias fonológicas y semánticas, neologismos, paragramatismo; discurso vacío de información."},
+ {name:"Afasia Global", chip:"#FF5D73", loc:"Grandes lesiones que afectan todo el territorio silviano del hemisferio dominante.",
+  fluencia:"bad", comprension:"bad", repeticion:"bad",
+  detail:"Combina rasgos de Broca y Wernicke. Fluencia inexistente o reducida a estereotipias (mutismo); comprensión casi nula; repetición nula o reducida a balbuceo."},
+ {name:"Afasia Anómica", chip:"#3E92FF", loc:"Lóbulo temporal izquierdo, regiones anteriores e inferiores.",
+  fluencia:"good", comprension:"good", repeticion:"good",
+  detail:"Anomia: dificultad para encontrar la palabra justa, compensada con circunloquios. El resto de las funciones lingüísticas está preservado."}
+];
+const dimLabel = {good:"Preservada", bad:"Alterada", mid:"Parcialmente alterada"};
+
+const areasFrontales = [
+ {term:"Corteza Motora Primaria (M1)", emoji:"🏁", meta:"Área de Brodmann 4", chip:"#FF9F1C", fields:[
+   ["Áreas de Brodmann","Área 4 (circunvolución precentral)."],
+   ["Función principal","Ejecución de movimientos esqueléticos (boca, extremidades); controla fuerza y dirección. 'Estación de llegada' para la ejecución motora."]
+ ]},
+ {term:"Corteza Premotora", emoji:"🎬", meta:"Áreas 6, 8, 44, 45", chip:"#FF9F1C", fields:[
+   ["Áreas de Brodmann","6, 8 (control oculomotor voluntario), 44 (área de Broca), 45."],
+   ["Función principal","Organización y programación de movimientos complejos orientados a una meta. Fijación y control postural (ej.: estabilizar caderas al caminar)."]
+ ]},
+ {term:"Corteza Prefrontal (CPF)", emoji:"🧠", meta:"Por delante de M1 y premotora", chip:"#FF9F1C", fields:[
+   ["Ubicación","Por delante de M1, la corteza premotora y la corteza cingular."],
+   ["Función principal","Representación de mayor nivel: elaboración y ajuste de esquemas o planes de acción."]
+ ]}
+];
+
+const cpf = [
+ {term:"Dorsolateral (CPFDL)", emoji:"🧭", meta:"¿Cómo hacerlo?", chip:"#3E92FF", fields:[
+   ["Rol conceptual","Planifica la acción."],
+   ["Funciones clave","Memoria de trabajo. Organización temporal de acciones hacia una meta. Conceptualización y categorización. Regulación de acciones por ayudas externas. Interacción entre información sensorial y sistema límbico."]
+ ]},
+ {term:"Orbital / Orbitofrontal (CPFO)", emoji:"🛑", meta:"¿Qué no hacer?", chip:"#FF5D73", fields:[
+   ["Rol conceptual","Inhibición."],
+   ["Funciones clave","Control inhibitorio: suprime impulsos internos y externos. Regulación del procesamiento emocional. Ajuste personal y social. Aplicación de pautas sociales y toma de decisiones apropiadas."]
+ ]},
+ {term:"Medial (CPFM)", emoji:"⏰", meta:"¿Cuándo hacerlo?", chip:"#08D6A0", fields:[
+   ["Rol conceptual","Motivación / temporización."],
+   ["Funciones clave","Canaliza motivación y emoción hacia objetivos. Media la iniciación de acciones. Mantiene y focaliza la atención. Da intencionalidad a las respuestas."]
+ ]}
+];
+
+const fe = [
+ {term:"Memoria de Trabajo", emoji:"🗂️", meta:"Mantener y manipular", chip:"#FF9F1C", fields:[
+   ["Definición y rol","Habilidad para mantener y procesar simultáneamente información relevante por breves periodos. Permite el almacenamiento temporal y la manipulación mental de información no presente perceptualmente."],
+   ["Implicaciones","Fundamental en comprensión del lenguaje, lectura, cálculo matemático y razonamiento."]
+ ]},
+ {term:"Inhibición (Control Inhibitorio)", emoji:"✋", meta:"Frenar respuestas prepotentes", chip:"#FF5D73", fields:[
+   ["Definición y rol","Habilidad para controlar atención, comportamiento, pensamiento y emociones. Permite suprimir, cancelar o frenar respuestas inadecuadas frente a impulsos o tentaciones del ambiente."],
+   ["Implicaciones","Necesaria para no ser víctima de nuestros propios impulsos y hábitos de pensamiento y acción."]
+ ]},
+ {term:"Flexibilidad Cognitiva", emoji:"🔄", meta:"Adaptar la perspectiva", chip:"#08D6A0", fields:[
+   ["Definición y rol","Permite modificar flexiblemente perspectivas, foco atencional y/o comportamientos según cambien las demandas del medio o las propias metas."],
+   ["Implicaciones","Posibilita la adaptación activa a situaciones novedosas. Contribuye al desarrollo de la creatividad."]
+ ]},
+ {term:"Funciones de Orden Superior", emoji:"🏛️", meta:"Razonamiento y planificación", chip:"#3E92FF", fields:[
+   ["Definición y rol","Razonamiento, planificación y resolución de problemas."],
+   ["Implicaciones","Se construyen integrando las tres funciones centrales: memoria de trabajo, inhibición y flexibilidad cognitiva."]
+ ]}
+];
+
+const etiologiaDem = [
+ {term:"Degenerativas Primarias", emoji:"🧫", meta:"Progresivas e irreversibles", chip:"#C08CFF", fields:[
+   ["Definición y patogenia","Hipofunción o pérdida de neuronas/sinapsis por alteraciones inherentes al metabolismo neuronal (degeneración de proteínas)."],
+   ["Ejemplos","Alzheimer (DTA), Demencia por Cuerpos de Lewy (DCL), Demencias frontotemporales (DFT)."]
+ ]},
+ {term:"Secundarias / Tratables", emoji:"💊", meta:"Causas externas al metabolismo neuronal", chip:"#08D6A0", fields:[
+   ["Definición y patogenia","Disfunción o pérdida neuronal por causas externas. Un tratamiento oportuno puede detener el proceso."],
+   ["Ejemplos","Demencia vascular (infartos múltiples), infecciones (Sida, meningitis), déficits carenciales (B12), traumáticas (tumores)."]
+ ]},
+ {term:"Pseudodemencias", emoji:"🎭", meta:"Reversibles", chip:"#FFD23F", fields:[
+   ["Definición y patogenia","Cuadros cuyas causas son conocidas, tratables o reversibles."],
+   ["Ejemplos","Se distinguen por su reversibilidad al tratar la causa subyacente."]
+ ]}
+];
+
+const localizacionDem = [
+ {term:"Corticales", emoji:"🧠", meta:"Corteza cerebral", chip:"#08D6A0", fields:[
+   ["Zonas afectadas","Corteza cerebral."],
+   ["Características clave","Trastornos de memoria y lenguaje (anomia, comprensión), agnosia, apraxia, alteraciones visuoespaciales y constructivas."]
+ ]},
+ {term:"Subcorticales", emoji:"🔘", meta:"Tálamo, sustancia blanca, cerebelo", chip:"#C08CFF", fields:[
+   ["Zonas afectadas","Regiones subcorticales: tálamo, sustancia blanca, cerebelo."],
+   ["Características clave","Bradipsiquia (enlentecimiento), apatía, alteraciones frontales, trastornos motores. La memoria se afecta más tarde y de forma menos profunda."]
+ ]},
+ {term:"Mixtas / Globales", emoji:"🌐", meta:"Déficit generalizado", chip:"#FF5D73", fields:[
+   ["Zonas afectadas","Déficits corticales y subcorticales generalizados."],
+   ["Características clave","Déficit cerebral profundo, frecuente en etapas avanzadas de demencias corticales o subcorticales."]
+ ]}
+];
+
+const tiposDem = [
+ {term:"Alzheimer (DTA)", emoji:"🧩", meta:"Degenerativa", chip:"#08D6A0", fields:[
+   ["Etiología","Depósitos de beta amiloide (placas seniles) y proteína TAU hiperfosforilada (ovillos neurofibrilares)."],
+   ["Zonas afectadas inicialmente","Atrofia témporo-medial (corteza entorrinal e hipocampo), extendiéndose al lóbulo parietal."]
+ ]},
+ {term:"Vascular (DV)", emoji:"🩸", meta:"Secundaria", chip:"#FF5D73", fields:[
+   ["Etiología","Lesiones encefálicas por eventos cerebrovasculares (multi-infartos o compromiso de pequeñas arterias)."],
+   ["Zonas afectadas inicialmente","Depende de la localización de la lesión: distribución 'salpicada' del déficit."]
+ ]},
+ {term:"Cuerpos de Lewy (DCL)", emoji:"🔵", meta:"Degenerativa", chip:"#C08CFF", fields:[
+   ["Etiología","Inclusiones neuronales anormales de alfa sinucleína (cuerpos de Lewy)."],
+   ["Zonas afectadas inicialmente","Córtex cerebral y núcleos subcorticales/tronco."]
+ ]},
+ {term:"Frontotemporal (DFT)", emoji:"🔶", meta:"Degenerativa", chip:"#FF9F1C", fields:[
+   ["Etiología","Degeneración selectiva de los lóbulos frontales y temporales."],
+   ["Zonas afectadas inicialmente","Atrofia prominente en lóbulos frontales y temporales anteriores."]
+ ]}
+];
+
+const sindromes = [
+ {name:"Síndrome de Capgras", emoji:"👥", chip:"#FF9F1C",
+  desc:"Creencia delirante de que una persona cercana (o animal, objeto, lugar) fue sustituida por un doble o impostor.",
+  etio:"Trastornos psiquiátricos (esquizofrenia paranoide, trastorno bipolar). Trastornos orgánicos (demencias, lesiones cerebrales, ictus, epilepsia).",
+  base:"Daño combinado fronto-temporal, en especial bifrontal y lateral derecho. Desconexión de la ruta dorsal que une el sistema visual con estructuras límbicas como la amígdala, la que aporta la sensación de familiaridad.",
+  clave:"Es el más frecuente de los Síndromes de Falsa Identificación Delirante. Preserva el reconocimiento facial, pero falla la vivencia de familiaridad — por eso se lo describe como una 'imagen especular' de la prosopagnosia."},
+ {name:"Síndrome de Klüver-Bucy", emoji:"🙈", chip:"#08D6A0",
+  desc:"Agnosia visual ('ceguera psíquica'), hiperoralidad, hipersexualidad y ausencia de reactividad afectiva (docilidad extrema, pérdida de miedo).",
+  etio:"Lesiones bilaterales de los lóbulos temporales: encefalitis herpética, traumatismos de cráneo, infartos bitemporales, lobectomía temporal bilateral.",
+  base:"Lesión bilateral de los lóbulos temporales mediales, incluyendo amígdala, formación hipocampal y corteza temporal anterior y medial.",
+  clave:"Se considera un síndrome de desconexión. La pérdida del miedo se atribuye principalmente a la destrucción bilateral de la amígdala. El diagnóstico en humanos requiere tres o más síntomas."},
+ {name:"Síndrome de Alicia en el País de las Maravillas", emoji:"🐇", chip:"#3E92FF",
+  desc:"Trastornos complejos de la percepción visual (macropsia, micropsia, palinopsia, visión invertida) y distorsiones de la imagen corporal.",
+  etio:"Migraña, epilepsia, infecciones (Epstein-Barr, influenza), intoxicaciones.",
+  base:"Compromiso del lóbulo parietal posterior, sobre todo del hemisferio no dominante; zonas témporo-occipitales y parieto-occipito-temporales.",
+  clave:"El paciente conserva conciencia de que las percepciones son ilusorias. El curso clínico suele ser benigno; los síntomas exageran la función normal del esquema corporal."},
+ {name:"Síndrome de Gourmand", emoji:"🍽️", chip:"#FFD23F",
+  desc:"Preocupación o pasión intensa por la comida y bebida fina, exótica o de calidad, con cambio en los hábitos alimentarios.",
+  etio:"Lesiones hemorrágicas o infarto cerebral; asociado a trastornos alimentarios o conductas obsesivo-compulsivas.",
+  base:"Lesión en la parte anterior derecha del circuito fronto-temporal. El córtex prefrontal derecho es crucial para regular la conducta alimentaria.",
+  clave:"El nombre significa 'amante de la comida' en francés. Se lo asocia a un desbalance del sistema serotoninérgico."},
+ {name:"Síndrome de Charles Bonnet", emoji:"👻", chip:"#C08CFF",
+  desc:"Alucinaciones visuales complejas y estructuradas (personas, animales, figuras) en pacientes con deterioro de la visión.",
+  etio:"Deterioro visual importante por patología ocular (degeneración macular, cataratas, glaucoma). Factores de riesgo: edad, aislamiento, deprivación sensorial.",
+  base:"Áreas de asociación visual. La baja visión reduce la información que llega a la corteza occipital (desaferentación), generando hiperexcitabilidad neuronal.",
+  clave:"La teoría de la desaferentación es la explicación más aceptada. No se considera una enfermedad psiquiátrica: el paciente sabe que las imágenes no son reales."}
+];
+
+const epilepsia = [
+ {name:"Epilepsia (definición)", age:"—", desc:"Trastorno neurológico crónico con predisposición cerebral a generar crisis recurrentes. Se diagnostica con dos o más crisis no provocadas separadas por más de 24 horas, o una sola crisis con alto riesgo de recurrencia.",
+  prog:"Requiere un abordaje interdisciplinario."},
+ {name:"Crisis Focales", age:"—", desc:"Descargas originadas en redes limitadas a un solo hemisferio. Se clasifican según si la conciencia está preservada o alterada.",
+  prog:"Pueden evolucionar a crisis tónico-clónicas bilaterales."},
+ {name:"Crisis Generalizadas", age:"—", desc:"Descargas que involucran rápidamente redes distribuidas en ambos hemisferios. Ejemplos: tónico-clónicas, ausencias, mioclónicas.",
+  prog:"Las tónico-clónicas generalizadas presentan pérdida de conciencia."},
+ {name:"Espasmos Epilépticos Infantiles (SEEI / West)", age:"1–24 meses (pico 3–12 m)", desc:"Contracciones tónicas breves, generalmente en series. El Síndrome de West exige la tríada: espasmos + hipsarritmia (EEG caótico) + estancamiento del desarrollo.",
+  prog:"En muchos lactantes el pronóstico del desarrollo sigue siendo malo; la gravedad depende de la etiología y de qué tan rápido se trate."},
+ {name:"Síndrome de Lennox-Gastaut (SLG)", age:"18 meses – 8 años", desc:"Encefalopatía epiléptica con deterioro cognitivo/conductual. Requiere múltiples tipos de crisis (obligatoriamente tónicas), resistentes a fármacos.",
+  prog:"Persiste en la adultez en casi todos los casos; discapacidad intelectual moderada-severa en más del 90%."},
+ {name:"Epilepsia de Ausencias de la Infancia", age:"4–10 años", desc:"Crisis de ausencia típicas diarias: pérdida completa de conciencia, mirada fija, automatismos.",
+  prog:"Buen curso evolutivo; responde bien a fármacos y remite espontáneamente en ~60% de los casos."},
+ {name:"Epilepsia Mioclónica Juvenil (EMJ)", age:"10–24 años", desc:"Epilepsia generalizada idiopática con crisis mioclónicas (sacudidas breves) y crisis tónico-clónicas generalizadas. Se facilita por privación de sueño.",
+  prog:"Trastorno crónico que suele requerir tratamiento continuo."},
+ {name:"Epilepsia del Lóbulo Temporal Mesial (ELTM)", age:"Adolescencia / adultez temprana", desc:"Epilepsia focal frecuente en adultos; requiere esclerosis hipocampal confirmada por imágenes. Crisis con síntomas autonómicos (sensación epigástrica) o cognitivos (déjà vu, miedo).",
+  prog:"Suele ser resistente al tratamiento farmacológico; la cirugía puede transformar el pronóstico."}
+];
+
+/* ================= RENDER HELPERS ================= */
+function fieldHTML(f){
+  return f.map(([l,v])=>`<div class="field"><span class="label">${l}</span><span class="value">${v}</span></div>`).join('');
+}
+function renderCards(containerId, items){
+  const el = document.getElementById(containerId);
+  el.innerHTML = items.map((it,i)=>`
+    <div class="card" style="--chip:${it.chip}; --chip-dim:${it.chip}22;" tabindex="0" role="button" aria-label="${it.term}, tocar para ver detalle">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <div>
+            <div class="emoji-badge">${it.emoji}</div>
+            <div class="term">${it.term}</div>
+            <div class="meta">${it.meta||''}</div>
+          </div>
+          <div class="flip-hint">↻ tocar para ver detalle</div>
+        </div>
+        <div class="card-face card-back">
+          ${fieldHTML(it.fields)}
+        </div>
+      </div>
+    </div>
+  `).join('');
+  el.querySelectorAll('.card').forEach(c=>{
+    c.addEventListener('click', ()=>c.classList.toggle('flipped'));
+    c.addEventListener('keypress', e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); c.classList.toggle('flipped');} });
+  });
+}
+
+renderCards('grid-gnosias', gnosias);
+renderCards('grid-praxias', praxias);
+renderCards('grid-niveles', niveles);
+renderCards('grid-tdl', tdl);
+renderCards('grid-otros', otros);
+renderCards('grid-areas', areasFrontales);
+renderCards('grid-cpf', cpf);
+renderCards('grid-fe', fe);
+renderCards('grid-etiologia', etiologiaDem);
+renderCards('grid-localizacion', localizacionDem);
+renderCards('grid-tipos', tiposDem);
+
+/* Timeline */
+document.getElementById('timeline-adq').innerHTML = adquisicion.map(a=>`
+  <div class="tl-item" style="--chip:${a.chip}; --chip-dim:${a.chip}33;">
+    <div class="tl-age">${a.age}</div>
+    <div class="tl-title">${a.title}</div>
+    <div class="tl-body">${a.body}</div>
+  </div>
+`).join('');
+
+/* Afasias */
+document.getElementById('grid-afasias').innerHTML = afasias.map(a=>`
+  <div class="afasia-card" style="--chip:${a.chip};">
+    <h3>${a.name}</h3>
+    <div class="afasia-loc">📍 ${a.loc}</div>
+    <div class="dim-row"><span class="dot ${a.fluencia}"></span> Fluencia — ${dimLabel[a.fluencia]}</div>
+    <div class="dim-row"><span class="dot ${a.comprension}"></span> Comprensión — ${dimLabel[a.comprension]}</div>
+    <div class="dim-row"><span class="dot ${a.repeticion}"></span> Repetición — ${dimLabel[a.repeticion]}</div>
+    <div class="afasia-detail">${a.detail}</div>
+  </div>
+`).join('');
+
+/* Sindromes (click-to-expand) */
+document.getElementById('grid-sindromes').innerHTML = sindromes.map((s,i)=>`
+  <div class="synd-card" style="--chip:${s.chip};" data-idx="${i}">
+    <div class="synd-top">
+      <div>
+        <div class="synd-emoji">${s.emoji}</div>
+        <div class="synd-name">${s.name}</div>
+      </div>
+      <div class="toggle-cue">＋</div>
+    </div>
+    <div class="synd-desc">${s.desc}</div>
+    <div class="synd-extra">
+      <span class="label" style="color:${s.chip}">Etiología</span>${s.etio}
+      <span class="label" style="color:${s.chip}">Bases neuroanatómicas</span>${s.base}
+      <span class="label" style="color:${s.chip}">Concepto clave</span>${s.clave}
+    </div>
+  </div>
+`).join('');
+document.querySelectorAll('.synd-card').forEach(c=>{
+  c.addEventListener('click', ()=>{
+    const cue = c.querySelector('.toggle-cue');
+    c.classList.toggle('open');
+    cue.textContent = c.classList.contains('open') ? '－' : '＋';
+  });
+});
+
+/* Epilepsia */
+document.getElementById('grid-epilepsia').innerHTML = epilepsia.map(e=>`
+  <div class="epi-card">
+    <div class="epi-age">🕐 ${e.age}</div>
+    <div class="epi-name">${e.name}</div>
+    <div class="epi-desc">${e.desc}</div>
+    <div class="epi-prog"><b>Pronóstico →</b> ${e.prog}</div>
+  </div>
+`).join('');
+
+/* ================= NAV: scroll spy, progress bar, tabs, brain ================= */
+const navlinks = document.querySelectorAll('.navlink');
+const chapters = document.querySelectorAll('section.chapter');
+
+function setActiveNav(id){
+  navlinks.forEach(l=>{
+    const match = l.getAttribute('href') === '#'+id;
+    l.classList.toggle('active', match);
+    if(match){ l.style.setProperty('--chip', l.dataset.chip); }
+  });
+}
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){ setActiveNav(entry.target.id); }
+  });
+},{ rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+chapters.forEach(s=>observer.observe(s));
+
+window.addEventListener('scroll', ()=>{
+  const h = document.documentElement;
+  const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  document.getElementById('progress').style.width = scrolled + '%';
+});
+
+navlinks.forEach(l=>l.addEventListener('click', (e)=>{
+  e.preventDefault();
+  document.querySelector(l.getAttribute('href')).scrollIntoView({behavior:'smooth', block:'start'});
+}));
+
+/* Tabs within chapters */
+document.querySelectorAll('.tabs').forEach(tabGroup=>{
+  const buttons = tabGroup.querySelectorAll('.tabbtn');
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      buttons.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const panelId = btn.dataset.tab;
+      const container = tabGroup.parentElement;
+      container.querySelectorAll(':scope > .tabpanel').forEach(p=>p.classList.remove('active'));
+      container.querySelector('#'+panelId).classList.add('active');
+    });
+  });
+});
+
+/* Brain hero: click lobe -> scroll to section */
+document.querySelectorAll('.brain-group').forEach(g=>{
+  g.addEventListener('click', ()=>{
+    const target = document.querySelector(g.dataset.target);
+    if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+</script>
+</body>
+</html>

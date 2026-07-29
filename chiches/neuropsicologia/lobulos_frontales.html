@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Lóbulos Frontales &amp; CPF · Mapa de estudio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0d18;
+  --surface:#12162a;
+  --surface-2:#191f38;
+  --ink:#eef0f9;
+  --ink-dim:#8b93b4;
+  --line: rgba(238,240,249,0.09);
+
+  --dl:#28e0c8;      /* dorsolateral - "cómo" */
+  --dl-soft: rgba(40,224,200,0.14);
+  --orb:#ff9a5c;      /* orbital - "qué" */
+  --orb-soft: rgba(255,154,92,0.14);
+  --med:#c08bff;      /* medial - "cuándo" */
+  --med-soft: rgba(192,139,255,0.14);
+  --neu:#7d9dff;      /* neutro / general */
+  --neu-soft: rgba(125,157,255,0.14);
+
+  --accent: var(--neu);
+  --accent-soft: var(--neu-soft);
+
+  --serif: 'Fraunces', serif;
+  --sans: 'Inter', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+html,body{height:100%;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  overflow:hidden;
+  position:relative;
+  -webkit-font-smoothing:antialiased;
+  height:100vh;
+  width:100vw;
+}
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+}
+
+canvas#net{ position:fixed; inset:0; width:100%; height:100%; z-index:0; opacity:0.55; transition:opacity .6s ease; }
+
+/* ---------- Chrome (top / bottom bars) ---------- */
+.topbar{
+  position:fixed; top:0; left:0; right:0; z-index:20;
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 22px clamp(20px,5vw,56px) 0;
+  pointer-events:none;
+}
+.brand{
+  font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-dim); display:flex; align-items:center; gap:8px;
+}
+.brand .dot{ width:6px; height:6px; border-radius:50%; background:var(--accent); transition:background .5s ease; box-shadow:0 0 10px var(--accent); }
+.counter{
+  font-family:var(--mono); font-size:11px; color:var(--ink-dim); letter-spacing:.08em;
+}
+.counter b{ color:var(--ink); font-weight:600; }
+
+.progress-track{
+  position:fixed; top:0; left:0; right:0; height:3px; z-index:25; background:var(--line);
+}
+.progress-fill{
+  height:100%; width:0%; background:linear-gradient(90deg, var(--accent), var(--accent));
+  transition: width .5s cubic-bezier(.6,0,.2,1), background .5s ease;
+  box-shadow:0 0 12px var(--accent);
+}
+
+.botbar{
+  position:fixed; bottom:0; left:0; right:0; z-index:20;
+  display:flex; flex-direction:column; align-items:center; gap:14px;
+  padding: 0 20px 22px;
+}
+.dots{ display:flex; gap:7px; flex-wrap:wrap; justify-content:center; max-width:90vw; }
+.dots button{
+  width:7px; height:7px; border-radius:50%; border:none; background:var(--line); cursor:pointer;
+  padding:0; transition: all .35s ease; position:relative;
+}
+.dots button.active{ width:22px; border-radius:4px; background:var(--accent); box-shadow:0 0 8px var(--accent); }
+.dots button[data-region="dl"].active{ background:var(--dl); box-shadow:0 0 8px var(--dl);}
+.dots button[data-region="orb"].active{ background:var(--orb); box-shadow:0 0 8px var(--orb);}
+.dots button[data-region="med"].active{ background:var(--med); box-shadow:0 0 8px var(--med);}
+
+.hint{ font-family:var(--mono); font-size:10px; color:var(--ink-dim); letter-spacing:.06em; opacity:.7; }
+.hint kbd{ border:1px solid var(--line); border-radius:4px; padding:1px 5px; margin:0 2px; font-family:var(--mono); }
+
+/* click zones */
+.zone{ position:fixed; top:0; bottom:0; width:14%; z-index:15; cursor:pointer; }
+.zone.left{ left:0; } .zone.right{ right:0; }
+.zone.right::after, .zone.left::after{
+  content:''; position:absolute; top:50%; transform:translateY(-50%);
+  width:38px; height:38px; border-radius:50%; border:1px solid var(--line);
+  opacity:0; transition:opacity .25s ease, border-color .3s ease;
+  background:var(--surface);
+}
+.zone.left::after{ left:14px; }
+.zone.right::after{ right:14px; }
+.zone:hover::after{ opacity:1; border-color:var(--accent); }
+.zone::before{
+  content:''; position:absolute; top:50%; transform:translateY(-50%);
+  width:8px; height:8px; border-top:2px solid var(--ink-dim); border-right:2px solid var(--ink-dim);
+  opacity:0; transition:opacity .25s ease;
+}
+.zone.left::before{ left:30px; transform:translateY(-50%) rotate(-135deg); }
+.zone.right::before{ right:30px; transform:translateY(-50%) rotate(45deg); }
+.zone:hover::before{ opacity:.9; }
+
+/* ---------- Stage / Slides ---------- */
+.stage{
+  position:relative; z-index:10; height:100vh; width:100vw;
+  display:flex; align-items:center; justify-content:center;
+  padding: 90px clamp(16vw, 20vw, 22vw) 90px;
+}
+@media (max-width: 900px){
+  .stage{ padding: 84px 22px 100px; }
+  .zone{ width:10%; }
+}
+
+.slide{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  padding: 90px clamp(16px,10vw,17vw);
+  opacity:0; pointer-events:none;
+  transform: translate3d(0,26px,0) scale(.97) rotateX(4deg);
+  transition: opacity .55s cubic-bezier(.4,0,.2,1), transform .6s cubic-bezier(.2,.8,.2,1);
+  transform-style:preserve-3d;
+}
+.slide.active{
+  opacity:1; pointer-events:auto; transform:translate3d(0,0,0) scale(1) rotateX(0);
+  z-index:2;
+}
+.slide.exit-left{ transform: translate3d(-8%,0,0) scale(.96) rotateY(6deg); opacity:0; }
+.slide.exit-right{ transform: translate3d(8%,0,0) scale(.96) rotateY(-6deg); opacity:0; }
+
+.card{ max-width:860px; width:100%; }
+
+.eyebrow{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--accent); margin-bottom:20px; opacity:0; transform:translateY(10px);
+  animation: rise .6s ease .05s forwards;
+  border:1px solid var(--accent); border-color:color-mix(in srgb, var(--accent) 40%, transparent);
+  padding:5px 12px 5px 10px; border-radius:100px; background:var(--accent-soft);
+}
+.eyebrow .em{ font-size:14px; }
+
+h1.title{
+  font-family:var(--serif); font-weight:600; line-height:1.04;
+  font-size:clamp(30px, 4.6vw, 58px); letter-spacing:-0.01em;
+  margin-bottom:22px; opacity:0; transform:translateY(16px);
+  animation: rise .65s cubic-bezier(.2,.7,.2,1) .12s forwards;
+}
+h1.title em{ font-style:italic; color:var(--accent); font-weight:500; }
+
+.lede{
+  font-size:clamp(15px,1.65vw,19px); line-height:1.6; color:var(--ink-dim);
+  max-width:64ch; margin-bottom:6px; opacity:0; transform:translateY(14px);
+  animation: rise .6s ease .2s forwards;
+}
+
+.body-content{ opacity:0; transform:translateY(14px); animation: rise .6s ease .28s forwards; }
+
+.qmark{ font-family:var(--serif); font-style:italic; font-size:clamp(20px,2.4vw,27px); color:var(--ink); margin: 22px 0 10px; font-weight:500; }
+
+ul.points{ list-style:none; margin-top:14px; display:flex; flex-direction:column; gap:11px; }
+ul.points li{
+  position:relative; padding-left:26px; line-height:1.5; font-size:15.5px; color:var(--ink);
+}
+ul.points li::before{
+  content:'—'; position:absolute; left:0; top:0; color:var(--accent); font-weight:700;
+}
+ul.points b, ul.points strong{ color:var(--ink); font-weight:650; }
+
+.pillrow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:18px; }
+.pill{
+  font-family:var(--mono); font-size:12px; padding:6px 12px; border-radius:100px;
+  border:1px solid var(--line); color:var(--ink-dim); background:var(--surface);
+}
+
+.statgrid{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:22px; }
+.stat{ border:1px solid var(--line); border-radius:14px; padding:18px 20px; background:var(--surface); }
+.stat .num{ font-family:var(--serif); font-size:clamp(28px,3.4vw,42px); color:var(--accent); font-weight:600; line-height:1;}
+.stat .lab{ font-size:12.5px; color:var(--ink-dim); margin-top:6px; }
+
+.trio{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:24px; }
+@media (max-width:760px){ .trio{ grid-template-columns:1fr; } .statgrid{grid-template-columns:1fr;} }
+.trio .cell{ border-radius:16px; padding:18px 16px; border:1px solid var(--line); background:var(--surface); text-align:left; transition: transform .3s ease; }
+.trio .cell .tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; display:block; }
+.trio .cell.dl{ border-color: color-mix(in srgb, var(--dl) 35%, transparent); } .trio .cell.dl .tag{ color:var(--dl); }
+.trio .cell.orb{ border-color: color-mix(in srgb, var(--orb) 35%, transparent); } .trio .cell.orb .tag{ color:var(--orb); }
+.trio .cell.med{ border-color: color-mix(in srgb, var(--med) 35%, transparent); } .trio .cell.med .tag{ color:var(--med); }
+.trio .cell h4{ font-family:var(--serif); font-size:17px; font-weight:600; margin-bottom:6px; }
+.trio .cell p{ font-size:13px; color:var(--ink-dim); line-height:1.5; }
+
+.callout{
+  margin-top:22px; border-radius:16px; padding:18px 20px; background:var(--surface-2);
+  border-left:3px solid var(--accent); font-size:14.5px; line-height:1.55; color:var(--ink);
+}
+.callout .em{ margin-right:8px; }
+
+.quote{
+  font-family:var(--serif); font-style:italic; font-size:clamp(18px,2vw,23px); line-height:1.5;
+  color:var(--ink); border-left:3px solid var(--accent); padding-left:20px; margin-top:20px;
+}
+.quote span{ display:block; font-family:var(--mono); font-style:normal; font-size:11px; color:var(--ink-dim); margin-top:10px; letter-spacing:.04em;}
+
+@keyframes rise{ to{ opacity:1; transform:translateY(0); } }
+
+.brainwrap{
+  position:fixed; z-index:5; opacity:.9; pointer-events:none;
+  transition: right .6s ease, bottom .6s ease;
+}
+.brainwrap svg path{ transition: fill .55s ease, opacity .55s ease; }
+
+/* End slide */
+.finalcta{ display:flex; gap:12px; margin-top:26px; flex-wrap:wrap; }
+.btn{
+  font-family:var(--mono); font-size:12px; letter-spacing:.05em; padding:11px 18px; border-radius:100px;
+  border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer;
+  transition: all .25s ease;
+}
+.btn:hover{ border-color:var(--accent); color:var(--accent); }
+.btn.primary{ background:var(--accent); color:#0a0d18; border-color:var(--accent); font-weight:600; }
+.btn.primary:hover{ opacity:.88; color:#0a0d18; }
+</style>
+</head>
+<body>
+
+<canvas id="net"></canvas>
+
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="topbar">
+  <div class="brand"><span class="dot" id="brandDot"></span> CPF · Neuropsicología</div>
+  <div class="counter"><b id="curNum">01</b> / <span id="totNum">16</span></div>
+</div>
+
+<div class="zone left" id="zoneLeft" aria-label="Anterior"></div>
+<div class="zone right" id="zoneRight" aria-label="Siguiente"></div>
+
+<div class="stage" id="stage"></div>
+
+<div class="botbar">
+  <div class="dots" id="dots"></div>
+  <div class="hint">Navegá con <kbd>←</kbd> <kbd>→</kbd> · tocá los bordes · <kbd>espacio</kbd> avanza</div>
+</div>
+
+<div class="brainwrap" id="brainwrap" style="right:26px; bottom:70px;">
+  <svg width="86" height="86" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path id="brainOutline" d="M50 12c-16 0-28 10-30 24-8 3-13 11-11 20 1 7 7 12 12 13-1 8 4 16 13 18 2 7 9 12 16 12s14-5 16-12c9-2 14-10 13-18 5-1 11-6 12-13 2-9-3-17-11-20-2-14-14-24-30-24z" stroke="#3a4066" stroke-width="1.5" fill="none" opacity=".55"/>
+    <path id="regDL" d="M28 30c6-9 15-14 22-14 4 0 7 1 9 3-10 1-19 7-24 16-3 6-4 12-3 18-6-2-9-8-9-14 0-4 2-7 5-9z" fill="#3a4066" opacity=".35"/>
+    <path id="regOrb" d="M34 62c2 8 8 13 16 14 3 6 8 10 14 10-4 5-10 8-14 8-7 0-14-5-16-12-6-1-10-6-10-13 0-3 1-5 3-7 2-1 5-1 7 0z" fill="#3a4066" opacity=".35"/>
+    <path id="regMed" d="M50 20c8 0 16 5 20 13 3 6 3 13 1 19-2-9-8-16-16-19-3-6-4-9-5-13z" fill="#3a4066" opacity=".35"/>
+  </svg>
+</div>
+
+<script>
+/* ---------------- Content ---------------- */
+const SLIDES = [
+  {
+    region:'neu', eyebrow:'🧠 Ficha de repaso', kicker:'01',
+    title:'Lóbulos <em>Frontales</em> & Corteza Prefrontal',
+    body:`<p class="lede">Un recorrido en 16 pasos por la anatomía, las funciones ejecutivas y la neuropsicopatología de la región que más creció en nuestra evolución. Preparado para repaso rápido de examen.</p>
+    <div class="pillrow">
+      <span class="pill">🧩 Anatomía</span>
+      <span class="pill">🎯 Funciones ejecutivas</span>
+      <span class="pill">⚡ Síndromes</span>
+      <span class="pill">🩺 Casos clínicos</span>
+    </div>`
+  },
+  {
+    region:'neu', eyebrow:'📐 Anatomía y organización', kicker:'02',
+    title:'Un <em>tercio</em> del cerebro',
+    body:`<p class="lede">Los lóbulos frontales no son un área más: son la región que más se expandió a lo largo de la evolución humana.</p>
+    <div class="statgrid">
+      <div class="stat"><div class="num">25–33%</div><div class="lab">de la masa total de los hemisferios cerebrales en el ser humano</div></div>
+      <div class="stat"><div class="num">17% → 29%</div><div class="lab">crecimiento filogenético: de chimpancés a humanos</div></div>
+    </div>`
+  },
+  {
+    region:'neu', eyebrow:'📐 Organización jerárquica', kicker:'03',
+    title:'Tres niveles, <em>una</em> jerarquía',
+    body:`<p class="lede">La corteza frontal se organiza en tres niveles, del movimiento concreto a la planificación abstracta.</p>
+    <ul class="points">
+      <li><b>Corteza Motora Primaria</b> (Área 4) — ejecuta movimientos esqueléticos: fuerza y dirección.</li>
+      <li><b>Corteza Premotora</b> (Áreas 6, 8, 44, 45) — organiza y programa movimientos complejos en función de una meta, y controla la postura.</li>
+      <li><b>Corteza Prefrontal (CPF)</b> — el nivel más alto: elabora y ajusta esquemas o planes de acción.</li>
+    </ul>`
+  },
+  {
+    region:'neu', eyebrow:'🗺️ Mapa de la CPF', kicker:'04',
+    title:'Tres preguntas, <em>tres</em> regiones',
+    body:`<p class="lede">La cátedra organiza la anatomía funcional de la CPF alrededor de tres preguntas clave. Cada una activa una región distinta — memorizalas como un mapa.</p>
+    <div class="trio">
+      <div class="cell dl"><span class="tag">🧭 Cómo hacerlo</span><h4>CPF Dorsolateral</h4><p>Planificación, memoria de trabajo, conceptualización.</p></div>
+      <div class="cell orb"><span class="tag">🎯 Qué hacer</span><h4>CPF Orbital</h4><p>Inhibición, ajuste social, decisiones en contexto emocional.</p></div>
+      <div class="cell med"><span class="tag">⏱️ Cuándo hacerlo</span><h4>CPF Medial</h4><p>Iniciación, motivación, atención sostenida.</p></div>
+    </div>`
+  },
+  {
+    region:'dl', eyebrow:'🧭 CPF Dorsolateral', kicker:'05',
+    title:'<em>¿Cómo</em> hacerlo?',
+    body:`<p class="lede">La Corteza Prefrontal Dorsolateral (CPFDL) es la región ejecutiva por excelencia: organiza el "cómo" de cualquier acción dirigida a una meta.</p>
+    <ul class="points">
+      <li><b>Planificación</b> y organización temporal de las acciones.</li>
+      <li><b>Memoria de trabajo</b>: mantener y manipular información activamente.</li>
+      <li><b>Conceptualización</b> y establecimiento de categorías.</li>
+      <li>Regulación de las acciones en base a ayudas externas.</li>
+    </ul>`
+  },
+  {
+    region:'orb', eyebrow:'🎯 CPF Orbital', kicker:'06',
+    title:'<em>¿Qué</em> hacer?',
+    body:`<p class="lede">La Corteza Prefrontal Orbital (CPO) filtra impulsos y ajusta la conducta al contexto social — decide "qué" conviene hacer.</p>
+    <ul class="points">
+      <li><b>Control inhibitorio</b>: freno de impulsos e interferencias externas e internas.</li>
+      <li><b>Ajuste personal y social</b>: autocontrol de la conducta.</li>
+      <li>Toma de decisiones basada en el contexto social y emocional.</li>
+    </ul>`
+  },
+  {
+    region:'med', eyebrow:'⏱️ CPF Medial', kicker:'07',
+    title:'<em>¿Cuándo</em> hacerlo?',
+    body:`<p class="lede">La Corteza Prefrontal Medial (CPFM) enciende la acción: decide el momento y sostiene el impulso hacia la meta.</p>
+    <ul class="points">
+      <li><b>Iniciación</b> de las acciones y actividad exploratoria.</li>
+      <li>Canaliza la <b>motivación y la emoción</b> hacia objetivos apropiados.</li>
+      <li>Mantenimiento y <b>focalización de la atención</b>.</li>
+    </ul>`
+  },
+  {
+    region:'dl', eyebrow:'⚡ Síndrome disejecutivo', kicker:'08',
+    title:'Lesión <em>dorsolateral</em>',
+    body:`<p class="lede">Cuando falla el "cómo", aparece el clásico Síndrome Disejecutivo.</p>
+    <ul class="points">
+      <li>Alteración de la <b>flexibilidad mental</b> y del cambio de criterio.</li>
+      <li>Fallas en <b>planificación, secuenciación</b> y memoria de trabajo.</li>
+      <li>Apatía y desmotivación; si la lesión es <b>izquierda</b>, pueden aparecer síntomas depresivos.</li>
+    </ul>
+    <div class="callout"><span class="em">💡</span> Truco mnemónico: dorsolateral = "director" que ya no puede organizar la orquesta.</div>`
+  },
+  {
+    region:'orb', eyebrow:'⚡ Desinhibición', kicker:'09',
+    title:'Lesión <em>orbital</em>',
+    body:`<p class="lede">Cuando falla el "qué", el freno social desaparece.</p>
+    <ul class="points">
+      <li><b>Desinhibición</b>, impulsividad y conductas inapropiadas.</li>
+      <li>Irritabilidad y falta de tacto social.</li>
+      <li><b>Síndrome de dependencia ambiental</b>: conductas de imitación y utilización.</li>
+      <li>Sentido del humor particular o inapropiado.</li>
+    </ul>`
+  },
+  {
+    region:'med', eyebrow:'⚡ Mutismo acinético', kicker:'10',
+    title:'Lesión <em>medial</em>',
+    body:`<p class="lede">Cuando falla el "cuándo", la acción simplemente no arranca.</p>
+    <div class="callout"><span class="em">🔇</span> <b>Mutismo acinético</b>: el paciente está despierto pero sin iniciativa — no contesta preguntas ni presenta respuestas motoras. Apatía y abulia (falta de deseo) totales.</div>`
+  },
+  {
+    region:'neu', eyebrow:'🎼 Funciones ejecutivas', kicker:'11',
+    title:'El <em>director</em> de orquesta',
+    body:`<p class="lede">Las Funciones Ejecutivas (FE) son procesos cognitivos de alto nivel que regulan cognición, emoción y comportamiento ante situaciones <b>novedosas o complejas</b>.</p>
+    <div class="quote">"Director de orquesta" / "CEO" de una empresa: coordinan otros procesos, pero no los ejecutan directamente.<span>— Metáfora de Goldberg</span></div>`
+  },
+  {
+    region:'neu', eyebrow:'🧩 Modelo de Diamond', kicker:'12',
+    title:'Tres <em>componentes</em> centrales',
+    body:`<ul class="points">
+      <li><b>Memoria de Trabajo</b> — retener y manipular información simultáneamente.</li>
+      <li><b>Inhibición</b> — frenar respuestas prepotentes o distractores para actuar según los objetivos.</li>
+      <li><b>Flexibilidad cognitiva</b> — cambiar perspectivas o focos de atención ante demandas cambiantes del medio.</li>
+    </ul>`
+  },
+  {
+    region:'neu', eyebrow:'🔬 Evaluación', kicker:'13',
+    title:'Una <em>prueba</em> por función',
+    body:`<div class="trio">
+      <div class="cell dl"><span class="tag">Memoria de trabajo</span><h4>Dígitos inverso</h4><p>+ Cubos de Corsi (orden inverso).</p></div>
+      <div class="cell orb"><span class="tag">Inhibición</span><h4>Test de Stroop</h4><p>Interferencia color-palabra + paradigma Go/No-go.</p></div>
+      <div class="cell med"><span class="tag">Flexibilidad</span><h4>WCST</h4><p>Clasificación de Tarjetas de Wisconsin + Trail Making Test (TMT-B).</p></div>
+    </div>`
+  },
+  {
+    region:'orb', eyebrow:'🩺 Caso clínico', kicker:'14',
+    title:'Phineas <em>Gage</em>',
+    body:`<p class="lede">El caso histórico fundacional de la neuropsicología frontal.</p>
+    <div class="callout"><span class="em">🛤️</span> Una lesión prefrontal ventromedial/orbital destruyó el equilibrio entre facultades intelectuales e instintos: transformó a un hombre prudente en alguien <b>irascible, irresponsable y profano</b> — sin afectar necesariamente su inteligencia general.</div>`
+  },
+  {
+    region:'neu', eyebrow:'🛠️ Rehabilitación', kicker:'15',
+    title:'Tres <em>estrategias</em>',
+    body:`<ul class="points">
+      <li><b>Restauración</b> — estimulación directa de la función mediante práctica y repetición, para reorganizar redes.</li>
+      <li><b>Compensación</b> — potenciar mecanismos alternativos o habilidades preservadas.</li>
+      <li><b>Sustitución</b> — ayudas externas (agendas, alarmas) ante la pérdida total de una función.</li>
+    </ul>`
+  },
+  {
+    region:'neu', eyebrow:'✅ Repaso completo', kicker:'16',
+    title:'Listo para el <em>examen</em>',
+    body:`<p class="lede">Repasaste anatomía, las tres regiones de la CPF, sus síndromes, el modelo de Diamond, las pruebas de evaluación, Phineas Gage y las estrategias de rehabilitación.</p>
+    <div class="finalcta">
+      <button class="btn primary" onclick="goTo(0)">🔁 Repasar de nuevo</button>
+    </div>`
+  },
+];
+
+/* ---------------- Build DOM ---------------- */
+const stage = document.getElementById('stage');
+const dotsWrap = document.getElementById('dots');
+const totNum = document.getElementById('totNum');
+totNum.textContent = String(SLIDES.length).padStart(2,'0');
+
+SLIDES.forEach((s, i)=>{
+  const el = document.createElement('div');
+  el.className = 'slide';
+  el.dataset.region = s.region;
+  el.innerHTML = `<div class="card">
+    <div class="eyebrow"><span class="em">${s.eyebrow.split(' ')[0]}</span>${s.eyebrow.split(' ').slice(1).join(' ')}</div>
+    <h1 class="title">${s.title}</h1>
+    <div class="body-content">${s.body}</div>
+  </div>`;
+  stage.appendChild(el);
+
+  const dot = document.createElement('button');
+  dot.dataset.region = s.region;
+  dot.setAttribute('aria-label', 'Ir a slide ' + (i+1));
+  dot.addEventListener('click', ()=>goTo(i));
+  dotsWrap.appendChild(dot);
+});
+
+const slideEls = [...document.querySelectorAll('.slide')];
+const dotEls = [...dotsWrap.children];
+const ACCENTS = { dl:'--dl', orb:'--orb', med:'--med', neu:'--neu' };
+const ACCENTS_SOFT = { dl:'--dl-soft', orb:'--orb-soft', med:'--med-soft', neu:'--neu-soft' };
+const REGION_LABEL = { dl:'DL · Cómo', orb:'ORB · Qué', med:'MED · Cuándo', neu:'General' };
+
+let current = 0;
+
+function setTheme(region){
+  const root = document.documentElement;
+  root.style.setProperty('--accent', `var(${ACCENTS[region]})`);
+  root.style.setProperty('--accent-soft', `var(${ACCENTS_SOFT[region]})`);
+  document.getElementById('brandDot').style.background = `var(${ACCENTS[region]})`;
+
+  // brain highlight
+  const map = { dl:'regDL', orb:'regOrb', med:'regMed' };
+  ['regDL','regOrb','regMed'].forEach(id=>{
+    const node = document.getElementById(id);
+    node.setAttribute('fill', '#3a4066');
+    node.setAttribute('opacity', '.35');
+  });
+  if(map[region]){
+    const node = document.getElementById(map[region]);
+    const colorVar = getComputedStyle(root).getPropertyValue(ACCENTS[region]).trim();
+    node.setAttribute('fill', colorVar);
+    node.setAttribute('opacity', '.9');
+  }
+}
+
+function render(prevIndex, dir){
+  slideEls.forEach((el, i)=>{
+    el.classList.remove('active','exit-left','exit-right');
+    if(i === current){
+      el.classList.add('active');
+      // restage entrance animations
+      const kids = el.querySelectorAll('.eyebrow, .title, .lede, .body-content');
+      kids.forEach(k=>{ k.style.animation='none'; void k.offsetWidth; k.style.animation=''; });
+    } else if(i === prevIndex){
+      el.classList.add(dir === 1 ? 'exit-left' : 'exit-right');
+    }
+  });
+  dotEls.forEach((d,i)=> d.classList.toggle('active', i===current));
+  document.getElementById('curNum').textContent = String(current+1).padStart(2,'0');
+  document.getElementById('progressFill').style.width = ((current+1)/SLIDES.length*100) + '%';
+  setTheme(SLIDES[current].region);
+}
+
+function goTo(i){
+  if(i === current || i < 0 || i >= SLIDES.length) return;
+  const dir = i > current ? 1 : -1;
+  const prev = current;
+  current = i;
+  render(prev, dir);
+}
+function next(){ if(current < SLIDES.length-1) goTo(current+1); }
+function prevSlide(){ if(current > 0) goTo(current-1); }
+
+document.getElementById('zoneRight').addEventListener('click', next);
+document.getElementById('zoneLeft').addEventListener('click', prevSlide);
+
+window.addEventListener('keydown', (e)=>{
+  if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){ e.preventDefault(); next(); }
+  if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); prevSlide(); }
+  if(e.key === 'Home') goTo(0);
+  if(e.key === 'End') goTo(SLIDES.length-1);
+});
+
+// touch swipe
+let touchX = null;
+window.addEventListener('touchstart', e=>{ touchX = e.touches[0].clientX; }, {passive:true});
+window.addEventListener('touchend', e=>{
+  if(touchX === null) return;
+  const dx = e.changedTouches[0].clientX - touchX;
+  if(Math.abs(dx) > 50){ dx < 0 ? next() : prevSlide(); }
+  touchX = null;
+}, {passive:true});
+
+render(0, 1);
+
+/* ---------------- Ambient neural network canvas ---------------- */
+const canvas = document.getElementById('net');
+const ctx = canvas.getContext('2d');
+let W,H, nodes=[];
+function resize(){
+  W = canvas.width = window.innerWidth * devicePixelRatio;
+  H = canvas.height = window.innerHeight * devicePixelRatio;
+  canvas.style.width = window.innerWidth+'px';
+  canvas.style.height = window.innerHeight+'px';
+}
+resize();
+window.addEventListener('resize', resize);
+
+const NODE_COUNT = Math.min(70, Math.floor(window.innerWidth/22));
+function makeNodes(){
+  nodes = [];
+  for(let i=0;i<NODE_COUNT;i++){
+    nodes.push({
+      x: Math.random()*W, y: Math.random()*H,
+      vx: (Math.random()-0.5)*0.25*devicePixelRatio, vy: (Math.random()-0.5)*0.25*devicePixelRatio,
+      r: (Math.random()*1.4+0.6)*devicePixelRatio,
+      pulse: Math.random()*Math.PI*2
+    });
+  }
+}
+makeNodes();
+window.addEventListener('resize', ()=>{ makeNodes(); });
+
+function currentAccentRGB(){
+  const region = SLIDES[current].region;
+  const map = { dl:'40,224,200', orb:'255,154,92', med:'192,139,255', neu:'125,157,255' };
+  return map[region];
+}
+
+let lastFire = 0;
+function loop(t){
+  ctx.clearRect(0,0,W,H);
+  const rgb = currentAccentRGB();
+  const maxDist = 130 * devicePixelRatio;
+
+  for(let i=0;i<nodes.length;i++){
+    const n = nodes[i];
+    n.x += n.vx; n.y += n.vy;
+    if(n.x < 0 || n.x > W) n.vx *= -1;
+    if(n.y < 0 || n.y > H) n.vy *= -1;
+    n.pulse += 0.01;
+  }
+
+  for(let i=0;i<nodes.length;i++){
+    for(let j=i+1;j<nodes.length;j++){
+      const a = nodes[i], b = nodes[j];
+      const dx = a.x-b.x, dy = a.y-b.y;
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      if(dist < maxDist){
+        const op = (1 - dist/maxDist) * 0.16;
+        ctx.strokeStyle = `rgba(${rgb},${op})`;
+        ctx.lineWidth = devicePixelRatio*0.6;
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+      }
+    }
+  }
+  for(const n of nodes){
+    const glow = 0.35 + Math.sin(n.pulse)*0.25;
+    ctx.fillStyle = `rgba(${rgb},${glow})`;
+    ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2); ctx.fill();
+  }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

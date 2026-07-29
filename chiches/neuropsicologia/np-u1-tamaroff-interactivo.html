@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Modelo de Tamaroff — Interactivo</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #f5f5f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+  }
+  .wrap {
+    max-width: 900px;
+    width: 100%;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 4px;
+  }
+  p.hint {
+    text-align: center;
+    font-size: 13px;
+    color: #777;
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  .toggle-text {
+    cursor: pointer;
+    transition: fill 0.2s ease;
+  }
+  .toggle-text:hover {
+    fill: #999999 !important;
+  }
+  .reset-btn {
+    display: block;
+    margin: 16px auto 0;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+  }
+  .reset-btn:hover {
+    background: #f0f0f0;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Modelo de Tamaroff — Unidad 1</h1>
+  <p class="hint">Hacé click en cualquier etiqueta para revelarla / ocultarla</p>
+
+  <svg
+     width="800"
+     height="600"
+     viewBox="30 90 740 333.33334"
+     version="1.1"
+     xmlns="http://www.w3.org/2000/svg">
+
+    <!-- Flechas / conexiones -->
+    <path style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.454827"
+       d="m 249.00087,195.84414 v 3.59375 H 190.0868 c -0.0114,0 -0.0184,0.005 -0.0293,0.006 h -1.30079 v 67.02344 h -12.36328 v -3.5918 l -14.09765,5.71289 14.09765,5.00586 v -3.35742 h 12.36328 V 338.85 h 3.73243 v -0.006 h 56.51172 v 3.35742 l 14.09765,-5.00586 -14.09765,-5.71289 v 3.59375 h -56.51172 v -64.83984 h 5.59765 5.22071 45.69336 v 3.35742 l 14.09765,-5.00586 -14.09765,-5.71289 v 3.5918 h -45.69336 -5.22071 -5.59765 v -63.25977 h 56.51172 v 3.35547 l 14.09765,-5.00586 z" />
+
+    <!-- Cajas -->
+    <rect x="317.67188" y="37.515488" width="165.19556" height="42.04118" fill="none" stroke="#000000" stroke-width="1.31767" />
+    <rect x="299.27225" y="175.04735" width="200.36151" height="53.595718" fill="none" stroke="#000000" stroke-width="1.63848" />
+    <rect x="284.09348" y="228.62613" width="229.98653" height="68.190987" fill="none" stroke="#000000" stroke-width="1.98009" />
+    <rect x="273.16098" y="296.90503" width="254.2173" height="75.861275" fill="none" stroke="#000000" stroke-width="2.19575" />
+    <rect x="35.34491" y="256.72318" width="120.6046" height="29.060802" fill="none" stroke="#000000" stroke-width="1.3954" />
+    <rect x="327.20334" y="471.04758" width="140.6124" height="33.548435" fill="none" stroke="#000000" stroke-width="2" />
+    <rect x="645.38202" y="256.72318" width="120.6046" height="29.060802" fill="none" stroke="#000000" stroke-width="1.3954" />
+
+    <!-- BLOQUE 1: Corteza Prefrontal (terciaria, anterior) -->
+    <g class="toggle-text" data-block="1" style="fill:#ffffff">
+      <text x="402.24112" y="5.6000085" text-anchor="middle" font-family="Arial, sans-serif" font-size="16px">Corteza Prefrontal</text>
+      <text x="402.24112" y="25.600029" text-anchor="middle" font-family="Arial, sans-serif" font-size="14px" font-style="italic">(terciaria, anterior)</text>
+    </g>
+    <g class="toggle-text" data-block="6" style="fill:#ffffff">
+      <text x="399.08676" y="64.324669" text-anchor="middle" font-family="Arial, sans-serif" font-size="18px" font-weight="bold">Control ejecutivo</text>
+    </g>
+
+    <!-- BLOQUE 2: Simbolización / Cort. terc. post. -->
+    <g class="toggle-text" data-block="2" style="fill:#ffffff">
+      <text x="399.453" y="196.26901" text-anchor="middle" font-family="Arial, sans-serif" font-size="16px">Simbolización</text>
+      <text x="399.453" y="216.26901" text-anchor="middle" font-family="Arial, sans-serif" font-size="14px" font-style="italic">Cort. terc. post.</text>
+    </g>
+
+    <!-- BLOQUE 3: Gnósico-Práxico / Cortezas secund. -->
+    <g class="toggle-text" data-block="3" style="fill:#ffffff">
+      <text x="399.08673" y="256.63608" text-anchor="middle" font-family="Arial, sans-serif" font-size="16px">Gnósico-Práxico</text>
+      <text x="399.08673" y="276.63608" text-anchor="middle" font-family="Arial, sans-serif" font-size="14px" font-style="italic">Cortezas secund.</text>
+    </g>
+
+    <!-- BLOQUE 4: Sensorio-Motor / Cortezas primarias -->
+    <g class="toggle-text" data-block="4" style="fill:#ffffff">
+      <text x="396.72095" y="330.49838" text-anchor="middle" font-family="Arial, sans-serif" font-size="16px">Sensorio-Motor</text>
+      <text x="396.72095" y="350.49838" text-anchor="middle" font-family="Arial, sans-serif" font-size="14px" font-style="italic">Cortezas primarias</text>
+    </g>
+
+    <g class="toggle-text" data-block="7" style="fill:#ffffff">
+      <text x="95.647209" y="277.04218" text-anchor="middle" font-family="Arial, sans-serif" font-size="16px">Emoción</text>
+    </g>
+
+    <!-- BLOQUE 5: C. Amigdalino y á. Límbicas -->
+    <g class="toggle-text" data-block="5" style="fill:#ffffff">
+      <text x="49.841919" y="308.63605" text-anchor="start" font-family="Arial, sans-serif" font-size="14px">C. Amigdalino</text>
+      <text x="49.841919" y="328.63605" text-anchor="start" font-family="Arial, sans-serif" font-size="14px">y á. Límbicas</text>
+    </g>
+
+    <g class="toggle-text" data-block="8" style="fill:#ffffff">
+      <text x="237.39815" y="441.7262" text-anchor="middle" font-family="Arial, sans-serif" font-size="14px" font-style="italic">Vías Sensoriales</text>
+    </g>
+
+    <g class="toggle-text" data-block="9" style="fill:#ffffff">
+      <text x="706.62762" y="277.96045" text-anchor="middle" font-family="Arial, sans-serif" font-size="16px">Memoria</text>
+      <text x="709.97339" y="308.46231" text-anchor="middle" font-family="Arial, sans-serif" font-size="14px">Lob. Temporal</text>
+      <text x="709.97339" y="328.46231" text-anchor="middle" font-family="Arial, sans-serif" font-size="14px">Medial y otras</text>
+    </g>
+
+    <g class="toggle-text" data-block="10" style="fill:#ffffff">
+      <text x="396.72095" y="492.42789" text-anchor="middle" font-family="Arial, sans-serif" font-size="16px">Alerta</text>
+      <text x="397.50955" y="522.96509" text-anchor="middle" font-family="Arial, sans-serif" font-size="14px" font-style="italic">Sustancia Reticular</text>
+    </g>
+
+    <g class="toggle-text" data-block="11" style="fill:#ffffff">
+      <text x="554.6402" y="439.84467" text-anchor="middle" font-family="Arial, sans-serif" font-size="14px" font-style="italic">Vías Motoras</text>
+    </g>
+
+    <!-- Flechas verticales arriba/abajo -->
+    <path style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.05375"
+       d="m 380.06746,79.40815 -13.23569,32.66021 h 8.32356 v 62.35785 c 0,0.2603 0.10299,0.47017 0.23132,0.47017 h 8.26955 c 0.12834,0 0.2318,-0.20987 0.2318,-0.47017 v -62.35785 h 7.77729 z" />
+    <path style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.05375"
+       d="m 421.68595,175.22834 -13.23568,-32.66021 h 8.32356 V 80.21028 c 0,-0.2603 0.10298,-0.47017 0.23132,-0.47017 h 8.26955 c 0.12833,0 0.23179,0.20987 0.23179,0.47017 v 62.35785 h 7.7773 z" />
+    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.05375"
+       d="m 380.06746,374.34265 -13.23569,32.66021 h 8.32356 v 62.35785 c 0,0.2603 0.10299,0.47017 0.23132,0.47017 h 8.26955 c 0.12834,0 0.2318,-0.20987 0.2318,-0.47017 v -62.35785 h 7.77729 z" />
+    <path style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.05375"
+       d="m 421.68595,470.16284 -13.23568,-32.66021 h 8.32356 v -62.35785 c 0,-0.2603 0.10298,-0.47017 0.23132,-0.47017 h 8.26955 c 0.12833,0 0.23179,0.20987 0.23179,0.47017 v 62.35785 h 7.7773 z" />
+
+    <!-- Flecha izquierda (emoción -> vías) -->
+    <path style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.454827"
+       d="m 182.76858,424.25728 h 139.40626 v -3.73047 h -0.0156 c 0.002,-0.0158 0.01,-0.026 0.01,-0.043 v -26.91602 h 3.35742 l -5.00586,-14.09765 -5.71289,14.09765 h 3.59179 v 26.91602 c 0,0.017 0.008,0.0272 0.01,0.043 H 182.76858 Z" />
+
+    <!-- Flecha derecha (memoria) -->
+    <path style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.454827"
+       d="m 546.65364,195.84414 v 3.59375 h 58.91407 c 0.0114,0 0.0184,0.005 0.0293,0.006 h 1.30079 v 67.02344 h 12.36328 v -3.5918 l 14.09765,5.71289 -14.09765,5.00586 v -3.35742 H 606.8978 V 338.85 h -3.73243 v -0.006 h -56.51172 v 3.35742 l -14.09765,-5.00586 14.09765,-5.71289 v 3.59375 h 56.51172 v -64.83984 h -5.59765 -5.22071 -45.69336 v 3.35742 l -14.09765,-5.00586 14.09765,-5.71289 v 3.5918 h 45.69336 5.22071 5.59765 v -63.25977 h -56.51172 v 3.35547 l -14.09527,-5.71325 z" />
+
+    <path style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.454827"
+       d="m 182.37672,416.25728 h 124.42052 v -3.73047 h -0.0156 c 0.002,-0.0158 0.01,-0.026 0.01,-0.043 v -18.91602 h 3.35742 l -5.00586,-14.09765 -5.71289,14.09765 h 3.59179 v 18.91602 c 0,0.017 0.008,0.0272 0.01,0.043 H 182.37672 Z" />
+    <path style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.454827"
+       d="m 182.40768,408.25728 h 109.40626 v -3.73047 h -0.0156 c 0.002,-0.0158 0.01,-0.026 0.01,-0.043 v -10.91602 h 3.35742 l -5.00586,-14.09765 -5.71289,14.09765 h 3.59179 v 10.91602 c 0,0.017 0.008,0.0272 0.01,0.043 H 182.40768 Z" />
+
+    <g class="toggle-text" data-block="12" style="fill:#ffffff">
+      <text x="176.6261" y="404.56512" text-anchor="end" font-family="Arial, sans-serif" font-size="9.70326px" font-style="italic">
+        <tspan x="176.6261" y="404.56512">Visual</tspan>
+        <tspan x="176.6261" y="416.69421">Auditiva</tspan>
+        <tspan x="176.6261" y="428.82327">Somatosensitivo</tspan>
+      </text>
+    </g>
+
+    <path style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.454827"
+       d="m 508.09467,374.38038 v 47.40626 h 3.73047 v -0.0156 c 0.0158,0.002 0.026,0.01 0.043,0.01 h 58.91602 v 3.35742 l 14.09765,-5.00586 -14.09765,-5.71289 v 3.59179 h -58.91602 c -0.017,0 -0.0272,0.008 -0.043,0.01 v -43.64112 z" />
+  </svg>
+
+  <button class="reset-btn" onclick="resetAll()">Ocultar todo</button>
+</div>
+
+<script>
+  document.querySelectorAll('.toggle-text').forEach(function (g) {
+    g.addEventListener('click', function () {
+      var isHidden = g.style.fill === 'rgb(255, 255, 255)' || g.style.fill === '#ffffff' || g.style.fill === '';
+      g.style.fill = isHidden ? '#000000' : '#ffffff';
+    });
+  });
+
+  function resetAll() {
+    document.querySelectorAll('.toggle-text').forEach(function (g) {
+      g.style.fill = '#ffffff';
+    });
+  }
+</script>
+</body>
+</html>

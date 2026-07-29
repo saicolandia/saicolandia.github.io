@@ -1,0 +1,855 @@
+<html lang="es"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neuropsicologia Interactiva</title>
+<style>
+  :root {
+    --bg-dark: #0f0f1a;
+    --bg-card: #1a1a2e;
+    --bg-card-hover: #16213e;
+    --accent-cyan: #00d4ff;
+    --accent-pink: #ff6b9d;
+    --accent-gold: #ffd700;
+    --accent-green: #00e676;
+    --accent-purple: #b388ff;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0b0;
+    --border: #2a2a4a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .particles {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .particle {
+    position: absolute; border-radius: 50%; opacity: 0.3;
+    animation: float 15s infinite ease-in-out;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0); opacity: 0.2; }
+    25% { transform: translateY(-30px) translateX(20px); opacity: 0.4; }
+    50% { transform: translateY(20px) translateX(-20px); opacity: 0.3; }
+    75% { transform: translateY(-10px) translateX(30px); opacity: 0.5; }
+  }
+  .container { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 20px; }
+  .hero { text-align: center; padding: 60px 20px; }
+  .hero h1 {
+    font-size: 3.5rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-pink), var(--accent-gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 10px; letter-spacing: -1px;
+  }
+  .hero .subtitle { font-size: 1.3rem; color: var(--text-secondary); margin-bottom: 30px; }
+  .brain-icon { font-size: 4rem; display: inline-block; animation: pulse 2s infinite; margin-bottom: 20px; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+  .nav-tabs { display: flex; justify-content: center; gap: 10px; margin: 30px 0; flex-wrap: wrap; }
+  .tab-btn {
+    background: var(--bg-card); border: 2px solid var(--border); color: var(--text-secondary);
+    padding: 12px 24px; border-radius: 30px; cursor: pointer; font-size: 0.95rem; font-weight: 600;
+    transition: all 0.3s ease; position: relative; overflow: hidden; font-family: inherit;
+  }
+  .tab-btn:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0,212,255,0.2); }
+  .tab-btn.active { background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: white; border-color: transparent; box-shadow: 0 5px 25px rgba(0,212,255,0.4); }
+  .section { display: none; animation: fadeIn 0.5s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .section-title { font-size: 2rem; margin-bottom: 25px; padding-left: 15px; border-left: 4px solid var(--accent-cyan); }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
+  .card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 25px;
+    transition: all 0.3s ease; cursor: pointer; position: relative; overflow: hidden;
+  }
+  .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-pink)); transform: scaleX(0); transition: transform 0.3s ease; }
+  .card:hover::before { transform: scaleX(1); }
+  .card:hover { transform: translateY(-5px); border-color: var(--accent-cyan); box-shadow: 0 10px 40px rgba(0,212,255,0.15); background: var(--bg-card-hover); }
+  .card-icon { font-size: 2.5rem; margin-bottom: 15px; display: block; }
+  .card h3 { font-size: 1.2rem; margin-bottom: 10px; color: var(--accent-cyan); }
+  .card p { color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem; }
+  .mind-matter-container { background: var(--bg-card); border-radius: 20px; padding: 30px; margin: 30px 0; border: 1px solid var(--border); }
+  .diagram-box { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 20px 0; }
+  .box { padding: 20px 30px; border-radius: 15px; font-weight: 700; font-size: 1.1rem; text-align: center; min-width: 150px; transition: all 0.3s ease; cursor: pointer; }
+  .box:hover { transform: scale(1.05); }
+  .box-mind { background: linear-gradient(135deg, #ff6b9d44, #ff6b9d22); border: 2px solid var(--accent-pink); color: var(--accent-pink); }
+  .box-brain { background: linear-gradient(135deg, #00d4ff44, #00d4ff22); border: 2px solid var(--accent-cyan); color: var(--accent-cyan); }
+  .box-behavior { background: linear-gradient(135deg, #00e67644, #00e67622); border: 2px solid var(--accent-green); color: var(--accent-green); }
+  .arrow { font-size: 2rem; color: var(--accent-gold); animation: bounce 1.5s infinite; }
+  @keyframes bounce { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(10px); } }
+  .timeline { position: relative; padding: 20px 0; }
+  .timeline::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 3px; height: 100%; background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-pink), var(--accent-gold)); border-radius: 3px; }
+  .timeline-item { display: flex; justify-content: flex-end; padding-right: 50%; position: relative; margin-bottom: 30px; }
+  .timeline-item:nth-child(even) { justify-content: flex-start; padding-right: 0; padding-left: 50%; }
+  .timeline-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 15px; padding: 20px; max-width: 400px; margin: 0 20px; position: relative; transition: all 0.3s ease; cursor: pointer; }
+  .timeline-content:hover { border-color: var(--accent-cyan); box-shadow: 0 5px 25px rgba(0,212,255,0.2); transform: scale(1.02); }
+  .timeline-dot { position: absolute; width: 20px; height: 20px; background: var(--accent-cyan); border-radius: 50%; top: 25px; left: 50%; transform: translateX(-50%); border: 4px solid var(--bg-dark); box-shadow: 0 0 0 3px var(--accent-cyan); z-index: 2; }
+  .timeline-item:nth-child(even) .timeline-dot { background: var(--accent-pink); box-shadow: 0 0 0 3px var(--accent-pink); }
+  .timeline-year { font-size: 0.85rem; color: var(--accent-gold); font-weight: 700; margin-bottom: 5px; }
+  .timeline-content h4 { color: var(--accent-cyan); margin-bottom: 8px; font-size: 1.1rem; }
+  .timeline-content p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; }
+  .flip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .flip-card { perspective: 1000px; height: 280px; }
+  .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }
+  .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+  .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; padding: 25px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 1px solid var(--border); }
+  .flip-card-front { background: var(--bg-card); }
+  .flip-card-back { background: var(--bg-card-hover); transform: rotateY(180deg); border-color: var(--accent-cyan); }
+  .flip-card-front .phil-icon { font-size: 3rem; margin-bottom: 15px; }
+  .flip-card-front h3 { color: var(--accent-cyan); font-size: 1.2rem; margin-bottom: 10px; }
+  .flip-card-front .click-hint { font-size: 0.8rem; color: var(--text-secondary); margin-top: 15px; opacity: 0.7; }
+  .flip-card-back h4 { color: var(--accent-gold); margin-bottom: 15px; font-size: 1rem; }
+  .flip-card-back p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+  .flip-card-back .example { margin-top: 15px; padding: 10px; background: rgba(0,212,255,0.1); border-radius: 8px; font-size: 0.85rem; color: var(--accent-cyan); }
+  .quiz-container { background: var(--bg-card); border-radius: 20px; padding: 30px; border: 1px solid var(--border); }
+  .quiz-question { font-size: 1.2rem; margin-bottom: 20px; color: var(--accent-cyan); font-weight: 600; }
+  .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+  .quiz-option {
+    background: var(--bg-dark); border: 2px solid var(--border); border-radius: 12px; padding: 15px 20px;
+    cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 12px;
+    font-family: inherit; color: inherit; text-align: left; width: 100%;
+  }
+  .quiz-option:hover { border-color: var(--accent-cyan); background: var(--bg-card-hover); }
+  .quiz-option.correct { border-color: var(--accent-green); background: rgba(0,230,118,0.1); }
+  .quiz-option.wrong { border-color: #ff5252; background: rgba(255,82,82,0.1); }
+  .quiz-option .opt-letter { width: 32px; height: 32px; border-radius: 50%; background: var(--bg-card); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--accent-cyan); border: 2px solid var(--border); flex-shrink: 0; }
+  .quiz-option.correct .opt-letter { background: var(--accent-green); color: white; border-color: var(--accent-green); }
+  .quiz-option.wrong .opt-letter { background: #ff5252; color: white; border-color: #ff5252; }
+  .quiz-feedback { margin-top: 20px; padding: 15px; border-radius: 12px; font-weight: 600; display: none; }
+  .quiz-feedback.show { display: block; animation: fadeIn 0.3s ease; }
+  .quiz-feedback.correct { background: rgba(0,230,118,0.15); color: var(--accent-green); border: 1px solid var(--accent-green); }
+  .quiz-feedback.wrong { background: rgba(255,82,82,0.15); color: #ff5252; border: 1px solid #ff5252; }
+  .next-btn { margin-top: 20px; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: white; border: none; padding: 12px 30px; border-radius: 30px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: none; font-family: inherit; }
+  .next-btn.show { display: inline-block; }
+  .next-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 25px rgba(0,212,255,0.4); }
+  .quiz-score { text-align: center; font-size: 1.5rem; color: var(--accent-gold); margin: 20px 0; }
+  .area-item { background: var(--bg-card); border-radius: 12px; padding: 20px; margin-bottom: 15px; border: 1px solid var(--border); cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 15px; }
+  .area-item:hover { border-color: var(--accent-cyan); transform: translateX(10px); }
+  .area-item .area-icon { font-size: 2rem; width: 50px; text-align: center; }
+  .area-item .area-text h4 { color: var(--accent-cyan); margin-bottom: 5px; }
+  .area-item .area-text p { color: var(--text-secondary); font-size: 0.9rem; }
+  .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: var(--bg-card); z-index: 1000; }
+  .progress-bar { height: 100%; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-pink), var(--accent-gold)); width: 0%; transition: width 0.3s ease; }
+  .download-btn {
+    position: fixed; bottom: 25px; right: 25px;
+    background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
+    color: white; border: none; padding: 14px 24px; border-radius: 50px;
+    font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;
+    box-shadow: 0 5px 25px rgba(0,230,118,0.4); z-index: 100; font-family: inherit;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .download-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 35px rgba(0,230,118,0.6); }
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 2.2rem; }
+    .timeline::before { left: 20px; }
+    .timeline-item, .timeline-item:nth-child(even) { justify-content: flex-start; padding-left: 50px; padding-right: 0; }
+    .timeline-dot { left: 20px !important; transform: translateX(-50%); }
+    .card-grid { grid-template-columns: 1fr; }
+    .flip-grid { grid-template-columns: 1fr; }
+    .download-btn { padding: 12px 18px; font-size: 0.9rem; }
+  }
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+<div class="particles" id="particles"><div class="particle" style="width: 3.25013px; height: 3.25013px; background: rgb(0, 230, 118); left: 6.17409%; top: 28.6259%; animation-delay: 7.24854s; animation-duration: 18.3555s;"></div><div class="particle" style="width: 7.39563px; height: 7.39563px; background: rgb(0, 212, 255); left: 40.7297%; top: 31.2779%; animation-delay: 5.72244s; animation-duration: 11.1333s;"></div><div class="particle" style="width: 2.35296px; height: 2.35296px; background: rgb(0, 212, 255); left: 11.502%; top: 43.5752%; animation-delay: 10.5224s; animation-duration: 18.1145s;"></div><div class="particle" style="width: 3.99976px; height: 3.99976px; background: rgb(0, 230, 118); left: 74.0103%; top: 32.792%; animation-delay: 6.6131s; animation-duration: 13.4429s;"></div><div class="particle" style="width: 7.58318px; height: 7.58318px; background: rgb(0, 212, 255); left: 22.7732%; top: 68.8739%; animation-delay: 10.1598s; animation-duration: 18.414s;"></div><div class="particle" style="width: 5.45181px; height: 5.45181px; background: rgb(0, 230, 118); left: 79.9549%; top: 21.8379%; animation-delay: 13.7989s; animation-duration: 19.486s;"></div><div class="particle" style="width: 7.51675px; height: 7.51675px; background: rgb(0, 230, 118); left: 62.8773%; top: 7.11904%; animation-delay: 1.88416s; animation-duration: 15.0745s;"></div><div class="particle" style="width: 7.06839px; height: 7.06839px; background: rgb(0, 230, 118); left: 66.1253%; top: 44.2624%; animation-delay: 13.5896s; animation-duration: 12.1775s;"></div><div class="particle" style="width: 3.11254px; height: 3.11254px; background: rgb(0, 230, 118); left: 33.6944%; top: 79.2101%; animation-delay: 1.44231s; animation-duration: 10.8313s;"></div><div class="particle" style="width: 5.75552px; height: 5.75552px; background: rgb(0, 230, 118); left: 60.0506%; top: 29.9431%; animation-delay: 12.6058s; animation-duration: 14.3145s;"></div><div class="particle" style="width: 4.22383px; height: 4.22383px; background: rgb(179, 136, 255); left: 96.3227%; top: 56.3854%; animation-delay: 9.88105s; animation-duration: 17.5024s;"></div><div class="particle" style="width: 2.64662px; height: 2.64662px; background: rgb(255, 107, 157); left: 18.6769%; top: 53.2782%; animation-delay: 2.3835s; animation-duration: 10.7325s;"></div><div class="particle" style="width: 4.05782px; height: 4.05782px; background: rgb(255, 107, 157); left: 6.27396%; top: 72.164%; animation-delay: 9.19705s; animation-duration: 11.4328s;"></div><div class="particle" style="width: 2.15141px; height: 2.15141px; background: rgb(0, 212, 255); left: 73.4205%; top: 59.9701%; animation-delay: 14.7165s; animation-duration: 18.0855s;"></div><div class="particle" style="width: 6.68678px; height: 6.68678px; background: rgb(0, 212, 255); left: 49.2423%; top: 40.8969%; animation-delay: 3.23818s; animation-duration: 15.7657s;"></div><div class="particle" style="width: 4.82083px; height: 4.82083px; background: rgb(179, 136, 255); left: 15.2968%; top: 22.1441%; animation-delay: 6.66303s; animation-duration: 18.4373s;"></div><div class="particle" style="width: 3.07715px; height: 3.07715px; background: rgb(0, 230, 118); left: 37.4539%; top: 47.9162%; animation-delay: 10.8321s; animation-duration: 15.0869s;"></div><div class="particle" style="width: 4.77206px; height: 4.77206px; background: rgb(179, 136, 255); left: 33.7761%; top: 21.5668%; animation-delay: 14.925s; animation-duration: 19.349s;"></div><div class="particle" style="width: 6.21617px; height: 6.21617px; background: rgb(255, 215, 0); left: 35.7945%; top: 33.3781%; animation-delay: 1.16314s; animation-duration: 16.5413s;"></div><div class="particle" style="width: 2.57386px; height: 2.57386px; background: rgb(255, 215, 0); left: 96.8354%; top: 64.9341%; animation-delay: 8.24175s; animation-duration: 11.698s;"></div><div class="particle" style="width: 6.92095px; height: 6.92095px; background: rgb(0, 230, 118); left: 11.7441%; top: 48.6262%; animation-delay: 2.6048s; animation-duration: 12.3646s;"></div><div class="particle" style="width: 5.35572px; height: 5.35572px; background: rgb(0, 212, 255); left: 21.0267%; top: 65.4391%; animation-delay: 3.82459s; animation-duration: 15.4287s;"></div><div class="particle" style="width: 5.59826px; height: 5.59826px; background: rgb(179, 136, 255); left: 75.1648%; top: 75.1553%; animation-delay: 13.4493s; animation-duration: 11.0139s;"></div><div class="particle" style="width: 7.825px; height: 7.825px; background: rgb(255, 107, 157); left: 32.9215%; top: 26.0412%; animation-delay: 3.93076s; animation-duration: 10.4318s;"></div><div class="particle" style="width: 5.28223px; height: 5.28223px; background: rgb(255, 107, 157); left: 3.01532%; top: 9.97327%; animation-delay: 9.76553s; animation-duration: 12.7367s;"></div><div class="particle" style="width: 4.84061px; height: 4.84061px; background: rgb(0, 212, 255); left: 32.9491%; top: 33.9745%; animation-delay: 14.1316s; animation-duration: 12.0843s;"></div><div class="particle" style="width: 7.63985px; height: 7.63985px; background: rgb(255, 107, 157); left: 34.8928%; top: 7.19957%; animation-delay: 14.8461s; animation-duration: 14.5175s;"></div><div class="particle" style="width: 7.34834px; height: 7.34834px; background: rgb(0, 212, 255); left: 9.40604%; top: 27.1925%; animation-delay: 14.3172s; animation-duration: 12.412s;"></div><div class="particle" style="width: 2.67613px; height: 2.67613px; background: rgb(255, 107, 157); left: 24.6049%; top: 83.384%; animation-delay: 4.9369s; animation-duration: 12.7002s;"></div><div class="particle" style="width: 3.66695px; height: 3.66695px; background: rgb(179, 136, 255); left: 47.843%; top: 41.9996%; animation-delay: 10.2138s; animation-duration: 18.1181s;"></div></div>
+
+<div class="container">
+  <div class="hero">
+    <div class="brain-icon">🧠</div>
+    <h1>Neuropsicologia</h1>
+    <p class="subtitle">El puente entre lo mental y el cerebro</p>
+    <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto; line-height: 1.7;">
+      Una disciplina cientifica interdisciplinaria que investiga las relaciones entre el cerebro, 
+      la actividad mental y el comportamiento. Descubre como funciona esta fascinante ciencia.
+    </p>
+  </div>
+
+  <div class="nav-tabs">
+    <button class="tab-btn active" data-tab="definicion">📖 Definicion</button>
+    <button class="tab-btn" data-tab="historia">📜 Historia</button>
+    <button class="tab-btn" data-tab="filosofia">🤔 Mente-Materia</button>
+    <button class="tab-btn" data-tab="areas">🔬 Areas</button>
+    <button class="tab-btn" data-tab="quiz">🎮 Quiz</button>
+  </div>
+
+  <div id="definicion" class="section active">
+    <h2 class="section-title">Que es la Neuropsicologia?</h2>
+    <div class="mind-matter-container">
+      <h3 style="text-align: center; margin-bottom: 20px; color: var(--accent-gold);">El Puente Conceptual</h3>
+      <div class="diagram-box">
+        <div class="box box-mind" onclick="animateBox(this)">
+          <div style="font-size: 2rem;">💭</div><div>MENTE</div>
+          <div style="font-size: 0.8rem; font-weight: 400; margin-top: 5px;">Pensamientos, emociones, conciencia</div>
+        </div>
+        <div class="arrow">⇄</div>
+        <div class="box box-brain" onclick="animateBox(this)">
+          <div style="font-size: 2rem;">🧠</div><div>CEREBRO</div>
+          <div style="font-size: 0.8rem; font-weight: 400; margin-top: 5px;">Sistema nervioso central</div>
+        </div>
+        <div class="arrow">⇄</div>
+        <div class="box box-behavior" onclick="animateBox(this)">
+          <div style="font-size: 2rem;">🚶</div><div>CONDUCTA</div>
+          <div style="font-size: 0.8rem; font-weight: 400; margin-top: 5px;">Acciones observables</div>
+        </div>
+      </div>
+      <p style="text-align: center; color: var(--text-secondary); margin-top: 20px; font-style: italic;">
+        "La neuropsicologia es un puente entre lo mental o psiquico y el cerebro" - Nogueira
+      </p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card" onclick="toggleDetail(this)">
+        <span class="card-icon">🔬</span>
+        <h3>Definicion de K. Heilman</h3>
+        <p>Estudia la relacion cerebro-conducta, mediada por procesos fisicos y las complejas actividades de los sistemas cerebrales.</p>
+        <div class="detail" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
+          <p style="color: var(--accent-gold);">Enfoque: La conducta como expresion de la actividad cerebral organizada.</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleDetail(this)">
+        <span class="card-icon">🧩</span>
+        <h3>Definicion de A.R. Luria</h3>
+        <p>Rama de la ciencia que investiga el papel de los sistemas cerebrales particulares en las formas complejas de actividad mental.</p>
+        <div class="detail" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
+          <p style="color: var(--accent-gold);">Aporte clave: Concepto de <strong>sistemas funcionales complejos</strong> - multiples areas cerebrales interactuan dinamicamente.</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleDetail(this)">
+        <span class="card-icon">⚡</span>
+        <h3>Funciones Cerebrales Superiores</h3>
+        <p>Memoria, lenguaje, atencion, funciones ejecutivas, percepcion y pensamiento - estudiadas en relacion con sus bases neurales.</p>
+        <div class="detail" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
+          <p style="color: var(--accent-gold);">Todas estas funciones son manifestaciones de la actividad cerebral, no entidades separadas.</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleDetail(this)">
+        <span class="card-icon">🎓</span>
+        <h3>Vinculacion con la Psicologia</h3>
+        <p>Disciplina central en la carrera de psicologia. Ofrece un marco robusto para entender la mente desde una perspectiva biologica y cerebral.</p>
+        <div class="detail" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
+          <p style="color: var(--accent-gold);">La psicologia tiene un rol protagónico, no secundario, en este campo interdisciplinario.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="historia" class="section">
+    <h2 class="section-title">Resena Historica: Hitos y Figuras Clave</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content" onclick="highlightTimeline(this)">
+          <div class="timeline-year">Siglo III a.C.</div>
+          <h4>💪 Herofilo</h4>
+          <p>Estudio la inteligencia en las cavidades cerebrales (ventriculos) y el liquido cefalorraquideo. Primeros intentos de localizar funciones mentales.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content" onclick="highlightTimeline(this)">
+          <div class="timeline-year">Siglo II d.C.</div>
+          <h4>🌊 Galeno</h4>
+          <p>Atribuyo la actividad mental al "espiritu animal" en los ventriculos. Idea no aceptada en el siglo XX pero influyente por siglos.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content" onclick="highlightTimeline(this)">
+          <div class="timeline-year">Siglo XVII</div>
+          <h4>🔯 Descartes</h4>
+          <p>Propuso la glandula pineal como el asiento del alma, separandola del resto del cuerpo. Dualismo clasico mente-cuerpo.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content" onclick="highlightTimeline(this)">
+          <div class="timeline-year">Fines Siglo XVIII</div>
+          <h4>🗿 Franz Josef Gall</h4>
+          <p><strong>Fundador de la neuropsicologia moderna.</strong> Postulo la frenologia: diferentes facultades mentales en areas especificas del cerebro. Metodo erroneo pero base para el estudio de la localizacion.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content" onclick="highlightTimeline(this)">
+          <div class="timeline-year">1861</div>
+          <h4>🗣 Paul Broca</h4>
+          <p>Demostro la correlacion anatomica del lenguaje con lesiones especificas. Area de Broca: produccion del habla en el hemisferio izquierdo.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content" onclick="highlightTimeline(this)">
+          <div class="timeline-year">1874</div>
+          <h4>👂 Carl Wernicke</h4>
+          <p>Identifico el area de comprension del lenguaje. Modelos de localizacion funcional que revolucionaron la comprension del cerebro.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content" onclick="highlightTimeline(this)">
+          <div class="timeline-year">1929</div>
+          <h4>🧠 Karl Lashley</h4>
+          <p>Desafio el localizacionismo con el concepto de <strong>"accion de masa"</strong>. Las lesiones no siempre causaban defectos conductuales proporcionales a su ubicacion.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content" onclick="highlightTimeline(this)">
+          <div class="timeline-year">Siglo XX</div>
+          <h4>⚙ Alexander Luria</h4>
+          <p><strong>Figura fundamental.</strong> Propuso los <strong>sistemas funcionales complejos</strong>: las funciones mentales son resultado de la interaccion dinamica de varias areas cerebrales, no de una unica localizacion.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content" onclick="highlightTimeline(this)">
+          <div class="timeline-year">Argentina</div>
+          <h4>🇦🇷 Goldar &amp; Azcoaga</h4>
+          <p>Prof. Juan Carlos Goldar y Prof. Juan Azcoaga. Enfoque en la cognicion como unidad y el procesamiento de informacion. Pioneros en Latinoamerica.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: var(--bg-card); border-radius: 16px; padding: 25px; margin-top: 30px; border: 1px solid var(--border);">
+      <h3 style="color: var(--accent-gold); margin-bottom: 15px;">📊 Modelos de Funcionamiento Cerebral</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+        <div style="padding: 15px; background: rgba(0,212,255,0.1); border-radius: 12px; border-left: 3px solid var(--accent-cyan);">
+          <h4 style="color: var(--accent-cyan); margin-bottom: 8px;">🔍 Localizacionismo</h4>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">Funciones mentales en areas especificas. Gall, Broca, Wernicke.</p>
+        </div>
+        <div style="padding: 15px; background: rgba(255,107,157,0.1); border-radius: 12px; border-left: 3px solid var(--accent-pink);">
+          <h4 style="color: var(--accent-pink); margin-bottom: 8px;">🌐 Holismo</h4>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">El cerebro opera como un todo. Lashley (accion de masa), Head.</p>
+        </div>
+        <div style="padding: 15px; background: rgba(0,230,118,0.1); border-radius: 12px; border-left: 3px solid var(--accent-green);">
+          <h4 style="color: var(--accent-green); margin-bottom: 8px;">⚡ Sistemico</h4>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">Sistemas funcionales complejos. <strong>Luria</strong> - interaccion dinamica de areas.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="filosofia" class="section">
+    <h2 class="section-title">El Problema Mente-Materia</h2>
+    <div style="background: var(--bg-card); border-radius: 16px; padding: 25px; margin-bottom: 25px; border: 1px solid var(--border);">
+      <p style="color: var(--text-secondary); line-height: 1.7; text-align: center; font-size: 1.05rem;">
+        "Uno de los enigmas mas antiguos y fascinantes del pensamiento occidental, situado en la confluencia entre la filosofia y la ciencia."
+        <br><span style="color: var(--accent-gold); font-size: 0.9rem;">- Segun Bunge (1985)</span>
+      </p>
+    </div>
+
+    <h3 style="color: var(--accent-cyan); margin-bottom: 20px; font-size: 1.3rem;">🎭 Posturas Generales (segun Bunge)</h3>
+    <div class="card-grid">
+      <div class="card" onclick="toggleDetail(this)">
+        <span class="card-icon">🚫</span>
+        <h3>El Pseudoproblema</h3>
+        <p>Niega que la relacion mente-materia sea un problema autentico. La mente se estudia como conducta observable.</p>
+        <div class="detail" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
+          <p style="color: var(--accent-gold);">Asociado con: Conductismo (Watson, Pavlov) y Positivismo logico. No hay "problema" como tal, solo fenomenos observables.</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleDetail(this)">
+        <span class="card-icon">❓</span>
+        <h3>Problema Autentico pero Insoluble</h3>
+        <p>Reconoce que el problema es real, pero considera que no puede ser resuelto. No desisten de buscar, pero reconocen las dificultades.</p>
+        <div class="detail" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
+          <p style="color: var(--accent-gold);">Asociado con: Hume y Spencer. Defensores que no desisten de buscar una solucion.</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleDetail(this)">
+        <span class="card-icon">✅</span>
+        <h3>El Problema Soluble</h3>
+        <p>Cree que el problema si tiene solucion. Dentro de esta postura se distinguen dos grandes tradiciones: <strong>monismo</strong> y <strong>dualismo</strong>.</p>
+        <div class="detail" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
+          <p style="color: var(--accent-gold);">Esta es la postura que abre el camino a las teorias cientificas modernas sobre la mente.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="color: var(--accent-cyan); margin: 30px 0 20px; font-size: 1.3rem;">🔄 Haz clic en las tarjetas para descubrir cada postura</h3>
+
+    <h4 style="color: var(--accent-gold); margin-bottom: 15px;">🔵 Monismo: La realidad como una unica sustancia</h4>
+    <div class="flip-grid">
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="phil-icon">✨</div>
+            <h3>M1: Idealismo / Panpsiquismo</h3>
+            <p>La realidad fundamental es mental</p>
+            <span class="click-hint">👆 Toca para voltear</span>
+          </div>
+          <div class="flip-card-back">
+            <h4>Idealismo / Panpsiquismo / Fenomenismo</h4>
+            <p>La conducta es manifestacion de un espiritu. La mentacion es actividad autonoma y espontanea, explicable por leyes mentales, no biologicas.</p>
+            <div class="example">Ej: Berkeley, Fichte, Hegel, Fechner, Mach, James, Whitehead</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="phil-icon">☯</div>
+            <h3>M2: Monismo Neutral</h3>
+            <p>Doble aspecto de una unica entidad</p>
+            <span class="click-hint">👆 Toca para voltear</span>
+          </div>
+          <div class="flip-card-back">
+            <h4>Monismo Neutral / Concepcion del Doble Aspecto</h4>
+            <p>Mente (phi) y materia (psi) son manifestaciones de una unica entidad. Ni material ni mental, explicable por leyes propias.</p>
+            <div class="example">Ej: Spinoza, James, Russell, Carnap, Schlick</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="phil-icon">🤖</div>
+            <h3>M3: Materialismo Eliminativo</h3>
+            <p>La mente no existe</p>
+            <span class="click-hint">👆 Toca para voltear</span>
+          </div>
+          <div class="flip-card-back">
+            <h4>Materialismo Eliminativo (Conductismo)</h4>
+            <p>Niega la existencia de la mente o estados mentales. Son ilusiones o conceptos a eliminar. La conducta es resultado de estimulos.</p>
+            <div class="example">Ej: Watson, Skinner, Turing, Rorty, Quine</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="phil-icon">⚛</div>
+            <h3>M4: Materialismo Reductivo</h3>
+            <p>La mente = procesos fisicos del SNC</p>
+            <span class="click-hint">👆 Toca para voltear</span>
+          </div>
+          <div class="flip-card-back">
+            <h4>Materialismo Reductivo / Fisicalista</h4>
+            <p>Los estados mentales son ocurrencias fisicas en el SNC. No niegan lo mental, pero lo reducen a lo fisico. La mente se considera el cerebro.</p>
+            <div class="example">Ej: Epicuro, Hobbes, Lashley, Smart, Armstrong, Feyerabend</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="phil-icon">🌱</div>
+            <h3>M5: Materialismo Emergentista</h3>
+            <p>Propiedades emergentes del SNC</p>
+            <span class="click-hint">👆 Toca para voltear</span>
+          </div>
+          <div class="flip-card-back">
+            <h4>Materialismo Emergentista</h4>
+            <p>Los estados mentales son propiedades emergentes del SNC. Surgen de la complejidad cerebral pero no son reducibles a sus partes.</p>
+            <div class="example">Ej: Diderot, Darwin, Cajal, Hebb, Bindra</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h4 style="color: var(--accent-gold); margin: 30px 0 15px;">🔴 Dualismo: Dos sustancias distintas</h4>
+    <div class="flip-grid">
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="phil-icon">🚶</div>
+            <h3>D2: Paralelismo Psicofisico</h3>
+            <p>Mente y materia corren en paralelo</p>
+            <span class="click-hint">👆 Toca para voltear</span>
+          </div>
+          <div class="flip-card-back">
+            <h4>Paralelismo Psicofisico / Armonia Preestablecida</h4>
+            <p>Dos conjuntos distintos: estados mentales y procesos fisicos. Correspondencia sin interaccion causal. Actuan en paralelo sincronico.</p>
+            <div class="example">Ej: Leibniz, Lotze, Jackson, gestaltistas, joven Freud</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="phil-icon">💨</div>
+            <h3>D3: Epifenomenismo</h3>
+            <p>La mente es un subproducto</p>
+            <span class="click-hint">👆 Toca para voltear</span>
+          </div>
+          <div class="flip-card-back">
+            <h4>Epifenomenismo</h4>
+            <p>La mente es un efecto o producto de la actividad cerebral, pero <strong>no tiene capacidad causal</strong>. Es un "subproducto" sin influencia sobre el cuerpo.</p>
+            <div class="example">Ej: Huxley, Vogt, Broad, Ayer</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="phil-icon">👻</div>
+            <h3>D4: Animismo</h3>
+            <p>La mente anima el cuerpo</p>
+            <span class="click-hint">👆 Toca para voltear</span>
+          </div>
+          <div class="flip-card-back">
+            <h4>Animismo</h4>
+            <p>La mente afecta, causa, anima o controla el cuerpo. La mentacion es resultado de procesos mentales como tendencias o deseos.</p>
+            <div class="example">Ej: Platon, San Agustin, Tomas de Aquino, Freud, Sperry, Popper</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <div class="phil-icon">🤝</div>
+            <h3>D5: Interaccionismo</h3>
+            <p>Mente y cerebro interactuan</p>
+            <span class="click-hint">👆 Toca para voltear</span>
+          </div>
+          <div class="flip-card-back">
+            <h4>Interaccionismo</h4>
+            <p>Mente y cerebro son dos sustancias distintas y autonomas que <strong>interactuan causalmente</strong>. Control bidireccional. Postura de Popper y Eccles.</p>
+            <div class="example">Ej: Descartes, McDougall, Penfield, Eccles, Popper, Margolis</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: linear-gradient(135deg, rgba(0,212,255,0.1), rgba(255,107,157,0.1)); border-radius: 16px; padding: 25px; margin-top: 30px; border: 1px solid var(--border);">
+      <h3 style="color: var(--accent-gold); margin-bottom: 15px;">🌟 Teoria de los Tres Mundos - Karl Popper</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+        <div style="text-align: center; padding: 20px; background: rgba(0,212,255,0.15); border-radius: 12px; border: 2px solid var(--accent-cyan);">
+          <div style="font-size: 2rem; margin-bottom: 10px;">🌍</div>
+          <h4 style="color: var(--accent-cyan);">Mundo 1</h4>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">Objetos y estados fisicos<br>Materia, energia, libros, cerebros</p>
+        </div>
+        <div style="text-align: center; padding: 20px; background: rgba(255,107,157,0.15); border-radius: 12px; border: 2px solid var(--accent-pink);">
+          <div style="font-size: 2rem; margin-bottom: 10px;">💭</div>
+          <h4 style="color: var(--accent-pink);">Mundo 2</h4>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">Estados de conciencia<br>Conocimiento subjetivo, emociones, intenciones</p>
+        </div>
+        <div style="text-align: center; padding: 20px; background: rgba(255,215,0,0.15); border-radius: 12px; border: 2px solid var(--accent-gold);">
+          <div style="font-size: 2rem; margin-bottom: 10px;">📚</div>
+          <h4 style="color: var(--accent-gold);">Mundo 3</h4>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">Conocimiento objetivo<br>Patrimonio cultural, teorias cientificas, lenguaje</p>
+        </div>
+      </div>
+      <p style="text-align: center; margin-top: 15px; color: var(--text-secondary); font-style: italic;">
+        Los tres mundos interactuan constantemente. Un dolor (Mundo 2) lleva a buscar un medico (Mundo 1) gracias al conocimiento medico (Mundo 3).
+      </p>
+    </div>
+
+    <div style="background: var(--bg-card); border-radius: 16px; padding: 25px; margin-top: 20px; border: 1px solid var(--border);">
+      <h3 style="color: var(--accent-cyan); margin-bottom: 15px;">🧬 John Eccles: La Mente Autoconsciente</h3>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="padding: 15px; background: rgba(0,230,118,0.1); border-radius: 10px; border-left: 3px solid var(--accent-green);">
+          <strong style="color: var(--accent-green);">1. Causalidad Ascendente/Descendente:</strong>
+          <span style="color: var(--text-secondary);"> La mente autoconsciente puede causar acciones fisicas en la maquinaria cerebral (movimientos voluntarios, evocacion de recuerdos).</span>
+        </div>
+        <div style="padding: 15px; background: rgba(0,230,118,0.1); border-radius: 10px; border-left: 3px solid var(--accent-green);">
+          <strong style="color: var(--accent-green);">2. Causalidad Bidireccional:</strong>
+          <span style="color: var(--text-secondary);"> Reside en la unidad de la experiencia consciente que controla la actividad plasmatica del cerebro.</span>
+        </div>
+        <div style="padding: 15px; background: rgba(0,230,118,0.1); border-radius: 10px; border-left: 3px solid var(--accent-green);">
+          <strong style="color: var(--accent-green);">3. Trascendencia de lo Mental:</strong>
+          <span style="color: var(--text-secondary);"> La mente autoconsciente trasciende lo fisico. No es de origen emergentista, sino de un origen no fisico ni temporal.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="areas" class="section">
+    <h2 class="section-title">Areas de Interes y Aplicaciones</h2>
+    <div class="area-item" onclick="toggleAreaDetail(this)">
+      <div class="area-icon">🔬</div>
+      <div class="area-text">
+        <h4>Evaluacion y Diagnostico</h4>
+        <p>Funciones cognitivas: memoria, atencion, lenguaje (afasias), funciones ejecutivas, agnosias, apraxias, prosopagnosia, lateralidad hemisferica.</p>
+      </div>
+    </div>
+    <div class="area-item" onclick="toggleAreaDetail(this)">
+      <div class="area-icon">🧬</div>
+      <div class="area-text">
+        <h4>Patologias Neurologicas y Psiquiatricas</h4>
+        <p>Anomalias geneticas, tumores, infecciones, traumatismos, accidentes cerebrovasculares (ACV), trastornos del neurodesarrollo.</p>
+      </div>
+    </div>
+    <div class="area-item" onclick="toggleAreaDetail(this)">
+      <div class="area-icon">🏥</div>
+      <div class="area-text">
+        <h4>Rehabilitacion Neuropsicologica</h4>
+        <p>Estrategias de intervencion para recuperar o compensar funciones afectadas. Trabajo multidisciplinario con neurologos, psiquiatras, terapeutas ocupacionales.</p>
+      </div>
+    </div>
+    <div class="area-item" onclick="toggleAreaDetail(this)">
+      <div class="area-icon">🔍</div>
+      <div class="area-text">
+        <h4>Investigacion</h4>
+        <p>Nuevos conocimientos sobre cerebro y conducta utilizando metodos avanzados y tecnologias de neuroimagen (RM, PET, EEG).</p>
+      </div>
+    </div>
+
+    <h3 style="color: var(--accent-gold); margin: 30px 0 20px;">📚 Ejemplos Ilustrativos</h3>
+    <div class="card-grid">
+      <div class="card" onclick="toggleDetail(this)">
+        <span class="card-icon">🗣</span>
+        <h3>Afasia de Broca</h3>
+        <p>Lesion en el area de Broca (hemisferio izquierdo). El paciente comprende el lenguaje pero tiene dificultades para producirlo. Habla telegrafica, esfuerzo al hablar.</p>
+        <div class="detail" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
+          <p style="color: var(--accent-gold);">Localizacion: Area 44 de Brodmann, circunvolucion frontal inferior izquierda. Movimientos articulatorios comprometidos.</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleDetail(this)">
+        <span class="card-icon">👂</span>
+        <h3>Afasia de Wernicke</h3>
+        <p>Lesion en el area de Wernicke. El paciente habla fluidamente pero sin sentido (jerga). No comprende el lenguaje hablado ni escrito.</p>
+        <div class="detail" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
+          <p style="color: var(--accent-gold);">Localizacion: Circunvolucion temporal superior izquierda. Compromiso de la comprension del lenguaje.</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleDetail(this)">
+        <span class="card-icon">👤</span>
+        <h3>Prosopagnosia</h3>
+        <p>Incapacidad de reconocer rostros, a menudo causada por dano cerebral especifico. Demuestra como una disfuncion en un area afecta una habilidad compleja.</p>
+        <div class="detail" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
+          <p style="color: var(--accent-gold);">Area comprometida: Giro fusiforme (occipitotemporal). El paciente puede reconocer objetos pero no caras familiares.</p>
+        </div>
+      </div>
+      <div class="card" onclick="toggleDetail(this)">
+        <span class="card-icon">🔗</span>
+        <h3>Sindromes de Desconexion</h3>
+        <p>Dano en las fibras que conectan el lobulo occipital y el cerebro. El paciente puede ver un objeto pero no saber que es.</p>
+        <div class="detail" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border);">
+          <p style="color: var(--accent-gold);">Subraya la importancia de las conexiones entre areas cerebrales para el procesamiento de la informacion.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="color: var(--accent-cyan); margin: 30px 0 20px;">🚀 Perspectivas Futuras</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
+      <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(0,212,255,0.05)); border-radius: 12px; border: 1px solid var(--accent-cyan);">
+        <div style="font-size: 2rem; margin-bottom: 10px;">🖥</div>
+        <h4 style="color: var(--accent-cyan);">Neuroimagenes</h4>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">RM, PET, EEG cada vez mas sofisticados para mapeo cerebral detallado.</p>
+      </div>
+      <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, rgba(255,107,157,0.15), rgba(255,107,157,0.05)); border-radius: 12px; border: 1px solid var(--accent-pink);">
+        <div style="font-size: 2rem; margin-bottom: 10px;">🤝</div>
+        <h4 style="color: var(--accent-pink);">Integracion Interdisciplinaria</h4>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">Mayor colaboracion con neurologia, psiquiatria, neurocirugia.</p>
+      </div>
+      <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, rgba(0,230,118,0.15), rgba(0,230,118,0.05)); border-radius: 12px; border: 1px solid var(--accent-green);">
+        <div style="font-size: 2rem; margin-bottom: 10px;">🧠</div>
+        <h4 style="color: var(--accent-green);">Plasticidad Cerebral</h4>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">Capacidad del cerebro para cambiar y adaptarse. Nuevas vias de recuperacion.</p>
+      </div>
+      <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,215,0,0.05)); border-radius: 12px; border: 1px solid var(--accent-gold);">
+        <div style="font-size: 2rem; margin-bottom: 10px;">🔬</div>
+        <h4 style="color: var(--accent-gold);">Investigacion Basica y Aplicada</h4>
+        <p style="font-size: 0.85rem; color: var(--text-secondary);">Exploracion de mecanismos fundamentales y su aplicacion practica.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="quiz" class="section">
+    <h2 class="section-title">🎮 Auto-evaluacion Interactiva</h2>
+    <div class="quiz-container">
+      <div id="quizContent">
+        <div class="quiz-question" id="questionText">1. Como se define la Neuropsicologia segun el texto?</div>
+        <div class="quiz-options" id="optionsContainer"><button class="quiz-option"><span class="opt-letter">A</span><span>Una rama de la neurologia que solo estudia lesiones cerebrales</span></button><button class="quiz-option"><span class="opt-letter">B</span><span>Una disciplina cientifica que funciona como puente entre lo mental y el cerebro</span></button><button class="quiz-option"><span class="opt-letter">C</span><span>Una teoria filosofica sobre la naturaleza de la mente</span></button><button class="quiz-option"><span class="opt-letter">D</span><span>Un metodo de rehabilitacion para pacientes con ACV</span></button></div>
+        <div class="quiz-feedback" id="feedback"></div>
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Siguiente pregunta →</button>
+      </div>
+      <div id="quizResult" style="display: none; text-align: center;">
+        <div style="font-size: 4rem; margin-bottom: 20px;">🏆</div>
+        <div class="quiz-score" id="finalScore"></div>
+        <p style="color: var(--text-secondary); margin-bottom: 20px;">Has completado el cuestionario!</p>
+        <button class="next-btn show" onclick="restartQuiz()">🔄 Reiniciar Quiz</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align: center; padding: 40px 20px; color: var(--text-secondary); font-size: 0.9rem;">
+    <p>📖 Basado en material de la Catedra de Neuropsicologia</p>
+    <p style="margin-top: 5px;">Fuentes: Nogueira, Galli, Grossi</p>
+  </div>
+</div>
+
+<button class="download-btn" onclick="downloadPage()" title="Descargar como HTML">
+  💾 Descargar
+</button>
+
+<script>
+  function createParticles() {
+    var container = document.getElementById('particles');
+    var colors = ['#00d4ff', '#ff6b9d', '#ffd700', '#00e676', '#b388ff'];
+    for (var i = 0; i < 30; i++) {
+      var p = document.createElement('div');
+      p.className = 'particle';
+      var size = Math.random() * 6 + 2;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.left = (Math.random() * 100) + '%';
+      p.style.top = (Math.random() * 100) + '%';
+      p.style.animationDelay = (Math.random() * 15) + 's';
+      p.style.animationDuration = (10 + Math.random() * 10) + 's';
+      container.appendChild(p);
+    }
+  }
+  createParticles();
+
+  function showSection(id) {
+    var sections = document.querySelectorAll('.section');
+    for (var i = 0; i < sections.length; i++) { sections[i].classList.remove('active'); }
+    var btns = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < btns.length; i++) { btns[i].classList.remove('active'); }
+    var sec = document.getElementById(id);
+    if (sec) sec.classList.add('active');
+    var btn = document.querySelector('.tab-btn[data-tab="' + id + '"]');
+    if (btn) btn.classList.add('active');
+  }
+
+  var tabBtns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < tabBtns.length; i++) {
+    tabBtns[i].addEventListener('click', function() {
+      var tabId = this.getAttribute('data-tab');
+      showSection(tabId);
+    });
+  }
+
+  function toggleDetail(card) {
+    var detail = card.querySelector('.detail');
+    if (detail) {
+      detail.style.display = (detail.style.display === 'none') ? 'block' : 'none';
+    }
+  }
+
+  function toggleAreaDetail(item) {
+    var text = item.querySelector('.area-text p');
+    var fullText = text.getAttribute('data-full') || text.textContent;
+    var shortText = text.getAttribute('data-short') || text.textContent.substring(0, 100) + '...';
+    if (!text.getAttribute('data-full')) {
+      text.setAttribute('data-full', text.textContent);
+      text.setAttribute('data-short', shortText);
+    }
+    text.textContent = (text.textContent === fullText) ? shortText : fullText;
+  }
+
+  function animateBox(box) {
+    box.style.transform = 'scale(1.1)';
+    setTimeout(function() { box.style.transform = 'scale(1)'; }, 300);
+  }
+
+  function highlightTimeline(item) {
+    var contents = document.querySelectorAll('.timeline-content');
+    for (var i = 0; i < contents.length; i++) {
+      contents[i].style.borderColor = 'var(--border)';
+      contents[i].style.boxShadow = 'none';
+    }
+    item.style.borderColor = 'var(--accent-gold)';
+    item.style.boxShadow = '0 5px 25px rgba(255,215,0,0.3)';
+  }
+
+  window.addEventListener('scroll', function() {
+    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (scrollTop / scrollHeight) * 100;
+    document.getElementById('progressBar').style.width = scrolled + '%';
+  });
+
+  var quizQuestions = [
+    { question: "Como se define la Neuropsicologia segun el texto?", options: ["Una rama de la neurologia que solo estudia lesiones cerebrales", "Una disciplina cientifica que funciona como puente entre lo mental y el cerebro", "Una teoria filosofica sobre la naturaleza de la mente", "Un metodo de rehabilitacion para pacientes con ACV"], correct: 1, feedback: "Correcto! La neuropsicologia se define como un puente entre lo mental o psiquico y el cerebro." },
+    { question: "Quien propuso el concepto de 'sistemas funcionales complejos'?", options: ["Paul Broca", "Karl Lashley", "Alexander Luria", "Franz Josef Gall"], correct: 2, feedback: "Correcto! Alexander Luria propuso el concepto de sistemas funcionales complejos." },
+    { question: "Segun Bunge, cuantas posturas generales existen sobre el problema mente-materia?", options: ["Dos: monismo y dualismo", "Tres: pseudoproblema, insoluble y soluble", "Cinco: una por cada tipo de materialismo", "Cuatro: idealismo, realismo, pragmatismo y conductismo"], correct: 1, feedback: "Correcto! Bunge propone tres posturas: pseudoproblema, autentico pero insoluble, y soluble." },
+    { question: "Cual es la critica principal de Bunge al dualismo interaccionista?", options: ["Que no distingue entre mente y cerebro", "Que viola el principio de conservacion de la energia", "Que reduce todo a lo biologico", "Que niega la existencia de la mente"], correct: 1, feedback: "Correcto! Bunge critica que una mente inmaterial moviendo materia violaria la conservacion de la energia." },
+    { question: "En la teoria de los Tres Mundos de Popper, que representa el Mundo 2?", options: ["Objetos y estados fisicos", "Estados de conciencia y conocimiento subjetivo", "Conocimiento objetivo y patrimonio cultural", "Procesos biologicos del cerebro"], correct: 1, feedback: "Correcto! El Mundo 2 corresponde a los estados de conciencia: conocimiento subjetivo, emociones, intenciones." },
+    { question: "Que postura sostiene que la mente no existe y debe ser eliminada del discurso cientifico?", options: ["Materialismo reductivo", "Materialismo emergentista", "Materialismo eliminativo (conductismo)", "Paralelismo psicofisico"], correct: 2, feedback: "Correcto! El Materialismo Eliminativo (M3), asociado con Watson, Skinner y Quine, niega la existencia de la mente." },
+    { question: "Cual es el area cerebral afectada en la Afasia de Broca?", options: ["Circunvolucion temporal superior izquierda", "Area 44 de Brodmann, circunvolucion frontal inferior izquierda", "Giro fusiforme (occipitotemporal)", "Lobulo parietal derecho"], correct: 1, feedback: "Correcto! La Afasia de Broca afecta el Area 44 de Brodmann en la circunvolucion frontal inferior izquierda." },
+    { question: "Segun el Materialismo Emergentista (M5), las propiedades mentales son:", options: ["Ilusiones que deben ser eliminadas", "Ocurrencias fisicas directas del SNC", "Propiedades emergentes del SNC que no son reducibles a sus partes", "Manifestaciones de un espiritu inmaterial"], correct: 2, feedback: "Correcto! El Materialismo Emergentista sostiene que las propiedades mentales emergen de la complejidad cerebral pero no son reducibles a sus partes." },
+    { question: "Que postura dualista defiende que mente y materia actuan en paralelo sin interaccion causal?", options: ["Interaccionismo", "Epifenomenismo", "Paralelismo psicofisico", "Animismo"], correct: 2, feedback: "Correcto! El Paralelismo Psicofisico (D2) defiende que mente y materia actuan en paralelo sincronico sin interaccion causal real." },
+    { question: "Quien es considerado el fundador de la neuropsicologia moderna?", options: ["Paul Broca", "Alexander Luria", "Franz Josef Gall", "Karl Lashley"], correct: 2, feedback: "Correcto! Franz Josef Gall es considerado el fundador de la neuropsicologia moderna por sentar las bases del estudio de la localizacion de funciones cerebrales." }
+  ];
+
+  var currentQuestion = 0;
+  var score = 0;
+  var answered = false;
+
+  function loadQuestion() {
+    answered = false;
+    var q = quizQuestions[currentQuestion];
+    document.getElementById('questionText').textContent = (currentQuestion + 1) + '. ' + q.question;
+    var container = document.getElementById('optionsContainer');
+    container.innerHTML = '';
+    var letters = ['A', 'B', 'C', 'D'];
+    for (var i = 0; i < q.options.length; i++) {
+      var btn = document.createElement('button');
+      btn.className = 'quiz-option';
+      btn.innerHTML = '<span class="opt-letter">' + letters[i] + '</span><span>' + q.options[i] + '</span>';
+      btn.onclick = (function(idx) { return function() { checkAnswer(idx); }; })(i);
+      container.appendChild(btn);
+    }
+    document.getElementById('feedback').className = 'quiz-feedback';
+    document.getElementById('feedback').classList.remove('show');
+    document.getElementById('nextBtn').classList.remove('show');
+  }
+
+  function checkAnswer(selected) {
+    if (answered) return;
+    answered = true;
+    var q = quizQuestions[currentQuestion];
+    var options = document.querySelectorAll('.quiz-option');
+    for (var i = 0; i < options.length; i++) {
+      options[i].style.pointerEvents = 'none';
+      if (i === q.correct) {
+        options[i].classList.add('correct');
+      } else if (i === selected && i !== q.correct) {
+        options[i].classList.add('wrong');
+      }
+    }
+    if (selected === q.correct) score++;
+    var fb = document.getElementById('feedback');
+    fb.textContent = q.feedback;
+    fb.className = 'quiz-feedback show ' + (selected === q.correct ? 'correct' : 'wrong');
+    document.getElementById('nextBtn').classList.add('show');
+  }
+
+  function nextQuestion() {
+    currentQuestion++;
+    if (currentQuestion >= quizQuestions.length) {
+      document.getElementById('quizContent').style.display = 'none';
+      document.getElementById('quizResult').style.display = 'block';
+      document.getElementById('finalScore').textContent = 'Puntaje: ' + score + ' / ' + quizQuestions.length;
+    } else {
+      loadQuestion();
+    }
+  }
+
+  function restartQuiz() {
+    currentQuestion = 0;
+    score = 0;
+    document.getElementById('quizContent').style.display = 'block';
+    document.getElementById('quizResult').style.display = 'none';
+    loadQuestion();
+  }
+
+  loadQuestion();
+
+  function downloadPage() {
+    var html = document.documentElement.outerHTML;
+    var blob = new Blob([html], {type: 'text/html'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'neuropsicologia.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+</script>
+
+
+</body></html>

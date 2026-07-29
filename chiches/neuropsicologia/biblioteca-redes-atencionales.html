@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Biblioteca de las Redes Atencionales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Lora:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --parchment:#EDE3CE;
+    --parchment-dark:#DCCBA4;
+    --ink:#2B1F14;
+    --wood:#3B2A20;
+    --wood-dark:#241811;
+    --brass:#B08D4F;
+    --brass-light:#D9BD82;
+    --c-fund:#8C6D3F;
+    --c-alerta:#C9772E;
+    --c-orient:#2E7D6B;
+    --c-ejec:#5B4B95;
+    --c-trast:#963B3B;
+    --shadow: 0 8px 24px rgba(20,12,4,0.45);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--wood-dark);font-family:'Lora',serif;color:var(--parchment);}
+  #app{
+    max-width:980px;margin:0 auto;padding:18px 18px 40px;
+    min-height:100vh;
+  }
+  h1{
+    font-family:'Playfair Display',serif;
+    font-weight:900;
+    font-size:clamp(1.5rem,4vw,2.3rem);
+    text-align:center;
+    margin:6px 0 2px;
+    color:var(--brass-light);
+    letter-spacing:0.5px;
+  }
+  .subtitle{
+    text-align:center;font-family:'IBM Plex Mono',monospace;
+    font-size:0.78rem;color:var(--parchment-dark);opacity:0.8;
+    margin-bottom:14px;text-transform:uppercase;letter-spacing:1.5px;
+  }
+
+  /* HUD - card catalog drawer */
+  #hud{
+    display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+    background:linear-gradient(180deg,#4a3423,#3B2A20);
+    border:2px solid var(--brass);
+    border-radius:6px;
+    padding:10px 14px;
+    box-shadow:var(--shadow);
+    margin-bottom:10px;
+  }
+  .hud-block{display:flex;flex-direction:column;gap:3px;}
+  .hud-label{font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--brass-light);opacity:0.85;}
+  .hud-value{font-family:'Playfair Display',serif;font-weight:700;font-size:1rem;color:var(--parchment);}
+  #floorPill{
+    padding:3px 10px;border-radius:20px;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;font-weight:600;
+    border:1px solid rgba(255,255,255,0.25);
+  }
+  #progressWrap{flex:1;min-width:160px;}
+  #progressBarBg{
+    height:10px;border-radius:6px;background:#241811;border:1px solid var(--brass);overflow:hidden;
+  }
+  #progressBarFill{
+    height:100%;width:0%;background:linear-gradient(90deg,var(--brass),var(--brass-light));
+    transition:width .4s ease;
+  }
+  #resetBtn{
+    background:transparent;border:1px solid var(--brass);color:var(--brass-light);
+    font-family:'IBM Plex Mono',monospace;font-size:0.7rem;padding:6px 10px;border-radius:4px;cursor:pointer;
+    letter-spacing:0.5px;
+  }
+  #resetBtn:hover{background:var(--brass);color:var(--wood-dark);}
+
+  /* canvas frame */
+  #canvasFrame{
+    position:relative;border:3px solid var(--brass);border-radius:8px;overflow:hidden;
+    box-shadow:var(--shadow);background:#150e08;
+  }
+  canvas{display:block;width:100%;height:auto;background:#150e08;}
+
+  #hint{
+    position:absolute;left:50%;top:10px;transform:translateX(-50%);
+    background:rgba(20,13,7,0.85);border:1px solid var(--brass);
+    color:var(--parchment);font-family:'IBM Plex Mono',monospace;font-size:0.72rem;
+    padding:5px 12px;border-radius:20px;pointer-events:none;opacity:0;transition:opacity .2s;
+    text-align:center;
+  }
+  #hint.show{opacity:1;}
+
+  #controlsLegend{
+    display:flex;justify-content:center;gap:16px;flex-wrap:wrap;
+    font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--parchment-dark);
+    margin-top:8px;opacity:0.75;
+  }
+  #controlsLegend b{color:var(--brass-light);}
+
+  /* touch controls */
+  #touchControls{display:none;justify-content:space-between;margin-top:10px;gap:10px;}
+  .touchGroup{display:flex;gap:8px;}
+  .tbtn{
+    width:52px;height:52px;border-radius:50%;border:2px solid var(--brass);
+    background:rgba(59,42,32,0.9);color:var(--brass-light);font-size:1.2rem;
+    display:flex;align-items:center;justify-content:center;user-select:none;
+  }
+  .tbtn:active{background:var(--brass);color:var(--wood-dark);}
+  @media (max-width:720px){#touchControls{display:flex;}}
+
+  /* modal */
+  #modalOverlay{
+    position:fixed;inset:0;background:rgba(10,7,4,0.78);
+    display:none;align-items:center;justify-content:center;z-index:50;padding:16px;
+  }
+  #modalOverlay.open{display:flex;}
+  #modalCard{
+    background:var(--parchment);color:var(--ink);
+    max-width:520px;width:100%;border-radius:8px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.6);
+    padding:22px 24px 20px;position:relative;
+    border-top:8px solid var(--brass);
+    max-height:88vh;overflow-y:auto;
+  }
+  #modalEyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:1.5px;
+    text-transform:uppercase;color:var(--wood);opacity:0.65;margin-bottom:4px;
+  }
+  #modalTitle{
+    font-family:'Playfair Display',serif;font-weight:700;font-size:1.4rem;
+    margin:0 0 10px;color:var(--wood-dark);
+  }
+  #modalQuestion{font-size:0.95rem;margin-bottom:14px;line-height:1.45;}
+  #optionsList{display:flex;flex-direction:column;gap:8px;margin-bottom:6px;}
+  .optionBtn{
+    text-align:left;background:#fff;border:1.5px solid #cbb98f;border-radius:6px;
+    padding:10px 12px;font-family:'Lora',serif;font-size:0.88rem;cursor:pointer;
+    transition:background .15s, border-color .15s;line-height:1.35;
+  }
+  .optionBtn:hover{background:#f6efdc;}
+  .optionBtn.correct{background:#dcefdc;border-color:#4a8f4a;}
+  .optionBtn.incorrect{background:#f4dcdc;border-color:#a34a4a;}
+  .optionBtn:disabled{cursor:default;}
+  #feedback{
+    margin-top:10px;font-size:0.85rem;padding:10px 12px;border-radius:6px;
+    background:#fff7e6;border:1px solid var(--brass);display:none;line-height:1.4;
+  }
+  #feedback.show{display:block;}
+  #feedback b{color:var(--wood-dark);}
+  #modalClose{
+    margin-top:14px;background:var(--wood);color:var(--parchment);border:none;
+    padding:9px 16px;border-radius:5px;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;
+    cursor:pointer;letter-spacing:0.5px;
+  }
+  #modalClose:hover{background:var(--wood-dark);}
+
+  /* victory banner */
+  #victoryOverlay{
+    position:fixed;inset:0;background:rgba(10,7,4,0.85);
+    display:none;align-items:center;justify-content:center;z-index:60;padding:16px;
+  }
+  #victoryOverlay.open{display:flex;}
+  #victoryCard{
+    background:var(--parchment);color:var(--ink);max-width:480px;width:100%;
+    border-radius:8px;padding:26px 26px 22px;text-align:center;
+    border-top:8px solid var(--brass-light);box-shadow:0 20px 60px rgba(0,0,0,0.6);
+    max-height:85vh;overflow-y:auto;
+  }
+  #victoryCard h2{font-family:'Playfair Display',serif;color:var(--wood-dark);margin-top:4px;}
+  #victoryList{text-align:left;font-size:0.85rem;margin-top:10px;line-height:1.5;}
+  #victoryCard button{
+    margin-top:16px;background:var(--wood);color:var(--parchment);border:none;
+    padding:10px 18px;border-radius:5px;cursor:pointer;font-family:'IBM Plex Mono',monospace;
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <h1>La Biblioteca de las Redes Atencionales</h1>
+  <div class="subtitle">Neuropsicología — Atención · basado en Posner &amp; Petersen</div>
+
+  <div id="hud">
+    <div class="hud-block">
+      <span class="hud-label">Piso actual</span>
+      <span class="hud-value"><span id="floorPill">—</span></span>
+    </div>
+    <div id="progressWrap" class="hud-block">
+      <span class="hud-label">Fichas completadas <span id="progressCount">0/21</span></span>
+      <div id="progressBarBg"><div id="progressBarFill"></div></div>
+    </div>
+    <button id="resetBtn">Reiniciar progreso</button>
+  </div>
+
+  <div id="canvasFrame">
+    <canvas id="game" width="900" height="560"></canvas>
+    <div id="hint"></div>
+  </div>
+
+  <div id="controlsLegend">
+    <span><b>← → / A D</b> mover</span>
+    <span><b>↑ / Espacio</b> saltar</span>
+    <span><b>↑ ↓ en la escalera</b> subir / bajar de piso</span>
+    <span><b>E</b> abrir puerta</span>
+  </div>
+
+  <div id="touchControls">
+    <div class="touchGroup">
+      <div class="tbtn" id="tLeft">◀</div>
+      <div class="tbtn" id="tRight">▶</div>
+    </div>
+    <div class="touchGroup">
+      <div class="tbtn" id="tUp">▲</div>
+      <div class="tbtn" id="tDown">▼</div>
+      <div class="tbtn" id="tJump">⤒</div>
+      <div class="tbtn" id="tInteract">E</div>
+    </div>
+  </div>
+</div>
+
+<div id="modalOverlay">
+  <div id="modalCard">
+    <div id="modalEyebrow">Ficha de catálogo</div>
+    <h3 id="modalTitle">Concepto</h3>
+    <div id="modalQuestion"></div>
+    <div id="optionsList"></div>
+    <div id="feedback"></div>
+    <button id="modalClose">Cerrar</button>
+  </div>
+</div>
+
+<div id="victoryOverlay">
+  <div id="victoryCard">
+    <div style="font-size:2rem;">🏛️📖</div>
+    <h2>Biblioteca completa</h2>
+    <p>Recorriste las cuatro redes atencionales y completaste el catálogo entero.</p>
+    <div id="victoryList"></div>
+    <button id="victoryClose">Volver a recorrer</button>
+  </div>
+</div>
+
+<script>
+/* ============ 1. TABLA DE CONOCIMIENTO (parseada de tu CSV) ============ */
+const RAW = [
+{c:"Atención",d:"Proceso cognitivo que permite seleccionar, mantener y controlar la información relevante mientras se inhibe la irrelevante.",car:"Recurso limitado; regula el procesamiento cognitivo; participa en todas las funciones superiores.",comp:"Se diferencia de la percepción (recibe información) y de la memoria (almacena información).",apl:"Su evaluación es esencial porque cualquier alteración afecta el rendimiento cognitivo general.",piso:0},
+{c:"Sistema atencional",d:"Conjunto de redes cerebrales que controlan distintos aspectos de la atención.",car:"Sistema distribuido; involucra regiones corticales y subcorticales; funciona en interacción.",comp:"Reemplaza la idea de un único centro de la atención.",apl:"Explica por qué distintas lesiones producen distintos déficits atencionales.",piso:0},
+{c:"Modelo de Posner y Petersen",d:"Modelo que divide la atención en tres redes funcionales.",car:"Red de alerta; red de orientación; red ejecutiva.",comp:"Más específico que los modelos unitarios de la atención.",apl:"Es uno de los modelos más utilizados para interpretar déficits neuropsicológicos.",piso:0},
+{c:"Red de alerta",d:"Sistema encargado de mantener el estado de vigilancia y preparación para responder.",car:"Incluye alerta tónica y fásica; relacionada con el sistema noradrenérgico.",comp:"Se diferencia de la orientación porque no selecciona estímulos específicos.",apl:"Su alteración provoca disminución del nivel de vigilancia.",piso:1},
+{c:"Atención sostenida",d:"Capacidad para mantener la atención durante un período prolongado.",car:"Requiere esfuerzo continuo; importante en tareas largas.",comp:"Se diferencia de la atención selectiva porque prioriza la duración del foco atencional.",apl:"Se evalúa frecuentemente en TDAH y lesiones cerebrales.",piso:1},
+{c:"Aprosexia",d:"Ausencia casi completa de atención.",car:"Alteración grave del estado atencional.",comp:"Es el extremo opuesto de la hiperprosexia.",apl:"Puede observarse en lesiones graves o trastornos de conciencia.",piso:1},
+{c:"Hipoprosexia",d:"Disminución de la capacidad atencional.",car:"Lentitud; fatigabilidad; distractibilidad.",comp:"Menos grave que la aprosexia.",apl:"Frecuente en múltiples patologías neurológicas y psiquiátricas.",piso:1},
+{c:"Red de orientación",d:"Sistema encargado de dirigir la atención hacia un estímulo determinado.",car:"Selecciona información relevante; puede ser voluntaria o automática.",comp:"Se diferencia de la red ejecutiva porque no resuelve conflictos cognitivos.",apl:"Su alteración se observa en pacientes con heminegligencia espacial.",piso:2},
+{c:"Atención selectiva",d:"Capacidad para focalizar la atención sobre un estímulo e inhibir distractores.",car:"Implica inhibición de información irrelevante.",comp:"Se diferencia de la atención dividida porque concentra los recursos en una sola tarea.",apl:"Su alteración produce distractibilidad.",piso:2},
+{c:"Heminegligencia espacial",d:"Trastorno por el cual el paciente ignora los estímulos del lado contralateral a la lesión, generalmente el izquierdo.",car:"No es un déficit sensorial; suele deberse a lesiones del hemisferio derecho.",comp:"Se diferencia de la hemianopsia porque el paciente puede percibir el estímulo pero no atenderlo.",apl:"Es uno de los síndromes neuropsicológicos más importantes de la atención.",piso:2},
+{c:"Extinción",d:"El paciente detecta un estímulo aislado pero deja de percibirlo cuando aparecen dos estímulos simultáneamente.",car:"Déficit atencional y no sensorial.",comp:"Se diferencia de la heminegligencia porque el estímulo unilateral sí se detecta.",apl:"Indica alteración en la distribución de recursos atencionales.",piso:2},
+{c:"Paraprosexia",d:"Dirección anómala o inadecuada de la atención.",car:"El problema no es la cantidad de atención sino hacia dónde se dirige.",comp:"Se diferencia de la hipoprosexia porque la atención existe pero está mal orientada.",apl:"Se observa en algunos trastornos psicopatológicos.",piso:2},
+{c:"Red ejecutiva",d:"Sistema encargado del control voluntario de la atención y la resolución de conflictos.",car:"Inhibe respuestas automáticas; supervisa la conducta; regula las funciones ejecutivas.",comp:"Se diferencia de la red de orientación porque controla la conducta dirigida a metas.",apl:"Su alteración afecta la planificación, la inhibición y la flexibilidad cognitiva.",piso:3},
+{c:"Atención dividida",d:"Capacidad para atender simultáneamente dos o más tareas o fuentes de información.",car:"Distribuye recursos cognitivos entre actividades.",comp:"Se diferencia de la atención alternante porque realiza tareas al mismo tiempo.",apl:"Permite explicar dificultades en tareas duales.",piso:3},
+{c:"Atención alternante",d:"Capacidad para cambiar voluntariamente el foco atencional entre distintas tareas.",car:"Requiere flexibilidad cognitiva.",comp:"Se diferencia de la atención dividida porque alterna entre tareas en lugar de realizarlas simultáneamente.",apl:"Depende del funcionamiento ejecutivo frontal.",piso:3},
+{c:"Funciones ejecutivas y atención",d:"Las funciones ejecutivas regulan el control voluntario de la atención.",car:"Incluyen inhibición; flexibilidad; planificación y monitoreo.",comp:"La atención es un proceso básico; las funciones ejecutivas coordinan su utilización.",apl:"Explican muchas dificultades observadas en el TDAH y en lesiones frontales.",piso:3},
+{c:"Hiperprosexia",d:"Incremento anormal del foco atencional.",car:"Atención excesivamente concentrada sobre determinados estímulos.",comp:"Se diferencia de la atención normal por su rigidez.",apl:"Puede observarse en episodios maníacos o estados de ansiedad.",piso:3},
+{c:"TDAH",d:"Trastorno del neurodesarrollo caracterizado por inatención y/o hiperactividad-impulsividad persistentes.",car:"Inicio en la infancia; afecta el rendimiento académico, social y familiar; presenta distintos subtipos.",comp:"Se diferencia de un problema atencional adquirido porque es un trastorno del neurodesarrollo.",apl:"Es uno de los trastornos neuropsicológicos infantiles más estudiados.",piso:4},
+{c:"Subtipos del TDAH",d:"Clasificación clínica según el predominio sintomático.",car:"Predominio inatento; predominio hiperactivo-impulsivo; presentación combinada.",comp:"Permite diferenciar perfiles clínicos.",apl:"Orienta la evaluación neuropsicológica y el tratamiento.",piso:4},
+{c:"Conciencia",d:"Estado que permite darse cuenta de uno mismo y del entorno.",car:"Integra nivel de alerta y contenido consciente.",comp:"Se diferencia de la atención porque puede haber atención sin plena conciencia y conciencia sin atención focalizada.",apl:"Ayuda a comprender pacientes con alteraciones de conciencia y atención.",piso:4},
+{c:"Taxonomía de la conciencia",d:"Clasificación de los distintos componentes de la conciencia propuesta por Tirapu-Ustárroz y colaboradores.",car:"Distingue nivel de conciencia y contenido consciente.",comp:"Amplía la visión clásica de la conciencia como un fenómeno único.",apl:"Permite interpretar trastornos neurológicos complejos.",piso:4},
+];
+
+const FLOOR_META = [
+  {id:0, nombre:"Planta baja — Fundamentos",             color:"#8C6D3F", icon:"📖"},
+  {id:1, nombre:"1er piso — Red de Alerta y Vigilancia",   color:"#C9772E", icon:"🕯️"},
+  {id:2, nombre:"2do piso — Red de Orientación",           color:"#2E7D6B", icon:"🧭"},
+  {id:3, nombre:"3er piso — Red Ejecutiva",                color:"#5B4B95", icon:"🗝️"},
+  {id:4, nombre:"4to piso — Trastornos y Conciencia",      color:"#963B3B", icon:"🕰️"},
+];
+
+/* ============ 2. GENERADOR DE NIVEL (agnóstico del contenido) ============ */
+const CONCEPTS = RAW.map((r,i)=>({id:"c"+i, concepto:r.c, definicion:r.d, caracteristicas:r.car, comparacion:r.comp, aplicacion:r.apl, piso:r.piso}));
+
+const FLOOR_W = 800, LADDER_X0=800, LADDER_X1=900, WORLD_W=900;
+const FLOOR_H = 300, GROUND_MARGIN=60;
+const numFloors = FLOOR_META.length;
+const WORLD_H = numFloors*FLOOR_H + GROUND_MARGIN;
+
+function floorBaseY(pisoIndex){ return WORLD_H - GROUND_MARGIN - pisoIndex*FLOOR_H; }
+
+FLOOR_META.forEach(f=>{
+  f.baseY = floorBaseY(f.id);
+  f.concepts = CONCEPTS.filter(c=>c.piso===f.id);
+  const n = f.concepts.length;
+  const margin = 70;
+  const usable = FLOOR_W - margin*2;
+  f.concepts.forEach((c,i)=>{
+    c.doorX = margin + (n===1 ? usable/2 : (usable*i)/(n-1));
+  });
+});
+
+/* ============ 3. ESTADO / PROGRESO ============ */
+const STORAGE_KEY = "biblioteca-redes-atencionales-v1";
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  }catch(e){ return {}; }
+}
+function saveProgress(p){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); }catch(e){}
+}
+let progress = loadProgress(); // { [conceptId]: {done:bool, attempts:n} }
+
+function isDone(id){ return !!(progress[id] && progress[id].done); }
+function totalDone(){ return CONCEPTS.filter(c=>isDone(c.id)).length; }
+
+/* ============ 4. FÍSICA / JUEGO ============ */
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const VIEW_W = 900, VIEW_H = 560;
+
+const player = { x:100, y:floorBaseY(0)-46, w:26, h:46, vx:0, vy:0, onGround:false, facing:1, bob:0 };
+let cameraY = 0;
+const keys = {};
+let gamePaused = false;
+let nearDoor = null;
+const GRAVITY = 0.62, JUMP_V = -12.6, MOVE_SPEED = 3.6, CLIMB_SPEED = 3.2, FRICTION=0.78;
+
+function currentFloorIndex(){
+  // floor whose baseY is just below player's feet
+  let best = 0, bestDist = Infinity;
+  FLOOR_META.forEach(f=>{
+    const dist = Math.abs((player.y+player.h) - f.baseY);
+    if((player.y+player.h) <= f.baseY+40 && dist < bestDist){ bestDist=dist; best=f.id; }
+  });
+  return best;
+}
+
+function update(dt){
+  if(gamePaused) return;
+
+  const onLadderX = (player.x+player.w/2) > LADDER_X0 && (player.x+player.w/2) < LADDER_X1;
+  // horizontal
+  let moveDir = 0;
+  if(keys['ArrowLeft']||keys['a']||keys['A']) moveDir = -1;
+  if(keys['ArrowRight']||keys['d']||keys['D']) moveDir = 1;
+  player.vx += moveDir*MOVE_SPEED*0.5;
+  player.vx *= FRICTION;
+  if(Math.abs(player.vx)<0.05) player.vx=0;
+  if(moveDir!==0) player.facing = moveDir;
+
+  const wantUp = keys['ArrowUp']||keys['w']||keys['W'];
+  const wantDown = keys['ArrowDown']||keys['s']||keys['S'];
+
+  if(onLadderX && (wantUp||wantDown)){
+    player.vy = wantUp ? -CLIMB_SPEED : CLIMB_SPEED;
+    player.onGround = false;
+  } else {
+    // jump
+    if((keys[' ']||wantUp) && player.onGround){
+      player.vy = JUMP_V;
+      player.onGround = false;
+    }
+    player.vy += GRAVITY;
+  }
+
+  player.x += player.vx;
+  player.y += player.vy;
+
+  // world bounds
+  if(player.x<0) player.x=0;
+  if(player.x+player.w>WORLD_W) player.x=WORLD_W-player.w;
+  if(player.y<0){ player.y=0; player.vy=0; }
+
+  // platform collision (only where x is over a shelf, i.e. x < FLOOR_W)
+  player.onGround = false;
+  if(player.x < FLOOR_W){
+    FLOOR_META.forEach(f=>{
+      const top = f.baseY;
+      if(player.vy>=0 && (player.y+player.h) >= top && (player.y+player.h) <= top+22 ){
+        player.y = top - player.h;
+        player.vy = 0;
+        player.onGround = true;
+      }
+    });
+  }
+  if(player.y+player.h > WORLD_H){ player.y = WORLD_H-player.h; player.vy=0; player.onGround=true; }
+
+  player.bob = (Math.abs(player.vx)>0.3 && player.onGround) ? (player.bob+0.35) : 0;
+
+  // camera follow
+  const targetCam = player.y - VIEW_H/2 + player.h/2;
+  cameraY += (targetCam-cameraY)*0.14;
+  cameraY = Math.max(0, Math.min(WORLD_H-VIEW_H, cameraY));
+
+  // door proximity
+  nearDoor = null;
+  const fIdx = currentFloorIndex();
+  const floor = FLOOR_META[fIdx];
+  if(floor){
+    floor.concepts.forEach(c=>{
+      const dx = Math.abs((player.x+player.w/2) - c.doorX);
+      const sameLevel = Math.abs((player.y+player.h) - floor.baseY) < 30;
+      if(dx<40 && sameLevel){ nearDoor = c; }
+    });
+  }
+  if(keys['e']||keys['E']){ if(nearDoor){ openDoor(nearDoor); keys['e']=false; keys['E']=false; } }
+
+  updateHUD(fIdx);
+}
+
+/* ============ 5. RENDER ============ */
+function drawShelfTexture(x,y,w,h,color){
+  ctx.fillStyle = color;
+  ctx.fillRect(x,y,w,h);
+  ctx.fillStyle = "rgba(0,0,0,0.18)";
+  for(let i=0;i<w;i+=34){ ctx.fillRect(x+i,y,2,h); }
+}
+
+function draw(){
+  ctx.clearRect(0,0,VIEW_W,VIEW_H);
+  // background gradient
+  const grad = ctx.createLinearGradient(0,0,0,VIEW_H);
+  grad.addColorStop(0,"#20150d");
+  grad.addColorStop(1,"#0f0a06");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0,0,VIEW_W,VIEW_H);
+
+  ctx.save();
+  ctx.translate(0,-cameraY);
+
+  // ladder column (full height)
+  ctx.fillStyle = "#5a4530";
+  ctx.fillRect(LADDER_X0, 0, LADDER_X1-LADDER_X0, WORLD_H);
+  ctx.strokeStyle = "#3B2A20";
+  ctx.lineWidth=4;
+  for(let y=WORLD_H-10;y>0;y-=26){
+    ctx.beginPath(); ctx.moveTo(LADDER_X0+8,y); ctx.lineTo(LADDER_X1-8,y); ctx.stroke();
+  }
+  ctx.fillStyle="#3B2A20";
+  ctx.fillRect(LADDER_X0+6,0,6,WORLD_H);
+  ctx.fillRect(LADDER_X1-12,0,6,WORLD_H);
+
+  FLOOR_META.forEach(f=>{
+    // bookshelf backdrop
+    ctx.globalAlpha = 0.35;
+    drawShelfTexture(0, f.baseY-FLOOR_H+40, FLOOR_W, FLOOR_H-60, f.color);
+    ctx.globalAlpha = 1;
+    // platform
+    ctx.fillStyle = "#241811";
+    ctx.fillRect(0, f.baseY, FLOOR_W, 18);
+    ctx.fillStyle = f.color;
+    ctx.fillRect(0, f.baseY, FLOOR_W, 6);
+
+    // floor label
+    ctx.fillStyle = "rgba(237,227,206,0.85)";
+    ctx.font = "13px 'IBM Plex Mono', monospace";
+    ctx.fillText(f.icon+"  "+f.nombre, 14, f.baseY-FLOOR_H+30);
+
+    // doors
+    f.concepts.forEach(c=>{
+      const dw=46, dh=64;
+      const dx = c.doorX-dw/2, dy=f.baseY-dh;
+      const done = isDone(c.id);
+      ctx.fillStyle = done ? "#3a2e17" : "#2a1d10";
+      ctx.fillRect(dx,dy,dw,dh);
+      ctx.strokeStyle = done ? "#E8C97A" : f.color;
+      ctx.lineWidth = done?3:2;
+      ctx.strokeRect(dx,dy,dw,dh);
+      ctx.beginPath();
+      ctx.arc(dx+dw-10, dy+dh/2, 2.5, 0, Math.PI*2);
+      ctx.fillStyle = done? "#E8C97A" : "#c9b27a";
+      ctx.fill();
+      ctx.font = "18px sans-serif";
+      ctx.textAlign="center";
+      ctx.fillText(done?"✅":"🚪", dx+dw/2, dy-8);
+      ctx.textAlign="left";
+    });
+  });
+
+  // player
+  const bobOffset = Math.sin(player.bob)*2;
+  ctx.save();
+  ctx.translate(player.x+player.w/2, player.y+player.h/2+bobOffset);
+  ctx.scale(player.facing,1);
+  ctx.fillStyle = "#C9772E";
+  ctx.fillRect(-player.w/2, -player.h/2, player.w, player.h*0.62);
+  ctx.fillStyle = "#3B2A20";
+  ctx.fillRect(-player.w/2, player.h*0.12, player.w, player.h*0.38);
+  ctx.fillStyle = "#EDE3CE";
+  ctx.beginPath(); ctx.arc(4, -player.h/2+2, 9, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle="#241811";
+  ctx.beginPath(); ctx.arc(7,-player.h/2, 1.6,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+
+  ctx.restore();
+
+  // hint
+  const hintEl = document.getElementById('hint');
+  if(nearDoor && !gamePaused){
+    hintEl.textContent = (isDone(nearDoor.id)?"Repasar: ":"Abrir: ") + nearDoor.concepto + "  ·  [E]";
+    hintEl.classList.add('show');
+  } else {
+    hintEl.classList.remove('show');
+  }
+}
+
+function loop(){ update(); draw(); requestAnimationFrame(loop); }
+
+/* ============ 6. INPUT ============ */
+window.addEventListener('keydown', e=>{ keys[e.key]=true; });
+window.addEventListener('keyup', e=>{ keys[e.key]=false; });
+
+function bindTouch(id, key){
+  const el = document.getElementById(id);
+  el.addEventListener('touchstart', ev=>{ ev.preventDefault(); keys[key]=true; });
+  el.addEventListener('touchend', ev=>{ ev.preventDefault(); keys[key]=false; });
+  el.addEventListener('mousedown', ()=>{ keys[key]=true; });
+  el.addEventListener('mouseup', ()=>{ keys[key]=false; });
+}
+bindTouch('tLeft','ArrowLeft'); bindTouch('tRight','ArrowRight');
+bindTouch('tUp','ArrowUp'); bindTouch('tDown','ArrowDown'); bindTouch('tJump',' ');
+document.getElementById('tInteract').addEventListener('click', ()=>{ if(nearDoor) openDoor(nearDoor); });
+
+/* ============ 7. HUD ============ */
+function updateHUD(fIdx){
+  const f = FLOOR_META[fIdx];
+  const pill = document.getElementById('floorPill');
+  pill.textContent = f.icon+" "+f.nombre.split("—")[1].trim();
+  pill.style.background = f.color+"33";
+  pill.style.color = "#EDE3CE";
+  pill.style.borderColor = f.color;
+
+  const done = totalDone(), total = CONCEPTS.length;
+  document.getElementById('progressCount').textContent = done+"/"+total;
+  document.getElementById('progressBarFill').style.width = (done/total*100)+"%";
+}
+
+/* ============ 8. QUIZ MODAL ============ */
+const modalOverlay = document.getElementById('modalOverlay');
+const modalTitle = document.getElementById('modalTitle');
+const modalQuestion = document.getElementById('modalQuestion');
+const optionsList = document.getElementById('optionsList');
+const feedback = document.getElementById('feedback');
+const modalEyebrow = document.getElementById('modalEyebrow');
+
+function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+let activeConcept = null;
+
+function openDoor(concept){
+  activeConcept = concept;
+  gamePaused = true;
+  const floor = FLOOR_META[concept.piso];
+  modalEyebrow.textContent = floor.nombre;
+  modalTitle.textContent = concept.concepto;
+  modalQuestion.innerHTML = "¿Cuál es la definición correcta de <b>“"+concept.concepto+"”</b>?";
+
+  let pool = CONCEPTS.filter(c=>c.piso===concept.piso && c.id!==concept.id);
+  if(pool.length<3) pool = CONCEPTS.filter(c=>c.id!==concept.id);
+  const distractors = shuffle(pool).slice(0,3).map(c=>c.definicion);
+  const options = shuffle([concept.definicion, ...distractors]);
+
+  optionsList.innerHTML = "";
+  feedback.classList.remove('show');
+  options.forEach(optText=>{
+    const btn = document.createElement('button');
+    btn.className='optionBtn';
+    btn.textContent = optText;
+    btn.addEventListener('click', ()=> answer(optText===concept.definicion, btn));
+    optionsList.appendChild(btn);
+  });
+
+  modalOverlay.classList.add('open');
+}
+
+function answer(correct, btnEl){
+  const buttons = optionsList.querySelectorAll('.optionBtn');
+  buttons.forEach(b=>b.disabled=true);
+  const p = progress[activeConcept.id] || {done:false, attempts:0};
+  p.attempts += 1;
+  if(correct){
+    p.done = true;
+    btnEl.classList.add('correct');
+    feedback.innerHTML = "<b>Correcto.</b> "+activeConcept.caracteristicas+"<br><br><b>Aplicación clínica:</b> "+activeConcept.aplicacion;
+  } else {
+    btnEl.classList.add('incorrect');
+    buttons.forEach(b=>{ if(b.textContent===activeConcept.definicion) b.classList.add('correct'); });
+    feedback.innerHTML = "<b>No es esa.</b> La definición correcta es la resaltada en verde. Podés volver a esta puerta cuando quieras — no hay penalización.";
+  }
+  progress[activeConcept.id] = p;
+  saveProgress(progress);
+  feedback.classList.add('show');
+  updateHUD(currentFloorIndex());
+
+  if(correct && totalDone()===CONCEPTS.length){
+    setTimeout(showVictory, 700);
+  }
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+function closeModal(){
+  modalOverlay.classList.remove('open');
+  gamePaused = false;
+  activeConcept = null;
+}
+
+/* ============ 9. RESET / VICTORIA ============ */
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  if(confirm("¿Reiniciar todo el progreso de la biblioteca?")){
+    progress = {};
+    saveProgress(progress);
+    updateHUD(currentFloorIndex());
+  }
+});
+
+function showVictory(){
+  const list = document.getElementById('victoryList');
+  const tricky = CONCEPTS.filter(c=>progress[c.id] && progress[c.id].attempts>1)
+                          .sort((a,b)=>progress[b.id].attempts-progress[a.id].attempts);
+  let html = "<b>Fichas por piso:</b><br>";
+  FLOOR_META.forEach(f=>{ html += f.icon+" "+f.nombre+" — "+f.concepts.length+" fichas<br>"; });
+  if(tricky.length){
+    html += "<br><b>Te costaron un poco más:</b><br>";
+    tricky.slice(0,5).forEach(c=>{ html += "• "+c.concepto+" ("+progress[c.id].attempts+" intentos)<br>"; });
+  }
+  list.innerHTML = html;
+  document.getElementById('victoryOverlay').classList.add('open');
+}
+document.getElementById('victoryClose').addEventListener('click', ()=>{
+  document.getElementById('victoryOverlay').classList.remove('open');
+});
+
+/* ============ 10. INIT ============ */
+updateHUD(0);
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

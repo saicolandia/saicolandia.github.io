@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧠 Neuropsicología del Lenguaje</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: linear-gradient(145deg, #f7f3ff 0%, #e8e0f0 100%);
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            color: #2d2a3e;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* header */
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6c4b9a, #3a2a5e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #4a3e5e;
+            max-width: 700px;
+            margin: 0.5rem auto 0;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            display: inline-block;
+        }
+
+        /* tabs */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(4px);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #3d3250;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .tab-btn:hover {
+            background: #d9cef0;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(90, 60, 140, 0.15);
+        }
+
+        .tab-btn.active {
+            background: #6c4b9a;
+            color: white;
+            border-color: #6c4b9a;
+            box-shadow: 0 8px 24px rgba(108, 75, 154, 0.35);
+        }
+
+        .tab-btn .emoji {
+            font-size: 1.4rem;
+        }
+
+        /* panels */
+        .panel {
+            display: none;
+            animation: fadeUp 0.4s ease;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(8px);
+            border-radius: 28px;
+            padding: 1.8rem 1.8rem 2rem;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: transform 0.2s ease, box-shadow 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(90, 60, 140, 0.12);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: #3a2a5e;
+        }
+
+        .card h4 {
+            font-size: 1.1rem;
+            margin: 1rem 0 0.3rem;
+            color: #5a3f7a;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .card ul,
+        .card p {
+            margin: 0.3rem 0 0.6rem;
+            line-height: 1.6;
+            color: #3d3250;
+        }
+
+        .card ul {
+            padding-left: 1.4rem;
+        }
+
+        .card li {
+            margin-bottom: 0.25rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #d4c6ec;
+            color: #3a2a5e;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.2rem 0.9rem;
+            border-radius: 30px;
+            margin-right: 0.4rem;
+        }
+
+        .highlight {
+            background: #f0eaff;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        /* acordeón dentro de cards */
+        .accordion {
+            margin-top: 0.8rem;
+            border-top: 1px solid rgba(108, 75, 154, 0.15);
+            padding-top: 0.8rem;
+        }
+
+        .accordion-item {
+            margin-bottom: 0.3rem;
+        }
+
+        .accordion-header {
+            background: rgba(108, 75, 154, 0.06);
+            border: none;
+            width: 100%;
+            text-align: left;
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            color: #3d3250;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .accordion-header:hover {
+            background: rgba(108, 75, 154, 0.12);
+        }
+
+        .accordion-header .arrow {
+            transition: transform 0.25s;
+            font-size: 1.1rem;
+        }
+
+        .accordion-header.open .arrow {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.3s ease;
+            padding: 0 0.5rem;
+        }
+
+        .accordion-content.open {
+            max-height: 600px;
+            padding: 0.8rem 0.5rem 0.2rem;
+        }
+
+        .accordion-content ul {
+            margin: 0.2rem 0 0.4rem;
+        }
+
+        .stage-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 0.5rem 0;
+        }
+
+        .stage-tag {
+            background: #e5d9f5;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(to right, transparent, #b8a6d4, transparent);
+            margin: 1.8rem 0;
+        }
+
+        /* responsive */
+        @media (max-width: 700px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .tab-btn {
+                padding: 0.5rem 1.2rem;
+                font-size: 0.95rem;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            .card {
+                padding: 1.4rem;
+            }
+        }
+
+        /* tooltip / small */
+        .footnote {
+            font-size: 0.85rem;
+            color: #5f5380;
+            margin-top: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .emoji-big {
+            font-size: 2rem;
+        }
+
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem 0.8rem;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- header -->
+        <div class="header">
+            <h1>🧠 Neuropsicología del Lenguaje</h1>
+            <p>🗣️ Adquisición · Trastornos en niños · Afasias en adultos</p>
+        </div>
+
+        <!-- tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="tab1"><span class="emoji">👶</span> Niños · Adquisición</button>
+            <button class="tab-btn" data-tab="tab2"><span class="emoji">🧒</span> Niños · Trastornos (TDL)</button>
+            <button class="tab-btn" data-tab="tab3"><span class="emoji">🧑‍⚕️</span> Adultos · Afasias</button>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- PANEL 1: ADQUISICIÓN EN NIÑOS                  -->
+        <!-- ============================================ -->
+        <div id="tab1" class="panel active">
+
+            <div class="card-grid">
+
+                <!-- card: niveles del lenguaje -->
+                <div class="card">
+                    <h3>📚 Niveles del lenguaje</h3>
+                    <p><span class="badge">Lingüística</span> Estructura del lenguaje como objeto de estudio</p>
+                    <ul>
+                        <li><strong>🔊 Fonológico</strong> – fonemas, reglas de pronunciación. <span class="highlight">Área de Broca</span> (articulación) y cortezas auditivas (reconocimiento).</li>
+                        <li><strong>📝 Morfosintáctico</strong> – morfemas (unidades con significado) y su combinación en palabras y oraciones.</li>
+                        <li><strong>🧠 Semántico</strong> – significado de palabras y relaciones semánticas. <span class="highlight">Área de Wernicke</span>.</li>
+                        <li><strong>🤝 Pragmático</strong> – uso del lenguaje en contexto social, comunicación no verbal, empatía.</li>
+                    </ul>
+                    <div class="footnote">🔹 Los fonemas se apoyan en <strong>estereotipos fonemáticos</strong> (praxias articulatorias).</div>
+                </div>
+
+                <!-- card: etapas de adquisición -->
+                <div class="card">
+                    <h3>📈 Etapas de adquisición</h3>
+                    <p><span class="badge">Psicolingüística</span> Desarrollo del lenguaje en la infancia</p>
+
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <button class="accordion-header open">
+                                <span>🔹 <strong>1. Nivel prelingüístico</strong> (0–11 meses)</span>
+                                <span class="arrow">▾</span>
+                            </button>
+                            <div class="accordion-content open">
+                                <ul>
+                                    <li><strong>Juego vocal propioceptivo</strong> (2–6 m): balbuceo congénito, basado en aferencias propioceptivas.</li>
+                                    <li><strong>Juego vocal propioceptivo-auditivo</strong> (6–11 m): maduración auditiva, refuerzo de fonemas de la lengua materna.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                <span>🔹 <strong>2. Primer nivel lingüístico</strong> (1–5 años)</span>
+                                <span class="arrow">▾</span>
+                            </button>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li><strong>Monosílabo intencional</strong> (1–1,5 a)</li>
+                                    <li><strong>Holofrase / palabra-frase</strong> (1,5–2 a)</li>
+                                    <li><strong>Palabra yuxtapuesta</strong> (2–3 a) – habla telegráfica</li>
+                                    <li><strong>Oración simple</strong> (a partir de 3 a) – concordancia, artículos, preposiciones</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                <span>🔹 <strong>3. Segundo nivel lingüístico</strong> (5–12 años)</span>
+                                <span class="arrow">▾</span>
+                            </button>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li><strong>5–7 años:</strong> sintaxis similar al adulto, dominio de adjetivos y adverbios.</li>
+                                    <li><strong>7–12 años:</strong> desarrollo semántico y vocabulario, oraciones subordinadas y relativas.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- card: lenguaje interno y planos -->
+                <div class="card">
+                    <h3>🧩 Lenguaje interno &amp; planos</h3>
+                    <p><span class="badge">Vygotsky · Luria</span> Internalización y pensamiento verbal</p>
+                    <ul>
+                        <li><strong>🗣️ Lenguaje interior</strong>: constituido por estructuras lingüísticas, <em>predicación pura</em>, <em>aglutinación</em>, <em>brevedad</em>. Flujo de <strong>neurosemas</strong> (soporte fisiológico de los semas).</li>
+                        <li><strong>🔽 Planos del pensamiento:</strong>
+                            <ul>
+                                <li>1. Emocional / motivación / sensopercepción</li>
+                                <li>2. Pensamiento extraverbal (ajeno al lenguaje)</li>
+                                <li>3. Lenguaje interior (interconexión de neurosemas)</li>
+                                <li>4. Pensamiento discursivo (estereotipos verbales diferenciados)</li>
+                                <li>5. Lenguaje externo (producción concreta)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="footnote">🔹 El lenguaje interno <strong>modela</strong> el comportamiento motor y es clave para la autorregulación.</div>
+                </div>
+
+            </div> <!-- end card-grid -->
+
+        </div> <!-- end panel 1 -->
+
+        <!-- ============================================ -->
+        <!-- PANEL 2: TRASTORNOS EN NIÑOS (TDL)            -->
+        <!-- ============================================ -->
+        <div id="tab2" class="panel">
+
+            <div class="card-grid">
+
+                <!-- card: definición y diferencia TL vs TDL -->
+                <div class="card">
+                    <h3>🧩 ¿Qué son los TDL?</h3>
+                    <p><span class="badge">Trastornos del Desarrollo del Lenguaje</span></p>
+                    <p><strong>Definición (CATALISE):</strong> dificultad persistente en la adquisición, comprensión, producción o uso del lenguaje que se manifiesta desde la infancia, sin una condición biomédica asociada.</p>
+                    <div style="background:#ede7f6; border-radius:16px; padding:0.8rem 1rem; margin:0.6rem 0;">
+                        <p style="font-weight:600; margin:0;">🔹 <strong>TL (Trastornos del Lenguaje)</strong> – asociados a condición biomédica (p.ej. TEA, discapacidad intelectual, hipoacusia).</p>
+                        <p style="font-weight:600; margin:0.2rem 0 0;">🔹 <strong>TDL</strong> – no asociados a condición biomédica conocida, afectan la vida social y escolar.</p>
+                    </div>
+                    <ul>
+                        <li><strong>Prevalencia:</strong> 3–7% de la población infantil, más frecuente en varones (1,22:1).</li>
+                        <li><strong>Factores de riesgo:</strong> antecedentes familiares, bajo nivel socioeconómico, complicaciones perinatales, etc.</li>
+                    </ul>
+                </div>
+
+                <!-- card: criterios diagnósticos y comorbilidades -->
+                <div class="card">
+                    <h3>📋 Diagnóstico &amp; comorbilidad</h3>
+                    <p><span class="badge">CATALISE (2016–2017)</span> Consenso multidisciplinario</p>
+                    <ul>
+                        <li><strong>Indicadores de alerta</strong> (por edad): falta de balbuceo, no responde al habla, <em>hablante tardío</em> (&lt;10 palabras a los 2 años), pobre comprensión, etc.</li>
+                        <li><strong>Criterios actuales:</strong>
+                            <ul>
+                                <li>No se requiere discrepancia entre CI verbal y no verbal.</li>
+                                <li>Se elimina el punto de corte en pruebas estandarizadas.</li>
+                                <li>Énfasis en el <strong>impacto funcional</strong> en la vida diaria.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Comorbilidades frecuentes:</strong> TDAH, dislexia, problemas motores, desórdenes emocionales.</li>
+                    </ul>
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                <span>🔹 Especificadores (áreas afectadas)</span>
+                                <span class="arrow">▾</span>
+                            </button>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Fonología, sintaxis, morfología, semántica, acceso al léxico, pragmática, discurso, memoria verbal.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- card: abordaje neuropsicológico -->
+                <div class="card">
+                    <h3>🛠️ Abordaje &amp; rol del psicólogo</h3>
+                    <p><span class="badge">Interdisciplinario</span> Evaluación neuropsicológica integral</p>
+                    <ul>
+                        <li><strong>Déficits asociados:</strong> percepción auditiva, atención (bottom-up), funciones ejecutivas (memoria de trabajo, inhibición).</li>
+                        <li><strong>Intervención:</strong> no solo terapia del lenguaje, sino también estimulación de atención, memoria y funciones ejecutivas.</li>
+                        <li><strong>Rol del psicólogo:</strong> colaborar en la construcción del autoconcepto, mejorar habilidades sociales, psicoeducación familiar.</li>
+                    </ul>
+                    <div style="background:#f3eefb; border-radius:16px; padding:0.8rem 1rem; margin-top:0.6rem;">
+                        <p style="margin:0;">📌 <strong>Consecuencias:</strong> dificultades en lectoescritura, discurso complejo, interacción social reducida, baja autoestima.</p>
+                    </div>
+                </div>
+
+            </div> <!-- end card-grid -->
+
+        </div> <!-- end panel 2 -->
+
+        <!-- ============================================ -->
+        <!-- PANEL 3: AFASIAS EN ADULTOS                   -->
+        <!-- ============================================ -->
+        <div id="tab3" class="panel">
+
+            <div class="card-grid">
+
+                <!-- card: definición y bases -->
+                <div class="card">
+                    <h3>🧠 Afasia: concepto y bases</h3>
+                    <p><span class="badge">Adultos</span> Alteración adquirida del lenguaje</p>
+                    <p><strong>Definición:</strong> pérdida total o parcial de los procesos complejos del lenguaje (comprensión y/o producción) debida a una lesión reciente del SNC.</p>
+                    <ul>
+                        <li><strong>Bases neuroanatómicas:</strong> red córtico-cortical que conecta áreas de asociación temporoparietales con la corteza prefrontal a través del <strong>fascículo arcuato</strong>.</li>
+                        <li><strong>Áreas clave:</strong> Broca (AB 44/45), Wernicke (AB 22, 39, 40), circunvolución supramarginal.</li>
+                    </ul>
+                    <div class="footnote">🔹 Las afasias se diferencian de alteraciones motoras (disartria) o sensoriales (sordera).</div>
+                </div>
+
+                <!-- card: clasificación y síntomas generales -->
+                <div class="card">
+                    <h3>📂 Clasificación &amp; síntomas</h3>
+                    <p><span class="badge">Enfoque de síndromes clásico</span></p>
+                    <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin:0.5rem 0;">
+                        <span style="background:#6c4b9a20; padding:0.2rem 1rem; border-radius:30px;">🔴 Repetición anormal</span>
+                        <span style="background:#6c4b9a20; padding:0.2rem 1rem; border-radius:30px;">🟢 Repetición normal</span>
+                    </div>
+                    <ul>
+                        <li><strong>Con repetición anormal:</strong> Broca, Wernicke, conducción, global.</li>
+                        <li><strong>Con repetición normal:</strong> transcorticales (sensorial, motora, mixta) y anómica.</li>
+                        <li><strong>Variables:</strong> fonético, fonológico, morfosintáctico, discursivo, prosódico.</li>
+                    </ul>
+                    <div style="background:#f3eefb; border-radius:16px; padding:0.6rem 1rem; margin-top:0.4rem;">
+                        <p style="margin:0;"><strong>🔹 Parafasias:</strong> sustituciones (fonémicas, semánticas, formales, morfológicas). <strong>Neologismos</strong>, <strong>agramatismo</strong>, <strong>circunloquios</strong>.</p>
+                    </div>
+                </div>
+
+                <!-- card: tipos específicos -->
+                <div class="card">
+                    <h3>🩺 Cuadros afásicos principales</h3>
+
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <button class="accordion-header open">
+                                <span>🔴 <strong>Afasia de Broca</strong> (motora)</span>
+                                <span class="arrow">▾</span>
+                            </button>
+                            <div class="accordion-content open">
+                                <ul>
+                                    <li>Habla no fluida, <strong>agramática</strong>, telegráfica, disprosódica.</li>
+                                    <li>Comprensión relativamente conservada (dificultad con sintaxis compleja).</li>
+                                    <li>Repetición alterada, denominación con claves fonémicas.</li>
+                                    <li>Lesión: área de Broca, porción inferior de AB 6/4, ínsula.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                <span>🔴 <strong>Afasia de Wernicke</strong> (sensorial)</span>
+                                <span class="arrow">▾</span>
+                            </button>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Habla fluida, <strong>logorreica</strong>, parafasias semánticas, neologismos, <strong>jerga</strong>.</li>
+                                    <li>Comprensión auditiva severamente alterada.</li>
+                                    <li>Repetición afectada, denominación sin mejora con claves.</li>
+                                    <li>Lesión: región perisilviana posterior (AB 22, 41, 42, 40, 39).</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                <span>🔴 <strong>Afasia global</strong></span>
+                                <span class="arrow">▾</span>
+                            </button>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Trastorno severo: combina déficits de Broca y Wernicke.</li>
+                                    <li>Mutismo o estereotipias, comprensión casi nula.</li>
+                                    <li>Lesión extensa del territorio silviano.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                <span>🟢 <strong>Afasia anómica</strong></span>
+                                <span class="arrow">▾</span>
+                            </button>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li>Dificultad exclusiva para <strong>denominar</strong> (anomia).</li>
+                                    <li>Fluencia y repetición normales, circunloquios frecuentes.</li>
+                                    <li>Lesión en lóbulo temporal izquierdo (regiones anteriores/inferiores).</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header">
+                                <span>⚪ <strong>Afemia (anartria pura)</strong> y <strong>Sordera verbal pura</strong></span>
+                                <span class="arrow">▾</span>
+                            </button>
+                            <div class="accordion-content">
+                                <ul>
+                                    <li><strong>Afemia:</strong> alteración exclusiva de la salida oral (lesión en opérculo frontal).</li>
+                                    <li><strong>Sordera verbal pura:</strong> alteración exclusiva de la entrada auditiva para el lenguaje (lesión en áreas auditivas primarias, respeta Wernicke).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- end card-grid -->
+
+        </div> <!-- end panel 3 -->
+
+        <!-- footer -->
+        <div style="text-align:center; margin-top:3rem; color:#6a5b82; font-size:0.9rem; border-top:1px solid #d8cce8; padding-top:1.5rem;">
+            🧠 Basado en el material de la Cátedra de Neuropsicología · UNMDP
+        </div>
+
+    </div> <!-- end container -->
+
+    <script>
+        // ---- Tabs ----
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const panels = {
+            tab1: document.getElementById('tab1'),
+            tab2: document.getElementById('tab2'),
+            tab3: document.getElementById('tab3')
+        };
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // desactivar todos
+                tabBtns.forEach(b => b.classList.remove('active'));
+                Object.values(panels).forEach(p => p.classList.remove('active'));
+
+                this.classList.add('active');
+                const target = this.getAttribute('data-tab');
+                if (panels[target]) panels[target].classList.add('active');
+            });
+        });
+
+        // ---- Accordion ----
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const isOpen = content.classList.contains('open');
+
+                // cerrar todos los hermanos (dentro del mismo accordion)
+                const parent = this.closest('.accordion');
+                if (parent) {
+                    parent.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
+                    parent.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('open'));
+                }
+
+                if (!isOpen) {
+                    content.classList.add('open');
+                    this.classList.add('open');
+                }
+            });
+        });
+
+        // abrir por defecto el primero de cada panel (opcional)
+        // ya se abren algunos con la clase 'open'
+    </script>
+
+</body>
+</html>
