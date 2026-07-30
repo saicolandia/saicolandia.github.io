@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fichas de Neuropsicología — Autoevaluación</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --paper:#EAEBE4;
+  --paper-2:#DEE0D6;
+  --ink:#14181F;
+  --ink-soft:#4B5158;
+  --blue:#1B4EA0;
+  --red:#D6402D;
+  --yellow:#E8A800;
+  --correct-bg:#DCE6F5;
+  --wrong-bg:#F7D9D4;
+  --auto-bg:#FBE9BF;
+}
+
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  background:var(--paper);
+  background-image:
+    radial-gradient(circle at 92% 6%, var(--yellow) 0, var(--yellow) 46px, transparent 47px),
+    radial-gradient(circle at 4% 96%, var(--blue) 0, var(--blue) 30px, transparent 31px);
+  background-repeat:no-repeat;
+  color:var(--ink);
+  font-family:'Space Grotesk', sans-serif;
+  padding:48px 24px 80px;
+}
+
+.wrap{
+  max-width:1180px;
+  margin:0 auto;
+}
+
+header{
+  border-bottom:4px solid var(--ink);
+  padding-bottom:22px;
+  margin-bottom:0;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+  flex-wrap:wrap;
+}
+
+.eyebrow{
+  font-family:'JetBrains Mono', monospace;
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin:0 0 10px;
+}
+
+h1{
+  font-size:clamp(26px,3.6vw,38px);
+  line-height:1.05;
+  margin:0;
+  font-weight:700;
+  letter-spacing:-0.01em;
+}
+
+h1 em{
+  font-style:normal;
+  color:var(--blue);
+}
+
+.progress{
+  font-family:'JetBrains Mono', monospace;
+  text-align:right;
+  min-width:180px;
+}
+.progress-label{
+  font-size:11px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin-bottom:6px;
+}
+.progress-track{
+  width:180px;
+  height:10px;
+  border:2px solid var(--ink);
+  background:#fff;
+  position:relative;
+}
+.progress-fill{
+  position:absolute;
+  inset:0;
+  width:0%;
+  background:var(--blue);
+  transition:width .35s ease;
+}
+.progress-count{
+  margin-top:6px;
+  font-size:13px;
+  font-weight:700;
+}
+
+/* Tabs */
+.tabs{
+  display:flex;
+  gap:0;
+  margin-top:0;
+}
+.tab-btn{
+  font-family:'JetBrains Mono', monospace;
+  font-size:12px;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+  font-weight:700;
+  padding:14px 22px;
+  background:var(--paper);
+  color:var(--ink-soft);
+  border:none;
+  border-right:2px solid var(--ink);
+  cursor:pointer;
+  position:relative;
+  top:0;
+}
+.tab-btn:first-child{border-left:none;}
+.tab-btn:hover{color:var(--ink);background:var(--paper-2);}
+.tab-btn.active{
+  background:var(--ink);
+  color:var(--paper);
+}
+.tab-btn .n{
+  display:inline-block;
+  margin-right:8px;
+  color:var(--yellow);
+}
+.tab-btn.active .n{color:var(--yellow);}
+
+.panel{display:none;}
+.panel.active{display:block;}
+
+.subtitle{
+  margin:20px 0 30px;
+  color:var(--ink-soft);
+  font-size:15px;
+  max-width:70ch;
+  line-height:1.5;
+}
+
+.legend{
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-bottom:22px;
+  font-family:'JetBrains Mono', monospace;
+  font-size:11.5px;
+  color:var(--ink-soft);
+}
+.legend span{display:inline-flex;align-items:center;gap:7px;}
+.swatch{width:11px;height:11px;display:inline-block;border:1.5px solid var(--ink);}
+.swatch.c{background:var(--correct-bg);}
+.swatch.a{background:var(--auto-bg);}
+.swatch.w{background:var(--wrong-bg);}
+
+.table-scroll{
+  overflow-x:auto;
+  border:3px solid var(--ink);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:#fff;
+  min-width:900px;
+}
+
+thead th{
+  text-align:left;
+  font-family:'JetBrains Mono', monospace;
+  font-size:11px;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  font-weight:700;
+  padding:16px 18px;
+  border-bottom:3px solid var(--ink);
+  background:var(--ink);
+  color:var(--paper);
+  vertical-align:bottom;
+}
+thead th.block-head{min-width:210px;}
+
+tbody th{
+  text-align:left;
+  vertical-align:top;
+  padding:20px 18px;
+  border-right:3px solid var(--ink);
+  border-bottom:2px solid var(--paper-2);
+  background:var(--paper);
+  font-weight:700;
+  font-size:15px;
+  line-height:1.3;
+}
+tbody th .shape{
+  display:inline-block;
+  width:16px;
+  height:16px;
+  margin-right:9px;
+  vertical-align:-2px;
+}
+.shape.sq{background:var(--red);}
+.shape.tri{
+  width:0;height:0;background:none !important;
+  border-left:9px solid transparent;
+  border-right:9px solid transparent;
+  border-bottom:16px solid var(--yellow);
+}
+.shape.circ{background:var(--blue);border-radius:50%;}
+.shape.dia{background:var(--ink);transform:rotate(45deg);}
+
+tbody td{
+  padding:14px;
+  border-bottom:2px solid var(--paper-2);
+  border-right:1px solid var(--paper-2);
+  vertical-align:top;
+  min-width:230px;
+}
+tbody td:last-child{border-right:none;}
+
+.cell-inner{
+  min-height:96px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+select{
+  width:100%;
+  font-family:'Space Grotesk', sans-serif;
+  font-size:13.5px;
+  line-height:1.4;
+  padding:10px 12px;
+  border:2px solid var(--ink);
+  background:#fff;
+  color:var(--ink);
+  cursor:pointer;
+  appearance:none;
+  -webkit-appearance:none;
+  background-image:linear-gradient(45deg, transparent 50%, var(--ink) 50%), linear-gradient(135deg, var(--ink) 50%, transparent 50%);
+  background-position:calc(100% - 16px) center, calc(100% - 11px) center;
+  background-size:5px 5px, 5px 5px;
+  background-repeat:no-repeat;
+}
+select:hover{border-color:var(--blue);}
+select:focus-visible{outline:3px solid var(--yellow); outline-offset:1px;}
+
+.cell-text{
+  font-size:13.5px;
+  line-height:1.45;
+  padding:10px 12px;
+  border:2px solid var(--ink);
+}
+
+.filled{animation:pop .25s ease;}
+@keyframes pop{
+  0%{transform:scale(.97);}
+  60%{transform:scale(1.015);}
+  100%{transform:scale(1);}
+}
+
+td.state-correct .cell-text{
+  background:var(--correct-bg);
+  border-color:var(--blue);
+  font-weight:500;
+}
+td.state-correct .cell-text::before{content:"✓ ";font-weight:700;color:var(--blue);}
+
+td.state-auto .cell-text{
+  background:var(--auto-bg);
+  border-color:var(--yellow);
+  font-weight:500;
+}
+td.state-auto .cell-text::before{content:"⚡ ";font-weight:700;color:#8a6600;}
+
+td.state-wrong select{
+  border-color:var(--red);
+  background-color:var(--wrong-bg);
+  animation:shake .32s ease;
+}
+@keyframes shake{
+  0%,100%{transform:translateX(0);}
+  25%{transform:translateX(-4px);}
+  75%{transform:translateX(4px);}
+}
+
+.reset-row{
+  margin-top:26px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+}
+
+.done-msg{
+  font-family:'JetBrains Mono', monospace;
+  font-size:13px;
+  color:var(--blue);
+  font-weight:700;
+  opacity:0;
+  transition:opacity .3s ease;
+}
+.done-msg.show{opacity:1;}
+
+button.reset-btn{
+  font-family:'JetBrains Mono', monospace;
+  font-size:12px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  font-weight:700;
+  background:var(--ink);
+  color:var(--paper);
+  border:2px solid var(--ink);
+  padding:11px 20px;
+  cursor:pointer;
+}
+button.reset-btn:hover{background:var(--paper);color:var(--ink);}
+
+@media (max-width:640px){
+  body{padding:28px 14px 60px;}
+  header{flex-direction:column;align-items:flex-start;}
+  .progress{text-align:left;}
+  .tab-btn{padding:12px 14px;font-size:11px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div>
+      <p class="eyebrow">Neuropsicología — Fichas de repaso</p>
+      <h1>Autoevaluación por <em>columnas</em></h1>
+    </div>
+    <div class="progress">
+      <div class="progress-label">Avance de la ficha activa</div>
+      <div class="progress-track"><div class="progress-fill" id="progressFillGlobal"></div></div>
+      <div class="progress-count" id="progressCountGlobal">0 / 0</div>
+    </div>
+  </header>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div id="panels"></div>
+
+</div>
+
+<script>
+/* ---------- DATA ---------- */
+
+const DATASETS = [
+  {
+    id: "luria",
+    tabLabel: "Bloques de Luria",
+    eyebrow: "Unidad 1",
+    title: 'Los Tres <em>Bloques Funcionales</em> de Luria',
+    subtitle: "Elegí, en cada celda, la opción correcta entre las tres posibles. Si acertás dos de las tres celdas de una columna, la tercera se completa sola.",
+    rowHeader: "Bloque",
+    columns: [
+      {key:"estructura", label:"Estructuras principales"},
+      {key:"funcion", label:"Función principal"},
+      {key:"consecuencia", label:"Consecuencia de lesión"}
+    ],
+    rows: [
+      {
+        id:0, name:"1. Tono y Vigilia", shape:"sq",
+        estructura:"Tronco encefálico, sistema reticular, diencéfalo, archicórtex.",
+        funcion:"Regulación del tono cortical, estado de alerta (arousal).",
+        consecuencia:"Inestabilidad atencional, fatiga patológica, trastornos del ciclo sueño-vigilia, apatía/agitación."
+      },
+      {
+        id:1, name:"2. Recepción, Análisis y Almacenamiento", shape:"tri",
+        estructura:"Corteza posterior: Lóbulos occipital (visual), temporal (auditivo), parietal (sensorial).",
+        funcion:"Recepción, procesamiento y almacenamiento de información.",
+        consecuencia:"Agnosias modales específicas, desorientación espacial, fallas en memoria sensorial."
+      },
+      {
+        id:2, name:"3. Programación, Regulación y Verificación", shape:"circ",
+        estructura:"Lóbulos frontales (especialmente la zona prefrontal).",
+        funcion:"Planificación, ejecución de programas motores, control y verificación de la conducta.",
+        consecuencia:"Síndrome ejecutivo: impulsividad, apatía, incapacidad de seguir planes, perseveraciones."
+      }
+    ]
+  },
+  {
+    id: "posner",
+    tabLabel: "Redes de Posner",
+    eyebrow: "Atención",
+    title: 'Modelo de <em>Redes Atencionales</em> de Posner y Petersen',
+    subtitle: "Mismo mecanismo: elegí la opción correcta en cada celda. Si acertás dos de las tres redes en una columna, la tercera se completa sola.",
+    rowHeader: "Red Atencional",
+    columns: [
+      {key:"funcion", label:"Función principal"},
+      {key:"sustrato", label:"Sustrato neuroanatómico"},
+      {key:"patologia", label:"Patologías y consecuencias de lesión"}
+    ],
+    rows: [
+      {
+        id:0, name:"Alerta y Vigilancia", shape:"sq",
+        funcion:"Eleva y mantiene el estado de receptividad. Se divide en alerta fásica (respuesta rápida) y alerta tónica (atención sostenida).",
+        sustrato:"Estructuras: tálamo, área parietal posterior y zonas de la corteza prefrontal. Neurotransmisor: norepinefrina (fuente: locus coeruleus).",
+        patologia:"TDAH, trastornos del sueño y envejecimiento normal. Lesiones frontales derechas afectan la atención voluntaria."
+      },
+      {
+        id:1, name:"Orientación", shape:"tri",
+        funcion:"Selecciona información sensorial específica y localiza estímulos mediante señales espaciales (atención visoespacial).",
+        sustrato:"Estructuras: colículos superiores, pulvinar, unión témporo-parietal, parietal superior y campos oculares frontales (FEF). Neurotransmisor: acetilcolina.",
+        patologia:"Heminegligencia (especialmente por lesión en el hemisferio derecho), autismo y trastorno por estrés postraumático."
+      },
+      {
+        id:2, name:"Ejecutiva (Control)", shape:"dia",
+        funcion:"Nivel jerárquico superior. Orquesta el focalizar, dividir y sostener la atención. Regula el control inhibitorio, planificación y resolución de conflictos.",
+        sustrato:"Estructuras: corteza cingulada anterior (CCA) y regiones corticales prefrontales. Neurotransmisor: dopamina.",
+        patologia:"TDAH, trastornos de ansiedad, TOC, depresión y esquizofrenia. Produce fallas en la flexibilidad cognitiva y en el monitoreo de la conducta."
+      }
+    ]
+  }
+];
+
+/* ---------- ENGINE ---------- */
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+class QuizTable{
+  constructor(dataset, panelEl){
+    this.ds = dataset;
+    this.panelEl = panelEl;
+    this.columnOptionOrder = {};
+    this.state = {};
+    this.init();
+  }
+
+  init(){
+    this.ds.columns.forEach(col=>{
+      this.columnOptionOrder[col.key] = shuffle(this.ds.rows.map(r=>r.id));
+      this.state[col.key] = {};
+      this.ds.rows.forEach(r=> this.state[col.key][r.id] = 'unset');
+    });
+    this.buildDOM();
+    this.render();
+  }
+
+  buildDOM(){
+    this.panelEl.innerHTML = `
+      <p class="subtitle">${this.ds.subtitle}</p>
+      <div class="legend">
+        <span><i class="swatch c"></i> Correcta</span>
+        <span><i class="swatch a"></i> Autocompletada</span>
+        <span><i class="swatch w"></i> Incorrecta (se reintenta)</span>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th class="block-head">${this.ds.rowHeader}</th>
+              ${this.ds.columns.map(c=>`<th>${c.label}</th>`).join('')}
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="reset-row">
+        <span class="done-msg">¡Completo! Todas las filas quedaron correctamente asociadas.</span>
+        <button class="reset-btn" type="button">Reiniciar esta ficha</button>
+      </div>
+    `;
+    this.tbody = this.panelEl.querySelector('tbody');
+    this.doneMsg = this.panelEl.querySelector('.done-msg');
+    this.panelEl.querySelector('.reset-btn').addEventListener('click', ()=> this.reset());
+  }
+
+  buildCellInner(colKey, rowId){
+    const wrap = document.createElement('div');
+    wrap.className = 'cell-inner';
+    const select = document.createElement('select');
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = 'Elegí una opción...';
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    select.appendChild(placeholder);
+
+    this.columnOptionOrder[colKey].forEach(optId=>{
+      const row = this.ds.rows.find(r=>r.id===optId);
+      const opt = document.createElement('option');
+      opt.value = optId;
+      opt.textContent = row[colKey];
+      select.appendChild(opt);
+    });
+
+    select.addEventListener('change', ()=> this.handleChange(colKey, rowId, select, wrap));
+    wrap.appendChild(select);
+    return wrap;
+  }
+
+  handleChange(colKey, rowId, select, wrap){
+    const chosen = parseInt(select.value, 10);
+    const td = wrap.closest('td');
+    if(chosen === rowId){
+      this.setCorrect(colKey, rowId, td, wrap, 'correct');
+      this.checkAutofill(colKey);
+      this.updateProgress();
+    } else {
+      td.classList.add('state-wrong');
+      setTimeout(()=>{
+        td.classList.remove('state-wrong');
+        select.value = '';
+      }, 420);
+    }
+  }
+
+  setCorrect(colKey, rowId, td, wrap, kind){
+    this.state[colKey][rowId] = kind;
+    td.classList.remove('state-wrong');
+    td.classList.add(kind === 'auto' ? 'state-auto' : 'state-correct');
+    wrap.innerHTML = '';
+    const row = this.ds.rows.find(r=>r.id===rowId);
+    const p = document.createElement('div');
+    p.className = 'cell-text filled';
+    p.textContent = row[colKey];
+    wrap.appendChild(p);
+  }
+
+  checkAutofill(colKey){
+    const remaining = this.ds.rows.filter(r => this.state[colKey][r.id] === 'unset');
+    const correctCount = this.ds.rows.length - remaining.length;
+    if(remaining.length === 1 && correctCount === this.ds.rows.length - 1){
+      const lastRow = remaining[0];
+      const td = this.panelEl.querySelector(`td[data-col="${colKey}"][data-row="${lastRow.id}"]`);
+      const wrap = td.querySelector('.cell-inner');
+      this.setCorrect(colKey, lastRow.id, td, wrap, 'auto');
+      this.updateProgress();
+    }
+  }
+
+  totals(){
+    let done = 0;
+    this.ds.columns.forEach(col=>{
+      this.ds.rows.forEach(r=>{
+        if(this.state[col.key][r.id] !== 'unset') done++;
+      });
+    });
+    return {done, total: this.ds.columns.length * this.ds.rows.length};
+  }
+
+  updateProgress(){
+    const {done, total} = this.totals();
+    this.doneMsg.classList.toggle('show', done === total);
+    if(this.onProgress) this.onProgress(done, total);
+  }
+
+  render(){
+    this.tbody.innerHTML = '';
+    this.ds.rows.forEach(row=>{
+      const tr = document.createElement('tr');
+      const th = document.createElement('th');
+      th.innerHTML = `<span class="shape ${row.shape}"></span>${row.name}`;
+      tr.appendChild(th);
+
+      this.ds.columns.forEach(col=>{
+        const td = document.createElement('td');
+        td.dataset.col = col.key;
+        td.dataset.row = row.id;
+        td.appendChild(this.buildCellInner(col.key, row.id));
+        tr.appendChild(td);
+      });
+      this.tbody.appendChild(tr);
+    });
+    this.updateProgress();
+  }
+
+  reset(){
+    this.ds.columns.forEach(col=>{
+      this.columnOptionOrder[col.key] = shuffle(this.ds.rows.map(r=>r.id));
+      this.ds.rows.forEach(r=> this.state[col.key][r.id] = 'unset');
+    });
+    this.render();
+  }
+}
+
+/* ---------- APP: tabs + wiring ---------- */
+
+const tabsEl = document.getElementById('tabs');
+const panelsEl = document.getElementById('panels');
+const progressFillGlobal = document.getElementById('progressFillGlobal');
+const progressCountGlobal = document.getElementById('progressCountGlobal');
+
+const instances = {};
+let activeId = DATASETS[0].id;
+
+DATASETS.forEach((ds, i)=>{
+  const btn = document.createElement('button');
+  btn.className = 'tab-btn' + (ds.id === activeId ? ' active' : '');
+  btn.dataset.id = ds.id;
+  btn.innerHTML = `<span class="n">${String(i+1).padStart(2,'0')}</span>${ds.tabLabel}`;
+  btn.addEventListener('click', ()=> activateTab(ds.id));
+  tabsEl.appendChild(btn);
+
+  const panel = document.createElement('div');
+  panel.className = 'panel' + (ds.id === activeId ? ' active' : '');
+  panel.dataset.id = ds.id;
+  panelsEl.appendChild(panel);
+
+  panel.innerHTML = `<p class="eyebrow" style="margin-top:26px;">${ds.eyebrow}</p><h1 style="margin-bottom:8px;">${ds.title}</h1>`;
+  const bodyMount = document.createElement('div');
+  panel.appendChild(bodyMount);
+
+  const q = new QuizTable(ds, bodyMount);
+  q.onProgress = (done, total)=>{
+    if(activeId === ds.id) updateGlobalProgress(done, total);
+  };
+  instances[ds.id] = q;
+});
+
+function activateTab(id){
+  activeId = id;
+  document.querySelectorAll('.tab-btn').forEach(b=> b.classList.toggle('active', b.dataset.id === id));
+  document.querySelectorAll('.panel').forEach(p=> p.classList.toggle('active', p.dataset.id === id));
+  const {done, total} = instances[id].totals();
+  updateGlobalProgress(done, total);
+}
+
+function updateGlobalProgress(done, total){
+  progressFillGlobal.style.width = (total ? done/total*100 : 0) + '%';
+  progressCountGlobal.textContent = `${done} / ${total}`;
+}
+
+// init global progress for first tab
+{
+  const {done, total} = instances[activeId].totals();
+  updateGlobalProgress(done, total);
+}
+</script>
+</body>
+</html>

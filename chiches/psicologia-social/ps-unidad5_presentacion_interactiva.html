@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Representaciones Sociales · Unidad V</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Archivo:ital,wght@0,400;0,500;0,600;1,500&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDE6D6;
+    --paper-dim:#DCD2B8;
+    --ink:#1B1B1A;
+    --red:#C1272D;
+    --red-deep:#8B1A1F;
+    --gold:#C9A227;
+    --line:rgba(27,27,26,.2);
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Archivo',sans-serif; line-height:1.6; overflow-x:hidden;
+    cursor:default;
+  }
+  h1,h2,h3{ font-family:'Oswald',sans-serif; text-transform:uppercase; margin:0; letter-spacing:.01em; }
+  p{ margin:0 0 1em; }
+  ::selection{ background:var(--red); color:var(--paper); }
+
+  /* GRAIN */
+  .grain{
+    position:fixed; inset:-10%; z-index:300; pointer-events:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.045; mix-blend-mode:multiply;
+    animation:grain-flicker .25s steps(2) infinite;
+  }
+  @keyframes grain-flicker{ 0%{ opacity:.035;} 50%{ opacity:.065;} 100%{ opacity:.04;} }
+
+  /* PROGRESS BAR */
+  .progress-bar{ position:fixed; top:0; left:0; width:100%; height:4px; background:rgba(27,27,26,.08); z-index:200; }
+  .progress-fill{ height:100%; width:0%; background:var(--red); box-shadow:0 0 10px rgba(193,39,45,.6); }
+
+  /* CURSOR TARGET */
+  .cursor-target{
+    position:fixed; width:46px; height:46px; border:2px solid var(--red); border-radius:50%;
+    pointer-events:none; z-index:250; mix-blend-mode:multiply;
+    transform:translate(-50%,-50%); opacity:0; transition:opacity .3s ease;
+  }
+  .cursor-target::before, .cursor-target::after{ content:''; position:absolute; background:var(--red); }
+  .cursor-target::before{ width:14px; height:2px; top:50%; left:50%; transform:translate(-50%,-50%); }
+  .cursor-target::after{ width:2px; height:14px; top:50%; left:50%; transform:translate(-50%,-50%); }
+  @media (pointer:fine){ .cursor-target.show{ opacity:.7; } }
+
+  /* RAIL NAV */
+  .rail{
+    position:fixed; right:1.4em; top:50%; transform:translateY(-50%); z-index:150;
+    display:flex; flex-direction:column; gap:.55em; align-items:center;
+  }
+  .rail a{
+    width:9px; height:9px; border-radius:50%; border:1.5px solid var(--ink); opacity:.45;
+    text-decoration:none; transition:all .3s ease; position:relative;
+  }
+  .rail a.active{ background:var(--red); border-color:var(--red); opacity:1; transform:scale(1.5); }
+  .rail a:hover{ opacity:.9; }
+  .rail-label{
+    position:fixed; right:3.2em; top:50%; transform:translateY(-50%);
+    font-family:'JetBrains Mono',monospace; font-size:.65rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink); opacity:.55; z-index:150; writing-mode:vertical-rl;
+  }
+  @media (max-width:720px){ .rail{ right:.7em; } .rail-label{ display:none; } }
+
+  /* BRAND */
+  .brand{
+    position:fixed; top:1.2em; left:1.4em; z-index:150;
+    font-family:'JetBrains Mono',monospace; font-size:.68rem; letter-spacing:.16em; text-transform:uppercase;
+    display:flex; align-items:center; gap:.5em; color:var(--ink); mix-blend-mode:multiply;
+  }
+  .brand .sq{ width:9px; height:9px; background:var(--red); }
+
+  /* SLIDES */
+  main{ position:relative; z-index:1; }
+  .slide{
+    position:relative; min-height:100vh; display:flex; align-items:center;
+    padding:6em 8vw; overflow:hidden; border-bottom:2px solid var(--ink);
+  }
+  .slide-inner{ position:relative; z-index:5; max-width:760px; }
+  .kicker{
+    font-family:'JetBrains Mono',monospace; font-size:.75rem; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--red); margin-bottom:1em; display:flex; align-items:center; gap:.7em;
+  }
+  .kicker .line{ width:40px; height:2px; background:var(--red); }
+  .slide h2{
+    font-size:clamp(2.1rem,6vw,4.6rem); font-weight:700; line-height:1.02;
+    text-shadow:5px 5px 0 rgba(193,39,45,.55);
+    max-width:14ch;
+  }
+  .slide .lede{ font-size:1.08rem; max-width:52ch; margin-top:1em; }
+  .chips{ display:flex; flex-wrap:wrap; gap:.6em; margin-top:1.4em; }
+  .chip{
+    font-family:'JetBrains Mono',monospace; font-size:.68rem; letter-spacing:.06em; text-transform:uppercase;
+    padding:.5em .9em; border:1.5px solid var(--ink); color:var(--ink); background:var(--paper);
+  }
+  .chip.red{ background:var(--red); border-color:var(--red); color:var(--paper); }
+
+  .slide-inner{ opacity:0; transform:translateX(-60px); transition:opacity .9s ease, transform .9s cubic-bezier(.16,.8,.24,1); }
+  .slide.in-view .slide-inner{ opacity:1; transform:translateX(0); }
+  .slide.from-right .slide-inner{ transform:translateX(60px); }
+  .slide.from-right.in-view .slide-inner{ transform:translateX(0); }
+
+  /* SHAPES */
+  .shape{ position:absolute; will-change:transform; pointer-events:none; }
+  .shape.bar{ height:60px; background:var(--red); transform:rotate(-14deg); }
+  .shape.bar.ink{ background:var(--ink); }
+  .shape.bar.gold{ background:var(--gold); height:22px; }
+  .shape.ring{ border-radius:50%; border:10px solid var(--ink); }
+  .shape.ring.red{ border-color:var(--red); }
+  .shape.disc{ border-radius:50%; background:var(--ink); }
+  .shape.disc.red{ background:var(--red); }
+  .shape.disc.gold{ background:var(--gold); }
+  .shape.tri{ width:0; height:0; }
+  .shape.num{
+    font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--ink); opacity:.06;
+    font-size:44vh; line-height:1; user-select:none;
+  }
+  .shape.halftone{
+    background-image:radial-gradient(var(--ink) 22%, transparent 23%);
+    background-size:14px 14px; opacity:.35;
+  }
+
+  /* COVER */
+  #cover{ align-items:center; justify-content:center; text-align:center; flex-direction:column; }
+  #cover .slide-inner{ opacity:1; transform:none; max-width:none; }
+  #cover .kicker{ justify-content:center; }
+  #cover h1{ font-size:clamp(2.6rem,10vw,7.5rem); font-weight:700; line-height:.94; text-shadow:6px 6px 0 var(--red); }
+  #cover .lede{ max-width:44ch; margin:1.2em auto 0; font-size:1.05rem; }
+  .scroll-cue{
+    margin-top:3em; font-family:'JetBrains Mono',monospace; font-size:.66rem; letter-spacing:.18em; text-transform:uppercase;
+    display:flex; flex-direction:column; align-items:center; gap:.5em; animation:cue 2.2s ease-in-out infinite;
+  }
+  @keyframes cue{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(10px);} }
+
+  /* CLOSING */
+  #cierre{ align-items:center; justify-content:center; text-align:center; flex-direction:column; border-bottom:none; }
+  #cierre .slide-inner{ max-width:640px; }
+  #cierre h2{ font-size:clamp(2rem,6vw,3.6rem); text-shadow:5px 5px 0 var(--red); }
+
+  @media (max-width:720px){
+    .slide{ padding:6em 6vw; }
+    .shape.num{ font-size:30vh; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+<div class="cursor-target" id="cursorTarget"></div>
+<div class="brand"><span class="sq"></span>PSICOLOGÍA SOCIAL — UNIDAD V</div>
+
+<div class="rail-label">DESPLAZATE PARA AVANZAR</div>
+<nav class="rail" id="rail">
+  <a href="#cover" data-label="Inicio"></a>
+  <a href="#t01" data-label="01"></a>
+  <a href="#t02" data-label="02"></a>
+  <a href="#t03" data-label="03"></a>
+  <a href="#t04" data-label="04"></a>
+  <a href="#t05" data-label="05"></a>
+  <a href="#t06" data-label="06"></a>
+  <a href="#t07" data-label="07"></a>
+  <a href="#t08" data-label="08"></a>
+  <a href="#t09" data-label="09"></a>
+  <a href="#t10" data-label="10"></a>
+  <a href="#cierre" data-label="Fin"></a>
+</nav>
+
+<main>
+
+  <!-- ================= COVER ================= -->
+  <section class="slide" id="cover">
+    <div class="shape ring" style="width:70vh;height:70vh;top:-20vh;left:-15vh;" data-speed="0.3" data-axis="xy"></div>
+    <div class="shape disc red" style="width:16vh;height:16vh;bottom:8vh;right:10vw;" data-speed="0.5" data-axis="x"></div>
+    <div class="shape bar gold" style="width:140vw;top:22%;left:-20vw;" data-speed="0.6" data-axis="x"></div>
+    <div class="shape bar ink" style="width:160vw;bottom:14%;left:-30vw;" data-speed="-0.4" data-axis="x"></div>
+
+    <div class="slide-inner">
+      <div class="kicker"><span class="line"></span>Unidad V — Psicología Social</div>
+      <h1>Representaciones<br>Sociales</h1>
+      <p class="lede">El sentido común no refleja el mundo: lo construye. Diez ideas para entender cómo una sociedad piensa lo que piensa.</p>
+      <div class="scroll-cue">↓ Desplazate</div>
+    </div>
+  </section>
+
+  <!-- ================= TEMA 01 ================= -->
+  <section class="slide" id="t01">
+    <div class="shape num" style="top:-6vh; right:2vw;">01</div>
+    <div class="shape bar red" style="width:150vw; top:12%; left:-40vw;" data-speed="0.7" data-axis="x"></div>
+    <div class="shape halftone" style="width:26vh;height:40vh;bottom:-4vh;right:6vw;" data-speed="0.35" data-axis="y"></div>
+    <div class="shape ring red" style="width:34vh;height:34vh;bottom:-14vh;left:6vw;" data-speed="0.4" data-axis="xy"></div>
+
+    <div class="slide-inner">
+      <div class="kicker"><span class="line"></span>Tema 01 — Sentido común</div>
+      <h2>El sentido común no es ciencia menor</h2>
+      <p class="lede">Es un saber elaborado y compartido para construir una realidad en común y orientar la conducta. No busca la verdad exacta: busca no quedar afuera del circuito social.</p>
+      <div class="chips">
+        <span class="chip red">Guía para la acción</span>
+        <span class="chip">Dinámico y caleidoscópico</span>
+        <span class="chip">Vulgariza lo científico</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TEMA 02 ================= -->
+  <section class="slide from-right" id="t02">
+    <div class="shape num" style="top:-8vh; left:0vw;">02</div>
+    <div class="shape disc" style="width:22vh;height:22vh;top:8vh;right:-4vh;" data-speed="0.5" data-axis="x"></div>
+    <div class="shape bar ink" style="width:160vw; bottom:20%; right:-40vw;" data-speed="-0.6" data-axis="x"></div>
+    <div class="shape disc gold" style="width:12vh;height:12vh;bottom:6vh;left:12vw;" data-speed="0.4" data-axis="y"></div>
+
+    <div class="slide-inner">
+      <div class="kicker"><span class="line"></span>Tema 02 — Concepto y diferenciación</div>
+      <h2>Ni actitud. Ni estereotipo. Ni opinión.</h2>
+      <p class="lede">La representación social no separa sujeto y objeto: es una doble lógica, cognitiva y social a la vez. Un nivel intermedio entre lo individual y lo colectivo.</p>
+      <div class="chips">
+        <span class="chip red">Núcleo estable</span>
+        <span class="chip red">Periferia móvil</span>
+        <span class="chip">Doble sistema</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TEMA 03 ================= -->
+  <section class="slide" id="t03">
+    <div class="shape num" style="bottom:-10vh; right:4vw;">03</div>
+    <div class="shape bar red" style="width:150vw; top:34%; left:-45vw;" data-speed="0.55" data-axis="x"></div>
+    <div class="shape ring" style="width:26vh;height:26vh;top:-8vh;right:16vw;" data-speed="0.35" data-axis="y"></div>
+
+    <div class="slide-inner">
+      <div class="kicker"><span class="line"></span>Tema 03 — Funciones</div>
+      <h2>Cuatro funciones. Una misma tarea: organizar el mundo</h2>
+      <p class="lede">Saber, integrar lo extraño. Identidad, situar al grupo. Orientación, guiar antes de actuar. Justificación, explicar después de haber actuado.</p>
+      <div class="chips">
+        <span class="chip">Saber</span><span class="chip">Identitaria</span>
+        <span class="chip red">Orientación</span><span class="chip red">Justificadora</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TEMA 04 ================= -->
+  <section class="slide from-right" id="t04">
+    <div class="shape num" style="top:-6vh; left:4vw;">04</div>
+    <div class="shape bar ink" style="width:160vw; bottom:18%; left:-40vw;" data-speed="0.65" data-axis="x"></div>
+    <div class="shape disc red" style="width:18vh;height:18vh;bottom:-6vh;right:10vw;" data-speed="0.45" data-axis="y"></div>
+    <div class="shape halftone" style="width:22vh;height:22vh;top:10vh;right:20vw;" data-speed="0.3" data-axis="x"></div>
+
+    <div class="slide-inner">
+      <div class="kicker"><span class="line"></span>Tema 04 — Factores de organización</div>
+      <h2>Lo que se piensa depende de dónde se está parado</h2>
+      <p class="lede">Dispersión de la información, presión a la inferencia y grado de focalización del grupo — antes que nada, la organización es intelectual. Después, se vuelve social: central en lo global, lateral en lo particular.</p>
+      <div class="chips">
+        <span class="chip">Dispersión</span><span class="chip">Presión a inferir</span><span class="chip red">Focalización</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TEMA 05 ================= -->
+  <section class="slide" id="t05">
+    <div class="shape num" style="bottom:-8vh; left:2vw;">05</div>
+    <div class="shape ring red" style="width:40vh;height:40vh;top:-16vh;left:-10vh;" data-speed="0.5" data-axis="xy"></div>
+    <div class="shape bar gold" style="width:150vw; top:56%; right:-40vw;" data-speed="-0.5" data-axis="x"></div>
+
+    <div class="slide-inner">
+      <div class="kicker"><span class="line"></span>Tema 05 — Objetivación y anclaje</div>
+      <h2>Convertir lo abstracto en imagen. Integrar la imagen al mundo.</h2>
+      <p class="lede">Objetivar es materializar: seleccionar, armar un núcleo figurativo y naturalizarlo hasta que deje de ser una idea. Anclar es darle sentido: familiarizar lo extraño e integrarlo a redes de significado ya existentes.</p>
+      <div class="chips">
+        <span class="chip red">Objetivación → forma</span>
+        <span class="chip">Anclaje → significado</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TEMA 06 ================= -->
+  <section class="slide from-right" id="t06">
+    <div class="shape num" style="top:-10vh; right:0vw;">06</div>
+    <div class="shape bar red" style="width:160vw; bottom:24%; left:-45vw;" data-speed="0.6" data-axis="x"></div>
+    <div class="shape disc" style="width:20vh;height:20vh;top:6vh;left:10vw;" data-speed="0.4" data-axis="y"></div>
+
+    <div class="slide-inner">
+      <div class="kicker"><span class="line"></span>Tema 06 — Enfoques teóricos</div>
+      <h2>Dos escuelas. Un mismo objeto.</h2>
+      <p class="lede">Jodelet y Moscovici estudian el proceso: cualitativo, cultural, instituyente. Abric y Flament estudian la estructura: experimental, cognitivo, instituido. No compiten — se completan.</p>
+      <div class="chips">
+        <span class="chip">Procesual · cualitativo</span>
+        <span class="chip red">Estructural · cuantitativo</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TEMA 07 ================= -->
+  <section class="slide" id="t07">
+    <div class="shape num" style="bottom:-10vh; right:6vw;">07</div>
+    <div class="shape halftone" style="width:30vh;height:30vh;top:-6vh;right:8vw;" data-speed="0.4" data-axis="y"></div>
+    <div class="shape bar ink" style="width:150vw; top:44%; left:-40vw;" data-speed="-0.55" data-axis="x"></div>
+
+    <div class="slide-inner">
+      <div class="kicker"><span class="line"></span>Tema 07 — Dimensiones</div>
+      <h2>Actitud. Información. Campo.</h2>
+      <p class="lede">Tres dimensiones que no funcionan por separado. Sin información no hay campo organizado. Sin campo organizado, solo queda opinión dispersa — no representación.</p>
+      <div class="chips">
+        <span class="chip">Actitud</span><span class="chip">Información</span><span class="chip red">Campo de representación</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TEMA 08 ================= -->
+  <section class="slide from-right" id="t08">
+    <div class="shape num" style="top:-8vh; left:6vw;">08</div>
+    <div class="shape ring red" style="width:44vh;height:44vh;bottom:-18vh;right:-10vh;" data-speed="0.5" data-axis="xy"></div>
+    <div class="shape disc gold" style="width:14vh;height:14vh;top:10vh;left:14vw;" data-speed="0.35" data-axis="x"></div>
+
+    <div class="slide-inner">
+      <div class="kicker"><span class="line"></span>Tema 08 — Núcleo central</div>
+      <h2>Tocá el núcleo y cae todo el edificio</h2>
+      <p class="lede">Estable, consensuado, generador y organizador. Todo lo demás —la periferia— existe para protegerlo: absorbe lo nuevo, amortigua el conflicto, permite adaptarse sin romperse.</p>
+      <div class="chips">
+        <span class="chip red">Función generadora</span>
+        <span class="chip red">Función organizadora</span>
+        <span class="chip">Sistema periférico = parachoques</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TEMA 09 ================= -->
+  <section class="slide" id="t09">
+    <div class="shape num" style="bottom:-6vh; left:0vw;">09</div>
+    <div class="shape bar red" style="width:150vw; top:20%; right:-40vw;" data-speed="-0.6" data-axis="x"></div>
+    <div class="shape halftone" style="width:24vh;height:24vh;bottom:4vh;right:10vw;" data-speed="0.3" data-axis="y"></div>
+
+    <div class="slide-inner">
+      <div class="kicker"><span class="line"></span>Tema 09 — Metodología</div>
+      <h2>Cómo se estudia lo que piensa una sociedad</h2>
+      <p class="lede">Entrevistas y discurso para lo procesual. Asociación libre y jerarquización para lo estructural. Condiciones de producción social para Doise. La tendencia actual ya no elige: triangula.</p>
+      <div class="chips">
+        <span class="chip">Cualitativo</span><span class="chip red">Experimental</span><span class="chip">Sociológico</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TEMA 10 ================= -->
+  <section class="slide from-right" id="t10">
+    <div class="shape num" style="top:-10vh; right:2vw;">10</div>
+    <div class="shape ring" style="width:36vh;height:36vh;top:-12vh;left:-8vh;" data-speed="0.4" data-axis="xy"></div>
+    <div class="shape bar gold" style="width:160vw; bottom:16%; left:-45vw;" data-speed="0.6" data-axis="x"></div>
+    <div class="shape disc red" style="width:16vh;height:16vh;bottom:-4vh;right:14vw;" data-speed="0.45" data-axis="y"></div>
+
+    <div class="slide-inner">
+      <div class="kicker"><span class="line"></span>Tema 10 — Determinación social</div>
+      <h2>Lo global te atraviesa. Lo particular te define.</h2>
+      <p class="lede">La determinación central impone los marcos: historia, estructura, condiciones macro. La lateral deja huella propia: la autonomía del grupo, la del sujeto singular. Ninguna anula a la otra.</p>
+      <div class="chips">
+        <span class="chip red">Central · lo estructural</span>
+        <span class="chip">Lateral · lo singular</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CIERRE ================= -->
+  <section class="slide" id="cierre">
+    <div class="shape ring red" style="width:60vh;height:60vh;top:-20vh;right:-20vh;" data-speed="0.3" data-axis="xy"></div>
+    <div class="shape bar ink" style="width:160vw;bottom:10%;left:-40vw;" data-speed="0.5" data-axis="x"></div>
+
+    <div class="slide-inner">
+      <div class="kicker"><span class="line"></span>Fin de la unidad</div>
+      <h2>Un núcleo que resiste. Una periferia que se adapta.</h2>
+      <p class="lede">Así el sentido común convierte lo abstracto en concreto, y lo extraño en familiar — diez ideas, un mismo mecanismo.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // ---- progress bar ----
+  const progressFill = document.getElementById('progressFill');
+  function updateProgress(){
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    progressFill.style.width = scrolled + '%';
+  }
+
+  // ---- rail scroll-spy + smooth scroll ----
+  const railLinks = [...document.querySelectorAll('.rail a')];
+  const slides = [...document.querySelectorAll('main section')];
+  const rail = document.getElementById('rail');
+
+  railLinks.forEach(a=>{
+    a.addEventListener('click', e=>{
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+    });
+  });
+
+  const spy = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      const link = railLinks.find(a=> a.getAttribute('href') === '#'+entry.target.id);
+      if(entry.isIntersecting && link){
+        railLinks.forEach(a=>a.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  }, {rootMargin:'-48% 0px -48% 0px'});
+  slides.forEach(s=> spy.observe(s));
+
+  // ---- reveal content on enter ----
+  const reveal = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      entry.target.classList.toggle('in-view', entry.isIntersecting);
+    });
+  }, {threshold:.3});
+  slides.forEach(s=> reveal.observe(s));
+
+  // ---- heavy parallax: shapes slide across the screen ----
+  const shapes = document.querySelectorAll('.shape[data-speed]');
+  let ticking = false;
+
+  function updateParallax(){
+    const vh = window.innerHeight;
+    const vc = vh / 2;
+    shapes.forEach(el=>{
+      const speed = parseFloat(el.dataset.speed || 0.3);
+      const axis = el.dataset.axis || 'y';
+      const rect = el.getBoundingClientRect();
+      const center = rect.top + rect.height/2;
+      const delta = (vc - center); // distance from viewport center
+      const amp = delta * speed;
+      let tx = 0, ty = 0;
+      if(axis === 'x'){ tx = amp; }
+      else if(axis === 'y'){ ty = amp * -1; }
+      else { tx = amp * 0.6; ty = amp * -0.4; }
+      el.style.transform = (el.classList.contains('bar') ? `translate(${tx}px, ${ty}px) rotate(-14deg)` : `translate(${tx}px, ${ty}px)`);
+    });
+    updateProgress();
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', ()=>{
+    if(!ticking){ requestAnimationFrame(updateParallax); ticking = true; }
+  }, {passive:true});
+  updateParallax();
+  window.addEventListener('resize', updateParallax);
+
+  // ---- cursor target (desktop only) ----
+  const cursorTarget = document.getElementById('cursorTarget');
+  let mx = window.innerWidth/2, my = window.innerHeight/2, cx = mx, cy = my;
+  let hasMouse = matchMedia('(pointer:fine)').matches;
+
+  if(hasMouse){
+    window.addEventListener('mousemove', e=>{
+      mx = e.clientX; my = e.clientY;
+      cursorTarget.classList.add('show');
+    });
+    function animateCursor(){
+      cx += (mx - cx) * 0.16;
+      cy += (my - cy) * 0.16;
+      cursorTarget.style.left = cx + 'px';
+      cursorTarget.style.top = cy + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+  }
+</script>
+
+</body>
+</html>
