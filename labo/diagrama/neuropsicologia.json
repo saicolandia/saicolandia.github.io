@@ -1,0 +1,179 @@
+{
+  "name": "Neuropsicología",
+  "icon": "🧠",
+  "children": [
+    {
+      "name": "1. Objeto, método y modelos",
+      "icon": "📐",
+      "children": [
+        { "name": "1.1. Qué estudia la Neuropsicología: objeto e historia", "icon": "📜" },
+        { "name": "1.2. Cómo aborda su objeto la Neuropsicología: métodos", "icon": "🔬" },
+        { "name": "1.3. Teorizaciones acerca del objeto: modelos del funcionamiento cerebral", "icon": "🗺️" }
+      ]
+    },
+    {
+      "name": "2. Organización funcional del sistema nervioso",
+      "icon": "🧩",
+      "children": [
+        {
+          "name": "2.1. Neuropsicología de la atención",
+          "icon": "👁️",
+          "children": [
+            { "name": "2.1.1. Neuropsicopatología de la atención en les adultes: trastornos de la atención", "icon": "⚠️" },
+            { "name": "2.1.2. Neuropsicopatología de la atención en les niñes: trastorno por déficit de atención", "icon": "🧒" }
+          ]
+        },
+        {
+          "name": "2.2. Los sistemas en paralelo: memoria y emoción",
+          "icon": "🔀",
+          "children": [
+            {
+              "name": "2.2.1. Memoria",
+              "icon": "💾",
+              "def": "Capacidad del sistema nervioso central para codificar, almacenar y recuperar eventos del pasado psíquico; proceso indisociable del aprendizaje y no unitario, sino un conjunto de sistemas interconectados pero disociables.",
+              "children": [
+                {
+                  "name": "2.2.1.1. Neuropsicología de la memoria",
+                  "icon": "⚙️",
+                  "children": [
+                    {
+                      "name": "Procesos mnésicos",
+                      "icon": "🔄",
+                      "children": [
+                        { "name": "Registro / Codificación", "icon": "📥", "def": "Proceso de selección y entrada de la información sensorial." },
+                        { "name": "Almacenamiento / Retención", "icon": "🗄️", "def": "Persistencia de la información a lo largo del tiempo." },
+                        { "name": "Recuperación / Evocación", "icon": "📤", "def": "Capacidad de acceder a la información almacenada cuando es necesaria." }
+                      ]
+                    },
+                    {
+                      "name": "Memoria de Trabajo (MdeT)",
+                      "icon": "🧮",
+                      "children": [
+                        { "name": "Ejecutivo Central", "icon": "🎛️", "def": "Sistema estratégico de control, selección y planificación." },
+                        { "name": "Bucle Fonológico", "icon": "🗣️", "def": "Almacén subsidiario para información verbal/fonológica (sustrato: parietal inferior izquierdo)." },
+                        { "name": "Agenda Visuoespacial", "icon": "🗺️", "def": "Almacén subsidiario para información visual y espacial (sustrato: parietal inferior derecho)." }
+                      ]
+                    },
+                    {
+                      "name": "Sistemas de Memoria a Largo Plazo (MLP)",
+                      "icon": "🏛️",
+                      "children": [
+                        {
+                          "name": "Declarativa (Explícita/Consciente)",
+                          "icon": "💬",
+                          "children": [
+                            { "name": "Semántica", "icon": "📚", "def": "Conocimientos generales del mundo, conceptos y lenguaje, independientes del contexto de adquisición." },
+                            { "name": "Episódica", "icon": "📅", "def": "Recuerdos de eventos personales situados en coordenadas de tiempo y espacio (conciencia autonoética)." }
+                          ]
+                        },
+                        {
+                          "name": "No Declarativa (Implícita/No consciente)",
+                          "icon": "🎭",
+                          "children": [
+                            { "name": "Procedural (Procedimental)", "icon": "🚴", "def": "Hábitos, habilidades motoras (ej. andar en bicicleta) y habilidades cognitivas." },
+                            { "name": "Sistema de Representación Perceptual (SRP)", "icon": "👁️", "def": "Codifica la forma y estructura física de estímulos conocidos (priming) sin su significado." },
+                            { "name": "Aprendizaje No Asociativo", "icon": "🔁", "def": "Habituación y sensibilización en circuitos sensorio-motores." },
+                            { "name": "Condicionamiento", "icon": "🔔", "def": "Respuestas automáticas ante estímulos (clásico e instrumental)." }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "2.2.1.2. Neuropsicopatología de la memoria: amnesia",
+                  "icon": "🕳️",
+                  "children": [
+                    {
+                      "name": "Clasificación temporal",
+                      "icon": "⏳",
+                      "children": [
+                        { "name": "Amnesia anterógrada", "icon": "➡️", "def": "Incapacidad o dificultad patológica para aprender nueva información después de la lesión." },
+                        { "name": "Amnesia retrógrada", "icon": "⬅️", "def": "Dificultad para recuperar información adquirida antes del daño cerebral, a menudo con un gradiente temporal." }
+                      ]
+                    },
+                    {
+                      "name": "Etiología y cuadros clínicos",
+                      "icon": "🏥",
+                      "children": [
+                        { "name": "Amnesias temporomediales", "icon": "🧠", "def": "Por lesión bilateral del hipocampo y estructuras adyacentes (ej. Caso H.M.); amnesia anterógrada severa con preservación de MdeT y procedural." },
+                        { "name": "Amnesias diencefálicas", "icon": "💊", "def": "Lesión en cuerpos mamilares y tálamo, frecuentemente por déficit de vitamina B1 (Síndrome de Korsakoff); desorientación y fabulación." },
+                        { "name": "Enfermedad de Alzheimer", "icon": "🧬", "def": "Demencia degenerativa que inicia con fallas en la memoria episódica y progresa hacia la desintegración semántica generalizada." },
+                        { "name": "Alteraciones prefrontales", "icon": "🎯", "def": "No afectan el registro en sí, sino la organización temporal de los recuerdos (\"amnesia de la fuente\")." },
+                        { "name": "Alteraciones psicógenas", "icon": "💭", "def": "De origen traumático psicológico; amnesias retrógradas masivas sin base orgánica ni amnesia anterógrada." }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "2.2.2. Emoción y cognición social",
+              "icon": "❤️",
+              "children": [
+                { "name": "2.2.2.1. Neuropsicología de la emoción y la cognición social", "icon": "🤝" }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "2.3. Primer nivel de integración: sensorio-motor",
+          "icon": "🖐️",
+          "children": [
+            { "name": "2.3.1. La sensibilidad", "icon": "✋" },
+            { "name": "2.3.2. El movimiento", "icon": "🏃" }
+          ]
+        },
+        {
+          "name": "2.4. Segundo nivel de integración: gnósico-práxico",
+          "icon": "🧠",
+          "children": [
+            {
+              "name": "2.4.1. Neuropsicología de las gnosias y las praxias",
+              "icon": "🔎",
+              "children": [
+                { "name": "2.4.1.1. Las gnosias", "icon": "👁️" },
+                { "name": "2.4.1.2. Las praxias", "icon": "🤲" }
+              ]
+            },
+            {
+              "name": "2.4.2. Neuropsicopatología de las gnosias y las praxias en les adultes",
+              "icon": "⚠️",
+              "children": [
+                { "name": "2.4.2.1. Las agnosias", "icon": "🙈" },
+                { "name": "2.4.2.2. Las apraxias", "icon": "🚫" }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "2.5. Tercer nivel de integración: la simbolización",
+          "icon": "🔤",
+          "children": [
+            { "name": "2.5.1. Neuropsicología del lenguaje", "icon": "🗣️" },
+            { "name": "2.5.2. Neuropsicopatología del lenguaje en les adultes: las afasias", "icon": "🗯️" },
+            { "name": "2.5.3. Neuropsicopatología del lenguaje en les niñes: Trastornos del desarrollo del lenguaje", "icon": "🧒" }
+          ]
+        },
+        {
+          "name": "2.6. Control e iniciativa cognitivos: las Funciones Ejecutivas",
+          "icon": "🎯",
+          "children": [
+            { "name": "2.6.1. Neuropsicología de las funciones ejecutivas", "icon": "🧭" },
+            { "name": "2.6.2. Neuropsicopatología de las funciones ejecutivas en les adultes", "icon": "⚠️" }
+          ]
+        },
+        { "name": "2.7. Asimetrías cerebrales", "icon": "⚖️" }
+      ]
+    },
+    {
+      "name": "3. Otros síndromes neuropsicológicos",
+      "icon": "📋",
+      "children": [
+        { "name": "3.1. Epilepsias", "icon": "⚡" },
+        { "name": "3.2. Demencias", "icon": "🧓" },
+        { "name": "3.3. Síndromes de interés neuropsicológico", "icon": "🔖" }
+      ]
+    }
+  ]
+}

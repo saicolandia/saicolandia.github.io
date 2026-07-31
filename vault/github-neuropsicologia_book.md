@@ -56,7 +56,7 @@
 
 ## np-u2-cerebro-y-memoria
 
-![[/neuropsicologia/np-u2-cerebro-y-memoria.md|np-u2-cerebro-y-memoria.md]]
+![[np-u2-cerebro-y-memoria|np-u2-cerebro-y-memoria.md]]
 
 ---
 

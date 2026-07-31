@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Neuropsicología — Explorador de taxonomía</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<style>
+  :root{
+    --paper:#DDD6C4;
+    --paper-dark:#CFC7B0;
+    --ink:#17140F;
+    --accent:#C1321F;
+    --accent-2:#1F5C56;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0; padding:0; width:100%; height:100%;
+    background:var(--paper);
+    overflow:hidden;
+    font-family:'Archivo', sans-serif;
+  }
+  #stage{ position:relative; width:100%; height:100vh; display:flex; }
+  #canvas-wrap{ position:relative; flex:1 1 auto; min-width:0; height:100vh; }
+  svg{ width:100%; height:100%; display:block; cursor:grab; }
+  svg:active{ cursor:grabbing; }
+
+  #grain{
+    position:absolute; inset:0; pointer-events:none;
+    mix-blend-mode:multiply; opacity:.10;
+  }
+
+  #hud{
+    position:absolute; top:0; left:0; right:0;
+    padding:22px 28px;
+    display:flex; justify-content:space-between; align-items:flex-start;
+    pointer-events:none;
+  }
+  #breadcrumb{
+    pointer-events:auto;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:.04em;
+    color:var(--ink);
+    display:flex; gap:6px; flex-wrap:wrap; align-items:center;
+    max-width:60%;
+  }
+  #breadcrumb .crumb{
+    cursor:pointer;
+    padding:3px 8px;
+    background:var(--paper);
+    border:1.5px solid var(--ink);
+    text-transform:uppercase;
+  }
+  #breadcrumb .crumb:hover{ background:var(--ink); color:var(--paper); }
+  #breadcrumb .crumb.current{ background:var(--accent); border-color:var(--accent); color:var(--paper); }
+  #breadcrumb .sep{ color:var(--accent); font-weight:600; }
+
+  #title-block{
+    pointer-events:auto;
+    text-align:right;
+  }
+  #title-block h1{
+    font-family:'Archivo Black', sans-serif;
+    font-size:15px;
+    letter-spacing:.02em;
+    margin:0 0 4px 0;
+    color:var(--ink);
+    transform:rotate(-1.2deg);
+  }
+  #title-block .sub{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    color:var(--accent-2);
+    text-transform:uppercase;
+    letter-spacing:.08em;
+  }
+
+  #hint{
+    position:absolute; bottom:20px; left:28px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    color:var(--ink);
+    opacity:.55;
+    letter-spacing:.03em;
+  }
+
+  #info-panel{
+    position:relative;
+    flex:0 0 420px;
+    height:100vh;
+    background:var(--paper);
+    border-left:3px solid var(--ink);
+    overflow-y:auto;
+    padding:32px 30px;
+  }
+
+  #info-content .info-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--accent);
+  }
+  #info-content h2{
+    font-family:'Archivo Black', sans-serif;
+    font-size:18px; margin:6px 0 14px 0; color:var(--ink);
+    transform:rotate(-0.6deg);
+  }
+  #info-content p{
+    font-size:13px; line-height:1.5; color:var(--ink); margin:0 0 16px 0;
+  }
+  #info-content table{
+    width:100%; border-collapse:collapse; margin-bottom:16px;
+    font-family:'IBM Plex Mono', monospace; font-size:11px;
+  }
+  #info-content td{
+    border:1.5px solid var(--ink); padding:5px 8px;
+  }
+  #info-content td.field{ background:var(--ink); color:var(--paper); width:38%; }
+  #info-content img{
+    width:100%; border:2px solid var(--ink); display:block; margin-bottom:10px;
+    filter:sepia(.15) contrast(1.05);
+  }
+
+  .node-label{
+    font-family:'Archivo', sans-serif;
+    fill:var(--ink);
+    pointer-events:none;
+    user-select:none;
+  }
+  .node-label.depth0{ font-family:'Archivo Black', sans-serif; font-size:10.5px; fill:var(--paper); letter-spacing:-.01em; }
+  .node-label.depth1{ font-weight:600; font-size:12px; }
+  .node-label.depth2{ font-weight:600; font-size:10.5px; }
+  .node-label.depth3{ font-weight:500; font-size:9.5px; }
+
+  .link{ fill:none; }
+
+  .node-icon{
+    pointer-events:none;
+    user-select:none;
+    text-anchor:middle;
+    dominant-baseline:central;
+  }
+
+  .label-bg{
+    fill:var(--paper);
+    stroke:var(--ink);
+    stroke-width:1.5px;
+  }
+
+  .link-ghost{ fill:none; stroke:var(--accent); stroke-opacity:.55; }
+  .link-ink{ fill:none; stroke:var(--ink); stroke-linecap:round; }
+
+  .node-shape{ stroke:var(--ink); stroke-width:2px; cursor:pointer; }
+  .node-shape-ghost{ stroke:none; fill:var(--accent); opacity:.5; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="canvas-wrap">
+    <svg id="canvas"></svg>
+    <svg id="grain" xmlns="http://www.w3.org/2000/svg">
+      <filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter>
+      <rect width="100%" height="100%" filter="url(#noise)"/>
+    </svg>
+    <div id="hud">
+      <div id="breadcrumb"></div>
+      <div id="title-block">
+        <h1>NEUROPSICOLOGÍA</h1>
+        <div class="sub">mapa de unidades — U1 / U2</div>
+      </div>
+    </div>
+    <div id="hint">click en un nodo para expandir · click en un concepto para marcarlo dominado · hover para ver detalle · scroll para zoom</div>
+  </div>
+  <div id="info-panel">
+    <div id="info-content">
+      <div class="info-eyebrow">Explorador</div>
+      <h2>Pasá el mouse por un nodo</h2>
+      <p>El detalle de cada unidad, tema o concepto va a quedar acá — se actualiza recién con el próximo hover, así que podés mover el mouse hacia el panel para leer con calma sin que desaparezca.</p>
+    </div>
+  </div>
+</div>
+
+<script src="src/main.js"></script>
+</body>
+</html>
