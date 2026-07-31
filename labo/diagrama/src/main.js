@@ -13,6 +13,17 @@ async function init() {
   const root = d3.hierarchy(data);
   root.each(d => { d.id = d.ancestors().reverse().map(a => a.data.name).join(" / "); });
 
+  // Orden de los nodos — por defecto respeta el orden del JSON (el orden en que
+  // aparecen los "children" en el archivo). Para cambiarlo, descomentá una opción:
+  //
+  // root.sort((a, b) => d3.ascending(a.data.name, b.data.name));           // alfabético
+  // root.sort((a, b) => d3.descending(a.data.name, b.data.name));          // alfabético inverso
+  // root.sort((a, b) => (a.children?.length||0) - (b.children?.length||0)); // menos hijos primero
+  // root.sort((a, b) => d3.descending(a.height, b.height));                // subárboles más grandes primero
+  //
+  // Si no se llama a root.sort(), d3 mantiene el orden tal como está en el JSON —
+  // que en este caso ya sigue la numeración del temario (1, 2.1, 2.2, ...).
+
   const radiusStep = 150;
   d3.cluster().size([2 * Math.PI, radiusStep * 3])(root);
 
@@ -155,7 +166,11 @@ async function init() {
     const visibleLinks = links.filter(l => l.source.children && l.source.children.includes(l.target));
     const visibleNodes = root.descendants().filter(d => d.parent === null || (d.parent.children && d.parent.children.includes(d)));
 
-    const linkPath = l => `M${l.source.px},${l.source.py} Q ${(l.source.px+l.target.px)/2},${(l.source.py+l.target.py)/2} ${l.target.px},${l.target.py}`;
+    // d3.linkRadial usa directamente x (ángulo) e y (radio) que ya calculó
+    // d3.cluster() en cada nodo — el mismo sistema de coordenadas que usamos
+    // para px/py, así que el trazo curvo queda perfectamente alineado con
+    // la posición real de cada nodo.
+    const linkPath = d3.linkRadial().angle(l => l.x).radius(l => l.y);
 
     const ghost = linkLayer.selectAll("path.link-ghost").data(visibleLinks, d => d.target.id);
     ghost.join(
