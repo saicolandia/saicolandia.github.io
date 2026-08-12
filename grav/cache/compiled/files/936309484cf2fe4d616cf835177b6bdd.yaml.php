@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/zh-tw.yaml',
-    'modified' => 1782871084,
-    'size' => 1692,
+    'modified' => 1786572335,
+    'size' => 1902,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -100,6 +100,15 @@ title: %1$s
                 'TEXT_MONTH' => ' 的 <b />',
                 'TEXT_DOM' => ' 的 <b />'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => '媒體',
+            'MEDIA_TYPES' => '媒體類型',
+            'IMAGE_OPTIONS' => '圖像選項',
+            'MIME_TYPE' => 'Mime 類型',
+            'THUMB' => '縮圖',
+            'TYPE' => '類型',
+            'FILE_EXTENSION' => '檔案延伸檔名'
         ]
     ]
 ];

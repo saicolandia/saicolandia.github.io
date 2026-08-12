@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/zh.yaml',
-    'modified' => 1782871084,
-    'size' => 3478,
+    'modified' => 1786572335,
+    'size' => 3688,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -172,6 +172,15 @@ return [
                 'ERROR3' => '请在 jqCron 设置中设定 jquery_element',
                 'ERROR4' => '无法识别表达式'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => '媒体',
+            'MEDIA_TYPES' => '媒体类型',
+            'IMAGE_OPTIONS' => '图像选项',
+            'MIME_TYPE' => 'Mime 类型',
+            'THUMB' => '缩略图',
+            'TYPE' => '类型',
+            'FILE_EXTENSION' => '文件扩展名'
         ]
     ]
 ];

@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/no.yaml',
-    'modified' => 1782871084,
-    'size' => 1653,
+    'modified' => 1786572335,
+    'size' => 1852,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -105,6 +105,15 @@ Sti: `%2$s`
                 'EVERY_HOUR' => 'hver time',
                 'EVERY_MINUTE' => 'hvert minutt'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Media',
+            'MEDIA_TYPES' => 'Mediatyper',
+            'IMAGE_OPTIONS' => 'Bilde-tilvalg',
+            'MIME_TYPE' => 'Mimetype',
+            'THUMB' => 'Miniatyr',
+            'TYPE' => 'Type',
+            'FILE_EXTENSION' => 'Fil-endinger'
         ]
     ]
 ];

@@ -2,13 +2,13 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/problems/blueprints.yaml',
-    'modified' => 1771323264,
-    'size' => 1006,
+    'modified' => 1786572389,
+    'size' => 1042,
     'data' => [
         'name' => 'Problems',
         'slug' => 'problems',
         'type' => 'plugin',
-        'version' => '2.2.3',
+        'version' => '3.0.1',
         'description' => 'Detects and reports problems found in the site.',
         'icon' => 'exclamation-circle',
         'author' => [
@@ -20,6 +20,12 @@ return [
         'keywords' => 'problems, plugin, detector, assistant, required',
         'bugs' => 'https://github.com/getgrav/grav-plugin-problems/issues',
         'license' => 'MIT',
+        'compatibility' => [
+            'grav' => [
+                0 => '1.7',
+                1 => '2.0'
+            ]
+        ],
         'dependencies' => [
             0 => [
                 'name' => 'grav',

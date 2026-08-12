@@ -2,13 +2,13 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/markdown-notices/blueprints.yaml',
-    'modified' => 1771323264,
-    'size' => 1459,
+    'modified' => 1786572387,
+    'size' => 1498,
     'data' => [
         'name' => 'Markdown Notices',
         'type' => 'plugin',
         'slug' => 'markdown-notices',
-        'version' => '1.1.0',
+        'version' => '1.2.0',
         'description' => 'Adds the ability to render notices blocks in Markdown',
         'icon' => 'asterisk',
         'author' => [
@@ -18,10 +18,16 @@ return [
         ],
         'homepage' => 'https://github.com/getgrav/grav-plugin-markdown-notices',
         'license' => 'MIT',
+        'compatibility' => [
+            'grav' => [
+                0 => '1.7',
+                1 => '2.0'
+            ]
+        ],
         'dependencies' => [
             0 => [
                 'name' => 'grav',
-                'version' => '>=1.6.0'
+                'version' => '>=1.7.0'
             ]
         ],
         'form' => [

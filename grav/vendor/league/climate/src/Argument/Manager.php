@@ -171,13 +171,17 @@ class Manager
      */
     protected function isArgument($argument, $command_argument)
     {
-        $possibilities = [
-            $argument->prefix()     => "-{$argument->prefix()}",
-            $argument->longPrefix() => "--{$argument->longPrefix()}",
-        ];
+        $prefix = $argument->prefix();
+        $longPrefix = $argument->longPrefix();
 
-        foreach ($possibilities as $key => $search) {
-            if ($key && strpos($command_argument, $search) === 0) {
+        if ($prefix !== null && trim((string) $prefix) !== '') {
+            if (strpos($command_argument, "-{$prefix}") === 0) {
+                return true;
+            }
+        }
+
+        if ($longPrefix !== null && trim((string) $longPrefix) !== '') {
+            if (strpos($command_argument, "--{$longPrefix}") === 0) {
                 return true;
             }
         }

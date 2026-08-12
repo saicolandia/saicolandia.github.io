@@ -3,7 +3,7 @@
 /**
  * @package    Grav\Framework\Controller
  *
- * @copyright  Copyright (c) 2015 - 2025 Trilby Media, LLC. All rights reserved.
+ * @copyright  Copyright (c) 2015 - 2026 Trilby Media, LLC. All rights reserved.
  * @license    MIT License; see LICENSE file for details.
  */
 
@@ -49,13 +49,13 @@ trait ControllerResponseTrait
      * @param array|null $headers
      * @return Response
      */
-    protected function createHtmlResponse(string $content, int $code = null, array $headers = null): ResponseInterface
+    protected function createHtmlResponse(string $content, ?int $code = null, ?array $headers = null): ResponseInterface
     {
-        $code = $code ?? 200;
+        $code ??= 200;
         if ($code < 100 || $code > 599) {
             $code = 500;
         }
-        $headers = $headers ?? [];
+        $headers ??= [];
 
         return new Response($code, $headers, $content);
     }
@@ -66,9 +66,9 @@ trait ControllerResponseTrait
      * @param array|null $headers
      * @return Response
      */
-    protected function createJsonResponse(array $content, int $code = null, array $headers = null): ResponseInterface
+    protected function createJsonResponse(array $content, ?int $code = null, ?array $headers = null): ResponseInterface
     {
-        $code = $code ?? $content['code'] ?? 200;
+        $code ??= $content['code'] ?? 200;
         if (null === $code || $code < 100 || $code > 599) {
             $code = 200;
         }
@@ -77,7 +77,14 @@ trait ControllerResponseTrait
             'Cache-Control' => 'no-store, max-age=0'
         ];
 
-        return new Response($code, $headers, json_encode($content));
+        // json_encode() returns false on malformed UTF-8, and the PSR-7 body
+        // type-hints string|resource|StreamInterface, so an unflagged encode
+        // surfaced as an unhandled TypeError deep inside the vendor Stream
+        // rather than as a response. SUBSTITUTE handles the case that actually
+        // occurs (bad bytes in user content) by swapping in U+FFFD; THROW_ON_ERROR
+        // turns the remaining structural failures (recursion depth, INF/NAN)
+        // into a catchable JsonException Grav can render, instead of a false.
+        return new Response($code, $headers, json_encode($content, JSON_INVALID_UTF8_SUBSTITUTE | JSON_THROW_ON_ERROR));
     }
 
     /**
@@ -87,15 +94,15 @@ trait ControllerResponseTrait
      * @param array|null $options
      * @return ResponseInterface
      */
-    protected function createDownloadResponse(string $filename, $resource, array $headers = null, array $options = null): ResponseInterface
+    protected function createDownloadResponse(string $filename, $resource, ?array $headers = null, ?array $options = null): ResponseInterface
     {
         // Required for IE, otherwise Content-Disposition may be ignored
         if (ini_get('zlib.output_compression')) {
             @ini_set('zlib.output_compression', 'Off');
         }
 
-        $headers = $headers ?? [];
-        $options = $options ?? ['force_download' => true];
+        $headers ??= [];
+        $options ??= ['force_download' => true];
 
         $file_parts = Utils::pathinfo($filename);
 
@@ -134,7 +141,7 @@ trait ControllerResponseTrait
      * @param int|null $code
      * @return Response
      */
-    protected function createRedirectResponse(string $url, int $code = null): ResponseInterface
+    protected function createRedirectResponse(string $url, ?int $code = null): ResponseInterface
     {
         if (null === $code || $code < 301 || $code > 307) {
             $code = (int)$this->getConfig()->get('system.pages.redirect_default_code', 302);
@@ -183,7 +190,7 @@ trait ControllerResponseTrait
             return $this->createHtmlResponse($response['message'], $code);
         }
 
-        return new Response($code, ['Content-Type' => 'application/json'], json_encode($response), '1.1', $reason);
+        return new Response($code, ['Content-Type' => 'application/json'], json_encode($response, JSON_INVALID_UTF8_SUBSTITUTE | JSON_THROW_ON_ERROR), '1.1', $reason);
     }
 
     /**
@@ -195,7 +202,7 @@ trait ControllerResponseTrait
         $response = $this->getErrorJson($e);
         $reason = $e instanceof RequestException ? $e->getHttpReason() : null;
 
-        return new Response($response['code'], ['Content-Type' => 'application/json'], json_encode($response), '1.1', $reason);
+        return new Response($response['code'], ['Content-Type' => 'application/json'], json_encode($response, JSON_INVALID_UTF8_SUBSTITUTE | JSON_THROW_ON_ERROR), '1.1', $reason);
     }
 
     /**
@@ -228,7 +235,7 @@ trait ControllerResponseTrait
         $debugger = Grav::instance()['debugger'];
         if ($debugger->enabled()) {
             $response['error'] += [
-                'type' => get_class($e),
+                'type' => $e::class,
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
                 'trace' => explode("\n", $e->getTraceAsString())
@@ -264,7 +271,7 @@ trait ControllerResponseTrait
     {
         $accepted = [];
         foreach ($this->getRequest()->getHeader('Accept') as $accept) {
-            foreach (explode(',', $accept) as $item) {
+            foreach (explode(',', (string) $accept) as $item) {
                 if (!$item) {
                     continue;
                 }

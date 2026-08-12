@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/sv.yaml',
-    'modified' => 1782871084,
-    'size' => 2172,
+    'modified' => 1786572335,
+    'size' => 2370,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '--- titel: %1$s --- # Fel: Ogiltig Frontmatter-sökväg: `%2$s` **%3$s** ``` %4$s ```',
@@ -112,6 +112,15 @@ return [
                 'ERROR2' => 'Ogiltigt antal element',
                 'ERROR4' => 'Uttrycket känns inte igen'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Media',
+            'MEDIA_TYPES' => 'Mediatyper',
+            'IMAGE_OPTIONS' => 'Bildalternativ',
+            'MIME_TYPE' => 'MIME-typ',
+            'THUMB' => 'Miniatyr',
+            'TYPE' => 'Typ',
+            'FILE_EXTENSION' => 'Filändelse'
         ]
     ]
 ];

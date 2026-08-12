@@ -1,0 +1,33 @@
+{
+    "migrated_at": "2026-08-12T22:09:35+00:00",
+    "backup_zip": "backup/migration-backup-1.7.53.2--20260812220929.zip",
+    "from_version": "1.7.53.2",
+    "promoted": [
+        ".env.example",
+        ".github",
+        ".htaccess",
+        ".phan",
+        "CHANGELOG.md",
+        "CODE_OF_CONDUCT.md",
+        "CONTRIBUTING.md",
+        "LICENSE.txt",
+        "README.md",
+        "SECURITY.md",
+        "assets",
+        "backup",
+        "bin",
+        "cache",
+        "composer.json",
+        "composer.lock",
+        "images",
+        "index.php",
+        "logs",
+        "now.json",
+        "robots.txt",
+        "system",
+        "tmp",
+        "user",
+        "vendor",
+        "webserver-configs"
+    ]
+}

@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/hr.yaml',
-    'modified' => 1782871084,
-    'size' => 2371,
+    'modified' => 1786572335,
+    'size' => 2594,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -128,6 +128,15 @@ Putanja datoteke: `%2$s`
                 'ERROR3' => 'jquery_element treba postaviti u postavke jqCron',
                 'ERROR4' => 'Izraz nije prepoznat'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Medijske datoteke',
+            'MEDIA_TYPES' => 'Vrste medija',
+            'IMAGE_OPTIONS' => 'Mogućnosti slike',
+            'MIME_TYPE' => 'Mime tip',
+            'THUMB' => 'Sličica',
+            'TYPE' => 'Vrsta',
+            'FILE_EXTENSION' => 'Nastavak datoteke'
         ]
     ]
 ];

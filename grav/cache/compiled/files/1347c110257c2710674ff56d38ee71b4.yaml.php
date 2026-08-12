@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/ro.yaml',
-    'modified' => 1782871084,
-    'size' => 2262,
+    'modified' => 1786572335,
+    'size' => 2477,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -117,6 +117,15 @@ Calea: `%2$s`
                 'ERROR3' => 'jquery_element ar trebui setat în opțiunile jqCron',
                 'ERROR4' => 'Expresie necunoscută'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Media',
+            'MEDIA_TYPES' => 'Tipuri de media',
+            'IMAGE_OPTIONS' => 'Opţiuni Imagine',
+            'MIME_TYPE' => 'Tipuri Mime',
+            'THUMB' => 'Icoană',
+            'TYPE' => 'Tip',
+            'FILE_EXTENSION' => 'Extensie de fișier'
         ]
     ]
 ];

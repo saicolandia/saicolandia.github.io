@@ -2,12 +2,20 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/flex-objects/flex-objects.yaml',
-    'modified' => 1772038424,
-    'size' => 316,
+    'modified' => 1786572383,
+    'size' => 1132,
     'data' => [
         'enabled' => true,
         'built_in_css' => true,
-        'extra_admin_twig_path' => 'theme://admin/templates',
+        'media_proxy' => [
+            'enabled' => false,
+            'base' => '/flex-media',
+            'authorize' => false,
+            'cache_control' => 'public, max-age=604800'
+        ],
+        'security' => [
+            'restrict_page_frontmatter' => true
+        ],
         'admin_list' => [
             'per_page' => 15,
             'order' => [

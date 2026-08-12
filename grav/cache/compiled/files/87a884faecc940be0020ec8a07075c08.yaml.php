@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/el.yaml',
-    'modified' => 1782871084,
-    'size' => 4462,
+    'modified' => 1786572335,
+    'size' => 4747,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -170,6 +170,15 @@ return [
                 'ERROR3' => 'Το jquery_element θα έπρεπε να οριστεί στις ρυθμίσεις του jqCron',
                 'ERROR4' => 'Μη αναγνωρισμένη έκφραση'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Πολυμέσα',
+            'MEDIA_TYPES' => 'Τύποι μέσων',
+            'IMAGE_OPTIONS' => 'Επιλογές εικόνας',
+            'MIME_TYPE' => 'Τύπος MIME',
+            'THUMB' => 'Μικρογραφία',
+            'TYPE' => 'Τύπος',
+            'FILE_EXTENSION' => 'Επέκταση αρχείου'
         ]
     ]
 ];

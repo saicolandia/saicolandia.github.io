@@ -1,0 +1,110 @@
+<?php
+return [
+    '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
+    'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/grav-2/system/languages/da.yaml',
+    'modified' => 1786572335,
+    'size' => 1870,
+    'data' => [
+        'GRAV' => [
+            'FRONTMATTER_ERROR_PAGE' => '---
+Titel: %1$s
+---
+
+# Fejl: Ugyldigt frontmatter
+
+Sti: `%2$s`
+
+**%3$s**
+
+```
+%4$s
+```',
+            'NICETIME' => [
+                'NO_DATE_PROVIDED' => 'Ingen dato angivet',
+                'BAD_DATE' => 'Ugyldig dato',
+                'AGO' => 'siden',
+                'FROM_NOW' => 'fra nu',
+                'JUST_NOW' => 'lige nu',
+                'SECOND' => 'sekund',
+                'MINUTE' => 'minut',
+                'HOUR' => 'time',
+                'DAY' => 'dag',
+                'WEEK' => 'uge',
+                'MONTH' => 'måned',
+                'YEAR' => 'år',
+                'DECADE' => 'årti',
+                'SEC' => 'sek',
+                'MIN' => 'min.',
+                'HR' => 't',
+                'WK' => 'u',
+                'MO' => 'md',
+                'YR' => 'år',
+                'DEC' => 'årti',
+                'SECOND_PLURAL' => 'sekunder',
+                'MINUTE_PLURAL' => 'minutter',
+                'HOUR_PLURAL' => 'timer',
+                'DAY_PLURAL' => 'dage',
+                'WEEK_PLURAL' => 'uger',
+                'MONTH_PLURAL' => 'måneder',
+                'YEAR_PLURAL' => 'år',
+                'DECADE_PLURAL' => 'årtier',
+                'SEC_PLURAL' => 'sek',
+                'MIN_PLURAL' => 'min',
+                'HR_PLURAL' => 'timer',
+                'WK_PLURAL' => 'uger',
+                'MO_PLURAL' => 'mdr',
+                'YR_PLURAL' => 'år',
+                'DEC_PLURAL' => 'årtier'
+            ],
+            'FORM' => [
+                'VALIDATION_FAIL' => '<b>Validering mislykkedes:</b>',
+                'INVALID_INPUT' => 'Ugyldigt input i',
+                'MISSING_REQUIRED_FIELD' => 'Mangler obligatorisk felt:'
+            ],
+            'MONTHS_OF_THE_YEAR' => [
+                0 => 'januar',
+                1 => 'februar',
+                2 => 'marts',
+                3 => 'april',
+                4 => 'maj',
+                5 => 'juni',
+                6 => 'juli',
+                7 => 'august',
+                8 => 'september',
+                9 => 'oktober',
+                10 => 'november',
+                11 => 'december'
+            ],
+            'DAYS_OF_THE_WEEK' => [
+                0 => 'mandag',
+                1 => 'tirsdag',
+                2 => 'onsdag',
+                3 => 'torsdag',
+                4 => 'fredag',
+                5 => 'lørdag',
+                6 => 'søndag'
+            ],
+            'CRON' => [
+                'EVERY' => 'hver',
+                'EVERY_HOUR' => 'hver time',
+                'EVERY_MINUTE' => 'hvert minut',
+                'EVERY_DAY_OF_WEEK' => 'alle ugens dage',
+                'EVERY_DAY_OF_MONTH' => 'alle dage i måneden',
+                'EVERY_MONTH' => 'hver måned',
+                'TEXT_PERIOD' => 'Hver <b />',
+                'TEXT_MINS' => ' ved <b /> minut(ter) over timen',
+                'ERROR1' => 'Tagget %s understøttes ikke!',
+                'ERROR2' => 'Ugyldigt antal elementer'
+            ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Medier',
+            'MEDIA_TYPES' => 'Medietyper',
+            'IMAGE_OPTIONS' => 'Billedmuligheder',
+            'MIME_TYPE' => 'MIME-type',
+            'THUMB' => 'Miniature',
+            'TYPE' => 'Type',
+            'FILE_EXTENSION' => 'Filendelse'
+        ]
+    ]
+];

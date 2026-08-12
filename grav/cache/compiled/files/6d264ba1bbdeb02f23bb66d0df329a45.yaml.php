@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/blueprints/config/scheduler.yaml',
-    'modified' => 1782871084,
-    'size' => 38523,
+    'modified' => 1786572335,
+    'size' => 39009,
     'data' => [
         'title' => 'PLUGIN_ADMIN.SCHEDULER',
         'form' => [
@@ -30,7 +30,7 @@ return [
                                 ],
                                 'modern_health' => [
                                     'type' => 'display',
-                                    'label' => 'Health Status',
+                                    'label' => 'PLUGIN_ADMIN.SCHEDULER_HEALTH_STATUS',
                                     'content' => '<div id="scheduler-health-status">
     <div class="text-muted">Loading...</div>
 </div>
@@ -118,7 +118,7 @@ return [
                                 ],
                                 'trigger_methods' => [
                                     'type' => 'display',
-                                    'label' => 'Active Triggers',
+                                    'label' => 'PLUGIN_ADMIN.SCHEDULER_ACTIVE_TRIGGERS',
                                     'content' => '<div id="scheduler-triggers">
     <div class="text-muted">Loading...</div>
 </div>
@@ -237,7 +237,7 @@ return [
                                     'fields' => [
                                         '.id' => [
                                             'type' => 'key',
-                                            'label' => 'ID',
+                                            'label' => 'PLUGIN_ADMIN.ID',
                                             'placeholder' => 'process-name',
                                             'validate' => [
                                                 'required' => true,
@@ -297,17 +297,17 @@ return [
                         ],
                         'modern_tab' => [
                             'type' => 'tab',
-                            'title' => 'Advanced Features',
+                            'title' => 'PLUGIN_ADMIN.SCHEDULER_ADVANCED_FEATURES',
                             'fields' => [
                                 'workers_section' => [
                                     'type' => 'section',
-                                    'title' => 'Worker Configuration',
+                                    'title' => 'PLUGIN_ADMIN.SCHEDULER_WORKER_CONFIG',
                                     'underline' => true,
                                     'fields' => [
                                         'modern.workers' => [
                                             'type' => 'number',
-                                            'label' => 'Concurrent Workers',
-                                            'help' => 'Number of jobs that can run simultaneously (1 = sequential)',
+                                            'label' => 'PLUGIN_ADMIN.SCHEDULER_CONCURRENT_WORKERS',
+                                            'help' => 'PLUGIN_ADMIN.SCHEDULER_CONCURRENT_WORKERS_HELP',
                                             'default' => 4,
                                             'size' => 'x-small',
                                             'append' => 'workers',
@@ -321,13 +321,13 @@ return [
                                 ],
                                 'retry_section' => [
                                     'type' => 'section',
-                                    'title' => 'Retry Configuration',
+                                    'title' => 'PLUGIN_ADMIN.SCHEDULER_RETRY_CONFIG',
                                     'underline' => true,
                                     'fields' => [
                                         'modern.retry.enabled' => [
                                             'type' => 'toggle',
-                                            'label' => 'Enable Job Retry',
-                                            'help' => 'Automatically retry failed jobs',
+                                            'label' => 'PLUGIN_ADMIN.SCHEDULER_RETRY_ENABLED',
+                                            'help' => 'PLUGIN_ADMIN.SCHEDULER_RETRY_ENABLED_HELP',
                                             'highlight' => 1,
                                             'default' => 1,
                                             'options' => [
@@ -340,8 +340,8 @@ return [
                                         ],
                                         'modern.retry.max_attempts' => [
                                             'type' => 'number',
-                                            'label' => 'Maximum Retry Attempts',
-                                            'help' => 'Maximum number of times to retry a failed job',
+                                            'label' => 'PLUGIN_ADMIN.SCHEDULER_RETRY_MAX_ATTEMPTS',
+                                            'help' => 'PLUGIN_ADMIN.SCHEDULER_RETRY_MAX_ATTEMPTS_HELP',
                                             'default' => 3,
                                             'size' => 'x-small',
                                             'append' => 'retries',
@@ -353,8 +353,8 @@ return [
                                         ],
                                         'modern.retry.backoff' => [
                                             'type' => 'select',
-                                            'label' => 'Retry Backoff Strategy',
-                                            'help' => 'How to calculate delay between retries',
+                                            'label' => 'PLUGIN_ADMIN.SCHEDULER_RETRY_BACKOFF',
+                                            'help' => 'PLUGIN_ADMIN.SCHEDULER_RETRY_BACKOFF_HELP',
                                             'default' => 'exponential',
                                             'options' => [
                                                 'linear' => 'Linear (fixed delay)',
@@ -365,20 +365,20 @@ return [
                                 ],
                                 'queue_section' => [
                                     'type' => 'section',
-                                    'title' => 'Queue Configuration',
+                                    'title' => 'PLUGIN_ADMIN.SCHEDULER_QUEUE_CONFIG',
                                     'underline' => true,
                                     'fields' => [
                                         'modern.queue.path' => [
                                             'type' => 'text',
-                                            'label' => 'Queue Storage Path',
-                                            'help' => 'Where to store queued jobs',
+                                            'label' => 'PLUGIN_ADMIN.SCHEDULER_QUEUE_PATH',
+                                            'help' => 'PLUGIN_ADMIN.SCHEDULER_QUEUE_PATH_HELP',
                                             'default' => 'user-data://scheduler/queue',
                                             'placeholder' => 'user-data://scheduler/queue'
                                         ],
                                         'modern.queue.max_size' => [
                                             'type' => 'number',
-                                            'label' => 'Maximum Queue Size',
-                                            'help' => 'Maximum number of jobs that can be queued',
+                                            'label' => 'PLUGIN_ADMIN.SCHEDULER_QUEUE_MAX_SIZE',
+                                            'help' => 'PLUGIN_ADMIN.SCHEDULER_QUEUE_MAX_SIZE_HELP',
                                             'default' => 1000,
                                             'size' => 'x-small',
                                             'append' => 'jobs',
@@ -392,13 +392,13 @@ return [
                                 ],
                                 'history_section' => [
                                     'type' => 'section',
-                                    'title' => 'Job History',
+                                    'title' => 'PLUGIN_ADMIN.SCHEDULER_HISTORY',
                                     'underline' => true,
                                     'fields' => [
                                         'modern.history.enabled' => [
                                             'type' => 'toggle',
-                                            'label' => 'Enable Job History',
-                                            'help' => 'Track execution history for all jobs',
+                                            'label' => 'PLUGIN_ADMIN.SCHEDULER_HISTORY_ENABLED',
+                                            'help' => 'PLUGIN_ADMIN.SCHEDULER_HISTORY_ENABLED_HELP',
                                             'highlight' => 1,
                                             'default' => 1,
                                             'options' => [
@@ -411,8 +411,8 @@ return [
                                         ],
                                         'modern.history.retention_days' => [
                                             'type' => 'number',
-                                            'label' => 'History Retention (days)',
-                                            'help' => 'How long to keep job history',
+                                            'label' => 'PLUGIN_ADMIN.SCHEDULER_HISTORY_RETENTION',
+                                            'help' => 'PLUGIN_ADMIN.SCHEDULER_HISTORY_RETENTION_HELP',
                                             'default' => 30,
                                             'size' => 'x-small',
                                             'append' => 'days',
@@ -426,7 +426,7 @@ return [
                                 ],
                                 'webhook_section' => [
                                     'type' => 'section',
-                                    'title' => 'Webhook Configuration',
+                                    'title' => 'PLUGIN_ADMIN.SCHEDULER_WEBHOOK_CONFIG',
                                     'underline' => true,
                                     'fields' => [
                                         'webhook_plugin_status' => [
@@ -435,8 +435,8 @@ return [
                                         ],
                                         'modern.webhook.enabled' => [
                                             'type' => 'toggle',
-                                            'label' => 'Enable Webhook Triggers',
-                                            'help' => 'Allow triggering scheduler via HTTP webhook',
+                                            'label' => 'PLUGIN_ADMIN.SCHEDULER_WEBHOOK_ENABLED',
+                                            'help' => 'PLUGIN_ADMIN.SCHEDULER_WEBHOOK_ENABLED_HELP',
                                             'highlight' => 0,
                                             'default' => 0,
                                             'options' => [
@@ -449,8 +449,8 @@ return [
                                         ],
                                         'modern.webhook.token' => [
                                             'type' => 'text',
-                                            'label' => 'Webhook Security Token',
-                                            'help' => 'Secret token for authenticating webhook requests. Keep this secret!',
+                                            'label' => 'PLUGIN_ADMIN.SCHEDULER_WEBHOOK_TOKEN',
+                                            'help' => 'PLUGIN_ADMIN.SCHEDULER_WEBHOOK_TOKEN_HELP',
                                             'placeholder' => 'Click Generate to create a secure token',
                                             'autocomplete' => 'off'
                                         ],
@@ -523,8 +523,8 @@ function generateWebhookToken() {
                                         ],
                                         'modern.webhook.path' => [
                                             'type' => 'text',
-                                            'label' => 'Webhook Path',
-                                            'help' => 'URL path for webhook endpoint',
+                                            'label' => 'PLUGIN_ADMIN.SCHEDULER_WEBHOOK_PATH',
+                                            'help' => 'PLUGIN_ADMIN.SCHEDULER_WEBHOOK_PATH_HELP',
                                             'default' => '/scheduler/webhook',
                                             'placeholder' => '/scheduler/webhook'
                                         ]
@@ -532,13 +532,13 @@ function generateWebhookToken() {
                                 ],
                                 'health_section' => [
                                     'type' => 'section',
-                                    'title' => 'Health Check Configuration',
+                                    'title' => 'PLUGIN_ADMIN.SCHEDULER_HEALTH_CHECK_CONFIG',
                                     'underline' => true,
                                     'fields' => [
                                         'modern.health.enabled' => [
                                             'type' => 'toggle',
-                                            'label' => 'Enable Health Check',
-                                            'help' => 'Provide health status endpoint for monitoring',
+                                            'label' => 'PLUGIN_ADMIN.SCHEDULER_HEALTH_CHECK_ENABLED',
+                                            'help' => 'PLUGIN_ADMIN.SCHEDULER_HEALTH_CHECK_ENABLED_HELP',
                                             'highlight' => 1,
                                             'default' => 1,
                                             'options' => [
@@ -551,8 +551,8 @@ function generateWebhookToken() {
                                         ],
                                         'modern.health.path' => [
                                             'type' => 'text',
-                                            'label' => 'Health Check Path',
-                                            'help' => 'URL path for health check endpoint',
+                                            'label' => 'PLUGIN_ADMIN.SCHEDULER_HEALTH_CHECK_PATH',
+                                            'help' => 'PLUGIN_ADMIN.SCHEDULER_HEALTH_CHECK_PATH_HELP',
                                             'default' => '/scheduler/health',
                                             'placeholder' => '/scheduler/health'
                                         ]
@@ -560,7 +560,7 @@ function generateWebhookToken() {
                                 ],
                                 'webhook_usage' => [
                                     'type' => 'section',
-                                    'title' => 'Usage Examples',
+                                    'title' => 'PLUGIN_ADMIN.SCHEDULER_USAGE_EXAMPLES',
                                     'underline' => true,
                                     'fields' => [
                                         'webhook_examples' => [

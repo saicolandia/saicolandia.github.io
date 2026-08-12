@@ -2,7 +2,7 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/config/versions.yaml',
-    'modified' => 1786557758,
+    'modified' => 1786572372,
     'size' => 140,
     'data' => [
         'core' => [

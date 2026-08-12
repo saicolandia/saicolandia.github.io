@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/en.yaml',
-    'modified' => 1782871084,
-    'size' => 3943,
+    'modified' => 1786572335,
+    'size' => 4184,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -128,6 +128,7 @@ Path: `%2$s`
             'FORM' => [
                 'VALIDATION_FAIL' => '<b>Validation failed:</b>',
                 'INVALID_INPUT' => 'Invalid input in',
+                'UNEXPECTED_VALUES' => '(unexpected value(s): %s)',
                 'MISSING_REQUIRED_FIELD' => 'Missing required field:',
                 'XSS_ISSUES' => 'Potential XSS issues detected in \'%s\' field'
             ],
@@ -174,6 +175,15 @@ Path: `%2$s`
                 'ERROR3' => 'The jquery_element should be set into jqCron settings',
                 'ERROR4' => 'Unrecognized expression'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Media',
+            'MEDIA_TYPES' => 'Media Types',
+            'FILE_EXTENSION' => 'File Extension',
+            'TYPE' => 'Type',
+            'THUMB' => 'Thumb',
+            'MIME_TYPE' => 'Mime Type',
+            'IMAGE_OPTIONS' => 'Image options'
         ]
     ]
 ];

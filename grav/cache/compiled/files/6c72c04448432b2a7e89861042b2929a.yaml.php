@@ -2,7 +2,7 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/markdown-notices/markdown-notices.yaml',
-    'modified' => 1771323264,
+    'modified' => 1786572387,
     'size' => 99,
     'data' => [
         'enabled' => true,

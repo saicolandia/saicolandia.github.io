@@ -17,3 +17,6 @@ access:
   admin:
     login: true
     super: true
+admin_next:
+  preferences:
+    adminLanguage: en

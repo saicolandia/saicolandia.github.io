@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/config/permissions.yaml',
-    'modified' => 1782871084,
-    'size' => 810,
+    'modified' => 1786572335,
+    'size' => 890,
     'data' => [
         'actions' => [
             'site' => [
@@ -17,6 +17,10 @@ return [
             'admin.pages' => [
                 'type' => 'access',
                 'label' => 'Pages'
+            ],
+            'admin.pages_twig' => [
+                'type' => 'access',
+                'label' => 'Toggle Twig Processing in Pages'
             ],
             'admin.users' => [
                 'type' => 'access',

@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/lt.yaml',
-    'modified' => 1782871084,
-    'size' => 1720,
+    'modified' => 1786572335,
+    'size' => 1821,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -100,6 +100,11 @@ Path: `%2$s`
                 5 => 'Šeštadienis',
                 6 => 'Sekmadienis'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Medija',
+            'MIME_TYPE' => 'Mime tipas',
+            'FILE_EXTENSION' => 'Failo plėtinys'
         ]
     ]
 ];

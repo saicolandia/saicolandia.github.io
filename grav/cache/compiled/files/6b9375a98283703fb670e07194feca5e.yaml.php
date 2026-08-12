@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/pl.yaml',
-    'modified' => 1782871084,
-    'size' => 2339,
+    'modified' => 1786572335,
+    'size' => 2545,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -125,6 +125,15 @@ Path: `%2$s`
                 'ERROR2' => 'Nieprawidłowa liczba elementów',
                 'ERROR4' => 'Wyrażenie nierozpoznane'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Media',
+            'MEDIA_TYPES' => 'Typy mediów',
+            'IMAGE_OPTIONS' => 'Opcje obrazu',
+            'MIME_TYPE' => 'Typ MIME',
+            'THUMB' => 'Miniatura',
+            'TYPE' => 'Typ',
+            'FILE_EXTENSION' => 'Rozszerzenie pliku'
         ]
     ]
 ];

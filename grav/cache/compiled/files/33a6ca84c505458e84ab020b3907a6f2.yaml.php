@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/eu.yaml',
-    'modified' => 1782871084,
-    'size' => 1336,
+    'modified' => 1786572335,
+    'size' => 1370,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '--- title: %1$s --- # Errorea: Baliogabeko Frontmatter Bidea: `%2$s` **%3$s** ``` %4$s ```',
@@ -70,6 +70,9 @@ return [
                 5 => 'Larunbata',
                 6 => 'Igandea'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Media'
         ]
     ]
 ];

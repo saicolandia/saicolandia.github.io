@@ -3,7 +3,7 @@
 /**
  * @package    Grav\Common\Scheduler
  * @author     Originally based on peppeocchi/php-cron-scheduler modified for Grav integration
- * @copyright  Copyright (c) 2015 - 2025 Trilby Media, LLC. All rights reserved.
+ * @copyright  Copyright (c) 2015 - 2026 Trilby Media, LLC. All rights reserved.
  * @license    MIT License; see LICENSE file for details.
  */
 
@@ -12,6 +12,7 @@ namespace Grav\Common\Scheduler;
 use Closure;
 use Cron\CronExpression;
 use DateTime;
+use Grav\Common\Filesystem\Folder;
 use Grav\Common\Grav;
 use InvalidArgumentException;
 use RuntimeException;
@@ -39,8 +40,6 @@ class Job
     private $command;
     /** @var string */
     private $at;
-    /** @var array */
-    private $args = [];
     /** @var bool */
     private $runInBackground = true;
     /** @var DateTime */
@@ -119,7 +118,7 @@ class Job
      * @param  array $args
      * @param  string|null $id
      */
-    public function __construct($command, $args = [], $id = null)
+    public function __construct($command, private $args = [], $id = null)
     {
         if (is_string($id)) {
             $this->id = Grav::instance()['inflector']->hyphenize($id);
@@ -133,9 +132,8 @@ class Job
         }
         $this->creationTime = new DateTime('now');
         // initialize the directory path for lock files
-        $this->tempDir = sys_get_temp_dir();
+        $this->tempDir = static::getDefaultTempDir();
         $this->command = $command;
-        $this->args = $args;
         // Set enabled state
         $status = Grav::instance()['config']->get('scheduler.status');
         $this->enabled = !(isset($status[$id]) && $status[$id] === 'disabled');
@@ -172,6 +170,23 @@ class Job
     }
 
     /**
+     * Set the enabled state of this job
+     *
+     * Used to seed a default state at registration time (e.g. from a profile
+     * flag). An explicit entry in the scheduler `status` config still takes
+     * precedence, as that is applied in the constructor.
+     *
+     * @param bool $enabled
+     * @return $this
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = (bool) $enabled;
+
+        return $this;
+    }
+
+    /**
      * Get optional arguments
      *
      * @return string|null
@@ -196,11 +211,32 @@ class Job
     }
 
     /**
-     * @return CronExpression
+     * @return CronExpression|null
      */
     public function getCronExpression()
     {
-        return CronExpression::factory($this->at);
+        try {
+            return CronExpression::factory($this->at);
+        } catch (\InvalidArgumentException $e) {
+            // Invalid cron expression - return null to prevent DoS
+            return null;
+        }
+    }
+
+    /**
+     * Validate a cron expression
+     *
+     * @param string $expression
+     * @return bool
+     */
+    public static function isValidCronExpression(string $expression): bool
+    {
+        try {
+            CronExpression::factory($expression);
+            return true;
+        } catch (\InvalidArgumentException $e) {
+            return false;
+        }
     }
 
     /**
@@ -232,14 +268,19 @@ class Job
      * @param  DateTime|null $date
      * @return bool
      */
-    public function isDue(DateTime $date = null)
+    public function isDue(?DateTime $date = null)
     {
-        // The execution time is being defaulted if not defined
+        // The expression is parsed lazily on first use (see IntervalTrait::at()).
+        // As before, a missing or invalid expression defaults to every minute.
         if (!$this->executionTime) {
-            $this->at('* * * * *');
+            try {
+                $this->executionTime = CronExpression::factory($this->at ?: '* * * * *');
+            } catch (\InvalidArgumentException $e) {
+                $this->executionTime = CronExpression::factory('* * * * *');
+            }
         }
 
-        $date = $date ?? $this->creationTime;
+        $date ??= $this->creationTime;
 
         return $this->executionTime->isDue($date);
     }
@@ -303,10 +344,13 @@ class Job
      * @param  callable|null $whenOverlapping A callback to ignore job overlapping
      * @return self
      */
-    public function onlyOne($tempDir = null, callable $whenOverlapping = null)
+    public function onlyOne($tempDir = null, ?callable $whenOverlapping = null)
     {
         if ($tempDir === null || !is_dir($tempDir)) {
             $tempDir = $this->tempDir;
+        }
+        if (!is_dir($tempDir)) {
+            Folder::create($tempDir);
         }
         $this->lockFile = implode('/', [
             trim($tempDir),
@@ -315,9 +359,7 @@ class Job
         if ($whenOverlapping) {
             $this->whenOverlapping = $whenOverlapping;
         } else {
-            $this->whenOverlapping = static function () {
-                return false;
-            };
+            $this->whenOverlapping = static fn() => false;
         }
 
         return $this;
@@ -376,8 +418,14 @@ class Job
             return false;
         }
 
-        // Write lock file if necessary
-        $this->createLockFile();
+        // Write lock file if necessary. Refuse to run rather than run unprotected
+        // when the lock cannot be taken.
+        if (!$this->createLockFile()) {
+            $this->output = 'Unable to create lock file';
+            $this->successful = false;
+
+            return false;
+        }
 
         // Call before if required
         if (is_callable($this->before)) {
@@ -390,6 +438,19 @@ class Job
         } else {
             $args = is_string($this->args) ? explode(' ', $this->args) : $this->args;
             $command = array_merge([$this->command], $args);
+
+            // Command jobs need proc_open. Rather than letting Symfony's Process throw from
+            // its constructor -- which took down the whole scheduler run, and the admin
+            // Scheduler page with it, on hosts that disable it -- record this job as failed
+            // with an explanation and let the remaining jobs carry on.
+            if (!Scheduler::isProcessAvailable()) {
+                $this->output = 'Cannot run command jobs: this PHP installation has proc_open disabled.';
+                $this->successful = false;
+                $this->removeLockFile();
+
+                return false;
+            }
+
             $process = new Process($command);
             
             // Apply timeout if set (modern feature)
@@ -464,19 +525,53 @@ class Job
     }
 
     /**
+     * Resolve the default directory used for job lock files.
+     *
+     * Locks live inside the Grav install (`tmp://scheduler`) rather than in the
+     * system temp directory. On a shared host the system temp directory is
+     * world-writable, so any other local account could pre-place a symlink at the
+     * predictable `<tempDir>/<job-id>.lock` path and redirect the lock write to a
+     * file of its choosing. (GHSA-q8w8-6cq5-j4h2)
+     *
+     * @return string
+     */
+    private static function getDefaultTempDir(): string
+    {
+        $locator = Grav::instance()['locator'] ?? null;
+        if ($locator) {
+            $path = $locator->findResource('tmp://scheduler', true, true);
+            if ($path) {
+                return $path;
+            }
+        }
+
+        return sys_get_temp_dir();
+    }
+
+    /**
      * Create the job lock file.
      *
-     * @param  mixed $content
-     * @return void
+     * @return bool True if the lock was taken, or if no lock is configured.
      */
-    private function createLockFile($content = null)
+    private function createLockFile(mixed $content = null)
     {
-        if ($this->lockFile) {
-            if ($content === null || !is_string($content)) {
-                $content = $this->getId();
-            }
-            file_put_contents($this->lockFile, $content);
+        if (!$this->lockFile) {
+            return true;
         }
+
+        if ($content === null || !is_string($content)) {
+            $content = $this->getId();
+        }
+
+        // Never write through a symlink: a link pre-placed at the lock path would
+        // send the write to whatever it points at. Note that fopen() with 'x' is
+        // not a portable substitute here, because on Darwin O_CREAT|O_EXCL against
+        // a dangling symlink still creates the target.
+        if (is_link($this->lockFile)) {
+            return false;
+        }
+
+        return file_put_contents($this->lockFile, $content) !== false;
     }
 
     /**
@@ -486,7 +581,10 @@ class Job
      */
     private function removeLockFile()
     {
-        if ($this->lockFile && file_exists($this->lockFile)) {
+        // is_link() also matches a dangling symlink, which file_exists() reports as
+        // absent. Without it a stale link would sit there and permanently convince
+        // isOverlapping() that the job is already running.
+        if ($this->lockFile && (is_link($this->lockFile) || file_exists($this->lockFile))) {
             unlink($this->lockFile);
         }
     }
@@ -735,12 +833,11 @@ class Job
     
     /**
      * Add metadata to the job
-     * 
+     *
      * @param string $key
-     * @param mixed $value
      * @return self
      */
-    public function withMetadata(string $key, $value): self
+    public function withMetadata(string $key, mixed $value): self
     {
         $this->metadata[$key] = $value;
         return $this;
@@ -879,7 +976,7 @@ class Job
      * @param string|null $key
      * @return mixed
      */
-    public function getMetadata(string $key = null)
+    public function getMetadata(?string $key = null)
     {
         if ($key === null) {
             return $this->metadata;
@@ -950,7 +1047,7 @@ class Job
     protected function calculateRetryDelay(int $attempt): int
     {
         if ($this->retryStrategy === 'exponential') {
-            return min($this->retryDelay * pow(2, $attempt - 1), 3600); // Max 1 hour
+            return min($this->retryDelay * 2 ** ($attempt - 1), 3600); // Max 1 hour
         }
         
         return $this->retryDelay;

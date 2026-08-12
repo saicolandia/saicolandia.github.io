@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/config/system.yaml',
-    'modified' => 1782871084,
-    'size' => 18888,
+    'modified' => 1786572335,
+    'size' => 23127,
     'data' => [
         'absolute_urls' => false,
         'timezone' => '',
@@ -18,10 +18,12 @@ return [
         'pwd_regex' => '(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
         'intl_enabled' => true,
         'http_x_forwarded' => [
-            'protocol' => true,
+            'protocol' => false,
             'host' => false,
-            'port' => true,
-            'ip' => true
+            'port' => false,
+            'ip' => false,
+            'client_ip' => false,
+            'cf_connecting_ip' => false
         ],
         'languages' => [
             'supported' => [
@@ -34,6 +36,9 @@ return [
             'translations_fallback' => true,
             'session_store_active' => false,
             'http_accept_language' => false,
+            'http_accept_language_fallback' => [
+                
+            ],
             'override_locale' => false,
             'content_fallback' => [
                 
@@ -50,11 +55,13 @@ return [
             'dirs' => [
                 0 => 'page://'
             ],
-            'theme' => 'quark',
+            'lazy_index' => false,
+            'theme' => 'quark2',
             'order' => [
                 'by' => 'default',
                 'dir' => 'asc'
             ],
+            'order_digits' => 2,
             'list' => [
                 'count' => 20
             ],
@@ -65,8 +72,7 @@ return [
             ],
             'publish_dates' => true,
             'process' => [
-                'markdown' => true,
-                'twig' => false
+                'markdown' => true
             ],
             'twig_first' => false,
             'never_cache_twig' => false,
@@ -89,6 +95,19 @@ return [
                     2 => 'id',
                     3 => 'class',
                     4 => 'classes'
+                ],
+                'gfm' => [
+                    'task_lists' => true,
+                    'marks' => true,
+                    'tagfilter' => true,
+                    'autolinks' => true
+                ],
+                'tables' => [
+                    'colspan' => false,
+                    'headerless' => false,
+                    'captions' => false,
+                    'attributes' => false,
+                    'multiline' => false
                 ]
             ],
             'types' => [
@@ -130,7 +149,8 @@ return [
         'cache' => [
             'enabled' => true,
             'check' => [
-                'method' => 'file'
+                'method' => 'file',
+                'interval' => 2
             ],
             'driver' => 'auto',
             'prefix' => 'g',
@@ -154,15 +174,12 @@ return [
             'debug' => true,
             'auto_reload' => true,
             'autoescape' => true,
-            'undefined_functions' => true,
-            'undefined_filters' => true,
             'safe_functions' => [
                 
             ],
             'safe_filters' => [
                 
-            ],
-            'umask_fix' => false
+            ]
         ],
         'assets' => [
             'css_pipeline' => false,
@@ -244,6 +261,7 @@ return [
         'session' => [
             'enabled' => true,
             'initialize' => true,
+            'read_and_close' => false,
             'timeout' => 1800,
             'name' => 'grav-site',
             'uniqueness' => 'path',
@@ -257,7 +275,12 @@ return [
         ],
         'gpm' => [
             'releases' => 'stable',
-            'official_gpm_only' => true
+            'official_gpm_only' => true,
+            'archive' => [
+                'max_uncompressed_size' => 1073741824,
+                'max_files' => 50000,
+                'max_depth' => 48
+            ]
         ],
         'http' => [
             'method' => 'auto',
@@ -291,7 +314,8 @@ return [
         ],
         'strict_mode' => [
             'yaml_compat' => false,
-            'twig_compat' => false,
+            'twig2_compat' => false,
+            'twig3_compat' => true,
             'blueprint_compat' => false
         ]
     ]

@@ -3,7 +3,7 @@
 /**
  * @package    Grav\Common\Scheduler
  * @author     Originally based on peppeocchi/php-cron-scheduler modified for Grav integration
- * @copyright  Copyright (c) 2015 - 2025 Trilby Media, LLC. All rights reserved.
+ * @copyright  Copyright (c) 2015 - 2026 Trilby Media, LLC. All rights reserved.
  * @license    MIT License; see LICENSE file for details.
  */
 
@@ -162,6 +162,29 @@ class Scheduler
     }
 
     /**
+     * Register system jobs (cache maintenance, backups, plugin jobs) if not already done.
+     *
+     * This used to run in the middleware chain on every request; now it runs only when
+     * the scheduler is actually used (CLI run, webhook, health check or job listing).
+     *
+     * @return void
+     */
+    public function initializeJobs(): void
+    {
+        if (count($this->jobs) === 0) {
+            $grav = Grav::instance();
+
+            // Make sure the backups listener is registered before the event fires.
+            if (isset($grav['backups'])) {
+                $grav['backups']->init();
+            }
+
+            // Trigger event to load system jobs (cache-purge, cache-clear, backups, etc.)
+            $grav->fireEvent('onSchedulerInitialized', new \RocketTheme\Toolbox\Event\Event(['scheduler' => $this]));
+        }
+    }
+
+    /**
      * Get the queued jobs as background/foreground
      *
      * @param bool $all
@@ -169,6 +192,8 @@ class Scheduler
      */
     public function getQueuedJobs($all = false)
     {
+        $this->initializeJobs();
+
         $background = [];
         $foreground = [];
         foreach ($this->jobs as $job) {
@@ -260,15 +285,11 @@ class Scheduler
      * @param DateTime|null $runTime Optional, run at specific moment
      * @param bool $force force run even if not due
      */
-    public function run(DateTime $runTime = null, $force = false)
+    public function run(?DateTime $runTime = null, $force = false)
     {
-        // Initialize system jobs if not already done
-        $grav = Grav::instance();
-        if (count($this->jobs) === 0) {
-            // Trigger event to load system jobs (cache-purge, cache-clear, backups, etc.)
-            $grav->fireEvent('onSchedulerInitialized', new \RocketTheme\Toolbox\Event\Event(['scheduler' => $this]));
-        }
-        
+        $this->initializeJobs();
+
+
         $this->loadSavedJobs();
 
         [$background, $foreground] = $this->getQueuedJobs(false);
@@ -298,14 +319,14 @@ class Scheduler
                     $queuedCount++;
                 }
             }
-            
+
             if ($this->logger && $queuedCount > 0) {
                 $this->logger->debug("Queued {$queuedCount} job(s) for processing");
             }
-            
+
             // Process queue with workers
             $this->processJobsWithWorkers();
-            
+
             // When using queue, states are saved by executeJob when jobs complete
             // Don't save states here as jobs may still be processing
         } else {
@@ -359,9 +380,14 @@ class Scheduler
             }
         }
 
-        // Store run date
-        file_put_contents("logs/lastcron.run", (new DateTime("now"))->format("Y-m-d H:i:s"), LOCK_EX);
-        
+        // Store run date. Resolved through the log stream rather than written relative to
+        // the current working directory, which is only GRAV_ROOT when the trigger happens
+        // to be the generated crontab line (it prefixes `cd <GRAV_ROOT>;`). A webhook, an
+        // API call or `bin/grav scheduler` started from elsewhere used to drop the marker
+        // somewhere else, or not at all.
+        $lastCron = Grav::instance()['locator']->findResource('log://lastcron.run', true, true);
+        file_put_contents($lastCron, (new DateTime('now'))->format('Y-m-d H:i:s'), LOCK_EX);
+
         // Update last run timestamp for health checks
         $this->updateLastRun();
     }
@@ -391,16 +417,12 @@ class Scheduler
      */
     public function getVerboseOutput($type = 'text')
     {
-        switch ($type) {
-            case 'text':
-                return implode("\n", $this->output_schedule);
-            case 'html':
-                return implode('<br>', $this->output_schedule);
-            case 'array':
-                return $this->output_schedule;
-            default:
-                throw new InvalidArgumentException('Invalid output type');
-        }
+        return match ($type) {
+            'text' => implode("\n", $this->output_schedule),
+            'html' => implode('<br>', $this->output_schedule),
+            'array' => $this->output_schedule,
+            default => throw new InvalidArgumentException('Invalid output type'),
+        };
     }
 
     /**
@@ -434,7 +456,7 @@ class Scheduler
     public function getSchedulerCommand($php = null)
     {
         $phpBinaryFinder = new PhpExecutableFinder();
-        $php = $php ?? $phpBinaryFinder->find();
+        $php ??= $phpBinaryFinder->find();
         $command = 'cd ' . str_replace(' ', '\ ', GRAV_ROOT) . ';' . $php . ' bin/grav scheduler';
 
         return $command;
@@ -450,13 +472,20 @@ class Scheduler
      */
     public function isCrontabSetup()
     {
-        // Check for external triggers
-        $last_run = @file_get_contents("logs/lastcron.run");
-        if (time() - strtotime($last_run) < 120){
+        // Trigger-agnostic check first. This replaces a fixed 120-second window that
+        // reported "not set up" for anyone running the trigger on anything other than an
+        // every-minute crontab.
+        if ($this->isTriggeredExternally()) {
             return 1;
         }
 
-        // No external triggers found, so do legacy cron checks
+        // No external trigger evidence, so fall back to inspecting the crontab. Hosts that
+        // disable proc_open cannot run this at all -- Symfony's Process throws straight from
+        // its constructor -- so report "unable to determine" rather than fataling.
+        if (!static::isProcessAvailable()) {
+            return 2;
+        }
+
         $process = new Process(['crontab', '-l']);
         $process->run();
 
@@ -508,12 +537,133 @@ class Scheduler
     }
 
     /**
+     * Whether this PHP installation can start external processes at all.
+     *
+     * Shared hosts routinely disable proc_open, which is all Symfony's Process needs to
+     * throw -- and it throws from the constructor, so merely building one is fatal.
+     *
+     * @return bool
+     */
+    public static function isProcessAvailable(): bool
+    {
+        return function_exists('proc_open');
+    }
+
+    /**
+     * Timestamp of the last scheduler run, whichever trigger ran it.
+     *
+     * @return int|null
+     */
+    public function getLastRun(): ?int
+    {
+        $candidates = [
+            $this->status_path . '/last_run.txt',
+            Grav::instance()['locator']->findResource('log://lastcron.run'),
+        ];
+
+        foreach ($candidates as $file) {
+            if ($file && is_file($file)) {
+                $stamp = strtotime(trim((string) file_get_contents($file)));
+                if ($stamp) {
+                    return $stamp;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Whether the scheduler is evidently being triggered from outside, whatever the
+     * trigger happens to be: crontab, webhook, an API call, or a scheduled task on
+     * Windows.
+     *
+     * Rather than requiring a run inside a fixed window, this asks each enabled job
+     * whether it has actually run since the last moment its own schedule said it should
+     * have. A site whose trigger fires twice a day passes exactly as one that fires every
+     * minute, provided the jobs keep up -- and a broken every-minute trigger is still
+     * caught within the minute rather than hidden for a day.
+     *
+     * @return bool
+     */
+    public function isTriggeredExternally(): bool
+    {
+        try {
+            $states = (array) $this->getJobStates()->content();
+            $jobs = array_filter($this->getAllJobs(), static function ($job) {
+                return $job->getEnabled();
+            });
+        } catch (\Throwable $e) {
+            return false;
+        }
+
+        if (!$jobs) {
+            // Nothing scheduled, so nothing can be behind. Fall back to the scheduler's
+            // own marker, if one was ever written.
+            return null !== $this->getLastRun();
+        }
+
+        $grace = (int) ($this->modernConfig['trigger_grace'] ?? 300);
+
+        foreach ($jobs as $job) {
+            $expression = $job->getCronExpression();
+            if (!$expression) {
+                continue;
+            }
+
+            $lastRun = $states[$job->getId()]['last-run'] ?? null;
+            if (null === $lastRun) {
+                return false;
+            }
+
+            try {
+                $due = $expression->getPreviousRunDate('now', 0, true)->getTimestamp();
+            } catch (\Exception $e) {
+                continue;
+            }
+
+            if ($lastRun + $grace < $due) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * How the cron status was arrived at: 'last-run', 'crontab' or 'unavailable'.
+     *
+     * @return string
+     */
+    public function getCronDetectionMethod(): string
+    {
+        if ($this->isTriggeredExternally()) {
+            return 'last-run';
+        }
+
+        return static::isProcessAvailable() ? 'crontab' : 'unavailable';
+    }
+
+    /**
      * Try to determine who's running the process
      *
      * @return false|string
      */
     public function whoami()
     {
+        if (!static::isProcessAvailable()) {
+            // proc_open is disabled, so answer from what PHP itself knows rather than
+            // taking the whole request down over a cosmetic detail.
+            if (function_exists('posix_geteuid') && function_exists('posix_getpwuid')) {
+                $info = @posix_getpwuid(posix_geteuid());
+                if (!empty($info['name'])) {
+                    return $info['name'];
+                }
+            }
+
+            return $_SERVER['USER'] ?? (get_current_user() ?: 'unknown');
+        }
+
         $process = new Process(['whoami']);
         $process->run();
 
@@ -527,11 +677,10 @@ class Scheduler
 
     /**
      * Initialize modern features
-     * 
-     * @param mixed $locator
+     *
      * @return void
      */
-    protected function initializeModernFeatures($locator): void
+    protected function initializeModernFeatures(mixed $locator): void
     {
         // Set up paths
         $this->queuePath = $this->modernConfig['queue']['path'] ?? 'user-data://scheduler/queue';
@@ -711,7 +860,7 @@ class Scheduler
         if (is_callable($command)) {
             $command = is_string($command) ? $command : 'Closure';
         }
-        $output = trim($job->getOutput());
+        $output = trim((string) $job->getOutput());
         $this->addSchedulerVerboseOutput("<red>Error</red>:   <white>{$command}</white> → <normal>{$output}</normal>");
 
         return $job;
@@ -798,7 +947,7 @@ class Scheduler
                                     'background' => true
                                 ]);
                             } else {
-                                $error = trim($job->getOutput()) ?: 'Unknown error';
+                                $error = trim((string) $job->getOutput()) ?: 'Unknown error';
                                 $this->logger->error("Job '{$jobId}' failed: {$error}", [
                                     'command' => $command,
                                     'background' => true
@@ -905,7 +1054,7 @@ class Scheduler
                     'command' => $command
                 ]);
             } else {
-                $error = trim($job->getOutput()) ?: 'Unknown error';
+                $error = trim((string) $job->getOutput()) ?: 'Unknown error';
                 $this->logger->error("Job '{$jobId}' failed: {$error}", [
                     'command' => $command
                 ]);
@@ -966,7 +1115,7 @@ class Scheduler
                 'id' => $job->getId(),
                 'executed_at' => date('c'),
                 'success' => $job->isSuccessful(),
-                'output' => substr($job->getOutput(), 0, 1000),
+                'output' => substr((string) $job->getOutput(), 0, 1000),
             ];
         }
         
@@ -998,14 +1147,9 @@ class Scheduler
     {
         $lastRunFile = $this->status_path . '/last_run.txt';
         $lastRun = file_exists($lastRunFile) ? file_get_contents($lastRunFile) : null;
-        
-        // Initialize system jobs if not already done
-        $grav = Grav::instance();
-        if (count($this->jobs) === 0) {
-            // Trigger event to load system jobs (cache-purge, cache-clear, backups, etc.)
-            $grav->fireEvent('onSchedulerInitialized', new \RocketTheme\Toolbox\Event\Event(['scheduler' => $this]));
-        }
-        
+
+        $this->initializeJobs();
+
         // Load custom jobs
         $this->loadSavedJobs();
         
@@ -1076,21 +1220,25 @@ class Scheduler
         if (!$this->webhookEnabled) {
             return ['success' => false, 'message' => 'Webhook triggers are not enabled'];
         }
-        
-        if ($this->webhookToken && $token !== $this->webhookToken) {
+
+        // Fail closed. An enabled webhook with no configured token must not run
+        // jobs for anonymous callers: require a token to be set, and require the
+        // caller to match it with a timing-safe comparison. A previous compound
+        // check short-circuited when the token was null, letting an unconfigured
+        // token accept every request. (GHSA-xwv3-2mv2-w33x / CVE-2026-57852)
+        if (!is_string($this->webhookToken) || $this->webhookToken === '') {
+            return ['success' => false, 'message' => 'Webhook token is not configured'];
+        }
+
+        if (!is_string($token) || !hash_equals($this->webhookToken, $token)) {
             return ['success' => false, 'message' => 'Invalid webhook token'];
         }
-        
-        // Initialize system jobs if not already done
-        $grav = Grav::instance();
-        if (count($this->jobs) === 0) {
-            // Trigger event to load system jobs (cache-purge, cache-clear, backups, etc.)
-            $grav->fireEvent('onSchedulerInitialized', new \RocketTheme\Toolbox\Event\Event(['scheduler' => $this]));
-        }
-        
+
+        $this->initializeJobs();
+
         // Load custom jobs
         $this->loadSavedJobs();
-        
+
         if ($jobId) {
             // Force run specific job
             $job = $this->getJob($jobId);

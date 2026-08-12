@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/cs.yaml',
-    'modified' => 1782871084,
-    'size' => 3650,
+    'modified' => 1786572335,
+    'size' => 3860,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -173,6 +173,15 @@ Cesta: `%2$s`
                 'ERROR3' => 'jquery_element musí být nastaven v nastaveních pro jqCron',
                 'ERROR4' => 'Nerozpoznaný výraz'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Média',
+            'MEDIA_TYPES' => 'Typy médií',
+            'IMAGE_OPTIONS' => 'Možnosti obrázku',
+            'MIME_TYPE' => 'MIME typ',
+            'THUMB' => 'Náhled',
+            'TYPE' => 'Typ',
+            'FILE_EXTENSION' => 'Přípona souboru'
         ]
     ]
 ];

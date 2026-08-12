@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/my.yaml',
-    'modified' => 1782871084,
-    'size' => 5260,
+    'modified' => 1786572335,
+    'size' => 5460,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -173,6 +173,15 @@ return [
                 'ERROR3' => 'jquery_element ကို jqCron ဆက်တင် တွင်ထားရမည်',
                 'ERROR4' => 'အသိအမှတ်မပြုသော အသုံးအနှုန်း'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Media',
+            'MEDIA_TYPES' => 'Media Types',
+            'IMAGE_OPTIONS' => 'Image options',
+            'MIME_TYPE' => 'Mime Type',
+            'THUMB' => 'Thumb',
+            'TYPE' => 'Type',
+            'FILE_EXTENSION' => 'File Extension'
         ]
     ]
 ];

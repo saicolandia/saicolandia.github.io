@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/fi.yaml',
-    'modified' => 1782871084,
-    'size' => 3295,
+    'modified' => 1786572335,
+    'size' => 3329,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -160,6 +160,9 @@ Polku: `%2$s`
                 'EVERY_MONTH' => 'joka kuukausi',
                 'TEXT_PERIOD' => 'Joka <b />'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Media'
         ]
     ]
 ];

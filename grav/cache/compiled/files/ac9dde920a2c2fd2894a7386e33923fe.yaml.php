@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/blueprints/config/system.yaml',
-    'modified' => 1782871084,
-    'size' => 59870,
+    'modified' => 1786572335,
+    'size' => 66628,
     'data' => [
         'title' => 'PLUGIN_ADMIN.SYSTEM',
         'form' => [
@@ -61,14 +61,10 @@ return [
                                     'default' => [
                                         0 => [
                                             'markdown' => true
-                                        ],
-                                        1 => [
-                                            'twig' => true
                                         ]
                                     ],
                                     'options' => [
-                                        'markdown' => 'Markdown',
-                                        'twig' => 'Twig'
+                                        'markdown' => 'Markdown'
                                     ],
                                     'use' => 'keys'
                                 ],
@@ -167,6 +163,24 @@ return [
                                     'options' => [
                                         'asc' => 'PLUGIN_ADMIN.ASCENDING',
                                         'desc' => 'PLUGIN_ADMIN.DESCENDING'
+                                    ]
+                                ],
+                                'pages.order_digits' => [
+                                    'type' => 'select',
+                                    'size' => 'x-small',
+                                    'label' => 'PLUGIN_ADMIN.ORDER_DIGITS',
+                                    'help' => 'PLUGIN_ADMIN.ORDER_DIGITS_HELP',
+                                    'default' => 2,
+                                    'options' => [
+                                        1 => '1 (e.g. 5.about)',
+                                        2 => '2 (e.g. 05.about)',
+                                        3 => '3 (e.g. 005.about)',
+                                        4 => '4 (e.g. 0005.about)'
+                                    ],
+                                    'validate' => [
+                                        'type' => 'int',
+                                        'min' => 1,
+                                        'max' => 6
                                     ]
                                 ],
                                 'pages.list.count' => [
@@ -514,6 +528,27 @@ return [
                                         'type' => 'bool'
                                     ]
                                 ],
+                                'languages.http_accept_language_fallback' => [
+                                    'type' => 'list',
+                                    'label' => 'PLUGIN_ADMIN.HTTP_ACCEPT_LANGUAGE_FALLBACK',
+                                    'help' => 'PLUGIN_ADMIN.HTTP_ACCEPT_LANGUAGE_FALLBACK_HELP',
+                                    'fields' => [
+                                        'key' => [
+                                            'type' => 'key',
+                                            'label' => 'PLUGIN_ADMIN.LANGUAGE',
+                                            'help' => 'PLUGIN_ADMIN.HTTP_ACCEPT_LANGUAGE_FALLBACK_SOURCE_HELP',
+                                            'placeholder' => 'hr'
+                                        ],
+                                        'value' => [
+                                            'type' => 'selectize',
+                                            'size' => 'large',
+                                            'placeholder' => 'bs, en',
+                                            'label' => 'PLUGIN_ADMIN.HTTP_ACCEPT_LANGUAGE_FALLBACK_TARGETS',
+                                            'help' => 'PLUGIN_ADMIN.HTTP_ACCEPT_LANGUAGE_FALLBACK_TARGETS_HELP',
+                                            'classes' => 'fancy'
+                                        ]
+                                    ]
+                                ],
                                 'languages.override_locale' => [
                                     'type' => 'toggle',
                                     'label' => 'PLUGIN_ADMIN.OVERRIDE_LOCALE',
@@ -621,7 +656,7 @@ return [
                                 ],
                                 'pages.markdown.extra' => [
                                     'type' => 'toggle',
-                                    'label' => 'Markdown extra',
+                                    'label' => 'PLUGIN_ADMIN.MARKDOWN_EXTRA',
                                     'help' => 'PLUGIN_ADMIN.MARKDOWN_EXTRA_HELP',
                                     'highlight' => 0,
                                     'options' => [
@@ -662,6 +697,123 @@ return [
                                     'type' => 'toggle',
                                     'label' => 'PLUGIN_ADMIN.ESCAPE_MARKUP',
                                     'help' => 'PLUGIN_ADMIN.ESCAPE_MARKUP_HELP',
+                                    'highlight' => 0,
+                                    'options' => [
+                                        1 => 'PLUGIN_ADMIN.YES',
+                                        0 => 'PLUGIN_ADMIN.NO'
+                                    ],
+                                    'validate' => [
+                                        'type' => 'bool'
+                                    ]
+                                ],
+                                'pages.markdown.gfm.task_lists' => [
+                                    'type' => 'toggle',
+                                    'label' => 'GFM Task Lists',
+                                    'help' => 'Render `- [ ]` and `- [x]` list items as checkboxes.',
+                                    'highlight' => 1,
+                                    'options' => [
+                                        1 => 'PLUGIN_ADMIN.YES',
+                                        0 => 'PLUGIN_ADMIN.NO'
+                                    ],
+                                    'validate' => [
+                                        'type' => 'bool'
+                                    ]
+                                ],
+                                'pages.markdown.gfm.marks' => [
+                                    'type' => 'toggle',
+                                    'label' => 'GFM Highlight / Sub / Superscript',
+                                    'help' => 'Enable ==highlight==, ~subscript~, and ^superscript^ inline syntax.',
+                                    'highlight' => 1,
+                                    'options' => [
+                                        1 => 'PLUGIN_ADMIN.YES',
+                                        0 => 'PLUGIN_ADMIN.NO'
+                                    ],
+                                    'validate' => [
+                                        'type' => 'bool'
+                                    ]
+                                ],
+                                'pages.markdown.gfm.tagfilter' => [
+                                    'type' => 'toggle',
+                                    'label' => 'GFM Tag Filter',
+                                    'help' => 'Escape disallowed raw HTML tags (script, iframe, style, and similar) in output.',
+                                    'highlight' => 1,
+                                    'options' => [
+                                        1 => 'PLUGIN_ADMIN.YES',
+                                        0 => 'PLUGIN_ADMIN.NO'
+                                    ],
+                                    'validate' => [
+                                        'type' => 'bool'
+                                    ]
+                                ],
+                                'pages.markdown.gfm.autolinks' => [
+                                    'type' => 'toggle',
+                                    'label' => 'GFM Autolinks',
+                                    'help' => 'Autolink bare www. URLs and email addresses (bare http(s):// links use Automatic HTML Links above).',
+                                    'highlight' => 1,
+                                    'options' => [
+                                        1 => 'PLUGIN_ADMIN.YES',
+                                        0 => 'PLUGIN_ADMIN.NO'
+                                    ],
+                                    'validate' => [
+                                        'type' => 'bool'
+                                    ]
+                                ],
+                                'pages.markdown.tables.colspan' => [
+                                    'type' => 'toggle',
+                                    'label' => 'Table Cell Colspan',
+                                    'help' => 'Non-standard: an empty table cell merges into the cell on its left (colspan).',
+                                    'highlight' => 0,
+                                    'options' => [
+                                        1 => 'PLUGIN_ADMIN.YES',
+                                        0 => 'PLUGIN_ADMIN.NO'
+                                    ],
+                                    'validate' => [
+                                        'type' => 'bool'
+                                    ]
+                                ],
+                                'pages.markdown.tables.headerless' => [
+                                    'type' => 'toggle',
+                                    'label' => 'Header-less Tables',
+                                    'help' => 'Non-standard: a table may start with the divider row, with no header row above it.',
+                                    'highlight' => 0,
+                                    'options' => [
+                                        1 => 'PLUGIN_ADMIN.YES',
+                                        0 => 'PLUGIN_ADMIN.NO'
+                                    ],
+                                    'validate' => [
+                                        'type' => 'bool'
+                                    ]
+                                ],
+                                'pages.markdown.tables.captions' => [
+                                    'type' => 'toggle',
+                                    'label' => 'Table Captions',
+                                    'help' => 'Non-standard: a `[Caption]` line immediately after a table becomes a `<caption>` element.',
+                                    'highlight' => 0,
+                                    'options' => [
+                                        1 => 'PLUGIN_ADMIN.YES',
+                                        0 => 'PLUGIN_ADMIN.NO'
+                                    ],
+                                    'validate' => [
+                                        'type' => 'bool'
+                                    ]
+                                ],
+                                'pages.markdown.tables.attributes' => [
+                                    'type' => 'toggle',
+                                    'label' => 'Table Attributes',
+                                    'help' => 'Non-standard: a `{.class #id}` (or `{:.class}`) line immediately after a table sets the class and id on the table element.',
+                                    'highlight' => 0,
+                                    'options' => [
+                                        1 => 'PLUGIN_ADMIN.YES',
+                                        0 => 'PLUGIN_ADMIN.NO'
+                                    ],
+                                    'validate' => [
+                                        'type' => 'bool'
+                                    ]
+                                ],
+                                'pages.markdown.tables.multiline' => [
+                                    'type' => 'toggle',
+                                    'label' => 'Multi-line Table Cells',
+                                    'help' => 'Non-standard: a table row ending in a backslash continues onto the next line, joining cells with a line break.',
                                     'highlight' => 0,
                                     'options' => [
                                         1 => 'PLUGIN_ADMIN.YES',
@@ -719,6 +871,29 @@ return [
                                         'none' => 'No timestamp checking'
                                     ]
                                 ],
+                                'cache.check.interval' => [
+                                    'type' => 'number',
+                                    'size' => 'x-small',
+                                    'label' => 'PLUGIN_ADMIN.CACHE_CHECK_INTERVAL',
+                                    'help' => 'PLUGIN_ADMIN.CACHE_CHECK_INTERVAL_HELP',
+                                    'validate' => [
+                                        'type' => 'int',
+                                        'min' => 0
+                                    ]
+                                ],
+                                'pages.lazy_index' => [
+                                    'type' => 'toggle',
+                                    'label' => 'Lazy page index (experimental)',
+                                    'help' => 'Load pages, routes and taxonomy on demand from a per-page SQLite index instead of one large cache blob. Falls back to the classic cache automatically when no database engine is available.',
+                                    'highlight' => 0,
+                                    'options' => [
+                                        1 => 'PLUGIN_ADMIN.YES',
+                                        0 => 'PLUGIN_ADMIN.NO'
+                                    ],
+                                    'validate' => [
+                                        'type' => 'bool'
+                                    ]
+                                ],
                                 'cache.driver' => [
                                     'type' => 'select',
                                     'size' => 'small',
@@ -728,11 +903,9 @@ return [
                                     'options' => [
                                         'auto' => 'Auto detect',
                                         'file' => 'File',
-                                        'apc' => 'APC',
                                         'apcu' => 'APCu',
                                         'memcache' => 'Memcache',
                                         'memcached' => 'Memcached',
-                                        'wincache' => 'WinCache',
                                         'redis' => 'Redis'
                                     ]
                                 ],
@@ -841,20 +1014,6 @@ return [
                                         'type' => 'bool'
                                     ]
                                 ],
-                                'cache.memcache.server' => [
-                                    'type' => 'text',
-                                    'size' => 'medium',
-                                    'label' => 'PLUGIN_ADMIN.MEMCACHE_SERVER',
-                                    'help' => 'PLUGIN_ADMIN.MEMCACHE_SERVER_HELP',
-                                    'placeholder' => 'localhost'
-                                ],
-                                'cache.memcache.port' => [
-                                    'type' => 'text',
-                                    'size' => 'small',
-                                    'label' => 'PLUGIN_ADMIN.MEMCACHE_PORT',
-                                    'help' => 'PLUGIN_ADMIN.MEMCACHE_PORT_HELP',
-                                    'placeholder' => '11211'
-                                ],
                                 'cache.memcached.server' => [
                                     'type' => 'text',
                                     'size' => 'medium',
@@ -913,8 +1072,8 @@ return [
                                 'flex.cache.index.enabled' => [
                                     'type' => 'toggle',
                                     'label' => 'PLUGIN_ADMIN.FLEX_INDEX_CACHE_ENABLED',
-                                    'highlight' => 1,
-                                    'default' => 1,
+                                    'highlight' => 0,
+                                    'default' => 0,
                                     'options' => [
                                         1 => 'PLUGIN_ADMIN.ENABLED',
                                         0 => 'PLUGIN_ADMIN.DISABLED'
@@ -934,8 +1093,8 @@ return [
                                 'flex.cache.object.enabled' => [
                                     'type' => 'toggle',
                                     'label' => 'PLUGIN_ADMIN.FLEX_OBJECT_CACHE_ENABLED',
-                                    'highlight' => 1,
-                                    'default' => 1,
+                                    'highlight' => 0,
+                                    'default' => 0,
                                     'options' => [
                                         1 => 'PLUGIN_ADMIN.ENABLED',
                                         0 => 'PLUGIN_ADMIN.DISABLED'
@@ -1029,19 +1188,6 @@ return [
                                     'help' => 'PLUGIN_ADMIN.AUTOESCAPE_VARIABLES_HELP',
                                     'highlight' => 1,
                                     'default' => 1,
-                                    'options' => [
-                                        1 => 'PLUGIN_ADMIN.YES',
-                                        0 => 'PLUGIN_ADMIN.NO'
-                                    ],
-                                    'validate' => [
-                                        'type' => 'bool'
-                                    ]
-                                ],
-                                'twig.umask_fix' => [
-                                    'type' => 'toggle',
-                                    'label' => 'PLUGIN_ADMIN.TWIG_UMASK_FIX',
-                                    'help' => 'PLUGIN_ADMIN.TWIG_UMASK_FIX_HELP',
-                                    'highlight' => 0,
                                     'options' => [
                                         1 => 'PLUGIN_ADMIN.YES',
                                         0 => 'PLUGIN_ADMIN.NO'
@@ -1508,6 +1654,29 @@ return [
                                         'type' => 'bool'
                                     ]
                                 ],
+                                'images.url_actions' => [
+                                    'type' => 'toggle',
+                                    'label' => 'PLUGIN_ADMIN.IMAGES_URL_ACTIONS',
+                                    'help' => 'PLUGIN_ADMIN.IMAGES_URL_ACTIONS_HELP',
+                                    'highlight' => 0,
+                                    'options' => [
+                                        1 => 'PLUGIN_ADMIN.YES',
+                                        0 => 'PLUGIN_ADMIN.NO'
+                                    ],
+                                    'validate' => [
+                                        'type' => 'bool'
+                                    ]
+                                ],
+                                'images.max_pixels' => [
+                                    'type' => 'text',
+                                    'size' => 'small',
+                                    'label' => 'PLUGIN_ADMIN.IMAGES_MAX_PIXELS',
+                                    'help' => 'PLUGIN_ADMIN.IMAGES_MAX_PIXELS_HELP',
+                                    'validate' => [
+                                        'type' => 'int',
+                                        'min' => 0
+                                    ]
+                                ],
                                 'images.defaults.loading' => [
                                     'type' => 'select',
                                     'size' => 'small',
@@ -1555,29 +1724,6 @@ return [
                                     ],
                                     'validate' => [
                                         'type' => 'bool'
-                                    ]
-                                ],
-                                'images.url_actions' => [
-                                    'type' => 'toggle',
-                                    'label' => 'PLUGIN_ADMIN.IMAGES_URL_ACTIONS',
-                                    'help' => 'PLUGIN_ADMIN.IMAGES_URL_ACTIONS_HELP',
-                                    'highlight' => 0,
-                                    'options' => [
-                                        1 => 'PLUGIN_ADMIN.YES',
-                                        0 => 'PLUGIN_ADMIN.NO'
-                                    ],
-                                    'validate' => [
-                                        'type' => 'bool'
-                                    ]
-                                ],
-                                'images.max_pixels' => [
-                                    'type' => 'text',
-                                    'size' => 'small',
-                                    'label' => 'PLUGIN_ADMIN.IMAGES_MAX_PIXELS',
-                                    'help' => 'PLUGIN_ADMIN.IMAGES_MAX_PIXELS_HELP',
-                                    'validate' => [
-                                        'type' => 'int',
-                                        'min' => 0
                                     ]
                                 ],
                                 'media.enable_media_timestamp' => [
@@ -1958,6 +2104,30 @@ return [
                                     'label' => 'PLUGIN_ADMIN.PWD_REGEX',
                                     'help' => 'PLUGIN_ADMIN.PWD_REGEX_HELP'
                                 ],
+                                'pwd_rules' => [
+                                    'type' => 'list',
+                                    'label' => 'PLUGIN_ADMIN.PWD_RULES',
+                                    'help' => 'PLUGIN_ADMIN.PWD_RULES_HELP',
+                                    'style' => 'vertical',
+                                    'collapsed' => true,
+                                    'fields' => [
+                                        '.id' => [
+                                            'type' => 'text',
+                                            'label' => 'PLUGIN_ADMIN.PWD_RULES_ID',
+                                            'size' => 'small'
+                                        ],
+                                        '.label' => [
+                                            'type' => 'text',
+                                            'label' => 'PLUGIN_ADMIN.PWD_RULES_LABEL',
+                                            'size' => 'medium'
+                                        ],
+                                        '.pattern' => [
+                                            'type' => 'text',
+                                            'label' => 'PLUGIN_ADMIN.PWD_RULES_PATTERN',
+                                            'size' => 'medium'
+                                        ]
+                                    ]
+                                ],
                                 'intl_enabled' => [
                                     'type' => 'toggle',
                                     'label' => 'PLUGIN_ADMIN.INTL_ENABLED',
@@ -2045,9 +2215,10 @@ return [
                                 ],
                                 'http_x_forwarded.protocol' => [
                                     'type' => 'toggle',
-                                    'label' => 'HTTP_X_FORWARDED_PROTO Enabled',
-                                    'highlight' => 1,
-                                    'default' => 1,
+                                    'label' => 'PLUGIN_ADMIN.HTTP_X_FORWARDED_PROTO_ENABLED',
+                                    'help' => 'PLUGIN_ADMIN.HTTP_X_FORWARDED_PROTO_HELP',
+                                    'highlight' => 0,
+                                    'default' => 0,
                                     'options' => [
                                         1 => 'PLUGIN_ADMIN.YES',
                                         0 => 'PLUGIN_ADMIN.NO'
@@ -2058,7 +2229,8 @@ return [
                                 ],
                                 'http_x_forwarded.host' => [
                                     'type' => 'toggle',
-                                    'label' => 'HTTP_X_FORWARDED_HOST Enabled',
+                                    'label' => 'PLUGIN_ADMIN.HTTP_X_FORWARDED_HOST_ENABLED',
+                                    'help' => 'PLUGIN_ADMIN.HTTP_X_FORWARDED_HOST_HELP',
                                     'highlight' => 0,
                                     'default' => 0,
                                     'options' => [
@@ -2071,9 +2243,10 @@ return [
                                 ],
                                 'http_x_forwarded.port' => [
                                     'type' => 'toggle',
-                                    'label' => 'HTTP_X_FORWARDED_PORT Enabled',
-                                    'highlight' => 1,
-                                    'default' => 1,
+                                    'label' => 'PLUGIN_ADMIN.HTTP_X_FORWARDED_PORT_ENABLED',
+                                    'help' => 'PLUGIN_ADMIN.HTTP_X_FORWARDED_PORT_HELP',
+                                    'highlight' => 0,
+                                    'default' => 0,
                                     'options' => [
                                         1 => 'PLUGIN_ADMIN.YES',
                                         0 => 'PLUGIN_ADMIN.NO'
@@ -2084,9 +2257,38 @@ return [
                                 ],
                                 'http_x_forwarded.ip' => [
                                     'type' => 'toggle',
-                                    'label' => 'HTTP_X_FORWARDED IP Enabled',
-                                    'highlight' => 1,
-                                    'default' => 1,
+                                    'label' => 'PLUGIN_ADMIN.HTTP_X_FORWARDED_IP_ENABLED',
+                                    'help' => 'PLUGIN_ADMIN.HTTP_X_FORWARDED_IP_HELP',
+                                    'highlight' => 0,
+                                    'default' => 0,
+                                    'options' => [
+                                        1 => 'PLUGIN_ADMIN.YES',
+                                        0 => 'PLUGIN_ADMIN.NO'
+                                    ],
+                                    'validate' => [
+                                        'type' => 'bool'
+                                    ]
+                                ],
+                                'http_x_forwarded.client_ip' => [
+                                    'type' => 'toggle',
+                                    'label' => 'PLUGIN_ADMIN.HTTP_CLIENT_IP_ENABLED',
+                                    'help' => 'PLUGIN_ADMIN.HTTP_CLIENT_IP_HELP',
+                                    'highlight' => 0,
+                                    'default' => 0,
+                                    'options' => [
+                                        1 => 'PLUGIN_ADMIN.YES',
+                                        0 => 'PLUGIN_ADMIN.NO'
+                                    ],
+                                    'validate' => [
+                                        'type' => 'bool'
+                                    ]
+                                ],
+                                'http_x_forwarded.cf_connecting_ip' => [
+                                    'type' => 'toggle',
+                                    'label' => 'PLUGIN_ADMIN.HTTP_CF_CONNECTING_IP_ENABLED',
+                                    'help' => 'PLUGIN_ADMIN.HTTP_CF_CONNECTING_IP_HELP',
+                                    'highlight' => 0,
+                                    'default' => 0,
                                     'options' => [
                                         1 => 'PLUGIN_ADMIN.YES',
                                         0 => 'PLUGIN_ADMIN.NO'
@@ -2098,8 +2300,8 @@ return [
                                 'strict_mode.blueprint_compat' => [
                                     'type' => 'toggle',
                                     'label' => 'PLUGIN_ADMIN.STRICT_BLUEPRINT_COMPAT',
-                                    'highlight' => 0,
-                                    'default' => 0,
+                                    'highlight' => 1,
+                                    'default' => 1,
                                     'help' => 'PLUGIN_ADMIN.STRICT_BLUEPRINT_COMPAT_HELP',
                                     'options' => [
                                         1 => 'PLUGIN_ADMIN.YES',
@@ -2123,12 +2325,26 @@ return [
                                         'type' => 'bool'
                                     ]
                                 ],
-                                'strict_mode.twig_compat' => [
+                                'strict_mode.twig2_compat' => [
                                     'type' => 'toggle',
                                     'label' => 'PLUGIN_ADMIN.STRICT_TWIG_COMPAT',
                                     'highlight' => 0,
                                     'default' => 0,
                                     'help' => 'PLUGIN_ADMIN.STRICT_TWIG_COMPAT_HELP',
+                                    'options' => [
+                                        1 => 'PLUGIN_ADMIN.YES',
+                                        0 => 'PLUGIN_ADMIN.NO'
+                                    ],
+                                    'validate' => [
+                                        'type' => 'bool'
+                                    ]
+                                ],
+                                'strict_mode.twig3_compat' => [
+                                    'type' => 'toggle',
+                                    'label' => 'PLUGIN_ADMIN.TWIG_3_COMPATIBILITY',
+                                    'highlight' => 0,
+                                    'default' => 0,
+                                    'help' => 'PLUGIN_ADMIN.TWIG_3_COMPATIBILITY_HELP',
                                     'options' => [
                                         1 => 'PLUGIN_ADMIN.YES',
                                         0 => 'PLUGIN_ADMIN.NO'
@@ -2145,7 +2361,7 @@ return [
                             'fields' => [
                                 'flex_accounts' => [
                                     'type' => 'section',
-                                    'title' => 'User Accounts'
+                                    'title' => 'PLUGIN_ADMIN.USER_ACCOUNTS'
                                 ],
                                 'accounts.type' => [
                                     'type' => 'select',

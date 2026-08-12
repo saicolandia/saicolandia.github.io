@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/da.yaml',
-    'modified' => 1782871084,
-    'size' => 1667,
+    'modified' => 1786572335,
+    'size' => 1870,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -96,6 +96,15 @@ Sti: `%2$s`
                 'ERROR1' => 'Tagget %s understøttes ikke!',
                 'ERROR2' => 'Ugyldigt antal elementer'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Medier',
+            'MEDIA_TYPES' => 'Medietyper',
+            'IMAGE_OPTIONS' => 'Billedmuligheder',
+            'MIME_TYPE' => 'MIME-type',
+            'THUMB' => 'Miniature',
+            'TYPE' => 'Type',
+            'FILE_EXTENSION' => 'Filendelse'
         ]
     ]
 ];

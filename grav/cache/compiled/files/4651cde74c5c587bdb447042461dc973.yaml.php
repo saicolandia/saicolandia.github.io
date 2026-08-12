@@ -1,0 +1,48 @@
+<?php
+return [
+    '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
+    'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/grav-2/user/themes/oxygen/languages.yaml',
+    'modified' => 1786572373,
+    'size' => 936,
+    'data' => [
+        'en' => [
+            'PLUGIN_ERROR' => [
+                'ERROR' => 'Error',
+                'ERROR_MESSAGE' => 'Sorry, this page can\'t be found. :(  <br> You can check the %SITEMAP% for all pages.
+'
+            ],
+            'PLUGIN_SITEMAP' => [
+                'TITLE_SITEMAP' => 'Sitemap',
+                'TITLE_TITLE' => 'Title',
+                'TITLE_LOCATION' => 'URL',
+                'TITLE_LASTMOD' => 'Last modified'
+            ]
+        ],
+        'de' => [
+            'PLUGIN_ERROR' => [
+                'ERROR' => 'Fehler',
+                'ERROR_MESSAGE' => 'Pardon, diese Seite wurde leider nicht gefunden. <br> Die %SITEMAP% bietet eine Übersicht über alle verfügbaren Seiten.
+'
+            ],
+            'PLUGIN_SITEMAP' => [
+                'TITLE_SITEMAP' => 'Sitemap',
+                'TITLE_TITLE' => 'Titel',
+                'TITLE_LOCATION' => 'URL',
+                'TITLE_LASTMOD' => 'Letzte Aktualisierung'
+            ]
+        ],
+        'cs' => [
+            'PLUGIN_ERROR' => [
+                'ERROR' => 'Chyba',
+                'ERROR_MESSAGE' => 'Vypadá to, že hledaná stránka tu není. <br> %SITEMAP% poskytuje přehled všech dostupných stránek.
+'
+            ],
+            'PLUGIN_SITEMAP' => [
+                'TITLE_SITEMAP' => 'Sitemap',
+                'TITLE_TITLE' => 'Název',
+                'TITLE_LOCATION' => 'URL',
+                'TITLE_LASTMOD' => 'Naposledy změněno'
+            ]
+        ]
+    ]
+];

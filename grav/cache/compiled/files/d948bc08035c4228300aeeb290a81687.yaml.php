@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/si.yaml',
-    'modified' => 1782871084,
-    'size' => 4377,
+    'modified' => 1786572335,
+    'size' => 4710,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -146,6 +146,15 @@ return [
                 'ERROR3' => 'jquery_element jqCron සැකසුම් වලට සැකසිය යුතුය',
                 'ERROR4' => 'හඳුනා නොගත් ප්‍රකාශනය'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'මාධ්යය',
+            'MEDIA_TYPES' => 'මාධ්ය වර්ග',
+            'IMAGE_OPTIONS' => 'රූප විකල්ප',
+            'MIME_TYPE' => 'මයිම් වර්ගය',
+            'THUMB' => 'මහපටැඟිල්ල',
+            'TYPE' => 'ටයිප් කරන්න',
+            'FILE_EXTENSION' => 'ගොනු දිගුව'
         ]
     ]
 ];

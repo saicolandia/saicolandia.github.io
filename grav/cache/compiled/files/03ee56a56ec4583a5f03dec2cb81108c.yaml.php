@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/fa.yaml',
-    'modified' => 1782871084,
-    'size' => 1545,
+    'modified' => 1786572335,
+    'size' => 1785,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -82,6 +82,15 @@ return [
                 5 => 'شنبه',
                 6 => 'یک‌شنبه'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'رسانه',
+            'MEDIA_TYPES' => 'نوع رسانه',
+            'IMAGE_OPTIONS' => 'گزینه های تصویر',
+            'MIME_TYPE' => 'نوع فایل',
+            'THUMB' => 'نما',
+            'TYPE' => 'نوع',
+            'FILE_EXTENSION' => 'پسوند فایل'
         ]
     ]
 ];

@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/ko.yaml',
-    'modified' => 1782871084,
-    'size' => 2075,
+    'modified' => 1786572335,
+    'size' => 2113,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -113,6 +113,9 @@ title: %1$s
                 'ERROR3' => 'jquery_element는 jqCron 설정에서 설정할 수 있습니다.',
                 'ERROR4' => '인식할 수 없는 표현'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => '미디어'
         ]
     ]
 ];

@@ -2,13 +2,14 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/flex-objects/blueprints.yaml',
-    'modified' => 1772038424,
-    'size' => 1394,
+    'modified' => 1786572383,
+    'size' => 1831,
     'data' => [
         'name' => 'Flex Objects',
         'slug' => 'flex-objects',
         'type' => 'plugin',
-        'version' => '1.3.8',
+        'testing' => false,
+        'version' => '1.4.9',
         'description' => 'Flex Objects plugin allows you to manage Flex Objects in Grav Admin.',
         'icon' => 'list-alt',
         'author' => [
@@ -20,14 +21,23 @@ return [
         'bugs' => 'https://github.com/trilbymedia/grav-plugin-flex-objects/issues',
         'docs' => 'https://github.com/trilbymedia/grav-plugin-flex-objects/blob/develop/README.md',
         'license' => 'MIT',
+        'compatibility' => [
+            'grav' => [
+                0 => '2.0'
+            ]
+        ],
         'dependencies' => [
             0 => [
                 'name' => 'grav',
-                'version' => '>=1.7.32'
+                'version' => '>=2.0.0'
             ],
             1 => [
                 'name' => 'form',
                 'version' => '>=6.0.0'
+            ],
+            2 => [
+                'name' => 'api',
+                'version' => '>=1.0.0'
             ]
         ],
         'form' => [
@@ -59,11 +69,23 @@ return [
                         'type' => 'bool'
                     ]
                 ],
-                'extra_admin_twig_path' => [
-                    'type' => 'text',
-                    'label' => 'PLUGIN_FLEX_OBJECTS.EXTRA_ADMIN_TWIG_PATH',
+                'security_section' => [
+                    'type' => 'section',
+                    'title' => 'Security',
+                    'underline' => true
+                ],
+                'security.restrict_page_frontmatter' => [
+                    'type' => 'toggle',
+                    'label' => 'Restrict Page Frontmatter Editing',
+                    'help' => 'When enabled, non-superusers cannot modify form, forms, process, or twig settings in page headers. Disable if editors need to modify forms.',
+                    'highlight' => 1,
+                    'default' => 1,
+                    'options' => [
+                        1 => 'PLUGIN_ADMIN.ENABLED',
+                        0 => 'PLUGIN_ADMIN.DISABLED'
+                    ],
                     'validate' => [
-                        'required' => true
+                        'type' => 'bool'
                     ]
                 ],
                 'directories' => [

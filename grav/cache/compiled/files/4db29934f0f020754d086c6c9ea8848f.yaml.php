@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/it.yaml',
-    'modified' => 1782871084,
-    'size' => 3701,
+    'modified' => 1786572335,
+    'size' => 3927,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---Titolo: %1$s---# Errore: Frontmatter non valido: \'%2$s\' * *%3$s * * \' \'%4$s \' \'',
@@ -161,6 +161,15 @@ return [
                 'ERROR3' => 'Il jquery_element deve essere impostato nelle impostazioni di jqCron',
                 'ERROR4' => 'Espressione non riconosciuta'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Media',
+            'MEDIA_TYPES' => 'Tipi di media',
+            'IMAGE_OPTIONS' => 'Opzioni immagine',
+            'MIME_TYPE' => 'Tipo di MIME',
+            'THUMB' => 'Miniatura immagine',
+            'TYPE' => 'Tipo',
+            'FILE_EXTENSION' => 'Estensioni dei file'
         ]
     ]
 ];

@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/form/form.yaml',
-    'modified' => 1766951854,
-    'size' => 2100,
+    'modified' => 1786572385,
+    'size' => 2798,
     'data' => [
         'enabled' => true,
         'built_in_css' => true,
@@ -31,13 +31,21 @@ return [
             'site_key' => NULL,
             'secret_key' => NULL
         ],
+        'cap' => [
+            'mode' => 'invisible',
+            'storage' => 'grav-cache',
+            'challenge_count' => 50,
+            'challenge_size' => 32,
+            'challenge_difficulty' => 4,
+            'expires_ms' => 600000
+        ],
         'turnstile' => [
             'theme' => 'light',
             'site_key' => NULL,
             'secret_key' => NULL
         ],
         'basic_captcha' => [
-            'type' => 'math',
+            'type' => 'characters',
             'debug' => false,
             'image' => [
                 'width' => 135,
@@ -63,6 +71,12 @@ return [
                     1 => '-',
                     2 => '*'
                 ]
+            ],
+            'dots' => [
+                'rows' => 2,
+                'cols' => 4,
+                'min' => 2,
+                'max' => 5
             ]
         ]
     ]

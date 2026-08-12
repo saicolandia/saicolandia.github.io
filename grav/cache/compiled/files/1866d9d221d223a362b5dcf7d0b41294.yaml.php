@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/vi.yaml',
-    'modified' => 1782871084,
-    'size' => 1476,
+    'modified' => 1786572335,
+    'size' => 1543,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -83,6 +83,10 @@ tiêu đề: %1$s
                 5 => 'Thứ 7',
                 6 => 'Chủ Nhật'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Đa phương tiện',
+            'TYPE' => 'Loại'
         ]
     ]
 ];

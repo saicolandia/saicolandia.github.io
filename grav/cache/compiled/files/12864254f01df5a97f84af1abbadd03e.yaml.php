@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/config/system.yaml',
-    'modified' => 1786558200,
-    'size' => 4606,
+    'modified' => 1786572493,
+    'size' => 4584,
     'data' => [
         'absolute_urls' => false,
         'timezone' => NULL,
@@ -72,6 +72,9 @@ return [
                 'twig' => true
             ],
             'markdown' => [
+                'gfm' => [
+                    'tagfilter' => false
+                ],
                 'extra' => true,
                 'auto_line_breaks' => true,
                 'auto_url_links' => false,
@@ -160,8 +163,6 @@ return [
             'debug' => true,
             'auto_reload' => true,
             'autoescape' => true,
-            'undefined_functions' => true,
-            'undefined_filters' => true,
             'safe_functions' => [
                 
             ],

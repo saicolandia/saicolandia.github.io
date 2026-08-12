@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/sw.yaml',
-    'modified' => 1782871084,
-    'size' => 3667,
+    'modified' => 1786572335,
+    'size' => 3867,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -173,6 +173,15 @@ Njia: `%2$s`
                 'ERROR3' => 'Jquery_element inapaswa kuwekwa kwenye mipangilio ya jqCron',
                 'ERROR4' => 'Maneno yasiyotambulika'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Media',
+            'MEDIA_TYPES' => 'Media Types',
+            'IMAGE_OPTIONS' => 'Image options',
+            'MIME_TYPE' => 'Mime Type',
+            'THUMB' => 'Thumb',
+            'TYPE' => 'Type',
+            'FILE_EXTENSION' => 'File Extension'
         ]
     ]
 ];

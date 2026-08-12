@@ -1,154 +1,102 @@
 <?php
 return [
     '@class' => 'Grav\\Common\\Config\\CompiledBlueprints',
-    'timestamp' => 1786558215,
-    'checksum' => '6d1fec41a5d6de0871b7e12685cbfebf',
+    'timestamp' => 1786572589,
+    'checksum' => '678c3856ecfa30ebf42c99a5f4283ee8',
     'files' => [
-        'user/plugins/admin/blueprints/config' => [
-            'media' => [
-                'file' => 'user/plugins/admin/blueprints/config/media.yaml',
-                'modified' => 1786461334
-            ]
-        ],
         'system/blueprints/config' => [
             'backups' => [
                 'file' => 'system/blueprints/config/backups.yaml',
-                'modified' => 1782871084
+                'modified' => 1786572335
             ],
             'media' => [
                 'file' => 'system/blueprints/config/media.yaml',
-                'modified' => 1782871084
+                'modified' => 1786572335
             ],
             'scheduler' => [
                 'file' => 'system/blueprints/config/scheduler.yaml',
-                'modified' => 1782871084
+                'modified' => 1786572335
             ],
             'security' => [
                 'file' => 'system/blueprints/config/security.yaml',
-                'modified' => 1782871084
+                'modified' => 1786572335
             ],
             'site' => [
                 'file' => 'system/blueprints/config/site.yaml',
-                'modified' => 1782871084
+                'modified' => 1786572335
             ],
             'streams' => [
                 'file' => 'system/blueprints/config/streams.yaml',
-                'modified' => 1782871084
+                'modified' => 1786572335
             ],
             'system' => [
                 'file' => 'system/blueprints/config/system.yaml',
-                'modified' => 1782871084
+                'modified' => 1786572335
             ]
         ],
         'user/plugins' => [
             'plugins/feed' => [
                 'file' => 'user/plugins/feed/blueprints.yaml',
-                'modified' => 1777615074
+                'modified' => 1786572372
             ],
             'plugins/problems' => [
                 'file' => 'user/plugins/problems/blueprints.yaml',
-                'modified' => 1771323264
-            ],
-            'plugins/admin' => [
-                'file' => 'user/plugins/admin/blueprints.yaml',
-                'modified' => 1786461334
+                'modified' => 1786572389
             ],
             'plugins/shortcode-core' => [
                 'file' => 'user/plugins/shortcode-core/blueprints.yaml',
-                'modified' => 1786461334
+                'modified' => 1786572373
+            ],
+            'plugins/api' => [
+                'file' => 'user/plugins/api/blueprints.yaml',
+                'modified' => 1786572395
             ],
             'plugins/sitemap' => [
                 'file' => 'user/plugins/sitemap/blueprints.yaml',
-                'modified' => 1771323265
+                'modified' => 1786572390
             ],
             'plugins/markdown-notices' => [
                 'file' => 'user/plugins/markdown-notices/blueprints.yaml',
-                'modified' => 1771323264
+                'modified' => 1786572387
+            ],
+            'plugins/migrate-grav' => [
+                'file' => 'user/plugins/migrate-grav/blueprints.yaml',
+                'modified' => 1786572373
             ],
             'plugins/email' => [
                 'file' => 'user/plugins/email/blueprints.yaml',
-                'modified' => 1785934068
+                'modified' => 1786572373
+            ],
+            'plugins/admin2' => [
+                'file' => 'user/plugins/admin2/blueprints.yaml',
+                'modified' => 1786572393
             ],
             'plugins/login' => [
                 'file' => 'user/plugins/login/blueprints.yaml',
-                'modified' => 1786103862
+                'modified' => 1786572373
             ],
             'plugins/form' => [
                 'file' => 'user/plugins/form/blueprints.yaml',
-                'modified' => 1766951854
+                'modified' => 1786572385
             ],
             'plugins/error' => [
                 'file' => 'user/plugins/error/blueprints.yaml',
-                'modified' => 1771323264
+                'modified' => 1786572382
             ],
             'plugins/flex-objects' => [
                 'file' => 'user/plugins/flex-objects/blueprints.yaml',
-                'modified' => 1772038424
+                'modified' => 1786572383
             ]
         ],
         'user/themes' => [
             'themes/oxygen' => [
                 'file' => 'user/themes/oxygen/blueprints.yaml',
-                'modified' => 1771323265
+                'modified' => 1786572373
             ]
         ]
     ],
     'data' => [
         'items' => [
-            'media' => [
-                'type' => '_root',
-                'form_field' => false,
-                'form' => [
-                    'validation' => 'loose'
-                ]
-            ],
-            'media.types' => [
-                'array' => true,
-                'name' => 'media.types',
-                'type' => 'list',
-                'label' => 'PLUGIN_ADMIN.MEDIA_TYPES',
-                'style' => 'vertical',
-                'key' => 'extension',
-                'controls' => 'both',
-                'collapsed' => true,
-                'validation' => 'loose'
-            ],
-            'media.types.*' => [
-                'type' => '_parent',
-                'name' => 'media.types.*',
-                'form_field' => false
-            ],
-            'media.types.*.type' => [
-                'type' => 'text',
-                'label' => 'PLUGIN_ADMIN.TYPE',
-                'name' => 'media.types.*.type',
-                'validation' => 'loose'
-            ],
-            'media.types.*.thumb' => [
-                'type' => 'text',
-                'label' => 'PLUGIN_ADMIN.THUMB',
-                'name' => 'media.types.*.thumb',
-                'validation' => 'loose'
-            ],
-            'media.types.*.mime' => [
-                'type' => 'text',
-                'label' => 'PLUGIN_ADMIN.MIME_TYPE',
-                'validate' => [
-                    'type' => 'lower'
-                ],
-                'name' => 'media.types.*.mime',
-                'validation' => 'loose'
-            ],
-            'media.types.*.image' => [
-                'type' => 'textarea',
-                'yaml' => true,
-                'label' => 'PLUGIN_ADMIN.IMAGE_OPTIONS',
-                'validate' => [
-                    'type' => 'yaml'
-                ],
-                'name' => 'media.types.*.image',
-                'validation' => 'loose'
-            ],
             'backups' => [
                 'type' => '_root',
                 'form_field' => false,
@@ -156,9 +104,21 @@ return [
                     'validation' => 'loose'
                 ]
             ],
+            'backups.history_title' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'backups.history_title',
+                'validation' => 'loose'
+            ],
             'backups.history' => [
                 'type' => 'backupshistory',
                 'name' => 'backups.history',
+                'validation' => 'loose'
+            ],
+            'backups.config_title' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'backups.config_title',
                 'validation' => 'loose'
             ],
             'backups.purge' => [
@@ -226,8 +186,13 @@ return [
                 'name' => 'backups.purge.max_backups_time',
                 'validation' => 'loose'
             ],
+            'backups.profiles_title' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'backups.profiles_title',
+                'validation' => 'loose'
+            ],
             'backups.profiles' => [
-                'array' => true,
                 'type' => 'list',
                 'style' => 'vertical',
                 'label' => NULL,
@@ -236,12 +201,7 @@ return [
                 'name' => 'backups.profiles',
                 'validation' => 'loose'
             ],
-            'backups.profiles.*' => [
-                'type' => '_parent',
-                'name' => 'backups.profiles.*',
-                'form_field' => false
-            ],
-            'backups.profiles.*.name' => [
+            'backups.profiles.name' => [
                 'type' => 'text',
                 'label' => 'PLUGIN_ADMIN.NAME',
                 'validate' => [
@@ -249,34 +209,34 @@ return [
                     'message' => 'Name must be less than 20 characters',
                     'required' => true
                 ],
-                'name' => 'backups.profiles.*.name',
+                'name' => 'backups.profiles.name',
                 'validation' => 'loose'
             ],
-            'backups.profiles.*.root' => [
+            'backups.profiles.root' => [
                 'type' => 'text',
                 'label' => 'PLUGIN_ADMIN.BACKUPS_PROFILE_ROOT_FOLDER',
                 'default' => '/',
                 'validate' => [
                     'required' => true
                 ],
-                'name' => 'backups.profiles.*.root',
+                'name' => 'backups.profiles.root',
                 'validation' => 'loose'
             ],
-            'backups.profiles.*.exclude_paths' => [
+            'backups.profiles.exclude_paths' => [
                 'type' => 'textarea',
                 'label' => 'PLUGIN_ADMIN.BACKUPS_PROFILE_EXCLUDE_PATHS',
                 'rows' => 5,
-                'name' => 'backups.profiles.*.exclude_paths',
+                'name' => 'backups.profiles.exclude_paths',
                 'validation' => 'loose'
             ],
-            'backups.profiles.*.exclude_files' => [
+            'backups.profiles.exclude_files' => [
                 'type' => 'textarea',
                 'label' => 'PLUGIN_ADMIN.BACKUPS_PROFILE_EXCLUDE_FILES',
                 'rows' => 5,
-                'name' => 'backups.profiles.*.exclude_files',
+                'name' => 'backups.profiles.exclude_files',
                 'validation' => 'loose'
             ],
-            'backups.profiles.*.schedule' => [
+            'backups.profiles.schedule' => [
                 'type' => 'toggle',
                 'label' => 'PLUGIN_ADMIN.BACKUPS_PROFILE_SCHEDULE',
                 'highlight' => 1,
@@ -288,17 +248,83 @@ return [
                 'validate' => [
                     'type' => 'bool'
                 ],
-                'name' => 'backups.profiles.*.schedule',
+                'name' => 'backups.profiles.schedule',
                 'validation' => 'loose'
             ],
-            'backups.profiles.*.schedule_at' => [
+            'backups.profiles.schedule_at' => [
                 'type' => 'cron',
                 'label' => 'PLUGIN_ADMIN.BACKUPS_PROFILE_SCHEDULE_AT',
                 'default' => '* 3 * * *',
                 'validate' => [
                     'required' => true
                 ],
-                'name' => 'backups.profiles.*.schedule_at',
+                'name' => 'backups.profiles.schedule_at',
+                'validation' => 'loose'
+            ],
+            'backups.profiles.schedule_environment' => [
+                'type' => 'select',
+                'label' => 'PLUGIN_ADMIN.BACKUPS_PROFILE_ENVIRONMENT',
+                'default' => '',
+                'options' => [
+                    '' => 'Default (cli)',
+                    'localhost' => 'Localhost',
+                    'cli' => 'CLI'
+                ],
+                'name' => 'backups.profiles.schedule_environment',
+                'validation' => 'loose'
+            ],
+            'media' => [
+                'type' => '_root',
+                'form_field' => false,
+                'form' => [
+                    'validation' => 'loose'
+                ]
+            ],
+            'media.types' => [
+                'name' => 'media.types',
+                'type' => 'list',
+                'label' => 'PLUGIN_ADMIN.MEDIA_TYPES',
+                'style' => 'vertical',
+                'key' => 'extension',
+                'controls' => 'both',
+                'collapsed' => true,
+                'validation' => 'loose'
+            ],
+            'media.types.extension' => [
+                'type' => 'key',
+                'label' => 'PLUGIN_ADMIN.FILE_EXTENSION',
+                'name' => 'media.types.extension',
+                'validation' => 'loose'
+            ],
+            'media.types.type' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.TYPE',
+                'name' => 'media.types.type',
+                'validation' => 'loose'
+            ],
+            'media.types.thumb' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.THUMB',
+                'name' => 'media.types.thumb',
+                'validation' => 'loose'
+            ],
+            'media.types.mime' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.MIME_TYPE',
+                'validate' => [
+                    'type' => 'lower'
+                ],
+                'name' => 'media.types.mime',
+                'validation' => 'loose'
+            ],
+            'media.types.image' => [
+                'type' => 'textarea',
+                'yaml' => true,
+                'label' => 'PLUGIN_ADMIN.IMAGE_OPTIONS',
+                'validate' => [
+                    'type' => 'yaml'
+                ],
+                'name' => 'media.types.image',
                 'validation' => 'loose'
             ],
             'scheduler' => [
@@ -308,6 +334,12 @@ return [
                     'validation' => 'loose'
                 ]
             ],
+            'scheduler.status_title' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'scheduler.status_title',
+                'validation' => 'loose'
+            ],
             'scheduler.status' => [
                 'type' => 'cronstatus',
                 'validate' => [
@@ -316,8 +348,211 @@ return [
                 'name' => 'scheduler.status',
                 'validation' => 'loose'
             ],
+            'scheduler.modern_health' => [
+                'type' => 'display',
+                'label' => 'PLUGIN_ADMIN.SCHEDULER_HEALTH_STATUS',
+                'content' => '<div id="scheduler-health-status">
+    <div class="text-muted">Loading...</div>
+</div>
+<script>
+(function() {
+    function renderHealthStatus() {
+        var data = window.schedulerHealthData;
+        var statusEl = document.getElementById(\'scheduler-health-status\');
+        if (!statusEl || !data) return;
+
+        var statusColor = \'#6c757d\';
+        var statusLabel = data.status || \'unknown\';
+        if (data.status === \'healthy\') statusColor = \'#28a745\';
+        else if (data.status === \'warning\') statusColor = \'#ffc107\';
+        else if (data.status === \'critical\') statusColor = \'#dc3545\';
+
+        var html = \'<div style="display: flex; flex-direction: column; gap: 1rem;">\';
+
+        // Status card
+        html += \'<div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%); border-radius: 6px; border: 1px solid #e9ecef; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">\';
+        html += \'<span style="font-weight: 500; color: #495057;">Status:</span>\';
+        html += \'<span style="background: \' + statusColor + \'; color: white; padding: 0.375rem 0.75rem; font-size: 0.875rem; font-weight: 500; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.025em;">\' + statusLabel + \'</span>\';
+        html += \'</div>\';
+
+        // Info grid
+        html += \'<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">\';
+
+        // Last run card
+        html += \'<div style="background: white; border: 1px solid #e9ecef; border-radius: 6px; padding: 0.75rem; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">\';
+        html += \'<div style="color: #6c757d; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Last Run</div>\';
+        if (data.last_run) {
+            var age = data.last_run_age;
+            var ageText = \'just now\';
+            if (age > 86400) {
+                ageText = Math.floor(age / 86400) + \' day(s) ago\';
+            } else if (age > 3600) {
+                ageText = Math.floor(age / 3600) + \' hour(s) ago\';
+            } else if (age > 60) {
+                ageText = Math.floor(age / 60) + \' minute(s) ago\';
+            } else if (age > 0) {
+                ageText = age + \' second(s) ago\';
+            }
+            html += \'<div style="font-size: 1rem; color: #212529; font-weight: 500;">\' + ageText + \'</div>\';
+        } else {
+            html += \'<div style="font-size: 1rem; color: #6c757d;">Never</div>\';
+        }
+        html += \'</div>\';
+
+        // Jobs count card
+        html += \'<div style="background: white; border: 1px solid #e9ecef; border-radius: 6px; padding: 0.75rem; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">\';
+        html += \'<div style="color: #6c757d; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Scheduled Jobs</div>\';
+        html += \'<div style="font-size: 1rem; color: #212529; font-weight: 500;">\' + (data.scheduled_jobs || 0) + \'</div>\';
+        html += \'</div>\';
+
+        html += \'</div>\'; // Close grid
+
+        // Queue size
+        if (data.queue_size !== undefined) {
+            html += \'<div style="background: white; border: 1px solid #e9ecef; border-radius: 6px; padding: 0.75rem; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">\';
+            html += \'<span style="color: #6c757d; font-size: 0.875rem;">Queue Size: </span>\';
+            html += \'<span style="font-weight: 500;">\' + data.queue_size + \'</span>\';
+            html += \'</div>\';
+        }
+
+        // Failed jobs warning
+        if (data.failed_jobs_24h > 0) {
+            html += \'<div style="background: #fff5f5; border: 1px solid #feb2b2; border-radius: 6px; padding: 0.75rem; color: #c53030;">\';
+            html += \'<strong>Failed Jobs (24h):</strong> \' + data.failed_jobs_24h;
+            html += \'</div>\';
+        }
+
+        html += \'</div>\';
+        statusEl.innerHTML = html;
+    }
+
+    if (document.readyState === \'loading\') {
+        document.addEventListener(\'DOMContentLoaded\', renderHealthStatus);
+    } else {
+        renderHealthStatus();
+    }
+})();
+</script>
+',
+                'markdown' => false,
+                'name' => 'scheduler.modern_health',
+                'validation' => 'loose'
+            ],
+            'scheduler.trigger_methods' => [
+                'type' => 'display',
+                'label' => 'PLUGIN_ADMIN.SCHEDULER_ACTIVE_TRIGGERS',
+                'content' => '<div id="scheduler-triggers">
+    <div class="text-muted">Loading...</div>
+</div>
+<script>
+(function() {
+    function goToWebhookConfig() {
+        // Find the "Advanced Features" tab and click it
+        var tabs = document.querySelectorAll(\'.tabs-nav a\');
+        for (var i = 0; i < tabs.length; i++) {
+            if (tabs[i].textContent.trim() === \'Advanced Features\') {
+                tabs[i].click();
+                // Scroll to "Webhook Configuration" section heading after tab switch
+                setTimeout(function() {
+                    var headings = document.querySelectorAll(\'h1\');
+                    for (var j = 0; j < headings.length; j++) {
+                        if (headings[j].textContent.trim() === \'Webhook Configuration\') {
+                            headings[j].scrollIntoView({ behavior: \'smooth\', block: \'start\' });
+                            return;
+                        }
+                    }
+                }, 150);
+                return;
+            }
+        }
+    }
+    // Expose globally for onclick handlers
+    window.goToWebhookConfig = goToWebhookConfig;
+
+    function renderTriggers() {
+        var data = window.schedulerHealthData;
+        var triggersEl = document.getElementById(\'scheduler-triggers\');
+        if (!triggersEl || !data) return;
+
+        // Check cron status from the main status field
+        var cronReady = false;
+        var statusDiv = document.querySelector(\'.cronstatus-status\');
+        if (statusDiv) {
+            var statusText = statusDiv.textContent || statusDiv.innerText;
+            cronReady = statusText.includes(\'Ready\');
+        }
+
+        var html = \'<div style="display: flex; flex-direction: column; gap: 0.5rem;">\';
+
+        // Cron trigger card
+        var cronIcon = cronReady ? \'<i class="fa fa-check-circle" style="color: #28a745;"></i>\' : \'<i class="fa fa-times-circle" style="color: #6c757d;"></i>\';
+        var cronStatus = cronReady ? \'Active\' : \'Not Configured\';
+        var cronStatusColor = cronReady ? \'#28a745\' : \'#6c757d\';
+        var cardBg = cronReady ? \'#f8f9fa\' : \'#fff\';
+
+        html += \'<div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: \' + cardBg + \'; border: 1px solid #e9ecef; border-radius: 4px;">\';
+        html += \'<div style="display: flex; align-items: center; gap: 0.75rem;">\';
+        html += \'<span style="font-size: 1.25rem; line-height: 1;">\' + cronIcon + \'</span>\';
+        html += \'<span style="font-weight: 500; color: #212529; font-size: 1rem;">Cron:</span>\';
+        html += \'</div>\';
+        html += \'<span style="background: \' + cronStatusColor + \'; color: white; padding: 0.25rem 0.75rem; font-size: 0.875rem; font-weight: 500; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.025em;">\' + cronStatus + \'</span>\';
+        html += \'</div>\';
+
+        // Webhook trigger card
+        if (data.webhook_enabled) {
+            html += \'<div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 4px;">\';
+            html += \'<div style="display: flex; align-items: center; gap: 0.75rem;">\';
+            html += \'<span style="font-size: 1.25rem; line-height: 1;"><i class="fa fa-check-circle" style="color: #28a745;"></i></span>\';
+            html += \'<span style="font-weight: 500; color: #212529; font-size: 1rem;">Webhook:</span>\';
+            html += \'</div>\';
+            html += \'<span style="background: #28a745; color: white; padding: 0.25rem 0.75rem; font-size: 0.875rem; font-weight: 500; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.025em;">ACTIVE</span>\';
+            html += \'</div>\';
+        } else {
+            html += \'<div onclick="goToWebhookConfig()" style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: #fff; border: 1px solid #e9ecef; border-radius: 4px; cursor: pointer;" title="Click to configure webhooks">\';
+            html += \'<div style="display: flex; align-items: center; gap: 0.75rem;">\';
+            html += \'<span style="font-size: 1.25rem; line-height: 1;"><i class="fa fa-minus-circle" style="color: #ffc107;"></i></span>\';
+            html += \'<span style="font-weight: 500; color: #212529; font-size: 1rem;">Webhook:</span>\';
+            html += \'</div>\';
+            html += \'<span style="background: #ffc107; color: #212529; padding: 0.25rem 0.75rem; font-size: 0.875rem; font-weight: 500; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.025em;">DISABLED</span>\';
+            html += \'</div>\';
+        }
+
+        html += \'</div>\';
+
+        if (!cronReady && !data.webhook_enabled) {
+            html += \'<div class="alert alert-warning" style="margin-top: 1rem; cursor: pointer;" onclick="goToWebhookConfig()">\';
+            html += \'<i class="fa fa-exclamation-triangle"></i> No triggers active! \';
+            html += \'<a onclick="goToWebhookConfig(); event.stopPropagation();" style="cursor: pointer; text-decoration: underline;">Enable webhooks</a>\';
+            html += \' or configure cron.</div>\';
+        }
+
+        triggersEl.innerHTML = html;
+    }
+
+    if (document.readyState === \'loading\') {
+        document.addEventListener(\'DOMContentLoaded\', renderTriggers);
+    } else {
+        renderTriggers();
+    }
+})();
+</script>
+',
+                'markdown' => false,
+                'name' => 'scheduler.trigger_methods',
+                'validation' => 'loose'
+            ],
+            'scheduler.status_tab' => [
+                'type' => 'tab',
+                'name' => 'scheduler.status_tab',
+                'validation' => 'loose'
+            ],
+            'scheduler.jobs_title' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'scheduler.jobs_title',
+                'validation' => 'loose'
+            ],
             'scheduler.custom_jobs' => [
-                'array' => true,
                 'type' => 'list',
                 'style' => 'vertical',
                 'label' => NULL,
@@ -326,43 +561,50 @@ return [
                 'name' => 'scheduler.custom_jobs',
                 'validation' => 'loose'
             ],
-            'scheduler.custom_jobs.*' => [
-                'type' => '_parent',
-                'name' => 'scheduler.custom_jobs.*',
-                'form_field' => false
+            'scheduler.custom_jobs.id' => [
+                'type' => 'key',
+                'label' => 'PLUGIN_ADMIN.ID',
+                'validate' => [
+                    'required' => true,
+                    'pattern' => '[a-zа-я0-9_\\-]+',
+                    'max' => 20,
+                    'message' => 'ID must be lowercase with dashes/underscores only and less than 20 characters'
+                ],
+                'name' => 'scheduler.custom_jobs.id',
+                'validation' => 'loose'
             ],
-            'scheduler.custom_jobs.*.command' => [
+            'scheduler.custom_jobs.command' => [
                 'type' => 'text',
                 'label' => 'PLUGIN_ADMIN.COMMAND',
                 'validate' => [
                     'required' => true
                 ],
-                'name' => 'scheduler.custom_jobs.*.command',
+                'name' => 'scheduler.custom_jobs.command',
                 'validation' => 'loose'
             ],
-            'scheduler.custom_jobs.*.args' => [
+            'scheduler.custom_jobs.args' => [
                 'type' => 'text',
                 'label' => 'PLUGIN_ADMIN.EXTRA_ARGUMENTS',
-                'name' => 'scheduler.custom_jobs.*.args',
+                'name' => 'scheduler.custom_jobs.args',
                 'validation' => 'loose'
             ],
-            'scheduler.custom_jobs.*.at' => [
+            'scheduler.custom_jobs.at' => [
                 'type' => 'text',
                 'wrapper_classes' => 'cron-selector',
                 'label' => 'PLUGIN_ADMIN.SCHEDULER_RUNAT',
                 'validate' => [
                     'required' => true
                 ],
-                'name' => 'scheduler.custom_jobs.*.at',
+                'name' => 'scheduler.custom_jobs.at',
                 'validation' => 'loose'
             ],
-            'scheduler.custom_jobs.*.output' => [
+            'scheduler.custom_jobs.output' => [
                 'type' => 'text',
                 'label' => 'PLUGIN_ADMIN.SCHEDULER_OUTPUT',
-                'name' => 'scheduler.custom_jobs.*.output',
+                'name' => 'scheduler.custom_jobs.output',
                 'validation' => 'loose'
             ],
-            'scheduler.custom_jobs.*.output_mode' => [
+            'scheduler.custom_jobs.output_mode' => [
                 'type' => 'select',
                 'label' => 'PLUGIN_ADMIN.SCHEDULER_OUTPUT_TYPE',
                 'default' => 'append',
@@ -370,13 +612,18 @@ return [
                     'append' => 'Append',
                     'overwrite' => 'Overwrite'
                 ],
-                'name' => 'scheduler.custom_jobs.*.output_mode',
+                'name' => 'scheduler.custom_jobs.output_mode',
                 'validation' => 'loose'
             ],
-            'scheduler.custom_jobs.*.email' => [
+            'scheduler.custom_jobs.email' => [
                 'type' => 'text',
                 'label' => 'PLUGIN_ADMIN.SCHEDULER_EMAIL',
-                'name' => 'scheduler.custom_jobs.*.email',
+                'name' => 'scheduler.custom_jobs.email',
+                'validation' => 'loose'
+            ],
+            'scheduler.jobs_tab' => [
+                'type' => 'tab',
+                'name' => 'scheduler.jobs_tab',
                 'validation' => 'loose'
             ],
             'scheduler.modern' => [
@@ -386,7 +633,7 @@ return [
             ],
             'scheduler.modern.workers' => [
                 'type' => 'number',
-                'label' => 'Concurrent Workers',
+                'label' => 'PLUGIN_ADMIN.SCHEDULER_CONCURRENT_WORKERS',
                 'default' => 4,
                 'size' => 'x-small',
                 'append' => 'workers',
@@ -398,6 +645,12 @@ return [
                 'name' => 'scheduler.modern.workers',
                 'validation' => 'loose'
             ],
+            'scheduler.workers_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'scheduler.workers_section',
+                'validation' => 'loose'
+            ],
             'scheduler.modern.retry' => [
                 'type' => '_parent',
                 'name' => 'scheduler.modern.retry',
@@ -405,7 +658,7 @@ return [
             ],
             'scheduler.modern.retry.enabled' => [
                 'type' => 'toggle',
-                'label' => 'Enable Job Retry',
+                'label' => 'PLUGIN_ADMIN.SCHEDULER_RETRY_ENABLED',
                 'highlight' => 1,
                 'default' => 1,
                 'options' => [
@@ -420,7 +673,7 @@ return [
             ],
             'scheduler.modern.retry.max_attempts' => [
                 'type' => 'number',
-                'label' => 'Maximum Retry Attempts',
+                'label' => 'PLUGIN_ADMIN.SCHEDULER_RETRY_MAX_ATTEMPTS',
                 'default' => 3,
                 'size' => 'x-small',
                 'append' => 'retries',
@@ -434,13 +687,19 @@ return [
             ],
             'scheduler.modern.retry.backoff' => [
                 'type' => 'select',
-                'label' => 'Retry Backoff Strategy',
+                'label' => 'PLUGIN_ADMIN.SCHEDULER_RETRY_BACKOFF',
                 'default' => 'exponential',
                 'options' => [
                     'linear' => 'Linear (fixed delay)',
                     'exponential' => 'Exponential (increasing delay)'
                 ],
                 'name' => 'scheduler.modern.retry.backoff',
+                'validation' => 'loose'
+            ],
+            'scheduler.retry_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'scheduler.retry_section',
                 'validation' => 'loose'
             ],
             'scheduler.modern.queue' => [
@@ -450,14 +709,14 @@ return [
             ],
             'scheduler.modern.queue.path' => [
                 'type' => 'text',
-                'label' => 'Queue Storage Path',
+                'label' => 'PLUGIN_ADMIN.SCHEDULER_QUEUE_PATH',
                 'default' => 'user-data://scheduler/queue',
                 'name' => 'scheduler.modern.queue.path',
                 'validation' => 'loose'
             ],
             'scheduler.modern.queue.max_size' => [
                 'type' => 'number',
-                'label' => 'Maximum Queue Size',
+                'label' => 'PLUGIN_ADMIN.SCHEDULER_QUEUE_MAX_SIZE',
                 'default' => 1000,
                 'size' => 'x-small',
                 'append' => 'jobs',
@@ -469,6 +728,12 @@ return [
                 'name' => 'scheduler.modern.queue.max_size',
                 'validation' => 'loose'
             ],
+            'scheduler.queue_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'scheduler.queue_section',
+                'validation' => 'loose'
+            ],
             'scheduler.modern.history' => [
                 'type' => '_parent',
                 'name' => 'scheduler.modern.history',
@@ -476,7 +741,7 @@ return [
             ],
             'scheduler.modern.history.enabled' => [
                 'type' => 'toggle',
-                'label' => 'Enable Job History',
+                'label' => 'PLUGIN_ADMIN.SCHEDULER_HISTORY_ENABLED',
                 'highlight' => 1,
                 'default' => 1,
                 'options' => [
@@ -491,7 +756,7 @@ return [
             ],
             'scheduler.modern.history.retention_days' => [
                 'type' => 'number',
-                'label' => 'History Retention (days)',
+                'label' => 'PLUGIN_ADMIN.SCHEDULER_HISTORY_RETENTION',
                 'default' => 30,
                 'size' => 'x-small',
                 'append' => 'days',
@@ -501,6 +766,12 @@ return [
                     'max' => 365
                 ],
                 'name' => 'scheduler.modern.history.retention_days',
+                'validation' => 'loose'
+            ],
+            'scheduler.history_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'scheduler.history_section',
                 'validation' => 'loose'
             ],
             'scheduler.webhook_plugin_status' => [
@@ -516,7 +787,7 @@ return [
             ],
             'scheduler.modern.webhook.enabled' => [
                 'type' => 'toggle',
-                'label' => 'Enable Webhook Triggers',
+                'label' => 'PLUGIN_ADMIN.SCHEDULER_WEBHOOK_ENABLED',
                 'highlight' => 0,
                 'default' => 0,
                 'options' => [
@@ -531,16 +802,91 @@ return [
             ],
             'scheduler.modern.webhook.token' => [
                 'type' => 'text',
-                'label' => 'Webhook Security Token',
+                'label' => 'PLUGIN_ADMIN.SCHEDULER_WEBHOOK_TOKEN',
                 'autocomplete' => 'off',
                 'name' => 'scheduler.modern.webhook.token',
                 'validation' => 'loose'
             ],
+            'scheduler.webhook_token_generate' => [
+                'type' => 'display',
+                'label' => NULL,
+                'content' => '<div style="margin-top: -10px; margin-bottom: 15px;">
+    <button type="button" class="button button-primary" onclick="generateWebhookToken()">
+        <i class="fa fa-refresh"></i> Generate Token
+    </button>
+</div>
+<script>
+function generateWebhookToken() {
+    try {
+        // Generate token
+        const array = new Uint8Array(32);
+        crypto.getRandomValues(array);
+        const token = Array.from(array, byte => byte.toString(16).padStart(2, \'0\')).join(\'\');
+        
+        // Try multiple selectors to find the field
+        let field = document.querySelector(\'[name="data[scheduler][modern][webhook][token]"]\');
+        if (!field) {
+            field = document.querySelector(\'input[name*="webhook][token"]\');
+        }
+        if (!field) {
+            field = document.getElementById(\'scheduler-modern-webhook-token\');
+        }
+        if (!field) {
+            // Look for any text input in the webhook section
+            const webhookSection = document.querySelector(\'.webhook_section\');
+            if (webhookSection) {
+                const inputs = webhookSection.querySelectorAll(\'input[type="text"]\');
+                // Find the token field by checking for the placeholder
+                for (let input of inputs) {
+                    if (input.placeholder && input.placeholder.includes(\'Generate\')) {
+                        field = input;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        if (field) {
+            field.value = token;
+            field.dispatchEvent(new Event(\'change\', { bubbles: true }));
+            field.dispatchEvent(new Event(\'input\', { bubbles: true }));
+            // Flash the field to show it was updated
+            field.style.backgroundColor = \'#d4edda\';
+            setTimeout(function() {
+                field.style.backgroundColor = \'\';
+            }, 500);
+            // Also try to trigger Grav\'s form change detection
+            if (window.jQuery) {
+                jQuery(field).trigger(\'change\');
+            }
+        } else {
+            // Log more debugging info
+            console.error(\'Token field not found. Looking for input fields...\');
+            console.log(\'All inputs:\', document.querySelectorAll(\'input[type="text"]\'));
+            alert(\'Could not find the token field. Please ensure you are in the Advanced Features tab and the Webhook Configuration section is visible.\');
+        }
+    } catch (e) {
+        console.error(\'Error generating token:\', e);
+        alert(\'Error generating token: \' + e.message);
+    }
+}
+</script>
+',
+                'markdown' => false,
+                'name' => 'scheduler.webhook_token_generate',
+                'validation' => 'loose'
+            ],
             'scheduler.modern.webhook.path' => [
                 'type' => 'text',
-                'label' => 'Webhook Path',
+                'label' => 'PLUGIN_ADMIN.SCHEDULER_WEBHOOK_PATH',
                 'default' => '/scheduler/webhook',
                 'name' => 'scheduler.modern.webhook.path',
+                'validation' => 'loose'
+            ],
+            'scheduler.webhook_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'scheduler.webhook_section',
                 'validation' => 'loose'
             ],
             'scheduler.modern.health' => [
@@ -550,7 +896,7 @@ return [
             ],
             'scheduler.modern.health.enabled' => [
                 'type' => 'toggle',
-                'label' => 'Enable Health Check',
+                'label' => 'PLUGIN_ADMIN.SCHEDULER_HEALTH_CHECK_ENABLED',
                 'highlight' => 1,
                 'default' => 1,
                 'options' => [
@@ -565,9 +911,87 @@ return [
             ],
             'scheduler.modern.health.path' => [
                 'type' => 'text',
-                'label' => 'Health Check Path',
+                'label' => 'PLUGIN_ADMIN.SCHEDULER_HEALTH_CHECK_PATH',
                 'default' => '/scheduler/health',
                 'name' => 'scheduler.modern.health.path',
+                'validation' => 'loose'
+            ],
+            'scheduler.health_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'scheduler.health_section',
+                'validation' => 'loose'
+            ],
+            'scheduler.webhook_examples' => [
+                'type' => 'display',
+                'label' => NULL,
+                'content' => '<script src="{{ url(\'plugin://admin/themes/grav/js/clipboard-helper.js\') }}"></script>
+<div class="webhook-examples">
+    <script>
+    // Initialize webhook commands when page loads
+    document.addEventListener(\'DOMContentLoaded\', function() {
+        if (typeof GravClipboard !== \'undefined\') {
+            GravClipboard.initWebhookCommands();
+        }
+    });
+    </script>
+    
+    <div class="alert alert-info">
+        <h4>How to use webhooks:</h4>
+        
+        <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.25rem; font-weight: 500;">Trigger all due jobs (respects schedule):</label>
+            <div class="form-input-wrapper form-input-addon-wrapper">
+                <textarea id="webhook-all-cmd" readonly rows="2" style="font-family: monospace; background: #f5f5f5; resize: none;">Loading...</textarea>
+                <div class="form-input-addon form-input-append" style="cursor: pointer;" onclick="GravClipboard.copy(this)"><i class="fa fa-copy"></i> Copy</div>
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.25rem; font-weight: 500;">Force-run specific job (ignores schedule):</label>
+            <div class="form-input-wrapper form-input-addon-wrapper">
+                <textarea id="webhook-job-cmd" readonly rows="2" style="font-family: monospace; background: #f5f5f5; resize: none;">Loading...</textarea>
+                <div class="form-input-addon form-input-append" style="cursor: pointer;" onclick="GravClipboard.copy(this)"><i class="fa fa-copy"></i> Copy</div>
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.25rem; font-weight: 500;">Check health status:</label>
+            <div class="form-input-wrapper form-input-addon-wrapper">
+                <input type="text" id="webhook-health-cmd" readonly value="Loading..." style="font-family: monospace; background: #f5f5f5;">
+                <div class="form-input-addon form-input-append" style="cursor: pointer;" onclick="GravClipboard.copy(this)"><i class="fa fa-copy"></i> Copy</div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 1rem;">
+            <p><strong>GitHub Actions example:</strong></p>
+            <pre>- name: Trigger Scheduler
+  run: |
+    curl -X POST ${{ secrets.SITE_URL }}/scheduler/webhook \\
+      -H "Authorization: Bearer ${{ secrets.WEBHOOK_TOKEN }}"</pre>
+        </div>
+    </div>
+</div>
+',
+                'markdown' => false,
+                'name' => 'scheduler.webhook_examples',
+                'validation' => 'loose'
+            ],
+            'scheduler.webhook_usage' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'scheduler.webhook_usage',
+                'validation' => 'loose'
+            ],
+            'scheduler.modern_tab' => [
+                'type' => 'tab',
+                'name' => 'scheduler.modern_tab',
+                'validation' => 'loose'
+            ],
+            'scheduler.scheduler_tabs' => [
+                'type' => 'tabs',
+                'active' => 1,
+                'name' => 'scheduler.scheduler_tabs',
                 'validation' => 'loose'
             ],
             'security' => [
@@ -576,6 +1000,12 @@ return [
                 'form' => [
                     'validation' => 'loose'
                 ]
+            ],
+            'security.xss_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'security.xss_section',
+                'validation' => 'loose'
             ],
             'security.xss_whitelist' => [
                 'type' => 'selectize',
@@ -690,6 +1120,255 @@ return [
                 'name' => 'security.xss_dangerous_tags',
                 'validation' => 'loose'
             ],
+            'security.twig_content_section' => [
+                'type' => 'section',
+                'text' => 'PLUGIN_ADMIN.TWIG_CONTENT_HELP',
+                'underline' => true,
+                'name' => 'security.twig_content_section',
+                'validation' => 'loose'
+            ],
+            'security.twig_content' => [
+                'type' => '_parent',
+                'name' => 'security.twig_content',
+                'form_field' => false
+            ],
+            'security.twig_content.process_enabled' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.TWIG_CONTENT_PROCESS_ENABLED',
+                'highlight' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'default' => false,
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'security.twig_content.process_enabled',
+                'validation' => 'loose'
+            ],
+            'security.twig_content.editor_enabled' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.TWIG_CONTENT_EDITOR_ENABLED',
+                'highlight' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'default' => false,
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'security.twig_content.editor_enabled',
+                'validation' => 'loose'
+            ],
+            'security.twig_content.config_access' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.TWIG_CONTENT_CONFIG_ACCESS',
+                'highlight' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'default' => false,
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'security.twig_content.config_access',
+                'validation' => 'loose'
+            ],
+            'security.twig_sandbox_section' => [
+                'type' => 'section',
+                'text' => 'PLUGIN_ADMIN.TWIG_SANDBOX_HELP',
+                'underline' => true,
+                'name' => 'security.twig_sandbox_section',
+                'validation' => 'loose'
+            ],
+            'security.twig_sandbox' => [
+                'type' => '_parent',
+                'name' => 'security.twig_sandbox',
+                'form_field' => false
+            ],
+            'security.twig_sandbox.enabled' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.TWIG_SANDBOX_ENABLED',
+                'highlight' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'default' => true,
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'security.twig_sandbox.enabled',
+                'validation' => 'loose'
+            ],
+            'security.twig_sandbox.logging' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.TWIG_SANDBOX_LOGGING',
+                'highlight' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'default' => true,
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'security.twig_sandbox.logging',
+                'validation' => 'loose'
+            ],
+            'security.twig_sandbox.admin_hint' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.TWIG_SANDBOX_ADMIN_HINT',
+                'highlight' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'default' => true,
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'security.twig_sandbox.admin_hint',
+                'validation' => 'loose'
+            ],
+            'security.twig_sandbox.allowed_tags' => [
+                'type' => 'selectize',
+                'size' => 'large',
+                'label' => 'PLUGIN_ADMIN.TWIG_SANDBOX_ALLOWED_TAGS',
+                'classes' => 'fancy',
+                'validate' => [
+                    'type' => 'commalist'
+                ],
+                'name' => 'security.twig_sandbox.allowed_tags',
+                'validation' => 'loose'
+            ],
+            'security.twig_sandbox.allowed_filters' => [
+                'type' => 'selectize',
+                'size' => 'large',
+                'label' => 'PLUGIN_ADMIN.TWIG_SANDBOX_ALLOWED_FILTERS',
+                'classes' => 'fancy',
+                'validate' => [
+                    'type' => 'commalist'
+                ],
+                'name' => 'security.twig_sandbox.allowed_filters',
+                'validation' => 'loose'
+            ],
+            'security.twig_sandbox.allowed_functions' => [
+                'type' => 'selectize',
+                'size' => 'large',
+                'label' => 'PLUGIN_ADMIN.TWIG_SANDBOX_ALLOWED_FUNCTIONS',
+                'classes' => 'fancy',
+                'validate' => [
+                    'type' => 'commalist'
+                ],
+                'name' => 'security.twig_sandbox.allowed_functions',
+                'validation' => 'loose'
+            ],
+            'security.twig_sandbox.allowed_methods' => [
+                'type' => 'list',
+                'label' => 'PLUGIN_ADMIN.TWIG_SANDBOX_ALLOWED_METHODS',
+                'style' => 'vertical',
+                'collapsed' => true,
+                'name' => 'security.twig_sandbox.allowed_methods',
+                'validation' => 'loose'
+            ],
+            'security.twig_sandbox.allowed_methods.class' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.TWIG_SANDBOX_CLASS',
+                'size' => 'large',
+                'validate' => [
+                    'required' => true
+                ],
+                'name' => 'security.twig_sandbox.allowed_methods.class',
+                'validation' => 'loose'
+            ],
+            'security.twig_sandbox.allowed_methods.methods' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.TWIG_SANDBOX_METHODS',
+                'size' => 'large',
+                'name' => 'security.twig_sandbox.allowed_methods.methods',
+                'validation' => 'loose'
+            ],
+            'security.twig_sandbox.allowed_properties' => [
+                'type' => 'list',
+                'label' => 'PLUGIN_ADMIN.TWIG_SANDBOX_ALLOWED_PROPERTIES',
+                'style' => 'vertical',
+                'collapsed' => true,
+                'name' => 'security.twig_sandbox.allowed_properties',
+                'validation' => 'loose'
+            ],
+            'security.twig_sandbox.allowed_properties.class' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.TWIG_SANDBOX_CLASS',
+                'size' => 'large',
+                'validate' => [
+                    'required' => true
+                ],
+                'name' => 'security.twig_sandbox.allowed_properties.class',
+                'validation' => 'loose'
+            ],
+            'security.twig_sandbox.allowed_properties.methods' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.TWIG_SANDBOX_PROPERTIES',
+                'size' => 'large',
+                'name' => 'security.twig_sandbox.allowed_properties.methods',
+                'validation' => 'loose'
+            ],
+            'security.read_file_section' => [
+                'type' => 'section',
+                'text' => 'PLUGIN_ADMIN.READ_FILE_SECTION_HELP',
+                'underline' => true,
+                'name' => 'security.read_file_section',
+                'validation' => 'loose'
+            ],
+            'security.read_file' => [
+                'type' => '_parent',
+                'name' => 'security.read_file',
+                'form_field' => false
+            ],
+            'security.read_file.allowed_streams' => [
+                'type' => 'selectize',
+                'size' => 'large',
+                'label' => 'PLUGIN_ADMIN.READ_FILE_ALLOWED_STREAMS',
+                'classes' => 'fancy',
+                'validate' => [
+                    'type' => 'commalist'
+                ],
+                'name' => 'security.read_file.allowed_streams',
+                'validation' => 'loose'
+            ],
+            'security.read_file.allowed_extensions' => [
+                'type' => 'selectize',
+                'size' => 'large',
+                'label' => 'PLUGIN_ADMIN.READ_FILE_ALLOWED_EXTENSIONS',
+                'classes' => 'fancy',
+                'validate' => [
+                    'type' => 'commalist'
+                ],
+                'name' => 'security.read_file.allowed_extensions',
+                'validation' => 'loose'
+            ],
+            'security.read_file.max_size' => [
+                'type' => 'text',
+                'size' => 'small',
+                'label' => 'PLUGIN_ADMIN.READ_FILE_MAX_SIZE',
+                'default' => 1048576,
+                'validate' => [
+                    'type' => 'int',
+                    'min' => 0
+                ],
+                'name' => 'security.read_file.max_size',
+                'validation' => 'loose'
+            ],
+            'security.uploads_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'security.uploads_section',
+                'validation' => 'loose'
+            ],
             'security.uploads_dangerous_extensions' => [
                 'type' => 'selectize',
                 'size' => 'large',
@@ -770,10 +1449,17 @@ return [
                 'name' => 'site.taxonomies',
                 'validation' => 'loose'
             ],
+            'site.content' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'site.content',
+                'validation' => 'loose'
+            ],
             'site.summary' => [
-                'type' => '_parent',
+                'type' => 'section',
+                'underline' => true,
                 'name' => 'site.summary',
-                'form_field' => false
+                'validation' => 'loose'
             ],
             'site.summary.enabled' => [
                 'type' => 'toggle',
@@ -822,8 +1508,8 @@ return [
                 'validation' => 'loose'
             ],
             'site.metadata' => [
-                'type' => 'array',
-                'label' => 'PLUGIN_ADMIN.METADATA',
+                'type' => 'section',
+                'underline' => true,
                 'name' => 'site.metadata',
                 'validation' => 'loose'
             ],
@@ -834,8 +1520,8 @@ return [
                 'validation' => 'loose'
             ],
             'site.routes' => [
-                'type' => 'array',
-                'label' => 'PLUGIN_ADMIN.CUSTOM_ROUTES',
+                'type' => 'section',
+                'underline' => true,
                 'name' => 'site.routes',
                 'validation' => 'loose'
             ],
@@ -863,6 +1549,12 @@ return [
                 'form' => [
                     'validation' => 'loose'
                 ]
+            ],
+            'system.content_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'system.content_section',
+                'validation' => 'loose'
             ],
             'system.home' => [
                 'type' => '_parent',
@@ -915,14 +1607,10 @@ return [
                 'default' => [
                     0 => [
                         'markdown' => true
-                    ],
-                    1 => [
-                        'twig' => true
                     ]
                 ],
                 'options' => [
-                    'markdown' => 'Markdown',
-                    'twig' => 'Twig'
+                    'markdown' => 'Markdown'
                 ],
                 'use' => 'keys',
                 'name' => 'system.pages.process',
@@ -1039,6 +1727,25 @@ return [
                     'desc' => 'PLUGIN_ADMIN.DESCENDING'
                 ],
                 'name' => 'system.pages.order.dir',
+                'validation' => 'loose'
+            ],
+            'system.pages.order_digits' => [
+                'type' => 'select',
+                'size' => 'x-small',
+                'label' => 'PLUGIN_ADMIN.ORDER_DIGITS',
+                'default' => 2,
+                'options' => [
+                    1 => '1 (e.g. 5.about)',
+                    2 => '2 (e.g. 05.about)',
+                    3 => '3 (e.g. 005.about)',
+                    4 => '4 (e.g. 0005.about)'
+                ],
+                'validate' => [
+                    'type' => 'int',
+                    'min' => 1,
+                    'max' => 6
+                ],
+                'name' => 'system.pages.order_digits',
                 'validation' => 'loose'
             ],
             'system.pages.list' => [
@@ -1270,10 +1977,21 @@ return [
                 'name' => 'system.pages.frontmatter.ignore_fields',
                 'validation' => 'loose'
             ],
+            'system.content' => [
+                'type' => 'tab',
+                'name' => 'system.content',
+                'validation' => 'loose'
+            ],
+            'system.languages-section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'system.languages-section',
+                'validation' => 'loose'
+            ],
             'system.languages' => [
-                'type' => '_parent',
+                'type' => 'tab',
                 'name' => 'system.languages',
-                'form_field' => false
+                'validation' => 'loose'
             ],
             'system.languages.supported' => [
                 'type' => 'selectize',
@@ -1321,16 +2039,21 @@ return [
                 'name' => 'system.languages.include_default_lang_file_extension',
                 'validation' => 'loose'
             ],
+            'system.key' => [
+                'type' => 'key',
+                'label' => 'PLUGIN_ADMIN.LANGUAGE',
+                'name' => 'system.key',
+                'validation' => 'loose'
+            ],
             'system.value' => [
                 'type' => 'selectize',
                 'size' => 'large',
-                'label' => 'PLUGIN_ADMIN.CONTENT_LANGUAGE_FALLBACK',
+                'label' => 'PLUGIN_ADMIN.HTTP_ACCEPT_LANGUAGE_FALLBACK_TARGETS',
                 'classes' => 'fancy',
                 'name' => 'system.value',
                 'validation' => 'loose'
             ],
             'system.languages.content_fallback' => [
-                'array' => true,
                 'type' => 'list',
                 'label' => 'PLUGIN_ADMIN.CONTENT_LANGUAGE_FALLBACKS',
                 'name' => 'system.languages.content_fallback',
@@ -1406,6 +2129,12 @@ return [
                 'name' => 'system.languages.http_accept_language',
                 'validation' => 'loose'
             ],
+            'system.languages.http_accept_language_fallback' => [
+                'type' => 'list',
+                'label' => 'PLUGIN_ADMIN.HTTP_ACCEPT_LANGUAGE_FALLBACK',
+                'name' => 'system.languages.http_accept_language_fallback',
+                'validation' => 'loose'
+            ],
             'system.languages.override_locale' => [
                 'type' => 'toggle',
                 'label' => 'PLUGIN_ADMIN.OVERRIDE_LOCALE',
@@ -1432,6 +2161,12 @@ return [
                     'type' => 'bool'
                 ],
                 'name' => 'system.languages.debug',
+                'validation' => 'loose'
+            ],
+            'system.http_headers_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'system.http_headers_section',
                 'validation' => 'loose'
             ],
             'system.pages.expires' => [
@@ -1495,6 +2230,17 @@ return [
                 'name' => 'system.pages.vary_accept_encoding',
                 'validation' => 'loose'
             ],
+            'system.http_headers' => [
+                'type' => 'tab',
+                'name' => 'system.http_headers',
+                'validation' => 'loose'
+            ],
+            'system.markdow_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'system.markdow_section',
+                'validation' => 'loose'
+            ],
             'system.pages.markdown' => [
                 'type' => '_parent',
                 'name' => 'system.pages.markdown',
@@ -1502,7 +2248,7 @@ return [
             ],
             'system.pages.markdown.extra' => [
                 'type' => 'toggle',
-                'label' => 'Markdown extra',
+                'label' => 'PLUGIN_ADMIN.MARKDOWN_EXTRA',
                 'highlight' => 0,
                 'options' => [
                     1 => 'PLUGIN_ADMIN.YES',
@@ -1556,6 +2302,142 @@ return [
                 'name' => 'system.pages.markdown.escape_markup',
                 'validation' => 'loose'
             ],
+            'system.pages.markdown.gfm' => [
+                'type' => '_parent',
+                'name' => 'system.pages.markdown.gfm',
+                'form_field' => false
+            ],
+            'system.pages.markdown.gfm.task_lists' => [
+                'type' => 'toggle',
+                'label' => 'GFM Task Lists',
+                'highlight' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.pages.markdown.gfm.task_lists',
+                'validation' => 'loose'
+            ],
+            'system.pages.markdown.gfm.marks' => [
+                'type' => 'toggle',
+                'label' => 'GFM Highlight / Sub / Superscript',
+                'highlight' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.pages.markdown.gfm.marks',
+                'validation' => 'loose'
+            ],
+            'system.pages.markdown.gfm.tagfilter' => [
+                'type' => 'toggle',
+                'label' => 'GFM Tag Filter',
+                'highlight' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.pages.markdown.gfm.tagfilter',
+                'validation' => 'loose'
+            ],
+            'system.pages.markdown.gfm.autolinks' => [
+                'type' => 'toggle',
+                'label' => 'GFM Autolinks',
+                'highlight' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.pages.markdown.gfm.autolinks',
+                'validation' => 'loose'
+            ],
+            'system.pages.markdown.tables' => [
+                'type' => '_parent',
+                'name' => 'system.pages.markdown.tables',
+                'form_field' => false
+            ],
+            'system.pages.markdown.tables.colspan' => [
+                'type' => 'toggle',
+                'label' => 'Table Cell Colspan',
+                'highlight' => 0,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.pages.markdown.tables.colspan',
+                'validation' => 'loose'
+            ],
+            'system.pages.markdown.tables.headerless' => [
+                'type' => 'toggle',
+                'label' => 'Header-less Tables',
+                'highlight' => 0,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.pages.markdown.tables.headerless',
+                'validation' => 'loose'
+            ],
+            'system.pages.markdown.tables.captions' => [
+                'type' => 'toggle',
+                'label' => 'Table Captions',
+                'highlight' => 0,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.pages.markdown.tables.captions',
+                'validation' => 'loose'
+            ],
+            'system.pages.markdown.tables.attributes' => [
+                'type' => 'toggle',
+                'label' => 'Table Attributes',
+                'highlight' => 0,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.pages.markdown.tables.attributes',
+                'validation' => 'loose'
+            ],
+            'system.pages.markdown.tables.multiline' => [
+                'type' => 'toggle',
+                'label' => 'Multi-line Table Cells',
+                'highlight' => 0,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.pages.markdown.tables.multiline',
+                'validation' => 'loose'
+            ],
             'system.pages.markdown.valid_link_attributes' => [
                 'type' => 'selectize',
                 'size' => 'large',
@@ -1565,6 +2447,17 @@ return [
                     'type' => 'commalist'
                 ],
                 'name' => 'system.pages.markdown.valid_link_attributes',
+                'validation' => 'loose'
+            ],
+            'system.markdown' => [
+                'type' => 'tab',
+                'name' => 'system.markdown',
+                'validation' => 'loose'
+            ],
+            'system.caching_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'system.caching_section',
                 'validation' => 'loose'
             ],
             'system.cache' => [
@@ -1605,6 +2498,31 @@ return [
                 'name' => 'system.cache.check.method',
                 'validation' => 'loose'
             ],
+            'system.cache.check.interval' => [
+                'type' => 'number',
+                'size' => 'x-small',
+                'label' => 'PLUGIN_ADMIN.CACHE_CHECK_INTERVAL',
+                'validate' => [
+                    'type' => 'int',
+                    'min' => 0
+                ],
+                'name' => 'system.cache.check.interval',
+                'validation' => 'loose'
+            ],
+            'system.pages.lazy_index' => [
+                'type' => 'toggle',
+                'label' => 'Lazy page index (experimental)',
+                'highlight' => 0,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.pages.lazy_index',
+                'validation' => 'loose'
+            ],
             'system.cache.driver' => [
                 'type' => 'select',
                 'size' => 'small',
@@ -1613,11 +2531,9 @@ return [
                 'options' => [
                     'auto' => 'Auto detect',
                     'file' => 'File',
-                    'apc' => 'APC',
                     'apcu' => 'APCu',
                     'memcache' => 'Memcache',
                     'memcached' => 'Memcached',
-                    'wincache' => 'WinCache',
                     'redis' => 'Redis'
                 ],
                 'name' => 'system.cache.driver',
@@ -1737,25 +2653,6 @@ return [
                 'name' => 'system.cache.allow_webserver_gzip',
                 'validation' => 'loose'
             ],
-            'system.cache.memcache' => [
-                'type' => '_parent',
-                'name' => 'system.cache.memcache',
-                'form_field' => false
-            ],
-            'system.cache.memcache.server' => [
-                'type' => 'text',
-                'size' => 'medium',
-                'label' => 'PLUGIN_ADMIN.MEMCACHE_SERVER',
-                'name' => 'system.cache.memcache.server',
-                'validation' => 'loose'
-            ],
-            'system.cache.memcache.port' => [
-                'type' => 'text',
-                'size' => 'small',
-                'label' => 'PLUGIN_ADMIN.MEMCACHE_PORT',
-                'name' => 'system.cache.memcache.port',
-                'validation' => 'loose'
-            ],
             'system.cache.memcached' => [
                 'type' => '_parent',
                 'name' => 'system.cache.memcached',
@@ -1819,6 +2716,11 @@ return [
                 'name' => 'system.cache.redis.database',
                 'validation' => 'loose'
             ],
+            'system.flex_caching' => [
+                'type' => 'section',
+                'name' => 'system.flex_caching',
+                'validation' => 'loose'
+            ],
             'system.flex' => [
                 'type' => '_parent',
                 'name' => 'system.flex',
@@ -1837,8 +2739,8 @@ return [
             'system.flex.cache.index.enabled' => [
                 'type' => 'toggle',
                 'label' => 'PLUGIN_ADMIN.FLEX_INDEX_CACHE_ENABLED',
-                'highlight' => 1,
-                'default' => 1,
+                'highlight' => 0,
+                'default' => 0,
                 'options' => [
                     1 => 'PLUGIN_ADMIN.ENABLED',
                     0 => 'PLUGIN_ADMIN.DISABLED'
@@ -1867,8 +2769,8 @@ return [
             'system.flex.cache.object.enabled' => [
                 'type' => 'toggle',
                 'label' => 'PLUGIN_ADMIN.FLEX_OBJECT_CACHE_ENABLED',
-                'highlight' => 1,
-                'default' => 1,
+                'highlight' => 0,
+                'default' => 0,
                 'options' => [
                     1 => 'PLUGIN_ADMIN.ENABLED',
                     0 => 'PLUGIN_ADMIN.DISABLED'
@@ -1919,10 +2821,21 @@ return [
                 'name' => 'system.flex.cache.render.lifetime',
                 'validation' => 'loose'
             ],
+            'system.caching' => [
+                'type' => 'tab',
+                'name' => 'system.caching',
+                'validation' => 'loose'
+            ],
+            'system.twig_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'system.twig_section',
+                'validation' => 'loose'
+            ],
             'system.twig' => [
-                'type' => '_parent',
+                'type' => 'tab',
                 'name' => 'system.twig',
-                'form_field' => false
+                'validation' => 'loose'
             ],
             'system.twig.cache' => [
                 'type' => 'toggle',
@@ -1981,24 +2894,16 @@ return [
                 'name' => 'system.twig.autoescape',
                 'validation' => 'loose'
             ],
-            'system.twig.umask_fix' => [
-                'type' => 'toggle',
-                'label' => 'PLUGIN_ADMIN.TWIG_UMASK_FIX',
-                'highlight' => 0,
-                'options' => [
-                    1 => 'PLUGIN_ADMIN.YES',
-                    0 => 'PLUGIN_ADMIN.NO'
-                ],
-                'validate' => [
-                    'type' => 'bool'
-                ],
-                'name' => 'system.twig.umask_fix',
+            'system.general_config_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'system.general_config_section',
                 'validation' => 'loose'
             ],
             'system.assets' => [
-                'type' => '_parent',
+                'type' => 'tab',
                 'name' => 'system.assets',
-                'form_field' => false
+                'validation' => 'loose'
             ],
             'system.assets.enable_asset_timestamp' => [
                 'type' => 'toggle',
@@ -2035,6 +2940,12 @@ return [
                     'type' => 'array'
                 ],
                 'name' => 'system.assets.collections',
+                'validation' => 'loose'
+            ],
+            'system.css_assets_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'system.css_assets_section',
                 'validation' => 'loose'
             ],
             'system.assets.css_pipeline' => [
@@ -2121,6 +3032,12 @@ return [
                 'name' => 'system.assets.css_rewrite',
                 'validation' => 'loose'
             ],
+            'system.js_assets_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'system.js_assets_section',
+                'validation' => 'loose'
+            ],
             'system.assets.js_pipeline' => [
                 'type' => 'toggle',
                 'label' => 'PLUGIN_ADMIN.JAVASCRIPT_PIPELINE',
@@ -2177,6 +3094,12 @@ return [
                 'name' => 'system.assets.js_minify',
                 'validation' => 'loose'
             ],
+            'system.js_module_assets_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'system.js_module_assets_section',
+                'validation' => 'loose'
+            ],
             'system.assets.js_module_pipeline' => [
                 'type' => 'toggle',
                 'label' => 'PLUGIN_ADMIN.JAVASCRIPT_MODULE_PIPELINE',
@@ -2219,10 +3142,16 @@ return [
                 'name' => 'system.assets.js_module_pipeline_before_excludes',
                 'validation' => 'loose'
             ],
+            'system.errors_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'system.errors_section',
+                'validation' => 'loose'
+            ],
             'system.errors' => [
-                'type' => '_parent',
+                'type' => 'tab',
                 'name' => 'system.errors',
-                'form_field' => false
+                'validation' => 'loose'
             ],
             'system.errors.display' => [
                 'type' => 'select',
@@ -2312,10 +3241,16 @@ return [
                 'name' => 'system.log.syslog.tag',
                 'validation' => 'loose'
             ],
+            'system.debugger_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'system.debugger_section',
+                'validation' => 'loose'
+            ],
             'system.debugger' => [
-                'type' => '_parent',
+                'type' => 'tab',
                 'name' => 'system.debugger',
-                'form_field' => false
+                'validation' => 'loose'
             ],
             'system.debugger.enabled' => [
                 'type' => 'toggle',
@@ -2374,6 +3309,12 @@ return [
                     'type' => 'bool'
                 ],
                 'name' => 'system.debugger.shutdown.close_connection',
+                'validation' => 'loose'
+            ],
+            'system.media_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'system.media_section',
                 'validation' => 'loose'
             ],
             'system.images' => [
@@ -2458,6 +3399,31 @@ return [
                 'name' => 'system.images.auto_fix_orientation',
                 'validation' => 'loose'
             ],
+            'system.images.url_actions' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.IMAGES_URL_ACTIONS',
+                'highlight' => 0,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.images.url_actions',
+                'validation' => 'loose'
+            ],
+            'system.images.max_pixels' => [
+                'type' => 'text',
+                'size' => 'small',
+                'label' => 'PLUGIN_ADMIN.IMAGES_MAX_PIXELS',
+                'validate' => [
+                    'type' => 'int',
+                    'min' => 0
+                ],
+                'name' => 'system.images.max_pixels',
+                'validation' => 'loose'
+            ],
             'system.images.defaults' => [
                 'type' => '_parent',
                 'name' => 'system.images.defaults',
@@ -2516,35 +3482,10 @@ return [
                 'name' => 'system.images.seofriendly',
                 'validation' => 'loose'
             ],
-            'system.images.url_actions' => [
-                'type' => 'toggle',
-                'label' => 'PLUGIN_ADMIN.IMAGES_URL_ACTIONS',
-                'highlight' => 0,
-                'options' => [
-                    1 => 'PLUGIN_ADMIN.YES',
-                    0 => 'PLUGIN_ADMIN.NO'
-                ],
-                'validate' => [
-                    'type' => 'bool'
-                ],
-                'name' => 'system.images.url_actions',
-                'validation' => 'loose'
-            ],
-            'system.images.max_pixels' => [
-                'type' => 'text',
-                'size' => 'small',
-                'label' => 'PLUGIN_ADMIN.IMAGES_MAX_PIXELS',
-                'validate' => [
-                    'type' => 'int',
-                    'min' => 0
-                ],
-                'name' => 'system.images.max_pixels',
-                'validation' => 'loose'
-            ],
             'system.media' => [
-                'type' => '_parent',
+                'type' => 'tab',
                 'name' => 'system.media',
-                'form_field' => false
+                'validation' => 'loose'
             ],
             'system.media.enable_media_timestamp' => [
                 'type' => 'toggle',
@@ -2596,6 +3537,12 @@ return [
                 'name' => 'system.media.unsupported_inline_types',
                 'validation' => 'loose'
             ],
+            'system.section_images_cls' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'system.section_images_cls',
+                'validation' => 'loose'
+            ],
             'system.images.cls' => [
                 'type' => '_parent',
                 'name' => 'system.images.cls',
@@ -2643,10 +3590,16 @@ return [
                 'name' => 'system.images.cls.retina_scale',
                 'validation' => 'loose'
             ],
+            'system.session_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'system.session_section',
+                'validation' => 'loose'
+            ],
             'system.session' => [
-                'type' => '_parent',
+                'type' => 'tab',
                 'name' => 'system.session',
-                'form_field' => false
+                'validation' => 'loose'
             ],
             'system.session.enabled' => [
                 'type' => 'hidden',
@@ -2791,6 +3744,17 @@ return [
                 'name' => 'system.session.split',
                 'validation' => 'loose'
             ],
+            'system.advanced_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'system.advanced_section',
+                'validation' => 'loose'
+            ],
+            'system.gpm_section' => [
+                'type' => 'section',
+                'name' => 'system.gpm_section',
+                'validation' => 'loose'
+            ],
             'system.gpm' => [
                 'type' => '_parent',
                 'name' => 'system.gpm',
@@ -2820,6 +3784,11 @@ return [
                     'type' => 'bool'
                 ],
                 'name' => 'system.gpm.official_gpm_only',
+                'validation' => 'loose'
+            ],
+            'system.http_section' => [
+                'type' => 'section',
+                'name' => 'system.http_section',
                 'validation' => 'loose'
             ],
             'system.http' => [
@@ -2907,6 +3876,11 @@ return [
                 'name' => 'system.http.concurrent_connections',
                 'validation' => 'loose'
             ],
+            'system.misc_section' => [
+                'type' => 'section',
+                'name' => 'system.misc_section',
+                'validation' => 'loose'
+            ],
             'system.reverse_proxy_setup' => [
                 'type' => 'toggle',
                 'label' => 'PLUGIN_ADMIN.REVERSE_PROXY',
@@ -2933,6 +3907,35 @@ return [
                 'size' => 'large',
                 'label' => 'PLUGIN_ADMIN.PWD_REGEX',
                 'name' => 'system.pwd_regex',
+                'validation' => 'loose'
+            ],
+            'system.pwd_rules' => [
+                'type' => 'list',
+                'label' => 'PLUGIN_ADMIN.PWD_RULES',
+                'style' => 'vertical',
+                'collapsed' => true,
+                'name' => 'system.pwd_rules',
+                'validation' => 'loose'
+            ],
+            'system.pwd_rules.id' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.PWD_RULES_ID',
+                'size' => 'small',
+                'name' => 'system.pwd_rules.id',
+                'validation' => 'loose'
+            ],
+            'system.pwd_rules.label' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.PWD_RULES_LABEL',
+                'size' => 'medium',
+                'name' => 'system.pwd_rules.label',
+                'validation' => 'loose'
+            ],
+            'system.pwd_rules.pattern' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.PWD_RULES_PATTERN',
+                'size' => 'medium',
+                'name' => 'system.pwd_rules.pattern',
                 'validation' => 'loose'
             ],
             'system.intl_enabled' => [
@@ -3033,9 +4036,9 @@ return [
             ],
             'system.http_x_forwarded.protocol' => [
                 'type' => 'toggle',
-                'label' => 'HTTP_X_FORWARDED_PROTO Enabled',
-                'highlight' => 1,
-                'default' => 1,
+                'label' => 'PLUGIN_ADMIN.HTTP_X_FORWARDED_PROTO_ENABLED',
+                'highlight' => 0,
+                'default' => 0,
                 'options' => [
                     1 => 'PLUGIN_ADMIN.YES',
                     0 => 'PLUGIN_ADMIN.NO'
@@ -3048,7 +4051,7 @@ return [
             ],
             'system.http_x_forwarded.host' => [
                 'type' => 'toggle',
-                'label' => 'HTTP_X_FORWARDED_HOST Enabled',
+                'label' => 'PLUGIN_ADMIN.HTTP_X_FORWARDED_HOST_ENABLED',
                 'highlight' => 0,
                 'default' => 0,
                 'options' => [
@@ -3063,9 +4066,9 @@ return [
             ],
             'system.http_x_forwarded.port' => [
                 'type' => 'toggle',
-                'label' => 'HTTP_X_FORWARDED_PORT Enabled',
-                'highlight' => 1,
-                'default' => 1,
+                'label' => 'PLUGIN_ADMIN.HTTP_X_FORWARDED_PORT_ENABLED',
+                'highlight' => 0,
+                'default' => 0,
                 'options' => [
                     1 => 'PLUGIN_ADMIN.YES',
                     0 => 'PLUGIN_ADMIN.NO'
@@ -3078,9 +4081,9 @@ return [
             ],
             'system.http_x_forwarded.ip' => [
                 'type' => 'toggle',
-                'label' => 'HTTP_X_FORWARDED IP Enabled',
-                'highlight' => 1,
-                'default' => 1,
+                'label' => 'PLUGIN_ADMIN.HTTP_X_FORWARDED_IP_ENABLED',
+                'highlight' => 0,
+                'default' => 0,
                 'options' => [
                     1 => 'PLUGIN_ADMIN.YES',
                     0 => 'PLUGIN_ADMIN.NO'
@@ -3091,6 +4094,36 @@ return [
                 'name' => 'system.http_x_forwarded.ip',
                 'validation' => 'loose'
             ],
+            'system.http_x_forwarded.client_ip' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.HTTP_CLIENT_IP_ENABLED',
+                'highlight' => 0,
+                'default' => 0,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.http_x_forwarded.client_ip',
+                'validation' => 'loose'
+            ],
+            'system.http_x_forwarded.cf_connecting_ip' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.HTTP_CF_CONNECTING_IP_ENABLED',
+                'highlight' => 0,
+                'default' => 0,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.http_x_forwarded.cf_connecting_ip',
+                'validation' => 'loose'
+            ],
             'system.strict_mode' => [
                 'type' => '_parent',
                 'name' => 'system.strict_mode',
@@ -3099,8 +4132,8 @@ return [
             'system.strict_mode.blueprint_compat' => [
                 'type' => 'toggle',
                 'label' => 'PLUGIN_ADMIN.STRICT_BLUEPRINT_COMPAT',
-                'highlight' => 0,
-                'default' => 0,
+                'highlight' => 1,
+                'default' => 1,
                 'options' => [
                     1 => 'PLUGIN_ADMIN.YES',
                     0 => 'PLUGIN_ADMIN.NO'
@@ -3126,7 +4159,7 @@ return [
                 'name' => 'system.strict_mode.yaml_compat',
                 'validation' => 'loose'
             ],
-            'system.strict_mode.twig_compat' => [
+            'system.strict_mode.twig2_compat' => [
                 'type' => 'toggle',
                 'label' => 'PLUGIN_ADMIN.STRICT_TWIG_COMPAT',
                 'highlight' => 0,
@@ -3138,13 +4171,38 @@ return [
                 'validate' => [
                     'type' => 'bool'
                 ],
-                'name' => 'system.strict_mode.twig_compat',
+                'name' => 'system.strict_mode.twig2_compat',
+                'validation' => 'loose'
+            ],
+            'system.strict_mode.twig3_compat' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.TWIG_3_COMPATIBILITY',
+                'highlight' => 0,
+                'default' => 0,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'system.strict_mode.twig3_compat',
+                'validation' => 'loose'
+            ],
+            'system.advanced' => [
+                'type' => 'tab',
+                'name' => 'system.advanced',
+                'validation' => 'loose'
+            ],
+            'system.flex_accounts' => [
+                'type' => 'section',
+                'name' => 'system.flex_accounts',
                 'validation' => 'loose'
             ],
             'system.accounts' => [
-                'type' => '_parent',
+                'type' => 'tab',
                 'name' => 'system.accounts',
-                'form_field' => false
+                'validation' => 'loose'
             ],
             'system.accounts.type' => [
                 'type' => 'select',
@@ -3177,6 +4235,12 @@ return [
                     'gravatar' => 'Gravatar [external]'
                 ],
                 'name' => 'system.accounts.avatar',
+                'validation' => 'loose'
+            ],
+            'system.system_tabs' => [
+                'type' => 'tabs',
+                'classes' => 'side-tabs',
+                'name' => 'system.system_tabs',
                 'validation' => 'loose'
             ],
             'plugins.feed' => [
@@ -3306,929 +4370,6 @@ return [
                 ],
                 'name' => 'plugins.problems.built_in_css',
                 'validation' => 'strict'
-            ],
-            'plugins.admin' => [
-                'type' => '_root',
-                'form_field' => false,
-                'form' => [
-                    'validation' => 'loose'
-                ]
-            ],
-            'plugins.admin.enabled' => [
-                'type' => 'hidden',
-                'label' => 'PLUGIN_ADMIN.PLUGIN_STATUS',
-                'highlight' => 1,
-                'default' => 0,
-                'options' => [
-                    1 => 'PLUGIN_ADMIN.ENABLED',
-                    0 => 'PLUGIN_ADMIN.DISABLED'
-                ],
-                'validate' => [
-                    'type' => 'bool'
-                ],
-                'name' => 'plugins.admin.enabled',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.cache_enabled' => [
-                'type' => 'toggle',
-                'label' => 'PLUGIN_ADMIN.ADMIN_CACHING',
-                'highlight' => 1,
-                'options' => [
-                    1 => 'PLUGIN_ADMIN.YES',
-                    0 => 'PLUGIN_ADMIN.NO'
-                ],
-                'validate' => [
-                    'type' => 'bool'
-                ],
-                'name' => 'plugins.admin.cache_enabled',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.twofa_enabled' => [
-                'type' => 'toggle',
-                'label' => 'PLUGIN_LOGIN.2FA_TITLE',
-                'default' => 1,
-                'highlight' => 1,
-                'options' => [
-                    1 => 'PLUGIN_ADMIN.YES',
-                    0 => 'PLUGIN_ADMIN.NO'
-                ],
-                'validate' => [
-                    'type' => 'bool'
-                ],
-                'name' => 'plugins.admin.twofa_enabled',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.route' => [
-                'type' => 'text',
-                'label' => 'PLUGIN_ADMIN.ADMIN_PATH',
-                'size' => 'medium',
-                'name' => 'plugins.admin.route',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.logo_text' => [
-                'type' => 'text',
-                'label' => 'PLUGIN_ADMIN.LOGO_TEXT',
-                'size' => 'medium',
-                'name' => 'plugins.admin.logo_text',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.content_padding' => [
-                'type' => 'toggle',
-                'label' => 'PLUGIN_ADMIN.CONTENT_PADDING',
-                'highlight' => 1,
-                'options' => [
-                    1 => 'PLUGIN_ADMIN.YES',
-                    0 => 'PLUGIN_ADMIN.NO'
-                ],
-                'validate' => [
-                    'type' => 'bool'
-                ],
-                'name' => 'plugins.admin.content_padding',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.body_classes' => [
-                'type' => 'text',
-                'label' => 'PLUGIN_ADMIN.BODY_CLASSES',
-                'size' => 'medium',
-                'name' => 'plugins.admin.body_classes',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.sidebar' => [
-                'type' => '_parent',
-                'name' => 'plugins.admin.sidebar',
-                'form_field' => false
-            ],
-            'plugins.admin.sidebar.activate' => [
-                'type' => 'select',
-                'label' => 'PLUGIN_ADMIN.SIDEBAR_ACTIVATION',
-                'size' => 'small',
-                'default' => 'tab',
-                'options' => [
-                    'tab' => 'PLUGIN_ADMIN.SIDEBAR_ACTIVATION_TAB',
-                    'hover' => 'PLUGIN_ADMIN.SIDEBAR_ACTIVATION_HOVER'
-                ],
-                'name' => 'plugins.admin.sidebar.activate',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.sidebar.hover_delay' => [
-                'type' => 'text',
-                'size' => 'x-small',
-                'append' => 'PLUGIN_ADMIN.SIDEBAR_HOVER_DELAY_APPEND',
-                'label' => 'PLUGIN_ADMIN.SIDEBAR_HOVER_DELAY',
-                'default' => 500,
-                'validate' => [
-                    'type' => 'number',
-                    'min' => 1
-                ],
-                'name' => 'plugins.admin.sidebar.hover_delay',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.sidebar.size' => [
-                'type' => 'select',
-                'label' => 'PLUGIN_ADMIN.SIDEBAR_SIZE',
-                'size' => 'medium',
-                'default' => 'auto',
-                'options' => [
-                    'auto' => 'PLUGIN_ADMIN.SIDEBAR_SIZE_AUTO',
-                    'small' => 'PLUGIN_ADMIN.SIDEBAR_SIZE_SMALL'
-                ],
-                'name' => 'plugins.admin.sidebar.size',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.theme' => [
-                'type' => 'hidden',
-                'label' => 'PLUGIN_ADMIN.THEME',
-                'default' => 'grav',
-                'name' => 'plugins.admin.theme',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.edit_mode' => [
-                'type' => 'select',
-                'label' => 'PLUGIN_ADMIN.EDIT_MODE',
-                'size' => 'small',
-                'default' => 'normal',
-                'options' => [
-                    'normal' => 'PLUGIN_ADMIN.NORMAL',
-                    'expert' => 'PLUGIN_ADMIN.EXPERT'
-                ],
-                'name' => 'plugins.admin.edit_mode',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.frontend_preview_target' => [
-                'type' => 'select',
-                'label' => 'PLUGIN_ADMIN.FRONTEND_PREVIEW_TARGET',
-                'size' => 'medium',
-                'default' => 'inline',
-                'options' => [
-                    'inline' => 'PLUGIN_ADMIN.FRONTEND_PREVIEW_TARGET_INLINE',
-                    '_blank' => 'PLUGIN_ADMIN.FRONTEND_PREVIEW_TARGET_NEW',
-                    '_self' => 'PLUGIN_ADMIN.FRONTEND_PREVIEW_TARGET_CURRENT'
-                ],
-                'name' => 'plugins.admin.frontend_preview_target',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.pages' => [
-                'type' => '_parent',
-                'name' => 'plugins.admin.pages',
-                'form_field' => false
-            ],
-            'plugins.admin.pages.show_parents' => [
-                'type' => 'select',
-                'size' => 'medium',
-                'label' => 'PLUGIN_ADMIN.PARENT_DROPDOWN',
-                'highlight' => 1,
-                'options' => [
-                    'both' => 'PLUGIN_ADMIN.PARENT_DROPDOWN_BOTH',
-                    'folder' => 'PLUGIN_ADMIN.PARENT_DROPDOWN_FOLDER',
-                    'fullpath' => 'PLUGIN_ADMIN.PARENT_DROPDOWN_FULLPATH'
-                ],
-                'name' => 'plugins.admin.pages.show_parents',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.pages.parents_levels' => [
-                'type' => 'text',
-                'label' => 'PLUGIN_ADMIN.PARENTS_LEVELS',
-                'size' => 'small',
-                'name' => 'plugins.admin.pages.parents_levels',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.pages.show_modular' => [
-                'type' => 'toggle',
-                'label' => 'PLUGIN_ADMIN.MODULAR_PARENTS',
-                'highlight' => 1,
-                'default' => 1,
-                'options' => [
-                    1 => 'PLUGIN_ADMIN.ENABLED',
-                    0 => 'PLUGIN_ADMIN.DISABLED'
-                ],
-                'validate' => [
-                    'type' => 'bool'
-                ],
-                'name' => 'plugins.admin.pages.show_modular',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.show_beta_msg' => [
-                'type' => 'hidden',
-                'name' => 'plugins.admin.show_beta_msg',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.show_github_msg' => [
-                'type' => 'toggle',
-                'label' => 'PLUGIN_ADMIN.SHOW_GITHUB_LINK',
-                'highlight' => 1,
-                'default' => 1,
-                'options' => [
-                    1 => 'PLUGIN_ADMIN.ENABLED',
-                    0 => 'PLUGIN_ADMIN.DISABLED'
-                ],
-                'validate' => [
-                    'type' => 'bool'
-                ],
-                'name' => 'plugins.admin.show_github_msg',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.enable_auto_updates_check' => [
-                'type' => 'toggle',
-                'label' => 'PLUGIN_ADMIN.AUTO_UPDATES',
-                'highlight' => 1,
-                'default' => 1,
-                'options' => [
-                    1 => 'PLUGIN_ADMIN.ENABLED',
-                    0 => 'PLUGIN_ADMIN.DISABLED'
-                ],
-                'validate' => [
-                    'type' => 'bool'
-                ],
-                'name' => 'plugins.admin.enable_auto_updates_check',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.session' => [
-                'type' => '_parent',
-                'name' => 'plugins.admin.session',
-                'form_field' => false
-            ],
-            'plugins.admin.session.timeout' => [
-                'type' => 'text',
-                'size' => 'small',
-                'label' => 'PLUGIN_ADMIN.TIMEOUT',
-                'append' => 'GRAV.NICETIME.SECOND_PLURAL',
-                'validate' => [
-                    'type' => 'number',
-                    'min' => 1
-                ],
-                'name' => 'plugins.admin.session.timeout',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.hide_page_types' => [
-                'type' => 'select',
-                'size' => 'large',
-                'label' => 'PLUGIN_ADMIN.HIDE_PAGE_TYPES',
-                'classes' => 'fancy',
-                'multiple' => true,
-                'array' => true,
-                'selectize' => [
-                    'create' => true
-                ],
-                'data-options@' => [
-                    0 => '\\Grav\\Plugin\\AdminPlugin::pagesTypes',
-                    1 => true
-                ],
-                'name' => 'plugins.admin.hide_page_types',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.hide_modular_page_types' => [
-                'type' => 'select',
-                'size' => 'large',
-                'label' => 'PLUGIN_ADMIN.HIDE_MODULAR_PAGE_TYPES',
-                'classes' => 'fancy',
-                'multiple' => true,
-                'array' => true,
-                'selectize' => [
-                    'create' => true
-                ],
-                'data-options@' => [
-                    0 => '\\Grav\\Plugin\\AdminPlugin::pagesModularTypes',
-                    1 => true
-                ],
-                'name' => 'plugins.admin.hide_modular_page_types',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.widgets_display' => [
-                'type' => 'widgets',
-                'label' => 'PLUGIN_ADMIN.WIDGETS_DISPLAY',
-                'validate' => [
-                    'type' => 'array'
-                ],
-                'name' => 'plugins.admin.widgets_display',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.notifications' => [
-                'type' => '_parent',
-                'name' => 'plugins.admin.notifications',
-                'form_field' => false
-            ],
-            'plugins.admin.notifications.feed' => [
-                'type' => 'toggle',
-                'label' => 'PLUGIN_ADMIN.FEED_NOTIFICATIONS',
-                'highlight' => 1,
-                'default' => 1,
-                'options' => [
-                    1 => 'PLUGIN_ADMIN.ENABLED',
-                    0 => 'PLUGIN_ADMIN.DISABLED'
-                ],
-                'validate' => [
-                    'type' => 'bool'
-                ],
-                'name' => 'plugins.admin.notifications.feed',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.notifications.dashboard' => [
-                'type' => 'toggle',
-                'label' => 'PLUGIN_ADMIN.DASHBOARD_NOTIFICATIONS',
-                'highlight' => 1,
-                'default' => 1,
-                'options' => [
-                    1 => 'PLUGIN_ADMIN.ENABLED',
-                    0 => 'PLUGIN_ADMIN.DISABLED'
-                ],
-                'validate' => [
-                    'type' => 'bool'
-                ],
-                'name' => 'plugins.admin.notifications.dashboard',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.notifications.plugins' => [
-                'type' => 'toggle',
-                'label' => 'PLUGIN_ADMIN.PLUGINS_NOTIFICATIONS',
-                'highlight' => 1,
-                'default' => 1,
-                'options' => [
-                    1 => 'PLUGIN_ADMIN.ENABLED',
-                    0 => 'PLUGIN_ADMIN.DISABLED'
-                ],
-                'validate' => [
-                    'type' => 'bool'
-                ],
-                'name' => 'plugins.admin.notifications.plugins',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.notifications.themes' => [
-                'type' => 'toggle',
-                'label' => 'PLUGIN_ADMIN.THEMES_NOTIFICATIONS',
-                'highlight' => 1,
-                'default' => 1,
-                'options' => [
-                    1 => 'PLUGIN_ADMIN.ENABLED',
-                    0 => 'PLUGIN_ADMIN.DISABLED'
-                ],
-                'validate' => [
-                    'type' => 'bool'
-                ],
-                'name' => 'plugins.admin.notifications.themes',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel' => [
-                'type' => '_parent',
-                'name' => 'plugins.admin.whitelabel',
-                'form_field' => false
-            ],
-            'plugins.admin.whitelabel.logo_login' => [
-                'array' => true,
-                'media_field' => true,
-                'validate' => [
-                    'type' => 'ignore'
-                ],
-                'type' => 'file',
-                'label' => 'PLUGIN_ADMIN.LOGIN_SCREEN_CUSTOM_LOGO_LABEL',
-                'destination' => 'user://assets',
-                'accept' => [
-                    0 => 'image/*'
-                ],
-                'name' => 'plugins.admin.whitelabel.logo_login',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.logo_custom' => [
-                'array' => true,
-                'media_field' => true,
-                'validate' => [
-                    'type' => 'ignore'
-                ],
-                'type' => 'file',
-                'label' => 'PLUGIN_ADMIN.TOP_LEFT_CUSTOM_LOGO_LABEL',
-                'destination' => 'user://assets',
-                'accept' => [
-                    0 => 'image/*'
-                ],
-                'name' => 'plugins.admin.whitelabel.logo_custom',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.codemirror_theme' => [
-                'type' => 'select',
-                'label' => 'PLUGIN_ADMIN.CODEMIRROR_THEME',
-                'default' => 'paper',
-                'markdown' => true,
-                'data-options@' => '\\Grav\\Plugin\\AdminPlugin::themeOptions',
-                'description' => 'PLUGIN_ADMIN.CODEMIRROR_THEME_DESC',
-                'name' => 'plugins.admin.whitelabel.codemirror_theme',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.codemirror_fontsize' => [
-                'type' => 'select',
-                'label' => 'PLUGIN_ADMIN.CODEMIRROR_FONTSIZE',
-                'default' => 'md',
-                'options' => [
-                    'sm' => 'PLUGIN_ADMIN.CODEMIRROR_FONTSIZE_SM',
-                    'md' => 'PLUGIN_ADMIN.CODEMIRROR_FONTSIZE_MD',
-                    'lg' => 'PLUGIN_ADMIN.CODEMIRROR_FONTSIZE_LG'
-                ],
-                'name' => 'plugins.admin.whitelabel.codemirror_fontsize',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.codemirror_md_font' => [
-                'type' => 'select',
-                'label' => 'PLUGIN_ADMIN.CODEMIRROR_MD_FONT',
-                'default' => 'sans',
-                'options' => [
-                    'sans' => 'PLUGIN_ADMIN.CODEMIRROR_MD_FONT_SANS',
-                    'mono' => 'PLUGIN_ADMIN.CODEMIRROR_MD_FONT_MONO'
-                ],
-                'name' => 'plugins.admin.whitelabel.codemirror_md_font',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.quicktray_recompile' => [
-                'type' => 'toggle',
-                'label' => 'PLUGIN_ADMIN.QUICKTRAY_RECOMPILE',
-                'highlight' => 0,
-                'default' => 0,
-                'options' => [
-                    1 => 'PLUGIN_ADMIN.ENABLED',
-                    0 => 'PLUGIN_ADMIN.DISABLED'
-                ],
-                'validate' => [
-                    'type' => 'bool'
-                ],
-                'name' => 'plugins.admin.whitelabel.quicktray_recompile',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme' => [
-                'type' => '_parent',
-                'name' => 'plugins.admin.whitelabel.color_scheme',
-                'form_field' => false
-            ],
-            'plugins.admin.whitelabel.color_scheme.name' => [
-                'type' => 'text',
-                'label' => 'PLUGIN_ADMIN.COLOR_SCHEME_NAME',
-                'name' => 'plugins.admin.whitelabel.color_scheme.name',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.themes-preview' => [
-                'type' => 'themepreview',
-                'ignore' => 'true;',
-                'label' => 'PLUGIN_ADMIN.PRESETS',
-                'style' => 'vertical',
-                'name' => 'plugins.admin.themes-preview',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors' => [
-                'type' => '_parent',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors',
-                'form_field' => false
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.logo-bg' => [
-                'type' => 'colorscheme.color',
-                'default' => '#1e333e',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.logo-bg',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.logo-link' => [
-                'type' => 'colorscheme.color',
-                'default' => '#ffffff',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.logo-link',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.nav-bg' => [
-                'type' => 'colorscheme.color',
-                'default' => '#253a47',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.nav-bg',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.nav-text' => [
-                'type' => 'colorscheme.color',
-                'default' => '#afc7d5',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.nav-text',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.nav-link' => [
-                'type' => 'colorscheme.color',
-                'default' => '#d1dee7',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.nav-link',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.nav-selected-bg' => [
-                'type' => 'colorscheme.color',
-                'default' => '#2d4d5b',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.nav-selected-bg',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.nav-selected-link' => [
-                'type' => 'colorscheme.color',
-                'default' => '#ffffff',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.nav-selected-link',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.nav-hover-bg' => [
-                'type' => 'colorscheme.color',
-                'default' => '#1e333e',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.nav-hover-bg',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.nav-hover-link' => [
-                'type' => 'colorscheme.color',
-                'default' => '#ffffff',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.nav-hover-link',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.toolbar-bg' => [
-                'type' => 'colorscheme.color',
-                'default' => '#349886',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.toolbar-bg',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.toolbar-text' => [
-                'type' => 'colorscheme.color',
-                'default' => '#ffffff',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.toolbar-text',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.page-bg' => [
-                'type' => 'colorscheme.color',
-                'default' => '#314d5b',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.page-bg',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.page-text' => [
-                'type' => 'colorscheme.color',
-                'default' => '#81a5b5',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.page-text',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.page-link' => [
-                'type' => 'colorscheme.color',
-                'default' => '#aad9ed',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.page-link',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.content-bg' => [
-                'type' => 'colorscheme.color',
-                'default' => '#eeeeee',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.content-bg',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.content-text' => [
-                'type' => 'colorscheme.color',
-                'default' => '#737c81',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.content-text',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.content-link' => [
-                'type' => 'colorscheme.color',
-                'default' => '#0082ba',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.content-link',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.content-link2' => [
-                'type' => 'colorscheme.color',
-                'default' => '#da4b46',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.content-link2',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.content-header' => [
-                'type' => 'colorscheme.color',
-                'default' => '#314d5b',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.content-header',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.content-tabs-bg' => [
-                'type' => 'colorscheme.color',
-                'default' => '#223a47',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.content-tabs-bg',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.content-tabs-text' => [
-                'type' => 'colorscheme.color',
-                'default' => '#d1dee7',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.content-tabs-text',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.content-highlight' => [
-                'type' => 'colorscheme.color',
-                'default' => '#ffffd7',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.content-highlight',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.button-bg' => [
-                'type' => 'colorscheme.color',
-                'default' => '#41bea8',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.button-bg',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.button-text' => [
-                'type' => 'colorscheme.color',
-                'default' => '#ffffff',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.button-text',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.notice-bg' => [
-                'type' => 'colorscheme.color',
-                'default' => '#00a6cf',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.notice-bg',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.notice-text' => [
-                'type' => 'colorscheme.color',
-                'default' => '#ffffff',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.notice-text',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.update-bg' => [
-                'type' => 'colorscheme.color',
-                'default' => '#8f5aad',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.update-bg',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.update-text' => [
-                'type' => 'colorscheme.color',
-                'default' => '#ffffff',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.update-text',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.critical-bg' => [
-                'type' => 'colorscheme.color',
-                'default' => '#da4b46',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.critical-bg',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.colors.critical-text' => [
-                'type' => 'colorscheme.color',
-                'default' => '#ffffff',
-                'name' => 'plugins.admin.whitelabel.color_scheme.colors.critical-text',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.colorschemes' => [
-                'type' => 'colorscheme',
-                'label' => 'PLUGIN_ADMIN.COLOR_SCHEME_LABEL',
-                'style' => 'vertical',
-                'name' => 'plugins.admin.colorschemes',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.accents' => [
-                'type' => '_parent',
-                'name' => 'plugins.admin.whitelabel.color_scheme.accents',
-                'form_field' => false
-            ],
-            'plugins.admin.whitelabel.color_scheme.accents.primary-accent' => [
-                'type' => 'select',
-                'size' => 'medium',
-                'classes' => 'fancy',
-                'label' => 'PLUGIN_ADMIN.PRIMARY_ACCENT_LABEL',
-                'options' => [
-                    'button' => 'PLUGIN_ADMIN.BUTTON_COLORS',
-                    'content' => 'PLUGIN_ADMIN.CONTENT_COLORS',
-                    'tabs' => 'PLUGIN_ADMIN.TABS_COLORS',
-                    'critical' => 'PLUGIN_ADMIN.CRITICAL_COLORS',
-                    'logo' => 'PLUGIN_ADMIN.LOGO_COLORS',
-                    'nav' => 'PLUGIN_ADMIN.NAV_COLORS',
-                    'notice' => 'PLUGIN_ADMIN.NOTICE_COLORS',
-                    'page' => 'PLUGIN_ADMIN.PAGE_COLORS',
-                    'toolbar' => 'PLUGIN_ADMIN.TOOLBAR_COLORS',
-                    'update' => 'PLUGIN_ADMIN.UPDATE_COLORS'
-                ],
-                'name' => 'plugins.admin.whitelabel.color_scheme.accents.primary-accent',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.accents.secondary-accent' => [
-                'type' => 'select',
-                'size' => 'medium',
-                'classes' => 'fancy',
-                'label' => 'PLUGIN_ADMIN.SECONDARY_ACCENT_LABEL',
-                'options' => [
-                    'button' => 'PLUGIN_ADMIN.BUTTON_COLORS',
-                    'content' => 'PLUGIN_ADMIN.CONTENT_COLORS',
-                    'tabs' => 'PLUGIN_ADMIN.TABS_COLORS',
-                    'critical' => 'PLUGIN_ADMIN.CRITICAL_COLORS',
-                    'logo' => 'PLUGIN_ADMIN.LOGO_COLORS',
-                    'nav' => 'PLUGIN_ADMIN.NAV_COLORS',
-                    'notice' => 'PLUGIN_ADMIN.NOTICE_COLORS',
-                    'page' => 'PLUGIN_ADMIN.PAGE_COLORS',
-                    'toolbar' => 'PLUGIN_ADMIN.TOOLBAR_COLORS',
-                    'update' => 'PLUGIN_ADMIN.UPDATE_COLORS'
-                ],
-                'name' => 'plugins.admin.whitelabel.color_scheme.accents.secondary-accent',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.color_scheme.accents.tertiary-accent' => [
-                'type' => 'select',
-                'size' => 'medium',
-                'classes' => 'fancy',
-                'label' => 'PLUGIN_ADMIN.TERTIARY_ACCENT_LABEL',
-                'options' => [
-                    'button' => 'PLUGIN_ADMIN.BUTTON_COLORS',
-                    'content' => 'PLUGIN_ADMIN.CONTENT_COLORS',
-                    'tabs' => 'PLUGIN_ADMIN.TABS_COLORS',
-                    'critical' => 'PLUGIN_ADMIN.CRITICAL_COLORS',
-                    'logo' => 'PLUGIN_ADMIN.LOGO_COLORS',
-                    'nav' => 'PLUGIN_ADMIN.NAV_COLORS',
-                    'notice' => 'PLUGIN_ADMIN.NOTICE_COLORS',
-                    'page' => 'PLUGIN_ADMIN.PAGE_COLORS',
-                    'toolbar' => 'PLUGIN_ADMIN.TOOLBAR_COLORS',
-                    'update' => 'PLUGIN_ADMIN.UPDATE_COLORS'
-                ],
-                'name' => 'plugins.admin.whitelabel.color_scheme.accents.tertiary-accent',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.custom_footer' => [
-                'type' => 'textarea',
-                'rows' => 2,
-                'label' => 'PLUGIN_ADMIN.CUSTOM_FOOTER',
-                'name' => 'plugins.admin.whitelabel.custom_footer',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.custom_css' => [
-                'label' => 'PLUGIN_ADMIN.CUSTOM_CSS_LABEL',
-                'type' => 'editor',
-                'codemirror' => [
-                    'mode' => 'css',
-                    'indentUnit' => 2,
-                    'autofocus' => true,
-                    'indentWithTabs' => true,
-                    'lineNumbers' => true,
-                    'styleActiveLine' => true
-                ],
-                'name' => 'plugins.admin.whitelabel.custom_css',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.whitelabel.custom_presets' => [
-                'label' => 'PLUGIN_ADMIN.CUSTOM_PRESETS',
-                'type' => 'editor',
-                'codemirror' => [
-                    'mode' => 'yaml',
-                    'indentUnit' => 2,
-                    'autofocus' => true,
-                    'indentWithTabs' => false,
-                    'lineNumbers' => true,
-                    'styleActiveLine' => true,
-                    'gutters' => [
-                        0 => 'CodeMirror-lint-markers'
-                    ],
-                    'lint' => true
-                ],
-                'name' => 'plugins.admin.whitelabel.custom_presets',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.popularity' => [
-                'type' => '_parent',
-                'name' => 'plugins.admin.popularity',
-                'form_field' => false
-            ],
-            'plugins.admin.popularity.enabled' => [
-                'type' => 'toggle',
-                'label' => 'PLUGIN_ADMIN.VISITOR_TRACKING',
-                'highlight' => 1,
-                'default' => 1,
-                'options' => [
-                    1 => 'PLUGIN_ADMIN.ENABLED',
-                    0 => 'PLUGIN_ADMIN.DISABLED'
-                ],
-                'validate' => [
-                    'type' => 'bool'
-                ],
-                'name' => 'plugins.admin.popularity.enabled',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.dashboard' => [
-                'type' => '_parent',
-                'name' => 'plugins.admin.dashboard',
-                'form_field' => false
-            ],
-            'plugins.admin.dashboard.days_of_stats' => [
-                'type' => 'text',
-                'label' => 'PLUGIN_ADMIN.DAYS_OF_STATS',
-                'append' => 'days',
-                'size' => 'x-small',
-                'default' => 7,
-                'validate' => [
-                    'type' => 'int'
-                ],
-                'name' => 'plugins.admin.dashboard.days_of_stats',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.popularity.ignore' => [
-                'type' => 'array',
-                'label' => 'PLUGIN_ADMIN.IGNORE_URLS',
-                'size' => 'large',
-                'default' => [
-                    0 => '/test*',
-                    1 => '/modular'
-                ],
-                'value_only' => true,
-                'name' => 'plugins.admin.popularity.ignore',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.popularity.history' => [
-                'type' => '_parent',
-                'name' => 'plugins.admin.popularity.history',
-                'form_field' => false
-            ],
-            'plugins.admin.popularity.history.daily' => [
-                'type' => 'hidden',
-                'label' => 'PLUGIN_ADMIN.DAILY_HISTORY',
-                'default' => 30,
-                'name' => 'plugins.admin.popularity.history.daily',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.popularity.history.monthly' => [
-                'type' => 'hidden',
-                'label' => 'PLUGIN_ADMIN.MONTHLY_HISTORY',
-                'default' => 12,
-                'name' => 'plugins.admin.popularity.history.monthly',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.popularity.history.visitors' => [
-                'type' => 'hidden',
-                'label' => 'PLUGIN_ADMIN.VISITORS_HISTORY',
-                'default' => 20,
-                'name' => 'plugins.admin.popularity.history.visitors',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.pagemedia' => [
-                'type' => '_parent',
-                'name' => 'plugins.admin.pagemedia',
-                'form_field' => false
-            ],
-            'plugins.admin.pagemedia.resize_width' => [
-                'type' => 'number',
-                'size' => 'x-small',
-                'append' => 'PLUGIN_ADMIN.PIXELS',
-                'label' => 'PLUGIN_ADMIN.RESIZE_WIDTH',
-                'default' => 0,
-                'validate' => [
-                    'type' => 'number'
-                ],
-                'name' => 'plugins.admin.pagemedia.resize_width',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.pagemedia.resize_height' => [
-                'type' => 'number',
-                'size' => 'x-small',
-                'append' => 'PLUGIN_ADMIN.PIXELS',
-                'label' => 'PLUGIN_ADMIN.RESIZE_HEIGHT',
-                'default' => 0,
-                'validate' => [
-                    'type' => 'number'
-                ],
-                'name' => 'plugins.admin.pagemedia.resize_height',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.pagemedia.res_min_width' => [
-                'type' => 'number',
-                'size' => 'x-small',
-                'append' => 'PLUGIN_ADMIN.PIXELS',
-                'label' => 'PLUGIN_ADMIN.RES_MIN_WIDTH',
-                'default' => 0,
-                'validate' => [
-                    'type' => 'number'
-                ],
-                'name' => 'plugins.admin.pagemedia.res_min_width',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.pagemedia.res_min_height' => [
-                'type' => 'number',
-                'size' => 'x-small',
-                'append' => 'PLUGIN_ADMIN.PIXELS',
-                'label' => 'PLUGIN_ADMIN.RES_MIN_HEIGHT',
-                'default' => 0,
-                'validate' => [
-                    'type' => 'number'
-                ],
-                'name' => 'plugins.admin.pagemedia.res_min_height',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.pagemedia.res_max_width' => [
-                'type' => 'number',
-                'size' => 'x-small',
-                'append' => 'PLUGIN_ADMIN.PIXELS',
-                'label' => 'PLUGIN_ADMIN.RES_MAX_WIDTH',
-                'default' => 0,
-                'validate' => [
-                    'type' => 'number'
-                ],
-                'name' => 'plugins.admin.pagemedia.res_max_width',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.pagemedia.res_max_height' => [
-                'type' => 'number',
-                'size' => 'x-small',
-                'append' => 'PLUGIN_ADMIN.PIXELS',
-                'label' => 'PLUGIN_ADMIN.RES_MAX_HEIGHT',
-                'default' => 0,
-                'validate' => [
-                    'type' => 'number'
-                ],
-                'name' => 'plugins.admin.pagemedia.res_max_height',
-                'validation' => 'loose'
-            ],
-            'plugins.admin.pagemedia.resize_quality' => [
-                'type' => 'number',
-                'size' => 'x-small',
-                'append' => '0...1',
-                'label' => 'PLUGIN_ADMIN.RESIZE_QUALITY',
-                'default' => 0.8,
-                'validate' => [
-                    'type' => 'number',
-                    'step' => 0.01
-                ],
-                'name' => 'plugins.admin.pagemedia.resize_quality',
-                'validation' => 'loose'
             ],
             'plugins.shortcode-core' => [
                 'type' => '_root',
@@ -4380,8 +4521,17 @@ return [
                 'name' => 'plugins.shortcode-core.fontawesome.v5',
                 'validation' => 'strict'
             ],
+            'plugins.shortcode-core.options' => [
+                'type' => 'tab',
+                'name' => 'plugins.shortcode-core.options',
+                'validation' => 'strict'
+            ],
+            'plugins.shortcode-core.shortcodes_intro' => [
+                'type' => 'spacer',
+                'name' => 'plugins.shortcode-core.shortcodes_intro',
+                'validation' => 'strict'
+            ],
             'plugins.shortcode-core.shortcodes' => [
-                'array' => true,
                 'type' => 'list',
                 'label' => 'Shortcodes',
                 'style' => 'vertical',
@@ -4390,29 +4540,786 @@ return [
                 'name' => 'plugins.shortcode-core.shortcodes',
                 'validation' => 'strict'
             ],
-            'plugins.shortcode-core.shortcodes.*' => [
-                'type' => '_parent',
-                'name' => 'plugins.shortcode-core.shortcodes.*',
-                'form_field' => false
-            ],
-            'plugins.shortcode-core.shortcodes.*.name' => [
+            'plugins.shortcode-core.shortcodes.name' => [
                 'type' => 'text',
                 'label' => 'Tag',
-                'name' => 'plugins.shortcode-core.shortcodes.*.name',
+                'name' => 'plugins.shortcode-core.shortcodes.name',
                 'validation' => 'strict'
             ],
-            'plugins.shortcode-core.shortcodes.*.template' => [
+            'plugins.shortcode-core.shortcodes.template' => [
                 'type' => 'text',
                 'label' => 'Template',
-                'name' => 'plugins.shortcode-core.shortcodes.*.template',
+                'name' => 'plugins.shortcode-core.shortcodes.template',
                 'validation' => 'strict'
             ],
-            'plugins.shortcode-core.shortcodes.*.output' => [
+            'plugins.shortcode-core.shortcodes.output' => [
                 'type' => 'textarea',
                 'label' => 'Inline Output',
                 'rows' => 3,
-                'name' => 'plugins.shortcode-core.shortcodes.*.output',
+                'name' => 'plugins.shortcode-core.shortcodes.output',
                 'validation' => 'strict'
+            ],
+            'plugins.shortcode-core.builder' => [
+                'type' => 'tab',
+                'name' => 'plugins.shortcode-core.builder',
+                'validation' => 'strict'
+            ],
+            'plugins.shortcode-core.shortcode_tabs' => [
+                'type' => 'tabs',
+                'active' => 1,
+                'name' => 'plugins.shortcode-core.shortcode_tabs',
+                'validation' => 'strict'
+            ],
+            'plugins.api' => [
+                'type' => '_root',
+                'form_field' => false,
+                'form' => [
+                    'validation' => 'loose'
+                ]
+            ],
+            'plugins.api.enabled' => [
+                'type' => 'toggle',
+                'label' => 'Plugin Status',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.enabled',
+                'validation' => 'loose'
+            ],
+            'plugins.api.section_general' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.api.section_general',
+                'validation' => 'loose'
+            ],
+            'plugins.api.route' => [
+                'type' => 'text',
+                'label' => 'API Route',
+                'default' => '/api',
+                'validate' => [
+                    'type' => 'text'
+                ],
+                'name' => 'plugins.api.route',
+                'validation' => 'loose'
+            ],
+            'plugins.api.version_prefix' => [
+                'type' => 'text',
+                'label' => 'Version Prefix',
+                'default' => 'v1',
+                'validate' => [
+                    'type' => 'text'
+                ],
+                'name' => 'plugins.api.version_prefix',
+                'validation' => 'loose'
+            ],
+            'plugins.api.section_backend' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.api.section_backend',
+                'validation' => 'loose'
+            ],
+            'plugins.api.flex_backend' => [
+                'type' => '_parent',
+                'name' => 'plugins.api.flex_backend',
+                'form_field' => false
+            ],
+            'plugins.api.flex_backend.pages' => [
+                'type' => 'toggle',
+                'label' => 'Flex Pages Backend',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.flex_backend.pages',
+                'validation' => 'loose'
+            ],
+            'plugins.api.flex_backend.accounts' => [
+                'type' => 'toggle',
+                'label' => 'Flex Accounts Backend',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.flex_backend.accounts',
+                'validation' => 'loose'
+            ],
+            'plugins.api.force_cache' => [
+                'type' => 'toggle',
+                'label' => 'Keep Cache for API Requests',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.force_cache',
+                'validation' => 'loose'
+            ],
+            'plugins.api.tab_general' => [
+                'type' => 'tab',
+                'name' => 'plugins.api.tab_general',
+                'validation' => 'loose'
+            ],
+            'plugins.api.section_auth' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.api.section_auth',
+                'validation' => 'loose'
+            ],
+            'plugins.api.auth' => [
+                'type' => '_parent',
+                'name' => 'plugins.api.auth',
+                'form_field' => false
+            ],
+            'plugins.api.auth.api_keys_enabled' => [
+                'type' => 'toggle',
+                'label' => 'API Key Authentication',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.auth.api_keys_enabled',
+                'validation' => 'loose'
+            ],
+            'plugins.api.auth.jwt_enabled' => [
+                'type' => 'toggle',
+                'label' => 'JWT Authentication',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.auth.jwt_enabled',
+                'validation' => 'loose'
+            ],
+            'plugins.api.auth.jwt_expiry' => [
+                'type' => 'text',
+                'label' => 'JWT Access Token Expiry',
+                'default' => 3600,
+                'validate' => [
+                    'type' => 'int'
+                ],
+                'name' => 'plugins.api.auth.jwt_expiry',
+                'validation' => 'loose'
+            ],
+            'plugins.api.auth.jwt_refresh_expiry' => [
+                'type' => 'text',
+                'label' => 'JWT Refresh Token Expiry',
+                'default' => 604800,
+                'validate' => [
+                    'type' => 'int'
+                ],
+                'name' => 'plugins.api.auth.jwt_refresh_expiry',
+                'validation' => 'loose'
+            ],
+            'plugins.api.auth.jwt_algorithm' => [
+                'type' => 'select',
+                'label' => 'JWT Signing Algorithm',
+                'default' => 'HS256',
+                'options' => [
+                    'HS256' => 'HS256',
+                    'HS384' => 'HS384',
+                    'HS512' => 'HS512'
+                ],
+                'validate' => [
+                    'type' => 'string'
+                ],
+                'name' => 'plugins.api.auth.jwt_algorithm',
+                'validation' => 'loose'
+            ],
+            'plugins.api.auth.session_enabled' => [
+                'type' => 'toggle',
+                'label' => 'Session Authentication',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.auth.session_enabled',
+                'validation' => 'loose'
+            ],
+            'plugins.api.auth.key_cache_ttl' => [
+                'type' => 'text',
+                'label' => 'API Key Verification Cache',
+                'default' => 600,
+                'validate' => [
+                    'type' => 'int',
+                    'min' => 0
+                ],
+                'name' => 'plugins.api.auth.key_cache_ttl',
+                'validation' => 'loose'
+            ],
+            'plugins.api.session_early_close' => [
+                'type' => 'toggle',
+                'label' => 'Release Session Lock Early',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.session_early_close',
+                'validation' => 'loose'
+            ],
+            'plugins.api.protect_frontend_session' => [
+                'type' => 'toggle',
+                'label' => 'Protect Front-end Session',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.protect_frontend_session',
+                'validation' => 'loose'
+            ],
+            'plugins.api.allow_draft_preview' => [
+                'type' => 'toggle',
+                'label' => 'Allow Draft Preview',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.allow_draft_preview',
+                'validation' => 'loose'
+            ],
+            'plugins.api.tab_authentication' => [
+                'type' => 'tab',
+                'name' => 'plugins.api.tab_authentication',
+                'validation' => 'loose'
+            ],
+            'plugins.api.section_cors' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.api.section_cors',
+                'validation' => 'loose'
+            ],
+            'plugins.api.cors' => [
+                'type' => '_parent',
+                'name' => 'plugins.api.cors',
+                'form_field' => false
+            ],
+            'plugins.api.cors.enabled' => [
+                'type' => 'toggle',
+                'label' => 'Enable CORS',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.cors.enabled',
+                'validation' => 'loose'
+            ],
+            'plugins.api.cors.origins' => [
+                'type' => 'array',
+                'label' => 'Allowed Origins',
+                'value_only' => true,
+                'name' => 'plugins.api.cors.origins',
+                'validation' => 'loose'
+            ],
+            'plugins.api.cors.methods' => [
+                'type' => 'selectize',
+                'label' => 'Allowed Methods',
+                'default' => [
+                    0 => 'GET',
+                    1 => 'POST',
+                    2 => 'PATCH',
+                    3 => 'DELETE',
+                    4 => 'OPTIONS'
+                ],
+                'multiple' => true,
+                'validate' => [
+                    'type' => 'commalist'
+                ],
+                'name' => 'plugins.api.cors.methods',
+                'validation' => 'loose'
+            ],
+            'plugins.api.cors.headers' => [
+                'type' => 'array',
+                'label' => 'Allowed Headers',
+                'default' => [
+                    0 => 'Content-Type',
+                    1 => 'Authorization',
+                    2 => 'X-API-Key',
+                    3 => 'X-Grav-Environment',
+                    4 => 'If-Match',
+                    5 => 'If-None-Match'
+                ],
+                'value_only' => true,
+                'name' => 'plugins.api.cors.headers',
+                'validation' => 'loose'
+            ],
+            'plugins.api.tab_cors' => [
+                'type' => 'tab',
+                'name' => 'plugins.api.tab_cors',
+                'validation' => 'loose'
+            ],
+            'plugins.api.section_rate_limit' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.api.section_rate_limit',
+                'validation' => 'loose'
+            ],
+            'plugins.api.rate_limit' => [
+                'type' => '_parent',
+                'name' => 'plugins.api.rate_limit',
+                'form_field' => false
+            ],
+            'plugins.api.rate_limit.enabled' => [
+                'type' => 'toggle',
+                'label' => 'Enable Rate Limiting',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.rate_limit.enabled',
+                'validation' => 'loose'
+            ],
+            'plugins.api.rate_limit.requests' => [
+                'type' => 'text',
+                'label' => 'Requests Per Window',
+                'default' => 120,
+                'validate' => [
+                    'type' => 'int'
+                ],
+                'name' => 'plugins.api.rate_limit.requests',
+                'validation' => 'loose'
+            ],
+            'plugins.api.rate_limit.window' => [
+                'type' => 'text',
+                'label' => 'Time Window',
+                'default' => 60,
+                'validate' => [
+                    'type' => 'int'
+                ],
+                'name' => 'plugins.api.rate_limit.window',
+                'validation' => 'loose'
+            ],
+            'plugins.api.tab_rate_limiting' => [
+                'type' => 'tab',
+                'name' => 'plugins.api.tab_rate_limiting',
+                'validation' => 'loose'
+            ],
+            'plugins.api.section_media_metadata' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.api.section_media_metadata',
+                'validation' => 'loose'
+            ],
+            'plugins.api.media_metadata' => [
+                'type' => '_parent',
+                'name' => 'plugins.api.media_metadata',
+                'form_field' => false
+            ],
+            'plugins.api.media_metadata.max_length' => [
+                'type' => 'text',
+                'label' => 'Maximum Value Length',
+                'default' => 2000,
+                'validate' => [
+                    'type' => 'int',
+                    'min' => 1
+                ],
+                'name' => 'plugins.api.media_metadata.max_length',
+                'validation' => 'loose'
+            ],
+            'plugins.api.media_metadata.fields' => [
+                'type' => 'list',
+                'label' => 'Editable Metadata Fields',
+                'name' => 'plugins.api.media_metadata.fields',
+                'validation' => 'loose'
+            ],
+            'plugins.api.media_metadata.fields.key' => [
+                'type' => 'text',
+                'label' => 'Key',
+                'validate' => [
+                    'type' => 'text'
+                ],
+                'name' => 'plugins.api.media_metadata.fields.key',
+                'validation' => 'loose'
+            ],
+            'plugins.api.media_metadata.fields.label' => [
+                'type' => 'text',
+                'label' => 'Label',
+                'name' => 'plugins.api.media_metadata.fields.label',
+                'validation' => 'loose'
+            ],
+            'plugins.api.media_metadata.fields.type' => [
+                'type' => 'select',
+                'label' => 'Field Type',
+                'default' => 'text',
+                'options' => [
+                    'text' => 'Single line',
+                    'textarea' => 'Multi-line',
+                    'tags' => 'Tags (list)'
+                ],
+                'name' => 'plugins.api.media_metadata.fields.type',
+                'validation' => 'loose'
+            ],
+            'plugins.api.section_popularity' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.api.section_popularity',
+                'validation' => 'loose'
+            ],
+            'plugins.api.popularity' => [
+                'type' => '_parent',
+                'name' => 'plugins.api.popularity',
+                'form_field' => false
+            ],
+            'plugins.api.popularity.enabled' => [
+                'type' => 'toggle',
+                'label' => 'Track Page Views',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.popularity.enabled',
+                'validation' => 'loose'
+            ],
+            'plugins.api.popularity.exclude_admin' => [
+                'type' => 'toggle',
+                'label' => 'Exclude Logged-in Admins',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.popularity.exclude_admin',
+                'validation' => 'loose'
+            ],
+            'plugins.api.popularity.exclude_ips' => [
+                'type' => 'array',
+                'label' => 'Excluded IP Addresses',
+                'value_only' => true,
+                'name' => 'plugins.api.popularity.exclude_ips',
+                'validation' => 'loose'
+            ],
+            'plugins.api.tab_content' => [
+                'type' => 'tab',
+                'name' => 'plugins.api.tab_content',
+                'validation' => 'loose'
+            ],
+            'plugins.api.section_audit' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.api.section_audit',
+                'validation' => 'loose'
+            ],
+            'plugins.api.audit' => [
+                'type' => '_parent',
+                'name' => 'plugins.api.audit',
+                'form_field' => false
+            ],
+            'plugins.api.audit.enabled' => [
+                'type' => 'toggle',
+                'label' => 'Enable Audit Trail',
+                'highlight' => 0,
+                'default' => 0,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.audit.enabled',
+                'validation' => 'loose'
+            ],
+            'plugins.api.audit.coverage' => [
+                'type' => 'select',
+                'label' => 'Detail Level',
+                'default' => 'standard',
+                'options' => [
+                    'standard' => 'Standard (activity stream)',
+                    'detailed' => 'Detailed (with change diffs)'
+                ],
+                'name' => 'plugins.api.audit.coverage',
+                'validation' => 'loose'
+            ],
+            'plugins.api.audit.retention_days' => [
+                'type' => 'text',
+                'label' => 'Retention (days)',
+                'default' => 90,
+                'validate' => [
+                    'type' => 'int',
+                    'min' => 0
+                ],
+                'name' => 'plugins.api.audit.retention_days',
+                'validation' => 'loose'
+            ],
+            'plugins.api.audit.retention_max_rows' => [
+                'type' => 'text',
+                'label' => 'Maximum Entries',
+                'default' => 100000,
+                'validate' => [
+                    'type' => 'int',
+                    'min' => 0
+                ],
+                'name' => 'plugins.api.audit.retention_max_rows',
+                'validation' => 'loose'
+            ],
+            'plugins.api.audit.anonymize_ip' => [
+                'type' => 'toggle',
+                'label' => 'Anonymize IP Addresses',
+                'default' => 0,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.audit.anonymize_ip',
+                'validation' => 'loose'
+            ],
+            'plugins.api.audit.capture' => [
+                'type' => '_parent',
+                'name' => 'plugins.api.audit.capture',
+                'form_field' => false
+            ],
+            'plugins.api.audit.capture.auth' => [
+                'type' => 'toggle',
+                'label' => 'Capture Authentication',
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.audit.capture.auth',
+                'validation' => 'loose'
+            ],
+            'plugins.api.audit.capture.content' => [
+                'type' => 'toggle',
+                'label' => 'Capture Content Changes',
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.audit.capture.content',
+                'validation' => 'loose'
+            ],
+            'plugins.api.audit.capture.media' => [
+                'type' => 'toggle',
+                'label' => 'Capture Media Changes',
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.audit.capture.media',
+                'validation' => 'loose'
+            ],
+            'plugins.api.audit.capture.users' => [
+                'type' => 'toggle',
+                'label' => 'Capture User & Group Changes',
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.audit.capture.users',
+                'validation' => 'loose'
+            ],
+            'plugins.api.audit.capture.config' => [
+                'type' => 'toggle',
+                'label' => 'Capture Configuration Changes',
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.audit.capture.config',
+                'validation' => 'loose'
+            ],
+            'plugins.api.audit.capture.packages' => [
+                'type' => 'toggle',
+                'label' => 'Capture Package Changes',
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.audit.capture.packages',
+                'validation' => 'loose'
+            ],
+            'plugins.api.tab_audit_trail' => [
+                'type' => 'tab',
+                'name' => 'plugins.api.tab_audit_trail',
+                'validation' => 'loose'
+            ],
+            'plugins.api.section_demo' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.api.section_demo',
+                'validation' => 'loose'
+            ],
+            'plugins.api.demo' => [
+                'type' => '_parent',
+                'name' => 'plugins.api.demo',
+                'form_field' => false
+            ],
+            'plugins.api.demo.notice' => [
+                'type' => 'display',
+                'markdown' => true,
+                'content' => 'Demo mode is turned on **per account**, by granting an account the *Demo Mode* access flag (`access.api.demo`) in its permissions. A demo account can browse everything but cannot save changes except to the resources below, and server paths, logs, and backups are hidden from it. Capture the baseline and reset the content from the **Set Baseline / Reset Now** panel, or with `bin/plugin api demo:baseline` and `bin/plugin api demo:reset`.',
+                'name' => 'plugins.api.demo.notice',
+                'validation' => 'loose'
+            ],
+            'plugins.api.demo.writable' => [
+                'type' => 'select',
+                'multiple' => true,
+                'label' => 'Writable Resources',
+                'default' => [
+                    0 => 'api.pages.write',
+                    1 => 'api.media.write'
+                ],
+                'options' => [
+                    'api.pages.write' => 'Pages',
+                    'api.media.write' => 'Media'
+                ],
+                'name' => 'plugins.api.demo.writable',
+                'validation' => 'loose'
+            ],
+            'plugins.api.demo.reset_interval' => [
+                'type' => 'text',
+                'label' => 'Reset Interval (minutes)',
+                'default' => 30,
+                'validate' => [
+                    'type' => 'int',
+                    'min' => 1
+                ],
+                'name' => 'plugins.api.demo.reset_interval',
+                'validation' => 'loose'
+            ],
+            'plugins.api.demo.reset_on_request' => [
+                'type' => 'toggle',
+                'label' => 'Reset On Request (Lazy)',
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.demo.reset_on_request',
+                'validation' => 'loose'
+            ],
+            'plugins.api.demo.reset_on_schedule' => [
+                'type' => 'toggle',
+                'label' => 'Reset On Schedule',
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.api.demo.reset_on_schedule',
+                'validation' => 'loose'
+            ],
+            'plugins.api.demo.keep_safety_snapshots' => [
+                'type' => 'text',
+                'label' => 'Safety Snapshots to Retain',
+                'default' => 5,
+                'validate' => [
+                    'type' => 'int',
+                    'min' => 0
+                ],
+                'name' => 'plugins.api.demo.keep_safety_snapshots',
+                'validation' => 'loose'
+            ],
+            'plugins.api.tab_demo_mode' => [
+                'type' => 'tab',
+                'name' => 'plugins.api.tab_demo_mode',
+                'validation' => 'loose'
+            ],
+            'plugins.api.tabs' => [
+                'type' => 'tabs',
+                'classes' => 'side-tabs',
+                'name' => 'plugins.api.tabs',
+                'validation' => 'loose'
             ],
             'plugins.sitemap' => [
                 'type' => '_root',
@@ -4441,7 +5348,7 @@ return [
                 'size' => 'medium',
                 'label' => 'PLUGIN_SITEMAP.ROUTE',
                 'validate' => [
-                    'pattern' => '/([a-z-_]+/?)+'
+                    'pattern' => '/([a-z_-]+/?)+'
                 ],
                 'name' => 'plugins.sitemap.route',
                 'validation' => 'strict'
@@ -4599,6 +5506,12 @@ return [
                 'name' => 'plugins.sitemap.news_enabled_paths',
                 'validation' => 'strict'
             ],
+            'plugins.sitemap.news_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.sitemap.news_section',
+                'validation' => 'strict'
+            ],
             'plugins.sitemap.date_type' => [
                 'type' => 'select',
                 'label' => 'PLUGIN_SITEMAP.DATE_TYPE',
@@ -4683,31 +5596,31 @@ return [
                 'name' => 'plugins.sitemap.priority',
                 'validation' => 'strict'
             ],
+            'plugins.sitemap.data_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.sitemap.data_section',
+                'validation' => 'strict'
+            ],
             'plugins.sitemap.additions' => [
-                'array' => true,
                 'type' => 'list',
                 'label' => 'PLUGIN_SITEMAP.ADDITIONS',
                 'name' => 'plugins.sitemap.additions',
                 'validation' => 'strict'
             ],
-            'plugins.sitemap.additions.*' => [
-                'type' => '_parent',
-                'name' => 'plugins.sitemap.additions.*',
-                'form_field' => false
-            ],
-            'plugins.sitemap.additions.*.location' => [
+            'plugins.sitemap.additions.location' => [
                 'type' => 'text',
                 'label' => 'PLUGIN_SITEMAP.LOCATION',
-                'name' => 'plugins.sitemap.additions.*.location',
+                'name' => 'plugins.sitemap.additions.location',
                 'validation' => 'strict'
             ],
-            'plugins.sitemap.additions.*.lastmod' => [
+            'plugins.sitemap.additions.lastmod' => [
                 'type' => 'text',
                 'label' => 'PLUGIN_SITEMAP.LASTMOD',
-                'name' => 'plugins.sitemap.additions.*.lastmod',
+                'name' => 'plugins.sitemap.additions.lastmod',
                 'validation' => 'strict'
             ],
-            'plugins.sitemap.additions.*.changefreq' => [
+            'plugins.sitemap.additions.changefreq' => [
                 'type' => 'select',
                 'label' => 'PLUGIN_SITEMAP.CHANGEFREQ',
                 'default' => '',
@@ -4721,10 +5634,10 @@ return [
                     'yearly' => 'PLUGIN_SITEMAP.CHANGEFREQ_YEARLY',
                     'never' => 'PLUGIN_SITEMAP.CHANGEFREQ_NEVER'
                 ],
-                'name' => 'plugins.sitemap.additions.*.changefreq',
+                'name' => 'plugins.sitemap.additions.changefreq',
                 'validation' => 'strict'
             ],
-            'plugins.sitemap.additions.*.priority' => [
+            'plugins.sitemap.additions.priority' => [
                 'type' => 'select',
                 'label' => 'PLUGIN_SITEMAP.PRIORITY',
                 'default' => '',
@@ -4744,7 +5657,7 @@ return [
                 'validate' => [
                     'type' => 'float'
                 ],
-                'name' => 'plugins.sitemap.additions.*.priority',
+                'name' => 'plugins.sitemap.additions.priority',
                 'validation' => 'strict'
             ],
             'plugins.sitemap.urlset' => [
@@ -4766,6 +5679,12 @@ return [
                 'default' => 'http://www.google.com/schemas/sitemap-news/0.9',
                 'label' => 'PLUGIN_SITEMAP.URLNEWSSET',
                 'name' => 'plugins.sitemap.urlnewsset',
+                'validation' => 'strict'
+            ],
+            'plugins.sitemap.advanced_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.sitemap.advanced_section',
                 'validation' => 'strict'
             ],
             'plugins.markdown-notices' => [
@@ -4827,6 +5746,64 @@ return [
                 'name' => 'plugins.markdown-notices.level_classes',
                 'validation' => 'strict'
             ],
+            'plugins.migrate-grav' => [
+                'type' => '_root',
+                'form_field' => false,
+                'form' => [
+                    'validation' => 'strict'
+                ]
+            ],
+            'plugins.migrate-grav.enabled' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.PLUGIN_STATUS',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.ENABLED',
+                    0 => 'PLUGIN_ADMIN.DISABLED'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.migrate-grav.enabled',
+                'validation' => 'strict'
+            ],
+            'plugins.migrate-grav.source_url' => [
+                'type' => 'text',
+                'label' => '2.0 release URL',
+                'default' => 'https://getgrav.org/download/core/grav-update/latest?testing',
+                'name' => 'plugins.migrate-grav.source_url',
+                'validation' => 'strict'
+            ],
+            'plugins.migrate-grav.source_local_zip' => [
+                'type' => 'text',
+                'label' => 'Local 2.0 zip',
+                'default' => '',
+                'name' => 'plugins.migrate-grav.source_local_zip',
+                'validation' => 'strict'
+            ],
+            'plugins.migrate-grav.stage_dir' => [
+                'type' => 'text',
+                'label' => 'Stage subdirectory',
+                'default' => 'grav-2',
+                'name' => 'plugins.migrate-grav.stage_dir',
+                'validation' => 'strict'
+            ],
+            'plugins.migrate-grav.require_super_admin' => [
+                'type' => 'toggle',
+                'label' => 'Require super admin to trigger',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.ENABLED',
+                    0 => 'PLUGIN_ADMIN.DISABLED'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.migrate-grav.require_super_admin',
+                'validation' => 'strict'
+            ],
             'plugins.email' => [
                 'type' => '_root',
                 'form_field' => false,
@@ -4861,6 +5838,12 @@ return [
                 'description' => 'PLUGIN_EMAIL.MAIL_ENGINE_DESC',
                 'data-options@' => '\\Grav\\Plugin\\EmailPlugin::getEngines',
                 'name' => 'plugins.email.mailer.engine',
+                'validation' => 'loose'
+            ],
+            'plugins.email.smtp_config' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.email.smtp_config',
                 'validation' => 'loose'
             ],
             'plugins.email.mailer.smtp' => [
@@ -4915,6 +5898,12 @@ return [
                 'name' => 'plugins.email.mailer.smtp.password',
                 'validation' => 'loose'
             ],
+            'plugins.email.sendmail_config' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.email.sendmail_config',
+                'validation' => 'loose'
+            ],
             'plugins.email.mailer.sendmail' => [
                 'type' => '_parent',
                 'name' => 'plugins.email.mailer.sendmail',
@@ -4925,6 +5914,12 @@ return [
                 'size' => 'medium',
                 'label' => 'PLUGIN_EMAIL.PATH_TO_SENDMAIL',
                 'name' => 'plugins.email.mailer.sendmail.bin',
+                'validation' => 'loose'
+            ],
+            'plugins.email.email_Defaults' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.email.email_Defaults',
                 'validation' => 'loose'
             ],
             'plugins.email.content_type' => [
@@ -4988,6 +5983,12 @@ return [
                 'name' => 'plugins.email.body',
                 'validation' => 'loose'
             ],
+            'plugins.email.advanced_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.email.advanced_section',
+                'validation' => 'loose'
+            ],
             'plugins.email.debug' => [
                 'type' => 'toggle',
                 'label' => 'PLUGIN_EMAIL.DEBUG',
@@ -5001,6 +6002,36 @@ return [
                     'type' => 'bool'
                 ],
                 'name' => 'plugins.email.debug',
+                'validation' => 'loose'
+            ],
+            'plugins.admin2' => [
+                'type' => '_root',
+                'form_field' => false,
+                'form' => [
+                    'validation' => 'loose'
+                ]
+            ],
+            'plugins.admin2.enabled' => [
+                'type' => 'toggle',
+                'label' => 'Plugin Status',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'Enabled',
+                    0 => 'Disabled'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.admin2.enabled',
+                'validation' => 'loose'
+            ],
+            'plugins.admin2.route' => [
+                'type' => 'text',
+                'label' => 'Admin Route',
+                'description' => 'The route to access Admin2 (relative to site root).',
+                'default' => '/admin2',
+                'name' => 'plugins.admin2.route',
                 'validation' => 'loose'
             ],
             'plugins.login' => [
@@ -5183,9 +6214,9 @@ return [
                 'validation' => 'loose'
             ],
             'plugins.login.rememberme' => [
-                'type' => '_parent',
+                'type' => 'section',
                 'name' => 'plugins.login.rememberme',
-                'form_field' => false
+                'validation' => 'loose'
             ],
             'plugins.login.rememberme.enabled' => [
                 'type' => 'toggle',
@@ -5218,6 +6249,11 @@ return [
                 'size' => 'small',
                 'label' => 'PLUGIN_ADMIN.NAME',
                 'name' => 'plugins.login.rememberme.name',
+                'validation' => 'loose'
+            ],
+            'plugins.login.options' => [
+                'type' => 'section',
+                'name' => 'plugins.login.options',
                 'validation' => 'loose'
             ],
             'plugins.login.route' => [
@@ -5316,6 +6352,11 @@ return [
                 'name' => 'plugins.login.user_registration.redirect_after_registration',
                 'validation' => 'loose'
             ],
+            'plugins.login.routes' => [
+                'type' => 'tab',
+                'name' => 'plugins.login.routes',
+                'validation' => 'loose'
+            ],
             'plugins.login.user_registration.enabled' => [
                 'type' => 'toggle',
                 'label' => 'PLUGIN_ADMIN.ENABLED',
@@ -5367,6 +6408,11 @@ return [
                 'name' => 'plugins.login.user_registration.default_values',
                 'validation' => 'loose'
             ],
+            'plugins.login.registration_fields' => [
+                'type' => 'section',
+                'name' => 'plugins.login.registration_fields',
+                'validation' => 'loose'
+            ],
             'plugins.login.user_registration.groups' => [
                 'type' => 'select',
                 'multiple' => true,
@@ -5393,6 +6439,12 @@ return [
                     'type' => 'array'
                 ],
                 'name' => 'plugins.login.user_registration.access.site',
+                'validation' => 'loose'
+            ],
+            'plugins.login.access_levels' => [
+                'type' => 'section',
+                'security' => 'admin.super',
+                'name' => 'plugins.login.access_levels',
                 'validation' => 'loose'
             ],
             'plugins.login.user_registration.options' => [
@@ -5496,6 +6548,11 @@ return [
                     'type' => 'bool'
                 ],
                 'name' => 'plugins.login.user_registration.options.send_welcome_email',
+                'validation' => 'loose'
+            ],
+            'plugins.login.registration' => [
+                'type' => 'tab',
+                'name' => 'plugins.login.registration',
                 'validation' => 'loose'
             ],
             'plugins.login.site_host' => [
@@ -5640,6 +6697,23 @@ return [
                 'name' => 'plugins.login.magic_link.max_requests_interval',
                 'validation' => 'loose'
             ],
+            'plugins.login.magic_link_section' => [
+                'type' => 'section',
+                'name' => 'plugins.login.magic_link_section',
+                'validation' => 'loose'
+            ],
+            'plugins.login.Security' => [
+                'type' => 'tab',
+                'name' => 'plugins.login.Security',
+                'validation' => 'loose'
+            ],
+            'plugins.login.tabs' => [
+                'type' => 'tabs',
+                'active' => 1,
+                'class' => 'subtle',
+                'name' => 'plugins.login.tabs',
+                'validation' => 'loose'
+            ],
             'plugins.form' => [
                 'type' => '_root',
                 'form_field' => false,
@@ -5767,10 +6841,15 @@ return [
                 'name' => 'plugins.form.modular_form_fix',
                 'validation' => 'strict'
             ],
+            'plugins.form.general' => [
+                'type' => 'section',
+                'name' => 'plugins.form.general',
+                'validation' => 'strict'
+            ],
             'plugins.form.files' => [
-                'type' => '_parent',
+                'type' => 'section',
                 'name' => 'plugins.form.files',
-                'form_field' => false
+                'validation' => 'strict'
             ],
             'plugins.form.files.multiple' => [
                 'type' => 'toggle',
@@ -5864,9 +6943,9 @@ return [
                 'validation' => 'strict'
             ],
             'plugins.form.recaptcha' => [
-                'type' => '_parent',
+                'type' => 'section',
                 'name' => 'plugins.form.recaptcha',
-                'form_field' => false
+                'validation' => 'strict'
             ],
             'plugins.form.recaptcha.version' => [
                 'type' => 'select',
@@ -5936,10 +7015,98 @@ return [
                 'name' => 'plugins.form.turnstile.secret_key',
                 'validation' => 'strict'
             ],
-            'plugins.form.basic_captcha' => [
+            'plugins.form.turnstile_captcha' => [
+                'type' => 'section',
+                'name' => 'plugins.form.turnstile_captcha',
+                'validation' => 'strict'
+            ],
+            'plugins.form.cap' => [
                 'type' => '_parent',
-                'name' => 'plugins.form.basic_captcha',
+                'name' => 'plugins.form.cap',
                 'form_field' => false
+            ],
+            'plugins.form.cap.mode' => [
+                'type' => 'select',
+                'label' => 'Default Mode',
+                'default' => 'invisible',
+                'options' => [
+                    'invisible' => 'Invisible (auto-solve on submit)',
+                    'checkbox' => 'Checkbox widget'
+                ],
+                'name' => 'plugins.form.cap.mode',
+                'validation' => 'strict'
+            ],
+            'plugins.form.cap.storage' => [
+                'type' => 'select',
+                'label' => 'Token Storage Backend',
+                'default' => 'grav-cache',
+                'options' => [
+                    'grav-cache' => 'Grav Cache (PSR-16)',
+                    'filesystem' => 'Filesystem (user/data/cap)'
+                ],
+                'name' => 'plugins.form.cap.storage',
+                'validation' => 'strict'
+            ],
+            'plugins.form.cap.challenge_count' => [
+                'type' => 'number',
+                'label' => 'Challenge Count',
+                'default' => 50,
+                'size' => 'small',
+                'validate' => [
+                    'min' => 1,
+                    'max' => 200,
+                    'type' => 'number'
+                ],
+                'name' => 'plugins.form.cap.challenge_count',
+                'validation' => 'strict'
+            ],
+            'plugins.form.cap.challenge_size' => [
+                'type' => 'number',
+                'label' => 'Salt Size',
+                'default' => 32,
+                'size' => 'small',
+                'validate' => [
+                    'min' => 8,
+                    'max' => 64,
+                    'type' => 'number'
+                ],
+                'name' => 'plugins.form.cap.challenge_size',
+                'validation' => 'strict'
+            ],
+            'plugins.form.cap.challenge_difficulty' => [
+                'type' => 'number',
+                'label' => 'Difficulty',
+                'default' => 4,
+                'size' => 'small',
+                'validate' => [
+                    'min' => 1,
+                    'max' => 8,
+                    'type' => 'number'
+                ],
+                'name' => 'plugins.form.cap.challenge_difficulty',
+                'validation' => 'strict'
+            ],
+            'plugins.form.cap.expires_ms' => [
+                'type' => 'number',
+                'label' => 'Challenge TTL (ms)',
+                'default' => 600000,
+                'size' => 'small',
+                'validate' => [
+                    'min' => 30000,
+                    'type' => 'number'
+                ],
+                'name' => 'plugins.form.cap.expires_ms',
+                'validation' => 'strict'
+            ],
+            'plugins.form.cap_captcha' => [
+                'type' => 'section',
+                'name' => 'plugins.form.cap_captcha',
+                'validation' => 'strict'
+            ],
+            'plugins.form.basic_captcha' => [
+                'type' => 'section',
+                'name' => 'plugins.form.basic_captcha',
+                'validation' => 'strict'
             ],
             'plugins.form.basic_captcha.image' => [
                 'type' => '_parent',
@@ -6059,6 +7226,11 @@ return [
                 'name' => 'plugins.form.basic_captcha.chars.length',
                 'validation' => 'strict'
             ],
+            'plugins.form.characters' => [
+                'type' => 'element',
+                'name' => 'plugins.form.characters',
+                'validation' => 'strict'
+            ],
             'plugins.form.basic_captcha.math' => [
                 'type' => '_parent',
                 'name' => 'plugins.form.basic_captcha.math',
@@ -6117,8 +7289,12 @@ return [
                 'name' => 'plugins.form.basic_captcha.math.operators',
                 'validation' => 'strict'
             ],
+            'plugins.form.math' => [
+                'type' => 'element',
+                'name' => 'plugins.form.math',
+                'validation' => 'strict'
+            ],
             'plugins.form.basic_captcha.type' => [
-                'input@' => true,
                 'type' => 'elements',
                 'label' => 'PLUGIN_FORM.BASIC_CAPTCHA_TYPE',
                 'default' => 'characters',
@@ -6202,13 +7378,30 @@ return [
                 'name' => 'plugins.flex-objects.built_in_css',
                 'validation' => 'loose'
             ],
-            'plugins.flex-objects.extra_admin_twig_path' => [
-                'type' => 'text',
-                'label' => 'PLUGIN_FLEX_OBJECTS.EXTRA_ADMIN_TWIG_PATH',
-                'validate' => [
-                    'required' => true
+            'plugins.flex-objects.security_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.flex-objects.security_section',
+                'validation' => 'loose'
+            ],
+            'plugins.flex-objects.security' => [
+                'type' => '_parent',
+                'name' => 'plugins.flex-objects.security',
+                'form_field' => false
+            ],
+            'plugins.flex-objects.security.restrict_page_frontmatter' => [
+                'type' => 'toggle',
+                'label' => 'Restrict Page Frontmatter Editing',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.ENABLED',
+                    0 => 'PLUGIN_ADMIN.DISABLED'
                 ],
-                'name' => 'plugins.flex-objects.extra_admin_twig_path',
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.flex-objects.security.restrict_page_frontmatter',
                 'validation' => 'loose'
             ],
             'plugins.flex-objects.directories' => [
@@ -6233,6 +7426,14 @@ return [
                 'type' => '_parent',
                 'name' => 'themes',
                 'form_field' => false
+            ],
+            'themes.oxygen.spacer' => [
+                'type' => 'spacer',
+                'text' => 'Please refer to <a target="_blank" href="https://github.com/kittyfishfrommars/grav-theme-oxygen/blob/main/README.md#theme-options">README - Theme Options</a> for a more detailed explanation of each setting.
+',
+                'underline' => true,
+                'name' => 'themes.oxygen.spacer',
+                'validation' => 'strict'
             ],
             'themes.oxygen.index' => [
                 'type' => 'toggle',
@@ -6317,47 +7518,56 @@ return [
             
         ],
         'nested' => [
-            'media' => [
-                'types' => [
-                    '*' => [
-                        'type' => 'media.types.*.type',
-                        'thumb' => 'media.types.*.thumb',
-                        'mime' => 'media.types.*.mime',
-                        'image' => 'media.types.*.image'
-                    ]
-                ]
-            ],
             'backups' => [
+                'history_title' => 'backups.history_title',
                 'history' => 'backups.history',
+                'config_title' => 'backups.config_title',
                 'purge' => [
                     'trigger' => 'backups.purge.trigger',
                     'max_backups_count' => 'backups.purge.max_backups_count',
                     'max_backups_space' => 'backups.purge.max_backups_space',
                     'max_backups_time' => 'backups.purge.max_backups_time'
                 ],
+                'profiles_title' => 'backups.profiles_title',
                 'profiles' => [
-                    '*' => [
-                        'name' => 'backups.profiles.*.name',
-                        'root' => 'backups.profiles.*.root',
-                        'exclude_paths' => 'backups.profiles.*.exclude_paths',
-                        'exclude_files' => 'backups.profiles.*.exclude_files',
-                        'schedule' => 'backups.profiles.*.schedule',
-                        'schedule_at' => 'backups.profiles.*.schedule_at'
-                    ]
+                    'name' => 'backups.profiles.name',
+                    'root' => 'backups.profiles.root',
+                    'exclude_paths' => 'backups.profiles.exclude_paths',
+                    'exclude_files' => 'backups.profiles.exclude_files',
+                    'schedule' => 'backups.profiles.schedule',
+                    'schedule_at' => 'backups.profiles.schedule_at',
+                    'schedule_environment' => 'backups.profiles.schedule_environment'
+                ]
+            ],
+            'media' => [
+                'types' => [
+                    'extension' => 'media.types.extension',
+                    'type' => 'media.types.type',
+                    'thumb' => 'media.types.thumb',
+                    'mime' => 'media.types.mime',
+                    'image' => 'media.types.image'
                 ]
             ],
             'scheduler' => [
+                'scheduler_tabs' => 'scheduler.scheduler_tabs',
+                'status_tab' => 'scheduler.status_tab',
+                'status_title' => 'scheduler.status_title',
                 'status' => 'scheduler.status',
+                'modern_health' => 'scheduler.modern_health',
+                'trigger_methods' => 'scheduler.trigger_methods',
+                'jobs_tab' => 'scheduler.jobs_tab',
+                'jobs_title' => 'scheduler.jobs_title',
                 'custom_jobs' => [
-                    '*' => [
-                        'command' => 'scheduler.custom_jobs.*.command',
-                        'args' => 'scheduler.custom_jobs.*.args',
-                        'at' => 'scheduler.custom_jobs.*.at',
-                        'output' => 'scheduler.custom_jobs.*.output',
-                        'output_mode' => 'scheduler.custom_jobs.*.output_mode',
-                        'email' => 'scheduler.custom_jobs.*.email'
-                    ]
+                    'id' => 'scheduler.custom_jobs.id',
+                    'command' => 'scheduler.custom_jobs.command',
+                    'args' => 'scheduler.custom_jobs.args',
+                    'at' => 'scheduler.custom_jobs.at',
+                    'output' => 'scheduler.custom_jobs.output',
+                    'output_mode' => 'scheduler.custom_jobs.output_mode',
+                    'email' => 'scheduler.custom_jobs.email'
                 ],
+                'modern_tab' => 'scheduler.modern_tab',
+                'workers_section' => 'scheduler.workers_section',
                 'modern' => [
                     'workers' => 'scheduler.modern.workers',
                     'retry' => [
@@ -6383,9 +7593,18 @@ return [
                         'path' => 'scheduler.modern.health.path'
                     ]
                 ],
-                'webhook_plugin_status' => 'scheduler.webhook_plugin_status'
+                'retry_section' => 'scheduler.retry_section',
+                'queue_section' => 'scheduler.queue_section',
+                'history_section' => 'scheduler.history_section',
+                'webhook_section' => 'scheduler.webhook_section',
+                'webhook_plugin_status' => 'scheduler.webhook_plugin_status',
+                'webhook_token_generate' => 'scheduler.webhook_token_generate',
+                'health_section' => 'scheduler.health_section',
+                'webhook_usage' => 'scheduler.webhook_usage',
+                'webhook_examples' => 'scheduler.webhook_examples'
             ],
             'security' => [
+                'xss_section' => 'security.xss_section',
                 'xss_whitelist' => 'security.xss_whitelist',
                 'xss_enabled' => [
                     'on_events' => 'security.xss_enabled.on_events',
@@ -6396,10 +7615,41 @@ return [
                 ],
                 'xss_invalid_protocols' => 'security.xss_invalid_protocols',
                 'xss_dangerous_tags' => 'security.xss_dangerous_tags',
+                'twig_content_section' => 'security.twig_content_section',
+                'twig_content' => [
+                    'process_enabled' => 'security.twig_content.process_enabled',
+                    'editor_enabled' => 'security.twig_content.editor_enabled',
+                    'config_access' => 'security.twig_content.config_access'
+                ],
+                'twig_sandbox_section' => 'security.twig_sandbox_section',
+                'twig_sandbox' => [
+                    'enabled' => 'security.twig_sandbox.enabled',
+                    'logging' => 'security.twig_sandbox.logging',
+                    'admin_hint' => 'security.twig_sandbox.admin_hint',
+                    'allowed_tags' => 'security.twig_sandbox.allowed_tags',
+                    'allowed_filters' => 'security.twig_sandbox.allowed_filters',
+                    'allowed_functions' => 'security.twig_sandbox.allowed_functions',
+                    'allowed_methods' => [
+                        'class' => 'security.twig_sandbox.allowed_methods.class',
+                        'methods' => 'security.twig_sandbox.allowed_methods.methods'
+                    ],
+                    'allowed_properties' => [
+                        'class' => 'security.twig_sandbox.allowed_properties.class',
+                        'methods' => 'security.twig_sandbox.allowed_properties.methods'
+                    ]
+                ],
+                'read_file_section' => 'security.read_file_section',
+                'read_file' => [
+                    'allowed_streams' => 'security.read_file.allowed_streams',
+                    'allowed_extensions' => 'security.read_file.allowed_extensions',
+                    'max_size' => 'security.read_file.max_size'
+                ],
+                'uploads_section' => 'security.uploads_section',
                 'uploads_dangerous_extensions' => 'security.uploads_dangerous_extensions',
                 'sanitize_svg' => 'security.sanitize_svg'
             ],
             'site' => [
+                'content' => 'site.content',
                 'title' => 'site.title',
                 'default_lang' => 'site.default_lang',
                 'author' => [
@@ -6414,8 +7664,8 @@ return [
                     'delimiter' => 'site.summary.delimiter'
                 ],
                 'metadata' => 'site.metadata',
-                'redirects' => 'site.redirects',
-                'routes' => 'site.routes'
+                'routes' => 'site.routes',
+                'redirects' => 'site.redirects'
             ],
             'streams' => [
                 'schemes' => [
@@ -6423,6 +7673,9 @@ return [
                 ]
             ],
             'system' => [
+                'system_tabs' => 'system.system_tabs',
+                'content' => 'system.content',
+                'content_section' => 'system.content_section',
                 'home' => [
                     'alias' => 'system.home.alias',
                     'hide_in_urls' => 'system.home.hide_in_urls'
@@ -6440,6 +7693,7 @@ return [
                         'by' => 'system.pages.order.by',
                         'dir' => 'system.pages.order.dir'
                     ],
+                    'order_digits' => 'system.pages.order_digits',
                     'list' => [
                         'count' => 'system.pages.list.count'
                     ],
@@ -6470,8 +7724,22 @@ return [
                         'auto_line_breaks' => 'system.pages.markdown.auto_line_breaks',
                         'auto_url_links' => 'system.pages.markdown.auto_url_links',
                         'escape_markup' => 'system.pages.markdown.escape_markup',
+                        'gfm' => [
+                            'task_lists' => 'system.pages.markdown.gfm.task_lists',
+                            'marks' => 'system.pages.markdown.gfm.marks',
+                            'tagfilter' => 'system.pages.markdown.gfm.tagfilter',
+                            'autolinks' => 'system.pages.markdown.gfm.autolinks'
+                        ],
+                        'tables' => [
+                            'colspan' => 'system.pages.markdown.tables.colspan',
+                            'headerless' => 'system.pages.markdown.tables.headerless',
+                            'captions' => 'system.pages.markdown.tables.captions',
+                            'attributes' => 'system.pages.markdown.tables.attributes',
+                            'multiline' => 'system.pages.markdown.tables.multiline'
+                        ],
                         'valid_link_attributes' => 'system.pages.markdown.valid_link_attributes'
-                    ]
+                    ],
+                    'lazy_index' => 'system.pages.lazy_index'
                 ],
                 'timezone' => 'system.timezone',
                 'languages' => [
@@ -6485,14 +7753,24 @@ return [
                     'translations_fallback' => 'system.languages.translations_fallback',
                     'session_store_active' => 'system.languages.session_store_active',
                     'http_accept_language' => 'system.languages.http_accept_language',
+                    'http_accept_language_fallback' => 'system.languages.http_accept_language_fallback',
                     'override_locale' => 'system.languages.override_locale',
                     'debug' => 'system.languages.debug'
                 ],
+                'languages-section' => 'system.languages-section',
+                'key' => 'system.key',
                 'value' => 'system.value',
+                'http_headers' => 'system.http_headers',
+                'http_headers_section' => 'system.http_headers_section',
+                'markdown' => 'system.markdown',
+                'markdow_section' => 'system.markdow_section',
+                'caching' => 'system.caching',
+                'caching_section' => 'system.caching_section',
                 'cache' => [
                     'enabled' => 'system.cache.enabled',
                     'check' => [
-                        'method' => 'system.cache.check.method'
+                        'method' => 'system.cache.check.method',
+                        'interval' => 'system.cache.check.interval'
                     ],
                     'driver' => 'system.cache.driver',
                     'prefix' => 'system.cache.prefix',
@@ -6505,10 +7783,6 @@ return [
                     'lifetime' => 'system.cache.lifetime',
                     'gzip' => 'system.cache.gzip',
                     'allow_webserver_gzip' => 'system.cache.allow_webserver_gzip',
-                    'memcache' => [
-                        'server' => 'system.cache.memcache.server',
-                        'port' => 'system.cache.memcache.port'
-                    ],
                     'memcached' => [
                         'server' => 'system.cache.memcached.server',
                         'port' => 'system.cache.memcached.port'
@@ -6521,6 +7795,7 @@ return [
                         'database' => 'system.cache.redis.database'
                     ]
                 ],
+                'flex_caching' => 'system.flex_caching',
                 'flex' => [
                     'cache' => [
                         'index' => [
@@ -6541,9 +7816,9 @@ return [
                     'cache' => 'system.twig.cache',
                     'debug' => 'system.twig.debug',
                     'auto_reload' => 'system.twig.auto_reload',
-                    'autoescape' => 'system.twig.autoescape',
-                    'umask_fix' => 'system.twig.umask_fix'
+                    'autoescape' => 'system.twig.autoescape'
                 ],
+                'twig_section' => 'system.twig_section',
                 'assets' => [
                     'enable_asset_timestamp' => 'system.assets.enable_asset_timestamp',
                     'enable_asset_sri' => 'system.assets.enable_asset_sri',
@@ -6562,10 +7837,15 @@ return [
                     'js_module_pipeline_include_externals' => 'system.assets.js_module_pipeline_include_externals',
                     'js_module_pipeline_before_excludes' => 'system.assets.js_module_pipeline_before_excludes'
                 ],
+                'general_config_section' => 'system.general_config_section',
+                'css_assets_section' => 'system.css_assets_section',
+                'js_assets_section' => 'system.js_assets_section',
+                'js_module_assets_section' => 'system.js_module_assets_section',
                 'errors' => [
                     'display' => 'system.errors.display',
                     'log' => 'system.errors.log'
                 ],
+                'errors_section' => 'system.errors_section',
                 'log' => [
                     'handler' => 'system.log.handler',
                     'syslog' => [
@@ -6581,6 +7861,14 @@ return [
                         'close_connection' => 'system.debugger.shutdown.close_connection'
                     ]
                 ],
+                'debugger_section' => 'system.debugger_section',
+                'media' => [
+                    'enable_media_timestamp' => 'system.media.enable_media_timestamp',
+                    'auto_metadata_exif' => 'system.media.auto_metadata_exif',
+                    'allowed_fallback_types' => 'system.media.allowed_fallback_types',
+                    'unsupported_inline_types' => 'system.media.unsupported_inline_types'
+                ],
+                'media_section' => 'system.media_section',
                 'images' => [
                     'adapter' => 'system.images.adapter',
                     'default_image_quality' => 'system.images.default_image_quality',
@@ -6588,26 +7876,21 @@ return [
                     'cache_perms' => 'system.images.cache_perms',
                     'debug' => 'system.images.debug',
                     'auto_fix_orientation' => 'system.images.auto_fix_orientation',
+                    'url_actions' => 'system.images.url_actions',
+                    'max_pixels' => 'system.images.max_pixels',
                     'defaults' => [
                         'loading' => 'system.images.defaults.loading',
                         'decoding' => 'system.images.defaults.decoding',
                         'fetchpriority' => 'system.images.defaults.fetchpriority'
                     ],
                     'seofriendly' => 'system.images.seofriendly',
-                    'url_actions' => 'system.images.url_actions',
-                    'max_pixels' => 'system.images.max_pixels',
                     'cls' => [
                         'auto_sizes' => 'system.images.cls.auto_sizes',
                         'aspect_ratio' => 'system.images.cls.aspect_ratio',
                         'retina_scale' => 'system.images.cls.retina_scale'
                     ]
                 ],
-                'media' => [
-                    'enable_media_timestamp' => 'system.media.enable_media_timestamp',
-                    'auto_metadata_exif' => 'system.media.auto_metadata_exif',
-                    'allowed_fallback_types' => 'system.media.allowed_fallback_types',
-                    'unsupported_inline_types' => 'system.media.unsupported_inline_types'
-                ],
+                'section_images_cls' => 'system.section_images_cls',
                 'session' => [
                     'enabled' => 'system.session.enabled',
                     'initialize' => 'system.session.initialize',
@@ -6622,10 +7905,15 @@ return [
                     'samesite' => 'system.session.samesite',
                     'split' => 'system.session.split'
                 ],
+                'session_section' => 'system.session_section',
+                'advanced' => 'system.advanced',
+                'advanced_section' => 'system.advanced_section',
+                'gpm_section' => 'system.gpm_section',
                 'gpm' => [
                     'releases' => 'system.gpm.releases',
                     'official_gpm_only' => 'system.gpm.official_gpm_only'
                 ],
+                'http_section' => 'system.http_section',
                 'http' => [
                     'method' => 'system.http.method',
                     'enable_proxy' => 'system.http.enable_proxy',
@@ -6635,9 +7923,15 @@ return [
                     'verify_host' => 'system.http.verify_host',
                     'concurrent_connections' => 'system.http.concurrent_connections'
                 ],
+                'misc_section' => 'system.misc_section',
                 'reverse_proxy_setup' => 'system.reverse_proxy_setup',
                 'username_regex' => 'system.username_regex',
                 'pwd_regex' => 'system.pwd_regex',
+                'pwd_rules' => [
+                    'id' => 'system.pwd_rules.id',
+                    'label' => 'system.pwd_rules.label',
+                    'pattern' => 'system.pwd_rules.pattern'
+                ],
                 'intl_enabled' => 'system.intl_enabled',
                 'wrapped_site' => 'system.wrapped_site',
                 'absolute_urls' => 'system.absolute_urls',
@@ -6649,18 +7943,22 @@ return [
                     'protocol' => 'system.http_x_forwarded.protocol',
                     'host' => 'system.http_x_forwarded.host',
                     'port' => 'system.http_x_forwarded.port',
-                    'ip' => 'system.http_x_forwarded.ip'
+                    'ip' => 'system.http_x_forwarded.ip',
+                    'client_ip' => 'system.http_x_forwarded.client_ip',
+                    'cf_connecting_ip' => 'system.http_x_forwarded.cf_connecting_ip'
                 ],
                 'strict_mode' => [
                     'blueprint_compat' => 'system.strict_mode.blueprint_compat',
                     'yaml_compat' => 'system.strict_mode.yaml_compat',
-                    'twig_compat' => 'system.strict_mode.twig_compat'
+                    'twig2_compat' => 'system.strict_mode.twig2_compat',
+                    'twig3_compat' => 'system.strict_mode.twig3_compat'
                 ],
                 'accounts' => [
                     'type' => 'system.accounts.type',
                     'storage' => 'system.accounts.storage',
                     'avatar' => 'system.accounts.avatar'
-                ]
+                ],
+                'flex_accounts' => 'system.flex_accounts'
             ],
             'plugins' => [
                 'feed' => [
@@ -6676,118 +7974,9 @@ return [
                     'enabled' => 'plugins.problems.enabled',
                     'built_in_css' => 'plugins.problems.built_in_css'
                 ],
-                'admin' => [
-                    'enabled' => 'plugins.admin.enabled',
-                    'cache_enabled' => 'plugins.admin.cache_enabled',
-                    'twofa_enabled' => 'plugins.admin.twofa_enabled',
-                    'route' => 'plugins.admin.route',
-                    'logo_text' => 'plugins.admin.logo_text',
-                    'content_padding' => 'plugins.admin.content_padding',
-                    'body_classes' => 'plugins.admin.body_classes',
-                    'sidebar' => [
-                        'activate' => 'plugins.admin.sidebar.activate',
-                        'hover_delay' => 'plugins.admin.sidebar.hover_delay',
-                        'size' => 'plugins.admin.sidebar.size'
-                    ],
-                    'theme' => 'plugins.admin.theme',
-                    'edit_mode' => 'plugins.admin.edit_mode',
-                    'frontend_preview_target' => 'plugins.admin.frontend_preview_target',
-                    'pages' => [
-                        'show_parents' => 'plugins.admin.pages.show_parents',
-                        'parents_levels' => 'plugins.admin.pages.parents_levels',
-                        'show_modular' => 'plugins.admin.pages.show_modular'
-                    ],
-                    'show_beta_msg' => 'plugins.admin.show_beta_msg',
-                    'show_github_msg' => 'plugins.admin.show_github_msg',
-                    'enable_auto_updates_check' => 'plugins.admin.enable_auto_updates_check',
-                    'session' => [
-                        'timeout' => 'plugins.admin.session.timeout'
-                    ],
-                    'hide_page_types' => 'plugins.admin.hide_page_types',
-                    'hide_modular_page_types' => 'plugins.admin.hide_modular_page_types',
-                    'widgets_display' => 'plugins.admin.widgets_display',
-                    'notifications' => [
-                        'feed' => 'plugins.admin.notifications.feed',
-                        'dashboard' => 'plugins.admin.notifications.dashboard',
-                        'plugins' => 'plugins.admin.notifications.plugins',
-                        'themes' => 'plugins.admin.notifications.themes'
-                    ],
-                    'whitelabel' => [
-                        'logo_login' => 'plugins.admin.whitelabel.logo_login',
-                        'logo_custom' => 'plugins.admin.whitelabel.logo_custom',
-                        'codemirror_theme' => 'plugins.admin.whitelabel.codemirror_theme',
-                        'codemirror_fontsize' => 'plugins.admin.whitelabel.codemirror_fontsize',
-                        'codemirror_md_font' => 'plugins.admin.whitelabel.codemirror_md_font',
-                        'quicktray_recompile' => 'plugins.admin.whitelabel.quicktray_recompile',
-                        'color_scheme' => [
-                            'name' => 'plugins.admin.whitelabel.color_scheme.name',
-                            'colors' => [
-                                'logo-bg' => 'plugins.admin.whitelabel.color_scheme.colors.logo-bg',
-                                'logo-link' => 'plugins.admin.whitelabel.color_scheme.colors.logo-link',
-                                'nav-bg' => 'plugins.admin.whitelabel.color_scheme.colors.nav-bg',
-                                'nav-text' => 'plugins.admin.whitelabel.color_scheme.colors.nav-text',
-                                'nav-link' => 'plugins.admin.whitelabel.color_scheme.colors.nav-link',
-                                'nav-selected-bg' => 'plugins.admin.whitelabel.color_scheme.colors.nav-selected-bg',
-                                'nav-selected-link' => 'plugins.admin.whitelabel.color_scheme.colors.nav-selected-link',
-                                'nav-hover-bg' => 'plugins.admin.whitelabel.color_scheme.colors.nav-hover-bg',
-                                'nav-hover-link' => 'plugins.admin.whitelabel.color_scheme.colors.nav-hover-link',
-                                'toolbar-bg' => 'plugins.admin.whitelabel.color_scheme.colors.toolbar-bg',
-                                'toolbar-text' => 'plugins.admin.whitelabel.color_scheme.colors.toolbar-text',
-                                'page-bg' => 'plugins.admin.whitelabel.color_scheme.colors.page-bg',
-                                'page-text' => 'plugins.admin.whitelabel.color_scheme.colors.page-text',
-                                'page-link' => 'plugins.admin.whitelabel.color_scheme.colors.page-link',
-                                'content-bg' => 'plugins.admin.whitelabel.color_scheme.colors.content-bg',
-                                'content-text' => 'plugins.admin.whitelabel.color_scheme.colors.content-text',
-                                'content-link' => 'plugins.admin.whitelabel.color_scheme.colors.content-link',
-                                'content-link2' => 'plugins.admin.whitelabel.color_scheme.colors.content-link2',
-                                'content-header' => 'plugins.admin.whitelabel.color_scheme.colors.content-header',
-                                'content-tabs-bg' => 'plugins.admin.whitelabel.color_scheme.colors.content-tabs-bg',
-                                'content-tabs-text' => 'plugins.admin.whitelabel.color_scheme.colors.content-tabs-text',
-                                'content-highlight' => 'plugins.admin.whitelabel.color_scheme.colors.content-highlight',
-                                'button-bg' => 'plugins.admin.whitelabel.color_scheme.colors.button-bg',
-                                'button-text' => 'plugins.admin.whitelabel.color_scheme.colors.button-text',
-                                'notice-bg' => 'plugins.admin.whitelabel.color_scheme.colors.notice-bg',
-                                'notice-text' => 'plugins.admin.whitelabel.color_scheme.colors.notice-text',
-                                'update-bg' => 'plugins.admin.whitelabel.color_scheme.colors.update-bg',
-                                'update-text' => 'plugins.admin.whitelabel.color_scheme.colors.update-text',
-                                'critical-bg' => 'plugins.admin.whitelabel.color_scheme.colors.critical-bg',
-                                'critical-text' => 'plugins.admin.whitelabel.color_scheme.colors.critical-text'
-                            ],
-                            'accents' => [
-                                'primary-accent' => 'plugins.admin.whitelabel.color_scheme.accents.primary-accent',
-                                'secondary-accent' => 'plugins.admin.whitelabel.color_scheme.accents.secondary-accent',
-                                'tertiary-accent' => 'plugins.admin.whitelabel.color_scheme.accents.tertiary-accent'
-                            ]
-                        ],
-                        'custom_footer' => 'plugins.admin.whitelabel.custom_footer',
-                        'custom_css' => 'plugins.admin.whitelabel.custom_css',
-                        'custom_presets' => 'plugins.admin.whitelabel.custom_presets'
-                    ],
-                    'themes-preview' => 'plugins.admin.themes-preview',
-                    'colorschemes' => 'plugins.admin.colorschemes',
-                    'popularity' => [
-                        'enabled' => 'plugins.admin.popularity.enabled',
-                        'ignore' => 'plugins.admin.popularity.ignore',
-                        'history' => [
-                            'daily' => 'plugins.admin.popularity.history.daily',
-                            'monthly' => 'plugins.admin.popularity.history.monthly',
-                            'visitors' => 'plugins.admin.popularity.history.visitors'
-                        ]
-                    ],
-                    'dashboard' => [
-                        'days_of_stats' => 'plugins.admin.dashboard.days_of_stats'
-                    ],
-                    'pagemedia' => [
-                        'resize_width' => 'plugins.admin.pagemedia.resize_width',
-                        'resize_height' => 'plugins.admin.pagemedia.resize_height',
-                        'res_min_width' => 'plugins.admin.pagemedia.res_min_width',
-                        'res_min_height' => 'plugins.admin.pagemedia.res_min_height',
-                        'res_max_width' => 'plugins.admin.pagemedia.res_max_width',
-                        'res_max_height' => 'plugins.admin.pagemedia.res_max_height',
-                        'resize_quality' => 'plugins.admin.pagemedia.resize_quality'
-                    ]
-                ],
                 'shortcode-core' => [
+                    'shortcode_tabs' => 'plugins.shortcode-core.shortcode_tabs',
+                    'options' => 'plugins.shortcode-core.options',
                     'enabled' => 'plugins.shortcode-core.enabled',
                     'active' => 'plugins.shortcode-core.active',
                     'active_admin' => 'plugins.shortcode-core.active_admin',
@@ -6802,12 +7991,98 @@ return [
                         'url' => 'plugins.shortcode-core.fontawesome.url',
                         'v5' => 'plugins.shortcode-core.fontawesome.v5'
                     ],
+                    'builder' => 'plugins.shortcode-core.builder',
+                    'shortcodes_intro' => 'plugins.shortcode-core.shortcodes_intro',
                     'shortcodes' => [
-                        '*' => [
-                            'name' => 'plugins.shortcode-core.shortcodes.*.name',
-                            'template' => 'plugins.shortcode-core.shortcodes.*.template',
-                            'output' => 'plugins.shortcode-core.shortcodes.*.output'
+                        'name' => 'plugins.shortcode-core.shortcodes.name',
+                        'template' => 'plugins.shortcode-core.shortcodes.template',
+                        'output' => 'plugins.shortcode-core.shortcodes.output'
+                    ]
+                ],
+                'api' => [
+                    'enabled' => 'plugins.api.enabled',
+                    'tabs' => 'plugins.api.tabs',
+                    'tab_general' => 'plugins.api.tab_general',
+                    'section_general' => 'plugins.api.section_general',
+                    'route' => 'plugins.api.route',
+                    'version_prefix' => 'plugins.api.version_prefix',
+                    'section_backend' => 'plugins.api.section_backend',
+                    'flex_backend' => [
+                        'pages' => 'plugins.api.flex_backend.pages',
+                        'accounts' => 'plugins.api.flex_backend.accounts'
+                    ],
+                    'force_cache' => 'plugins.api.force_cache',
+                    'tab_authentication' => 'plugins.api.tab_authentication',
+                    'section_auth' => 'plugins.api.section_auth',
+                    'auth' => [
+                        'api_keys_enabled' => 'plugins.api.auth.api_keys_enabled',
+                        'jwt_enabled' => 'plugins.api.auth.jwt_enabled',
+                        'jwt_expiry' => 'plugins.api.auth.jwt_expiry',
+                        'jwt_refresh_expiry' => 'plugins.api.auth.jwt_refresh_expiry',
+                        'jwt_algorithm' => 'plugins.api.auth.jwt_algorithm',
+                        'session_enabled' => 'plugins.api.auth.session_enabled',
+                        'key_cache_ttl' => 'plugins.api.auth.key_cache_ttl'
+                    ],
+                    'session_early_close' => 'plugins.api.session_early_close',
+                    'protect_frontend_session' => 'plugins.api.protect_frontend_session',
+                    'allow_draft_preview' => 'plugins.api.allow_draft_preview',
+                    'tab_cors' => 'plugins.api.tab_cors',
+                    'section_cors' => 'plugins.api.section_cors',
+                    'cors' => [
+                        'enabled' => 'plugins.api.cors.enabled',
+                        'origins' => 'plugins.api.cors.origins',
+                        'methods' => 'plugins.api.cors.methods',
+                        'headers' => 'plugins.api.cors.headers'
+                    ],
+                    'tab_rate_limiting' => 'plugins.api.tab_rate_limiting',
+                    'section_rate_limit' => 'plugins.api.section_rate_limit',
+                    'rate_limit' => [
+                        'enabled' => 'plugins.api.rate_limit.enabled',
+                        'requests' => 'plugins.api.rate_limit.requests',
+                        'window' => 'plugins.api.rate_limit.window'
+                    ],
+                    'tab_content' => 'plugins.api.tab_content',
+                    'section_media_metadata' => 'plugins.api.section_media_metadata',
+                    'media_metadata' => [
+                        'max_length' => 'plugins.api.media_metadata.max_length',
+                        'fields' => [
+                            'key' => 'plugins.api.media_metadata.fields.key',
+                            'label' => 'plugins.api.media_metadata.fields.label',
+                            'type' => 'plugins.api.media_metadata.fields.type'
                         ]
+                    ],
+                    'section_popularity' => 'plugins.api.section_popularity',
+                    'popularity' => [
+                        'enabled' => 'plugins.api.popularity.enabled',
+                        'exclude_admin' => 'plugins.api.popularity.exclude_admin',
+                        'exclude_ips' => 'plugins.api.popularity.exclude_ips'
+                    ],
+                    'tab_audit_trail' => 'plugins.api.tab_audit_trail',
+                    'section_audit' => 'plugins.api.section_audit',
+                    'audit' => [
+                        'enabled' => 'plugins.api.audit.enabled',
+                        'coverage' => 'plugins.api.audit.coverage',
+                        'retention_days' => 'plugins.api.audit.retention_days',
+                        'retention_max_rows' => 'plugins.api.audit.retention_max_rows',
+                        'anonymize_ip' => 'plugins.api.audit.anonymize_ip',
+                        'capture' => [
+                            'auth' => 'plugins.api.audit.capture.auth',
+                            'content' => 'plugins.api.audit.capture.content',
+                            'media' => 'plugins.api.audit.capture.media',
+                            'users' => 'plugins.api.audit.capture.users',
+                            'config' => 'plugins.api.audit.capture.config',
+                            'packages' => 'plugins.api.audit.capture.packages'
+                        ]
+                    ],
+                    'tab_demo_mode' => 'plugins.api.tab_demo_mode',
+                    'section_demo' => 'plugins.api.section_demo',
+                    'demo' => [
+                        'notice' => 'plugins.api.demo.notice',
+                        'writable' => 'plugins.api.demo.writable',
+                        'reset_interval' => 'plugins.api.demo.reset_interval',
+                        'reset_on_request' => 'plugins.api.demo.reset_on_request',
+                        'reset_on_schedule' => 'plugins.api.demo.reset_on_schedule',
+                        'keep_safety_snapshots' => 'plugins.api.demo.keep_safety_snapshots'
                     ]
                 ],
                 'sitemap' => [
@@ -6820,23 +8095,24 @@ return [
                     'xsl_transform' => 'plugins.sitemap.xsl_transform',
                     'html_support' => 'plugins.sitemap.html_support',
                     'ignores' => 'plugins.sitemap.ignores',
+                    'news_section' => 'plugins.sitemap.news_section',
                     'include_news_tags' => 'plugins.sitemap.include_news_tags',
                     'standalone_sitemap_news' => 'plugins.sitemap.standalone_sitemap_news',
                     'sitemap_news_path' => 'plugins.sitemap.sitemap_news_path',
                     'news_max_age_days' => 'plugins.sitemap.news_max_age_days',
                     'news_enabled_paths' => 'plugins.sitemap.news_enabled_paths',
+                    'data_section' => 'plugins.sitemap.data_section',
                     'date_type' => 'plugins.sitemap.date_type',
                     'include_changefreq' => 'plugins.sitemap.include_changefreq',
                     'changefreq' => 'plugins.sitemap.changefreq',
                     'include_priority' => 'plugins.sitemap.include_priority',
                     'priority' => 'plugins.sitemap.priority',
+                    'advanced_section' => 'plugins.sitemap.advanced_section',
                     'additions' => [
-                        '*' => [
-                            'location' => 'plugins.sitemap.additions.*.location',
-                            'lastmod' => 'plugins.sitemap.additions.*.lastmod',
-                            'changefreq' => 'plugins.sitemap.additions.*.changefreq',
-                            'priority' => 'plugins.sitemap.additions.*.priority'
-                        ]
+                        'location' => 'plugins.sitemap.additions.location',
+                        'lastmod' => 'plugins.sitemap.additions.lastmod',
+                        'changefreq' => 'plugins.sitemap.additions.changefreq',
+                        'priority' => 'plugins.sitemap.additions.priority'
                     ],
                     'urlset' => 'plugins.sitemap.urlset',
                     'urlimageset' => 'plugins.sitemap.urlimageset',
@@ -6847,6 +8123,13 @@ return [
                     'built_in_css' => 'plugins.markdown-notices.built_in_css',
                     'base_classes' => 'plugins.markdown-notices.base_classes',
                     'level_classes' => 'plugins.markdown-notices.level_classes'
+                ],
+                'migrate-grav' => [
+                    'enabled' => 'plugins.migrate-grav.enabled',
+                    'source_url' => 'plugins.migrate-grav.source_url',
+                    'source_local_zip' => 'plugins.migrate-grav.source_local_zip',
+                    'stage_dir' => 'plugins.migrate-grav.stage_dir',
+                    'require_super_admin' => 'plugins.migrate-grav.require_super_admin'
                 ],
                 'email' => [
                     'enabled' => 'plugins.email.enabled',
@@ -6863,6 +8146,9 @@ return [
                             'bin' => 'plugins.email.mailer.sendmail.bin'
                         ]
                     ],
+                    'smtp_config' => 'plugins.email.smtp_config',
+                    'sendmail_config' => 'plugins.email.sendmail_config',
+                    'email_Defaults' => 'plugins.email.email_Defaults',
                     'content_type' => 'plugins.email.content_type',
                     'from' => 'plugins.email.from',
                     'to' => 'plugins.email.to',
@@ -6870,9 +8156,16 @@ return [
                     'bcc' => 'plugins.email.bcc',
                     'reply_to' => 'plugins.email.reply_to',
                     'body' => 'plugins.email.body',
+                    'advanced_section' => 'plugins.email.advanced_section',
                     'debug' => 'plugins.email.debug'
                 ],
+                'admin2' => [
+                    'enabled' => 'plugins.admin2.enabled',
+                    'route' => 'plugins.admin2.route'
+                ],
                 'login' => [
+                    'tabs' => 'plugins.login.tabs',
+                    'options' => 'plugins.login.options',
                     'enabled' => 'plugins.login.enabled',
                     'built_in_css' => 'plugins.login.built_in_css',
                     'redirect_to_login' => 'plugins.login.redirect_to_login',
@@ -6895,6 +8188,7 @@ return [
                         'timeout' => 'plugins.login.rememberme.timeout',
                         'name' => 'plugins.login.rememberme.name'
                     ],
+                    'routes' => 'plugins.login.routes',
                     'route' => 'plugins.login.route',
                     'route_after_login' => 'plugins.login.route_after_login',
                     'route_after_logout' => 'plugins.login.route_after_logout',
@@ -6927,6 +8221,10 @@ return [
                         ]
                     ],
                     'route_register' => 'plugins.login.route_register',
+                    'registration' => 'plugins.login.registration',
+                    'registration_fields' => 'plugins.login.registration_fields',
+                    'access_levels' => 'plugins.login.access_levels',
+                    'Security' => 'plugins.login.Security',
                     'site_host' => 'plugins.login.site_host',
                     'require_trusted_host' => 'plugins.login.require_trusted_host',
                     'max_pw_resets_count' => 'plugins.login.max_pw_resets_count',
@@ -6935,10 +8233,12 @@ return [
                     'max_token_attempts_interval' => 'plugins.login.max_token_attempts_interval',
                     'max_login_count' => 'plugins.login.max_login_count',
                     'max_login_interval' => 'plugins.login.max_login_interval',
-                    'ipv6_subnet_size' => 'plugins.login.ipv6_subnet_size'
+                    'ipv6_subnet_size' => 'plugins.login.ipv6_subnet_size',
+                    'magic_link_section' => 'plugins.login.magic_link_section'
                 ],
                 'form' => [
                     'enabled' => 'plugins.form.enabled',
+                    'general' => 'plugins.form.general',
                     'debug' => 'plugins.form.debug',
                     'built_in_css' => 'plugins.form.built_in_css',
                     'inline_css' => 'plugins.form.inline_css',
@@ -6961,10 +8261,20 @@ return [
                         'site_key' => 'plugins.form.recaptcha.site_key',
                         'secret_key' => 'plugins.form.recaptcha.secret_key'
                     ],
+                    'turnstile_captcha' => 'plugins.form.turnstile_captcha',
                     'turnstile' => [
                         'theme' => 'plugins.form.turnstile.theme',
                         'site_key' => 'plugins.form.turnstile.site_key',
                         'secret_key' => 'plugins.form.turnstile.secret_key'
+                    ],
+                    'cap_captcha' => 'plugins.form.cap_captcha',
+                    'cap' => [
+                        'mode' => 'plugins.form.cap.mode',
+                        'storage' => 'plugins.form.cap.storage',
+                        'challenge_count' => 'plugins.form.cap.challenge_count',
+                        'challenge_size' => 'plugins.form.cap.challenge_size',
+                        'challenge_difficulty' => 'plugins.form.cap.challenge_difficulty',
+                        'expires_ms' => 'plugins.form.cap.expires_ms'
                     ],
                     'basic_captcha' => [
                         'image' => [
@@ -6986,7 +8296,9 @@ return [
                             'max' => 'plugins.form.basic_captcha.math.max',
                             'operators' => 'plugins.form.basic_captcha.math.operators'
                         ]
-                    ]
+                    ],
+                    'characters' => 'plugins.form.characters',
+                    'math' => 'plugins.form.math'
                 ],
                 'error' => [
                     'enabled' => 'plugins.error.enabled',
@@ -6997,12 +8309,16 @@ return [
                 'flex-objects' => [
                     'enabled' => 'plugins.flex-objects.enabled',
                     'built_in_css' => 'plugins.flex-objects.built_in_css',
-                    'extra_admin_twig_path' => 'plugins.flex-objects.extra_admin_twig_path',
+                    'security_section' => 'plugins.flex-objects.security_section',
+                    'security' => [
+                        'restrict_page_frontmatter' => 'plugins.flex-objects.security.restrict_page_frontmatter'
+                    ],
                     'directories' => 'plugins.flex-objects.directories'
                 ]
             ],
             'themes' => [
                 'oxygen' => [
+                    'spacer' => 'themes.oxygen.spacer',
                     'index' => 'themes.oxygen.index',
                     'sitetitle' => 'themes.oxygen.sitetitle',
                     'sitetitleseparator' => 'themes.oxygen.sitetitleseparator',

@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/blueprints/config/backups.yaml',
-    'modified' => 1782871084,
-    'size' => 3861,
+    'modified' => 1786572335,
+    'size' => 4224,
     'data' => [
         'title' => 'PLUGIN_ADMIN.BACKUPS',
         'form' => [
@@ -140,6 +140,17 @@ return [
                             'default' => '* 3 * * *',
                             'validate' => [
                                 'required' => true
+                            ]
+                        ],
+                        '.schedule_environment' => [
+                            'type' => 'select',
+                            'label' => 'PLUGIN_ADMIN.BACKUPS_PROFILE_ENVIRONMENT',
+                            'help' => 'PLUGIN_ADMIN.BACKUPS_PROFILE_ENVIRONMENT_HELP',
+                            'default' => '',
+                            'options' => [
+                                '' => 'Default (cli)',
+                                'localhost' => 'Localhost',
+                                'cli' => 'CLI'
                             ]
                         ]
                     ]

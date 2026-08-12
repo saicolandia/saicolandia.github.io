@@ -1,3 +1,21 @@
+# v2.0.2
+## 07/25/2026
+
+1. [](#new)
+    * Added a Spanish translation for the error page ([#48](https://github.com/getgrav/grav-plugin-error/pull/48)).
+
+# v2.0.1
+## 06/17/2026
+
+1. [](#bugfix)
+    * The error page now shows its message correctly out of the box on Grav 2, instead of leaving raw template code on the 404 page when Twig processing in content is turned off by default ([#47](https://github.com/getgrav/grav-plugin-error/issues/47)).
+
+# v2.0.0
+## 05/05/2026
+
+1. [](#new)
+    * Added 1.7|2.0 compatibility
+
 # v1.8.1
 ## 08/28/2025
 

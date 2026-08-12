@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/ca.yaml',
-    'modified' => 1782871084,
-    'size' => 1959,
+    'modified' => 1786572335,
+    'size' => 2183,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -109,6 +109,15 @@ Ruta: `%2$s`
                 'ERROR3' => 'El jquery_element s\'ha d\'establir a la configuració de jqCron',
                 'ERROR4' => 'Expressió no reconeguda'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Mèdia',
+            'MEDIA_TYPES' => 'Tipus de multimèdia',
+            'IMAGE_OPTIONS' => 'Opcions d\'imatge',
+            'MIME_TYPE' => 'Tipus Mime',
+            'THUMB' => 'Miniatura',
+            'TYPE' => 'Tipus',
+            'FILE_EXTENSION' => 'Extensió de fitxer'
         ]
     ]
 ];

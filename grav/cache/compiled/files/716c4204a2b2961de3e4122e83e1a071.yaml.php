@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/error/languages.yaml',
-    'modified' => 1771323264,
-    'size' => 1549,
+    'modified' => 1786572382,
+    'size' => 1649,
     'data' => [
         'en' => [
             'PLUGIN_ERROR' => [
@@ -84,6 +84,12 @@ return [
             'PLUGIN_ERROR' => [
                 'ERROR' => 'Error',
                 'ERROR_MESSAGE' => 'Ups. Sembla que aquesta pàgina no existeix.'
+            ]
+        ],
+        'es' => [
+            'PLUGIN_ERROR' => [
+                'ERROR' => 'Error',
+                'ERROR_MESSAGE' => 'Ups. Parece que esta página no existe.'
             ]
         ]
     ]

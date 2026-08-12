@@ -2,7 +2,7 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/login/blueprints.yaml',
-    'modified' => 1786103862,
+    'modified' => 1786572373,
     'size' => 19090,
     'data' => [
         'name' => 'Login',

@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/config/backups.yaml',
-    'modified' => 1782871084,
-    'size' => 371,
+    'modified' => 1786572335,
+    'size' => 400,
     'data' => [
         'purge' => [
             'trigger' => 'space',
@@ -17,6 +17,7 @@ return [
                 'root' => '/',
                 'schedule' => false,
                 'schedule_at' => '0 3 * * *',
+                'schedule_environment' => '',
                 'exclude_paths' => '/backup
 /cache
 /images

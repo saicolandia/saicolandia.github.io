@@ -3,7 +3,7 @@
 /**
  * @package    Grav\Common\Media
  *
- * @copyright  Copyright (c) 2015 - 2025 Trilby Media, LLC. All rights reserved.
+ * @copyright  Copyright (c) 2015 - 2026 Trilby Media, LLC. All rights reserved.
  * @license    MIT License; see LICENSE file for details.
  */
 
@@ -71,7 +71,7 @@ trait MediaUploadTrait
      * @return string
      * @throws RuntimeException
      */
-    public function checkUploadedFile(UploadedFileInterface $uploadedFile, string $filename = null, array $settings = null): string
+    public function checkUploadedFile(UploadedFileInterface $uploadedFile, ?string $filename = null, ?array $settings = null): string
     {
         // Check if there is an upload error.
         switch ($uploadedFile->getError()) {
@@ -115,7 +115,7 @@ trait MediaUploadTrait
      * @return string
      * @throws RuntimeException
      */
-    public function checkFileMetadata(array $metadata, string $filename = null, array $settings = null): string
+    public function checkFileMetadata(array $metadata, ?string $filename = null, ?array $settings = null): string
     {
         // Add the defaults to the settings.
         $settings = $this->getUploadSettings($settings);
@@ -206,11 +206,11 @@ trait MediaUploadTrait
                 break;
             }
 
-            $isMime = strstr($type, '/');
+            $isMime = strstr((string) $type, '/');
             $find = str_replace(['.', '*', '+'], ['\.', '.*', '\+'], $type);
 
             if ($isMime) {
-                $match = preg_match('#' . $find . '$#', $mime);
+                $match = preg_match('#' . $find . '$#', (string) $mime);
                 if (!$match) {
                     // TODO: translate
                     $errors[] = 'The MIME type "' . $mime . '" for the file "' . $filepath . '" is not an accepted.';
@@ -219,7 +219,7 @@ trait MediaUploadTrait
                     break;
                 }
             } else {
-                $match = preg_match('#' . $find . '$#', $filename);
+                $match = preg_match('#' . $find . '$#', (string) $filename);
                 if (!$match) {
                     // TODO: translate
                     $errors[] = 'The File Extension for the file "' . $filepath . '" is not an accepted.';
@@ -252,7 +252,7 @@ trait MediaUploadTrait
      * @return void
      * @throws RuntimeException
      */
-    public function copyUploadedFile(UploadedFileInterface $uploadedFile, string $filename, array $settings = null): void
+    public function copyUploadedFile(UploadedFileInterface $uploadedFile, string $filename, ?array $settings = null): void
     {
         // Add the defaults to the settings.
         $settings = $this->getUploadSettings($settings);
@@ -260,6 +260,12 @@ trait MediaUploadTrait
         $path = $settings['destination'] ?? $this->getPath();
         if (!$path || !$filename) {
             throw new RuntimeException($this->translate('PLUGIN_ADMIN.FAILED_TO_MOVE_UPLOADED_FILE'), 400);
+        }
+
+        // The name may carry a sub-path (`original/photo.jpg`), so the folder part
+        // needs checking too. This is the write-side twin of deleteFile().
+        if (!$this->checkFilepath($filename)) {
+            throw new RuntimeException($this->translate('PLUGIN_ADMIN.FAILED_TO_MOVE_UPLOADED_FILE') . ': ' . $this->translate('PLUGIN_ADMIN.BAD_FILENAME'), 400);
         }
 
         /** @var UniformResourceLocator $locator */
@@ -286,7 +292,7 @@ trait MediaUploadTrait
                 if ($uploadedFile->getError() === \UPLOAD_ERR_OK) {
                     // Move uploaded file.
                     $this->doMoveUploadedFile($uploadedFile, $filename, $path);
-                } elseif (strpos($filename, 'original/') === 0 && !$this->fileExists($filename, $path) && $this->fileExists($basename, $path)) {
+                } elseif (str_starts_with($filename, 'original/') && !$this->fileExists($filename, $path) && $this->fileExists($basename, $path)) {
                     // Original image support: override original image if it's the same as the uploaded image.
                     $this->doCopy($basename, $filename, $path);
                 }
@@ -329,15 +335,18 @@ trait MediaUploadTrait
      * @return void
      * @throws RuntimeException
      */
-    public function deleteFile(string $filename, array $settings = null): void
+    public function deleteFile(string $filename, ?array $settings = null): void
     {
         // Add the defaults to the settings.
         $settings = $this->getUploadSettings($settings);
         $filesystem = Filesystem::getInstance(false);
 
-        // First check for allowed filename.
+        // First check for allowed filename. The name may carry a sub-path such as
+        // `original/photo.jpg`, which is kept and passed through to doRemove(), so
+        // the folder part has to be checked separately: Utils::checkFilename()
+        // alone only sees the last segment.
         $basename = $filesystem->basename($filename);
-        if (!Utils::checkFilename($basename)) {
+        if (!$this->checkFilepath($filename) || !Utils::checkFilename($basename)) {
             throw new RuntimeException($this->translate('PLUGIN_ADMIN.FILE_COULD_NOT_BE_DELETED') . ": {$this->translate('PLUGIN_ADMIN.BAD_FILENAME')}: " . $filename, 400);
         }
 
@@ -371,11 +380,20 @@ trait MediaUploadTrait
      * @param string $to
      * @param array|null $settings
      */
-    public function renameFile(string $from, string $to, array $settings = null): void
+    public function renameFile(string $from, string $to, ?array $settings = null): void
     {
         // Add the defaults to the settings.
         $settings = $this->getUploadSettings($settings);
         $filesystem = Filesystem::getInstance(false);
+
+        // This method had no filename validation at all. It has no callers in core
+        // today, but it is part of the public MediaUploadInterface, so a plugin can
+        // reach it directly. Both names are checked the same way deleteFile() does.
+        if (!$this->checkFilepath($from) || !Utils::checkFilename($filesystem->basename($from))
+            || !$this->checkFilepath($to) || !Utils::checkFilename($filesystem->basename($to))) {
+            // TODO: translate error message
+            throw new RuntimeException('Failed to rename file: ' . $this->translate('PLUGIN_ADMIN.BAD_FILENAME'), 400);
+        }
 
         $path = $settings['destination'] ?? $this->getPath();
         if (!$path) {
@@ -402,6 +420,27 @@ trait MediaUploadTrait
         // Finally clear media cache.
         $locator->clearCache();
         $this->clearCache();
+    }
+
+    /**
+     * Returns true if a media filename stays inside the media folder.
+     *
+     * Media names may legitimately carry a sub-path, `original/photo.jpg` being
+     * the common one, so Utils::checkFilename() cannot be applied to the whole
+     * string: it rejects every `/`. This trait builds its Filesystem instance
+     * with normalization turned off, so a `..` in the folder part survives all
+     * the way to unlink()/rename() and is resolved against the media folder.
+     * Check the path part here and leave the last segment to checkFilename().
+     *
+     * @param string $filename
+     * @return bool
+     */
+    protected function checkFilepath(string $filename): bool
+    {
+        return $filename !== ''
+            && strpbrk($filename, "\\\0") === false
+            && !str_starts_with($filename, '/')
+            && !in_array('..', explode('/', $filename), true);
     }
 
     /**
@@ -557,12 +596,17 @@ trait MediaUploadTrait
         $basename = $filesystem->basename($filename);
         $fileParts = (array)$filesystem->pathinfo($filename);
 
-        foreach ($dir as $file) {
-            $preg_name = preg_quote($fileParts['filename'], '`');
-            $preg_ext = preg_quote($fileParts['extension'] ?? '.', '`');
-            $preg_filename = preg_quote($basename, '`');
+        $preg_name = preg_quote((string) $fileParts['filename'], '`');
+        $preg_ext = preg_quote($fileParts['extension'] ?? '.', '`');
+        $preg_filename = preg_quote($basename, '`');
 
-            if (preg_match("`({$preg_name}@\d+x\.{$preg_ext}(?:\.meta\.yaml)?$|{$preg_filename}\.meta\.yaml)$`", $file)) {
+        // Anchor both ends. Without a leading `^` the name matches as a suffix of
+        // a longer one, so deleting `banner.jpg` also swept `my-banner@2x.jpg` and
+        // `other-banner.jpg.meta.yaml`, which belong to a different media item.
+        $pattern = "`^(?:{$preg_name}@\d+x\.{$preg_ext}(?:\.meta\.yaml)?|{$preg_filename}\.meta\.yaml)$`";
+
+        foreach ($dir as $file) {
+            if (preg_match($pattern, $file)) {
                 $testPath = $targetPath . '/' . $file;
                 if ($locator->isStream($testPath)) {
                     $testPath = (string)$locator->findResource($testPath, true, true);

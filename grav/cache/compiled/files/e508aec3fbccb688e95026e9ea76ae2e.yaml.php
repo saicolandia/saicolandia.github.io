@@ -1,0 +1,38 @@
+<?php
+return [
+    '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
+    'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/accounts/saicolandia.yaml',
+    'modified' => 1786572479,
+    'size' => 496,
+    'data' => [
+        'state' => 'enabled',
+        'email' => 'jsanmartinbraile@mdp.edu.ar',
+        'fullname' => 'Kiko',
+        'title' => 'Administrador',
+        'hashed_password' => '$2y$12$38ZEz7aCj0MNlxsvzxm/7OKJW26AkI9YE.Gcr80VVQlbO96sgXJpe',
+        'language' => 'en',
+        'content_editor' => 'default',
+        'avatar' => [
+            'user/accounts/avatars/9qbdrqhd3utojuv.png' => [
+                'name' => '9qbdrqhd3utojuv.png',
+                'type' => 'image/png',
+                'size' => 1884054,
+                'path' => 'user/accounts/avatars/9qbdrqhd3utojuv.png'
+            ]
+        ],
+        'access' => [
+            'site' => [
+                'login' => true
+            ],
+            'admin' => [
+                'login' => true,
+                'super' => true
+            ]
+        ],
+        'admin_next' => [
+            'preferences' => [
+                'adminLanguage' => 'en'
+            ]
+        ]
+    ]
+];

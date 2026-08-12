@@ -2,7 +2,7 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/shortcode-core/blueprints.yaml',
-    'modified' => 1786461334,
+    'modified' => 1786572373,
     'size' => 5519,
     'data' => [
         'name' => 'Shortcode Core',

@@ -2,11 +2,11 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/error/blueprints.yaml',
-    'modified' => 1771323264,
-    'size' => 769,
+    'modified' => 1786572382,
+    'size' => 808,
     'data' => [
         'name' => 'Error',
-        'version' => '1.8.1',
+        'version' => '2.0.2',
         'description' => 'Displays the error page.',
         'type' => 'plugin',
         'slug' => 'error',
@@ -20,6 +20,12 @@ return [
         'keywords' => 'error, plugin, required',
         'bugs' => 'https://github.com/getgrav/grav-plugin-error/issues',
         'license' => 'MIT',
+        'compatibility' => [
+            'grav' => [
+                0 => '1.7',
+                1 => '2.0'
+            ]
+        ],
         'dependencies' => [
             0 => [
                 'name' => 'grav',

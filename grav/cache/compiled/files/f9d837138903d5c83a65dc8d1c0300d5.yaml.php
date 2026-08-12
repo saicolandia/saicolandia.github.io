@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/config/mime.yaml',
-    'modified' => 1782871084,
-    'size' => 35811,
+    'modified' => 1786572335,
+    'size' => 43809,
     'data' => [
         'types' => [
             123 => [
@@ -2372,6 +2372,9 @@ return [
             ],
             'woff2' => [
                 0 => 'font/woff2'
+            ],
+            'image' => [
+                0 => 'image/avif'
             ],
             'cgm' => [
                 0 => 'image/cgm'

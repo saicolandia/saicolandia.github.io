@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\HttpClient;
 
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpClient\Exception\InvalidArgumentException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -22,46 +24,38 @@ use Symfony\Contracts\Service\ResetInterface;
  *
  * @author Anthony Martin <anthony.martin@sensiolabs.com>
  */
-class ScopingHttpClient implements HttpClientInterface, ResetInterface
+class ScopingHttpClient implements HttpClientInterface, ResetInterface, LoggerAwareInterface
 {
     use HttpClientTrait;
 
-    private $client;
-    private $defaultOptionsByRegexp;
-    private $defaultRegexp;
-
-    public function __construct(HttpClientInterface $client, array $defaultOptionsByRegexp, string $defaultRegexp = null)
-    {
-        $this->client = $client;
-        $this->defaultOptionsByRegexp = $defaultOptionsByRegexp;
-        $this->defaultRegexp = $defaultRegexp;
-
+    public function __construct(
+        private HttpClientInterface $client,
+        private array $defaultOptionsByRegexp,
+        private ?string $defaultRegexp = null,
+    ) {
         if (null !== $defaultRegexp && !isset($defaultOptionsByRegexp[$defaultRegexp])) {
-            throw new InvalidArgumentException(sprintf('No options are mapped to the provided "%s" default regexp.', $defaultRegexp));
+            throw new InvalidArgumentException(\sprintf('No options are mapped to the provided "%s" default regexp.', $defaultRegexp));
         }
     }
 
-    public static function forBaseUri(HttpClientInterface $client, string $baseUri, array $defaultOptions = [], $regexp = null): self
+    public static function forBaseUri(HttpClientInterface $client, string $baseUri, array $defaultOptions = [], ?string $regexp = null): self
     {
-        if (null === $regexp) {
-            $regexp = preg_quote(implode('', self::resolveUrl(self::parseUrl('.'), self::parseUrl($baseUri))));
-        }
+        $regexp ??= preg_quote(implode('', self::resolveUrl(self::parseUrl('.'), self::parseUrl($baseUri))));
 
         $defaultOptions['base_uri'] = $baseUri;
 
         return new self($client, [$regexp => $defaultOptions], $regexp);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
         $e = null;
         $url = self::parseUrl($url, $options['query'] ?? []);
+        $resolved = false;
 
         if (\is_string($options['base_uri'] ?? null)) {
             $options['base_uri'] = self::parseUrl($options['base_uri']);
+            $resolved = true;
         }
 
         try {
@@ -75,8 +69,13 @@ class ScopingHttpClient implements HttpClientInterface, ResetInterface
             $options = self::mergeDefaultOptions($options, $defaultOptions, true);
             if (\is_string($options['base_uri'] ?? null)) {
                 $options['base_uri'] = self::parseUrl($options['base_uri']);
+                $resolved = true;
             }
             $url = implode('', self::resolveUrl($url, $options['base_uri'] ?? null, $defaultOptions['query'] ?? []));
+        }
+
+        if ($resolved) {
+            unset($options['base_uri']);
         }
 
         foreach ($this->defaultOptionsByRegexp as $regexp => $defaultOptions) {
@@ -91,18 +90,35 @@ class ScopingHttpClient implements HttpClientInterface, ResetInterface
         return $this->client->request($method, $url, $options);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function stream($responses, float $timeout = null): ResponseStreamInterface
+    public function stream(ResponseInterface|iterable $responses, ?float $timeout = null): ResponseStreamInterface
     {
         return $this->client->stream($responses, $timeout);
     }
 
-    public function reset()
+    public function reset(): void
     {
         if ($this->client instanceof ResetInterface) {
             $this->client->reset();
         }
+    }
+
+    /**
+     * @deprecated since Symfony 7.1, configure the logger on the wrapped HTTP client directly instead
+     */
+    public function setLogger(LoggerInterface $logger): void
+    {
+        trigger_deprecation('symfony/http-client', '7.1', 'Configure the logger on the wrapped HTTP client directly instead.');
+
+        if ($this->client instanceof LoggerAwareInterface) {
+            $this->client->setLogger($logger);
+        }
+    }
+
+    public function withOptions(array $options): static
+    {
+        $clone = clone $this;
+        $clone->client = $this->client->withOptions($options);
+
+        return $clone;
     }
 }

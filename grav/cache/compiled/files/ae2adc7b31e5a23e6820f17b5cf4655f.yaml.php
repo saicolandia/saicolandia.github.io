@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/lv.yaml',
-    'modified' => 1782871084,
-    'size' => 2006,
+    'modified' => 1786572335,
+    'size' => 2164,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -106,6 +106,12 @@ Ceļš: `%2$s`
                 'ERROR3' => 'jquery_element nevajadzētu definēt jqCron iestatījumos',
                 'ERROR4' => 'Neatpazīta izteiksme'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Multivide',
+            'MEDIA_TYPES' => 'Mēdiju veidi',
+            'IMAGE_OPTIONS' => 'Attēla uzstādījumi',
+            'FILE_EXTENSION' => 'Faila paplašinājums'
         ]
     ]
 ];

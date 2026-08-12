@@ -2,7 +2,7 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => 'themes://oxygen/oxygen.yaml',
-    'modified' => 1771323265,
+    'modified' => 1786572373,
     'size' => 529,
     'data' => [
         'enabled' => true,

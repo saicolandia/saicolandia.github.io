@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/et.yaml',
-    'modified' => 1782871084,
-    'size' => 2421,
+    'modified' => 1786572335,
+    'size' => 2634,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -134,6 +134,15 @@ asukoht: `%2$s`
                 'ERROR3' => 'jqCron seadetes peaks olema määratud jquery_element',
                 'ERROR4' => 'Tundmatu väljend'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Meedia',
+            'MEDIA_TYPES' => 'Meedia tüübid',
+            'IMAGE_OPTIONS' => 'Pildi valikud',
+            'MIME_TYPE' => 'Failitüübid',
+            'THUMB' => 'Pisipilt',
+            'TYPE' => 'Tüüp',
+            'FILE_EXTENSION' => 'Faililaiendid'
         ]
     ]
 ];

@@ -2,28 +2,34 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/sitemap/blueprints.yaml',
-    'modified' => 1771323265,
-    'size' => 8470,
+    'modified' => 1786572390,
+    'size' => 8510,
     'data' => [
         'name' => 'Sitemap',
         'type' => 'plugin',
         'slug' => 'sitemap',
-        'version' => '5.1.0',
+        'version' => '5.2.2',
         'description' => 'Provide automatically generated **XML sitemaps** with this very useful, as a simple to configure Grav plugin.',
         'icon' => 'map-marker',
         'author' => [
             'name' => 'Team Grav',
             'email' => 'devs@getgrav.org',
-            'url' => 'http://getgrav.org'
+            'url' => 'https://getgrav.org'
         ],
         'homepage' => 'https://github.com/getgrav/grav-plugin-sitemap',
         'keywords' => 'sitemap, plugin, xml, map, index',
         'bugs' => 'https://github.com/getgrav/grav-plugin-sitemap/issues',
         'license' => 'MIT',
+        'compatibility' => [
+            'grav' => [
+                0 => '1.7',
+                1 => '2.0'
+            ]
+        ],
         'dependencies' => [
             0 => [
                 'name' => 'grav',
-                'version' => '>=1.6.0'
+                'version' => '>=1.7.0'
             ]
         ],
         'form' => [
@@ -48,7 +54,7 @@ return [
                     'label' => 'PLUGIN_SITEMAP.ROUTE',
                     'placeholder' => '/sitemap',
                     'validate' => [
-                        'pattern' => '/([a-z-_]+/?)+'
+                        'pattern' => '/([a-z_-]+/?)+'
                     ]
                 ],
                 'multilang_enabled' => [

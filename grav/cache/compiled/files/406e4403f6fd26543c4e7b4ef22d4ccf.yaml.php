@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/ja.yaml',
-    'modified' => 1782871084,
-    'size' => 1508,
+    'modified' => 1786572335,
+    'size' => 1759,
     'data' => [
         'GRAV' => [
             'INFLECTOR_UNCOUNTABLE' => [
@@ -93,6 +93,15 @@ return [
                 'EVERY_MONTH' => '毎月',
                 'ERROR1' => '共有タイプ %s はサポートされていません'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'メディア',
+            'MEDIA_TYPES' => 'メディアタイプ',
+            'IMAGE_OPTIONS' => '画像オプション',
+            'MIME_TYPE' => 'MIMEタイプ',
+            'THUMB' => 'サムネイル',
+            'TYPE' => '種別',
+            'FILE_EXTENSION' => 'ファイルの拡張子'
         ]
     ]
 ];

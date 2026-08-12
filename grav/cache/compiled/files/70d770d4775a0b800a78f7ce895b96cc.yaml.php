@@ -2,7 +2,7 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/sitemap/sitemap.yaml',
-    'modified' => 1771323265,
+    'modified' => 1786572390,
     'size' => 631,
     'data' => [
         'enabled' => true,

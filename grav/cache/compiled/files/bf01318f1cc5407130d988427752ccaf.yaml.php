@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/ar.yaml',
-    'modified' => 1782871084,
-    'size' => 2588,
+    'modified' => 1786572335,
+    'size' => 2674,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -116,6 +116,10 @@ return [
                 'ERROR2' => 'عدد عناصر غير صالح.',
                 'ERROR4' => 'تعبير غير معروف'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'وسائط',
+            'IMAGE_OPTIONS' => 'خيارات الصورة'
         ]
     ]
 ];

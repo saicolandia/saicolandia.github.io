@@ -6,10 +6,10 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Twig_' => array($vendorDir . '/twig/twig/lib'),
     'Pimple' => array($vendorDir . '/pimple/pimple/src'),
     'ParsedownExtra' => array($vendorDir . '/erusev/parsedown-extra'),
     'Parsedown' => array($vendorDir . '/erusev/parsedown'),
     'PHPExif' => array($vendorDir . '/miljar/php-exif/lib'),
+    'JShrink' => array($vendorDir . '/tedivm/jshrink/src'),
     'Gregwar\\Cache' => array($vendorDir . '/getgrav/cache'),
 );

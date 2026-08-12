@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/bg.yaml',
-    'modified' => 1782871084,
-    'size' => 1860,
+    'modified' => 1786572335,
+    'size' => 1899,
     'data' => [
         'GRAV' => [
             'NICETIME' => [
@@ -81,6 +81,9 @@ return [
                 'EVERY_DAY_OF_MONTH' => 'Всеки ден от месеца',
                 'EVERY_MONTH' => 'Всеки месец'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Медиа'
         ]
     ]
 ];

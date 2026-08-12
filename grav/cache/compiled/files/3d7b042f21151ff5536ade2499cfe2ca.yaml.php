@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/th.yaml',
-    'modified' => 1782871084,
-    'size' => 4838,
+    'modified' => 1786572335,
+    'size' => 5132,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -173,6 +173,15 @@ Path: `%2$s`
                 'ERROR3' => 'ควรตั้งค่า jquery_element เป็นการตั้งค่า jqCron',
                 'ERROR4' => 'นิพจน์ที่ไม่รู้จัก'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'สื่อ',
+            'MEDIA_TYPES' => 'ชนิดมีเดีย',
+            'IMAGE_OPTIONS' => 'ตัวเลือกภาพ',
+            'MIME_TYPE' => 'ชนิด mime',
+            'THUMB' => 'รูปย่อ',
+            'TYPE' => 'ชนิด',
+            'FILE_EXTENSION' => 'นามสกุลไฟล์'
         ]
     ]
 ];

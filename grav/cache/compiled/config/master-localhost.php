@@ -1,137 +1,149 @@
 <?php
 return [
     '@class' => 'Grav\\Common\\Config\\CompiledConfig',
-    'timestamp' => 1786558202,
-    'checksum' => '0f116a0c71ca5c390ffab86cdb834b67',
+    'timestamp' => 1786572600,
+    'checksum' => 'd4ac283f4fb48edb6c6cb228e3fcf5eb',
     'files' => [
         'user/env/localhost/config' => [
+            'plugins/api' => [
+                'file' => 'user/env/localhost/config/plugins/api.yaml',
+                'modified' => 1786572505
+            ],
             'plugins/feed' => [
                 'file' => 'user/env/localhost/config/plugins/feed.yaml',
-                'modified' => 1786558145
+                'modified' => 1786572372
             ],
             'security' => [
                 'file' => 'user/env/localhost/config/security.yaml',
-                'modified' => 1786552655
+                'modified' => 1786572505
             ],
             'system' => [
                 'file' => 'user/env/localhost/config/system.yaml',
-                'modified' => 1771323262
+                'modified' => 1786572372
             ]
         ],
         'user/config' => [
             'media' => [
                 'file' => 'user/config/media.yaml',
-                'modified' => 1786557460
+                'modified' => 1786572372
             ],
             'plugins/admin' => [
                 'file' => 'user/config/plugins/admin.yaml',
-                'modified' => 1771323262
+                'modified' => 1786572372
             ],
             'plugins/sitemap' => [
                 'file' => 'user/config/plugins/sitemap.yaml',
-                'modified' => 1771323262
+                'modified' => 1786572372
             ],
             'security' => [
                 'file' => 'user/config/security.yaml',
-                'modified' => 1771323262
+                'modified' => 1786572372
             ],
             'site' => [
                 'file' => 'user/config/site.yaml',
-                'modified' => 1771323262
+                'modified' => 1786572372
             ],
             'system' => [
                 'file' => 'user/config/system.yaml',
-                'modified' => 1786558200
+                'modified' => 1786572493
             ],
             'versions' => [
                 'file' => 'user/config/versions.yaml',
-                'modified' => 1786557758
+                'modified' => 1786572372
             ]
         ],
         'system/config' => [
             'backups' => [
                 'file' => 'system/config/backups.yaml',
-                'modified' => 1782871084
+                'modified' => 1786572335
             ],
             'media' => [
                 'file' => 'system/config/media.yaml',
-                'modified' => 1782871084
+                'modified' => 1786572335
             ],
             'mime' => [
                 'file' => 'system/config/mime.yaml',
-                'modified' => 1782871084
+                'modified' => 1786572335
             ],
             'permissions' => [
                 'file' => 'system/config/permissions.yaml',
-                'modified' => 1782871084
+                'modified' => 1786572335
             ],
             'scheduler' => [
                 'file' => 'system/config/scheduler.yaml',
-                'modified' => 1782871084
+                'modified' => 1786572335
             ],
             'security' => [
                 'file' => 'system/config/security.yaml',
-                'modified' => 1782871084
+                'modified' => 1786572335
             ],
             'site' => [
                 'file' => 'system/config/site.yaml',
-                'modified' => 1782871084
+                'modified' => 1786572335
             ],
             'system' => [
                 'file' => 'system/config/system.yaml',
-                'modified' => 1782871084
+                'modified' => 1786572335
             ]
         ],
         'user/plugins' => [
             'plugins/feed' => [
                 'file' => 'user/plugins/feed/feed.yaml',
-                'modified' => 1777615074
+                'modified' => 1786572372
             ],
             'plugins/problems' => [
                 'file' => 'user/plugins/problems/problems.yaml',
-                'modified' => 1771323264
-            ],
-            'plugins/admin' => [
-                'file' => 'user/plugins/admin/admin.yaml',
-                'modified' => 1786461334
+                'modified' => 1786572389
             ],
             'plugins/shortcode-core' => [
                 'file' => 'user/plugins/shortcode-core/shortcode-core.yaml',
-                'modified' => 1786461334
+                'modified' => 1786572373
+            ],
+            'plugins/api' => [
+                'file' => 'user/plugins/api/api.yaml',
+                'modified' => 1786572395
             ],
             'plugins/sitemap' => [
                 'file' => 'user/plugins/sitemap/sitemap.yaml',
-                'modified' => 1771323265
+                'modified' => 1786572390
             ],
             'plugins/markdown-notices' => [
                 'file' => 'user/plugins/markdown-notices/markdown-notices.yaml',
-                'modified' => 1771323264
+                'modified' => 1786572387
+            ],
+            'plugins/migrate-grav' => [
+                'file' => 'user/plugins/migrate-grav/migrate-grav.yaml',
+                'modified' => 1786572373
             ],
             'plugins/email' => [
                 'file' => 'user/plugins/email/email.yaml',
-                'modified' => 1785934068
+                'modified' => 1786572373
+            ],
+            'plugins/admin2' => [
+                'file' => 'user/plugins/admin2/admin2.yaml',
+                'modified' => 1786572393
             ],
             'plugins/login' => [
                 'file' => 'user/plugins/login/login.yaml',
-                'modified' => 1786103862
+                'modified' => 1786572373
             ],
             'plugins/form' => [
                 'file' => 'user/plugins/form/form.yaml',
-                'modified' => 1766951854
+                'modified' => 1786572385
             ],
             'plugins/error' => [
                 'file' => 'user/plugins/error/error.yaml',
-                'modified' => 1771323264
+                'modified' => 1786572382
             ],
             'plugins/flex-objects' => [
                 'file' => 'user/plugins/flex-objects/flex-objects.yaml',
-                'modified' => 1772038424
+                'modified' => 1786572383
             ]
         ],
         'user/themes' => [
             'themes/oxygen' => [
                 'file' => 'user/themes/oxygen/oxygen.yaml',
-                'modified' => 1771323265
+                'modified' => 1786572373
             ]
         ]
     ],
@@ -159,113 +171,6 @@ return [
             'problems' => [
                 'enabled' => true,
                 'built_in_css' => true
-            ],
-            'admin' => [
-                'enabled' => true,
-                'route' => '/admin',
-                'cache_enabled' => false,
-                'theme' => 'grav',
-                'logo_text' => '',
-                'body_classes' => '',
-                'content_padding' => true,
-                'twofa_enabled' => false,
-                'sidebar' => [
-                    'activate' => 'tab',
-                    'hover_delay' => 100,
-                    'size' => 'auto'
-                ],
-                'dashboard' => [
-                    'days_of_stats' => 365
-                ],
-                'widgets_display' => [
-                    'dashboard-maintenance' => 'false',
-                    'dashboard-statistics' => 'false',
-                    'dashboard-notifications' => 'false',
-                    'dashboard-feed' => 'false',
-                    'dashboard-pages' => 'true'
-                ],
-                'pages' => [
-                    'show_parents' => 'both',
-                    'show_modular' => true,
-                    'parents_levels' => NULL
-                ],
-                'session' => [
-                    'timeout' => 3600
-                ],
-                'edit_mode' => 'normal',
-                'frontend_preview_target' => 'inline',
-                'show_github_msg' => false,
-                'admin_icons' => 'line-awesome',
-                'enable_auto_updates_check' => false,
-                'notifications' => [
-                    'feed' => false,
-                    'dashboard' => false,
-                    'plugins' => true,
-                    'themes' => true
-                ],
-                'popularity' => [
-                    'enabled' => false,
-                    'ignore' => [
-                        0 => '/test*',
-                        1 => '/modular',
-                        2 => '/'
-                    ],
-                    'history' => [
-                        'daily' => 30,
-                        'monthly' => 12,
-                        'visitors' => 20
-                    ]
-                ],
-                'whitelabel' => [
-                    'quicktray_recompile' => false,
-                    'codemirror_theme' => 'paper',
-                    'codemirror_fontsize' => 'md',
-                    'codemirror_md_font' => 'sans',
-                    'logo_custom' => NULL,
-                    'logo_login' => NULL,
-                    'color_scheme' => [
-                        'accents' => [
-                            'primary-accent' => 'button',
-                            'secondary-accent' => 'notice',
-                            'tertiary-accent' => 'critical'
-                        ],
-                        'colors' => [
-                            'logo-bg' => '#323640',
-                            'logo-link' => '#FFFFFF',
-                            'nav-bg' => '#3D424E',
-                            'nav-text' => '#B7B9BD',
-                            'nav-link' => '#ffffff',
-                            'nav-selected-bg' => '#323640',
-                            'nav-selected-link' => '#ffffff',
-                            'nav-hover-bg' => '#434753',
-                            'nav-hover-link' => '#ffffff',
-                            'toolbar-bg' => '#ffffff',
-                            'toolbar-text' => '#3D424E',
-                            'page-bg' => '#F6F6F6',
-                            'page-text' => '#6f7b8a',
-                            'page-link' => '#0090D9',
-                            'content-bg' => '#ffffff',
-                            'content-text' => '#6f7b8a',
-                            'content-link' => '#0090D9',
-                            'content-link2' => '#da4b46',
-                            'content-header' => '#414147',
-                            'content-tabs-bg' => '#e6e6e6',
-                            'content-tabs-text' => '#808080',
-                            'button-bg' => '#0090D9',
-                            'button-text' => '#ffffff',
-                            'notice-bg' => '#06A599',
-                            'notice-text' => '#ffffff',
-                            'update-bg' => '#77559D',
-                            'update-text' => '#ffffff',
-                            'critical-bg' => '#F45857',
-                            'critical-text' => '#ffffff'
-                        ]
-                    ]
-                ],
-                'show_beta_msg' => NULL,
-                'pagemedia' => [
-                    'resize_quality' => 0.99
-                ]
             ],
             'shortcode-core' => [
                 'enabled' => true,
@@ -297,6 +202,126 @@ return [
                     'env' => 'production',
                     'dev_host' => 'localhost',
                     'dev_port' => 2001
+                ]
+            ],
+            'api' => [
+                'enabled' => true,
+                'route' => '/api',
+                'version_prefix' => 'v1',
+                'auth' => [
+                    'api_keys_enabled' => true,
+                    'jwt_enabled' => true,
+                    'jwt_algorithm' => 'HS256',
+                    'jwt_expiry' => 3600,
+                    'jwt_refresh_expiry' => 604800,
+                    'session_enabled' => true
+                ],
+                'cors' => [
+                    'enabled' => true,
+                    'origins' => [
+                        
+                    ],
+                    'methods' => [
+                        0 => 'GET',
+                        1 => 'POST',
+                        2 => 'PATCH',
+                        3 => 'DELETE',
+                        4 => 'OPTIONS'
+                    ],
+                    'headers' => [
+                        0 => 'Content-Type',
+                        1 => 'Authorization',
+                        2 => 'X-API-Key',
+                        3 => 'X-API-Token',
+                        4 => 'X-Grav-Environment',
+                        5 => 'If-Match',
+                        6 => 'If-None-Match'
+                    ],
+                    'expose_headers' => [
+                        0 => 'ETag',
+                        1 => 'X-Invalidates',
+                        2 => 'X-RateLimit-Limit',
+                        3 => 'X-RateLimit-Remaining',
+                        4 => 'X-RateLimit-Reset'
+                    ],
+                    'max_age' => 86400,
+                    'credentials' => false
+                ],
+                'rate_limit' => [
+                    'enabled' => true,
+                    'requests' => 120,
+                    'window' => 60,
+                    'storage' => 'file'
+                ],
+                'demo' => [
+                    'writable' => [
+                        0 => 'api.pages.write',
+                        1 => 'api.media.write'
+                    ],
+                    'reset_interval' => 30,
+                    'reset_on_request' => true,
+                    'reset_on_schedule' => true,
+                    'keep_safety_snapshots' => 5
+                ],
+                'allow_draft_preview' => true,
+                'preview_token_ttl' => 300,
+                'flex_backend' => [
+                    'pages' => true,
+                    'accounts' => true
+                ],
+                'media_metadata' => [
+                    'fields' => [
+                        0 => [
+                            'key' => 'alt',
+                            'label' => 'Alt Text',
+                            'type' => 'text'
+                        ],
+                        1 => [
+                            'key' => 'title',
+                            'label' => 'Title',
+                            'type' => 'text'
+                        ],
+                        2 => [
+                            'key' => 'caption',
+                            'label' => 'Caption',
+                            'type' => 'textarea'
+                        ],
+                        3 => [
+                            'key' => 'description',
+                            'label' => 'Description',
+                            'type' => 'textarea'
+                        ],
+                        4 => [
+                            'key' => 'tags',
+                            'label' => 'Tags',
+                            'type' => 'tags'
+                        ]
+                    ],
+                    'max_length' => 2000
+                ],
+                'pagination' => [
+                    'default_per_page' => 20,
+                    'max_per_page' => 1000
+                ],
+                'invitations' => [
+                    'expiration' => 604800
+                ],
+                'popularity' => [
+                    'enabled' => true,
+                    'exclude_admin' => true,
+                    'exclude_ips' => [
+                        
+                    ],
+                    'history' => [
+                        'daily' => 30,
+                        'monthly' => 12,
+                        'visitors' => 20
+                    ],
+                    'ignore' => [
+                        0 => '/test*',
+                        1 => '/modular'
+                    ],
+                    'salt' => 'c537cdea7ffb58a22c05f2cc959c10ef1719a96aa216a7f6f49f1698bbc9cac6'
                 ]
             ],
             'sitemap' => [
@@ -340,6 +365,13 @@ return [
                     3 => 'green'
                 ]
             ],
+            'migrate-grav' => [
+                'enabled' => true,
+                'source_url' => 'https://getgrav.org/download/core/grav-update/latest',
+                'source_local_zip' => '',
+                'stage_dir' => 'grav-2',
+                'require_super_admin' => true
+            ],
             'email' => [
                 'enabled' => true,
                 'from' => NULL,
@@ -359,6 +391,10 @@ return [
                 ],
                 'content_type' => 'text/html',
                 'debug' => false
+            ],
+            'admin2' => [
+                'enabled' => true,
+                'route' => '/admin'
             ],
             'login' => [
                 'enabled' => true,
@@ -464,13 +500,21 @@ return [
                     'site_key' => NULL,
                     'secret_key' => NULL
                 ],
+                'cap' => [
+                    'mode' => 'invisible',
+                    'storage' => 'grav-cache',
+                    'challenge_count' => 50,
+                    'challenge_size' => 32,
+                    'challenge_difficulty' => 4,
+                    'expires_ms' => 600000
+                ],
                 'turnstile' => [
                     'theme' => 'light',
                     'site_key' => NULL,
                     'secret_key' => NULL
                 ],
                 'basic_captcha' => [
-                    'type' => 'math',
+                    'type' => 'characters',
                     'debug' => false,
                     'image' => [
                         'width' => 135,
@@ -496,6 +540,12 @@ return [
                             1 => '-',
                             2 => '*'
                         ]
+                    ],
+                    'dots' => [
+                        'rows' => 2,
+                        'cols' => 4,
+                        'min' => 2,
+                        'max' => 5
                     ]
                 ]
             ],
@@ -508,7 +558,15 @@ return [
             'flex-objects' => [
                 'enabled' => true,
                 'built_in_css' => true,
-                'extra_admin_twig_path' => 'theme://admin/templates',
+                'media_proxy' => [
+                    'enabled' => false,
+                    'base' => '/flex-media',
+                    'authorize' => false,
+                    'cache_control' => 'public, max-age=604800'
+                ],
+                'security' => [
+                    'restrict_page_frontmatter' => true
+                ],
                 'admin_list' => [
                     'per_page' => 15,
                     'order' => [
@@ -520,6 +578,52 @@ return [
                     0 => 'blueprints://flex-objects/pages.yaml',
                     1 => 'blueprints://flex-objects/user-accounts.yaml',
                     2 => 'blueprints://flex-objects/user-groups.yaml'
+                ]
+            ],
+            'admin' => [
+                'enabled' => true,
+                'route' => '/admin',
+                'cache_enabled' => false,
+                'twofa_enabled' => false,
+                'dashboard' => [
+                    'days_of_stats' => 365
+                ],
+                'widgets_display' => [
+                    'dashboard-maintenance' => 'false',
+                    'dashboard-statistics' => 'false',
+                    'dashboard-notifications' => 'false',
+                    'dashboard-feed' => 'false',
+                    'dashboard-pages' => 'true'
+                ],
+                'pages' => [
+                    'show_parents' => 'both',
+                    'show_modular' => true,
+                    'parents_levels' => NULL
+                ],
+                'session' => [
+                    'timeout' => 3600
+                ],
+                'frontend_preview_target' => 'inline',
+                'show_github_msg' => false,
+                'admin_icons' => 'line-awesome',
+                'enable_auto_updates_check' => false,
+                'notifications' => [
+                    'feed' => false,
+                    'dashboard' => false,
+                    'plugins' => true,
+                    'themes' => true
+                ],
+                'popularity' => [
+                    'enabled' => false,
+                    'ignore' => [
+                        0 => '/test*',
+                        1 => '/modular',
+                        2 => '/'
+                    ]
+                ],
+                'show_beta_msg' => NULL,
+                'pagemedia' => [
+                    'resize_quality' => 0.99
                 ]
             ]
         ],
@@ -536,6 +640,7 @@ return [
                     'root' => '/',
                     'schedule' => false,
                     'schedule_at' => '0 3 * * *',
+                    'schedule_environment' => '',
                     'exclude_paths' => '/backup
 /cache
 /images
@@ -3201,6 +3306,9 @@ node_modules'
                 'woff2' => [
                     0 => 'font/woff2'
                 ],
+                'image' => [
+                    0 => 'image/avif'
+                ],
                 'cgm' => [
                     0 => 'image/cgm'
                 ],
@@ -3821,6 +3929,10 @@ node_modules'
                     'type' => 'access',
                     'label' => 'Pages'
                 ],
+                'admin.pages_twig' => [
+                    'type' => 'access',
+                    'label' => 'Toggle Twig Processing in Pages'
+                ],
                 'admin.users' => [
                     'type' => 'access',
                     'label' => 'User Accounts'
@@ -3969,7 +4081,12 @@ node_modules'
                 13 => 'layer',
                 14 => 'bgsound',
                 15 => 'title',
-                16 => 'base'
+                16 => 'base',
+                17 => 'isindex',
+                18 => 'svg',
+                19 => 'math',
+                20 => 'option',
+                21 => 'select'
             ],
             'uploads_dangerous_extensions' => [
                 0 => 'php',
@@ -3990,10 +4107,336 @@ node_modules'
                 15 => 'yml',
                 16 => 'json',
                 17 => 'twig',
-                18 => 'ini'
+                18 => 'ini',
+                19 => 'xhtml',
+                20 => 'xht',
+                21 => 'svgz',
+                22 => 'php7',
+                23 => 'php8',
+                24 => 'pht',
+                25 => 'phtm',
+                26 => 'phps'
             ],
             'sanitize_svg' => true,
-            'salt' => 'SO6Xo1DEtAWnef'
+            'twig_content' => [
+                'process_enabled' => false,
+                'editor_enabled' => false,
+                'config_access' => false
+            ],
+            'twig_sandbox' => [
+                'enabled' => true,
+                'logging' => true,
+                'admin_hint' => true,
+                'config_denied_paths' => [
+                    0 => 'plugins',
+                    1 => 'streams',
+                    2 => 'security',
+                    3 => 'backups',
+                    4 => 'scheduler',
+                    5 => 'system.cache.redis.password'
+                ],
+                'allowed_tags' => [
+                    0 => 'apply',
+                    1 => 'autoescape',
+                    2 => 'block',
+                    3 => 'deprecated',
+                    4 => 'do',
+                    5 => 'embed',
+                    6 => 'extends',
+                    7 => 'for',
+                    8 => 'from',
+                    9 => 'if',
+                    10 => 'import',
+                    11 => 'include',
+                    12 => 'macro',
+                    13 => 'sandbox',
+                    14 => 'set',
+                    15 => 'spaceless',
+                    16 => 'types',
+                    17 => 'use',
+                    18 => 'verbatim',
+                    19 => 'with'
+                ],
+                'allowed_filters' => [
+                    0 => 'abs',
+                    1 => 'batch',
+                    2 => 'capitalize',
+                    3 => 'column',
+                    4 => 'convert_encoding',
+                    5 => 'country_name',
+                    6 => 'currency_name',
+                    7 => 'currency_symbol',
+                    8 => 'data_uri',
+                    9 => 'date',
+                    10 => 'date_modify',
+                    11 => 'default',
+                    12 => 'e',
+                    13 => 'escape',
+                    14 => 'filter',
+                    15 => 'first',
+                    16 => 'format',
+                    17 => 'format_currency',
+                    18 => 'format_date',
+                    19 => 'format_datetime',
+                    20 => 'format_number',
+                    21 => 'format_time',
+                    22 => 'html_to_markdown',
+                    23 => 'inline_css',
+                    24 => 'inky_to_html',
+                    25 => 'join',
+                    26 => 'json_encode',
+                    27 => 'keys',
+                    28 => 'language_name',
+                    29 => 'last',
+                    30 => 'length',
+                    31 => 'locale_name',
+                    32 => 'lower',
+                    33 => 'map',
+                    34 => 'markdown_to_html',
+                    35 => 'merge',
+                    36 => 'nl2br',
+                    37 => 'number_format',
+                    38 => 'reduce',
+                    39 => 'replace',
+                    40 => 'reverse',
+                    41 => 'round',
+                    42 => 'slice',
+                    43 => 'slug',
+                    44 => 'sort',
+                    45 => 'split',
+                    46 => 'striptags',
+                    47 => 'timezone_name',
+                    48 => 'title',
+                    49 => 'trim',
+                    50 => 'u',
+                    51 => 'upper',
+                    52 => 'url_encode',
+                    53 => 'absolute_url',
+                    54 => 'array',
+                    55 => 'array_diff',
+                    56 => 'array_unique',
+                    57 => 'base32_decode',
+                    58 => 'base32_encode',
+                    59 => 'base64_decode',
+                    60 => 'base64_encode',
+                    61 => 'basename',
+                    62 => 'bool',
+                    63 => 'chunk_split',
+                    64 => 'contains',
+                    65 => 'count',
+                    66 => 'defined',
+                    67 => 'dirname',
+                    68 => 'ends_with',
+                    69 => 'fieldName',
+                    70 => 'float',
+                    71 => 'get_type',
+                    72 => 'int',
+                    73 => 'json_decode',
+                    74 => 'ksort',
+                    75 => 'ltrim',
+                    76 => 'markdown',
+                    77 => 'md5',
+                    78 => 'modulus',
+                    79 => 'nicecron',
+                    80 => 'nicefilesize',
+                    81 => 'nicenumber',
+                    82 => 'nicetime',
+                    83 => 'of_type',
+                    84 => 'pad',
+                    85 => 'parent_field',
+                    86 => 'print_r',
+                    87 => 'randomize',
+                    88 => 'regex_replace',
+                    89 => 'replace_last',
+                    90 => 'rtrim',
+                    91 => 'safe_email',
+                    92 => 'safe_truncate',
+                    93 => 'safe_truncate_html',
+                    94 => 'sort_by_key',
+                    95 => 'starts_with',
+                    96 => 'string',
+                    97 => 't',
+                    98 => 'ta',
+                    99 => 'tl',
+                    100 => 'truncate',
+                    101 => 'truncate_html',
+                    102 => 'wordcount',
+                    103 => 'yaml',
+                    104 => 'yaml_decode',
+                    105 => 'yaml_encode'
+                ],
+                'allowed_functions' => [
+                    0 => 'attribute',
+                    1 => 'block',
+                    2 => 'cycle',
+                    3 => 'date',
+                    4 => 'max',
+                    5 => 'min',
+                    6 => 'parent',
+                    7 => 'random',
+                    8 => 'range',
+                    9 => 'array',
+                    10 => 'array_diff',
+                    11 => 'array_intersect',
+                    12 => 'array_key_exists',
+                    13 => 'array_key_value',
+                    14 => 'array_unique',
+                    15 => 'authorize',
+                    16 => 'body_class',
+                    17 => 'count',
+                    18 => 'cron',
+                    19 => 'debug',
+                    20 => 'dump',
+                    21 => 'get_cookie',
+                    22 => 'get_type',
+                    23 => 'gist',
+                    24 => 'header_var',
+                    25 => 'is_array',
+                    26 => 'is_countable',
+                    27 => 'is_iterable',
+                    28 => 'is_null',
+                    29 => 'is_numeric',
+                    30 => 'is_object',
+                    31 => 'is_string',
+                    32 => 'isajaxrequest',
+                    33 => 'json_decode',
+                    34 => 'md5',
+                    35 => 'media_directory',
+                    36 => 'nicefilesize',
+                    37 => 'nicenumber',
+                    38 => 'nicetime',
+                    39 => 'of_type',
+                    40 => 'random_string',
+                    41 => 'regex_filter',
+                    42 => 'regex_match',
+                    43 => 'regex_replace',
+                    44 => 'regex_split',
+                    45 => 'repeat',
+                    46 => 'string',
+                    47 => 't',
+                    48 => 'ta',
+                    49 => 'theme_var',
+                    50 => 'tl',
+                    51 => 'unique_id',
+                    52 => 'url',
+                    53 => 'vardump',
+                    54 => 'xss'
+                ],
+                'allowed_methods' => [
+                    0 => [
+                        'class' => 'Grav\\Common\\Grav',
+                        'methods' => 'offsetexists, getversion, theme'
+                    ],
+                    1 => [
+                        'class' => 'Grav\\Common\\Config\\Config',
+                        'methods' => 'get, value, default, offsetget, offsetexists'
+                    ],
+                    2 => [
+                        'class' => 'Grav\\Common\\Twig\\Sandbox\\SandboxConfig',
+                        'methods' => 'get, toarray, value, offsetget, offsetexists'
+                    ],
+                    3 => [
+                        'class' => 'Grav\\Common\\Page\\Interfaces\\PageInterface',
+                        'methods' => 'content, header, title, menu, slug, route, rawroute, url, path, permalink, template, templateformat, filepath, date, dateformat, modified, media, parent, children, collection, find, findmedia, value, summary, taxonomy, visible, published, publishdate, unpublishdate, routable, language, modular, modulartwig, ismodule, ispage, isfirst, islast, adjacentsibling, prevsibling, nextsibling, metadata, id, order, breadcrumbs, home, tostring, __tostring'
+                    ],
+                    4 => [
+                        'class' => 'Grav\\Common\\Page\\Pages',
+                        'methods' => 'root, base, dispatch, home, all, children, instances, routes, sort'
+                    ],
+                    5 => [
+                        'class' => 'Grav\\Common\\Uri',
+                        'methods' => 'path, url, params, param, query, host, port, scheme, route, base, extension, method, referrer, ip, addr, toarray, __tostring'
+                    ],
+                    6 => [
+                        'class' => 'Grav\\Common\\Page\\Media',
+                        'methods' => 'images, videos, audios, files, all, get, offsetget, offsetexists, __tostring'
+                    ],
+                    7 => [
+                        'class' => 'Grav\\Common\\Media\\Interfaces\\MediaCollectionInterface',
+                        'methods' => 'images, videos, audios, files, all, get, offsetget, offsetexists, __tostring'
+                    ],
+                    8 => [
+                        'class' => 'Grav\\Common\\Page\\Medium\\Medium',
+                        'methods' => 'url, html, filepath, filename, metadata, srcset, parsedownelement, __tostring, @media_actions'
+                    ],
+                    9 => [
+                        'class' => 'Grav\\Common\\Media\\Interfaces\\MediaLinkInterface',
+                        'methods' => 'html, url, __tostring, parsedownelement, srcset, @media_actions'
+                    ],
+                    10 => [
+                        'class' => 'Grav\\Common\\User\\Interfaces\\UserInterface',
+                        'methods' => 'authorize, authorized, authenticated, username, fullname, email, language, offsetget, offsetexists'
+                    ],
+                    11 => [
+                        'class' => 'Grav\\Common\\Taxonomy',
+                        'methods' => 'taxonomy'
+                    ],
+                    12 => [
+                        'class' => 'Grav\\Common\\Language\\Language',
+                        'methods' => 'getactive, getdefault, getlanguages, getlanguage, enabled'
+                    ],
+                    13 => [
+                        'class' => 'Grav\\Common\\Assets',
+                        'methods' => '__tostring, addcss, addjs'
+                    ],
+                    14 => [
+                        'class' => 'stdClass',
+                        'methods' => '*'
+                    ],
+                    15 => [
+                        'class' => 'Grav\\Common\\Data\\Data',
+                        'methods' => 'get, value, items, offsetget, offsetexists, __tostring'
+                    ]
+                ],
+                'allowed_properties' => [
+                    0 => [
+                        'class' => 'Grav\\Common\\Page\\Interfaces\\PageInterface',
+                        'methods' => 'header, media, taxonomy'
+                    ],
+                    1 => [
+                        'class' => 'Grav\\Common\\Grav',
+                        'methods' => 'theme'
+                    ],
+                    2 => [
+                        'class' => 'Grav\\Common\\Media\\Interfaces\\MediaCollectionInterface',
+                        'methods' => '*'
+                    ],
+                    3 => [
+                        'class' => 'Grav\\Common\\Page\\Media',
+                        'methods' => '*'
+                    ],
+                    4 => [
+                        'class' => 'Grav\\Common\\Page\\Medium\\Medium',
+                        'methods' => '*'
+                    ],
+                    5 => [
+                        'class' => 'stdClass',
+                        'methods' => '*'
+                    ]
+                ]
+            ],
+            'read_file' => [
+                'allowed_streams' => [
+                    0 => 'theme',
+                    1 => 'themes',
+                    2 => 'page',
+                    3 => 'user-data'
+                ],
+                'allowed_extensions' => [
+                    0 => 'md',
+                    1 => 'markdown',
+                    2 => 'txt',
+                    3 => 'html',
+                    4 => 'htm',
+                    5 => 'css',
+                    6 => 'json',
+                    7 => 'csv',
+                    8 => 'xml',
+                    9 => 'svg'
+                ],
+                'max_size' => 1048576
+            ],
+            'salt' => 'nZ56rtp2fCT7kB'
         ],
         'site' => [
             'title' => 'Oxygen',
@@ -4037,7 +4480,9 @@ node_modules'
                 'protocol' => true,
                 'host' => false,
                 'port' => true,
-                'ip' => true
+                'ip' => true,
+                'client_ip' => false,
+                'cf_connecting_ip' => false
             ],
             'languages' => [
                 'supported' => [
@@ -4051,6 +4496,9 @@ node_modules'
                 'translations_fallback' => true,
                 'session_store_active' => false,
                 'http_accept_language' => false,
+                'http_accept_language_fallback' => [
+                    
+                ],
                 'override_locale' => false,
                 'content_fallback' => [
                     
@@ -4067,11 +4515,13 @@ node_modules'
                 'dirs' => [
                     0 => 'page://'
                 ],
+                'lazy_index' => false,
                 'theme' => 'oxygen',
                 'order' => [
                     'by' => 'default',
                     'dir' => 'asc'
                 ],
+                'order_digits' => 2,
                 'list' => [
                     'count' => 50
                 ],
@@ -4106,6 +4556,19 @@ node_modules'
                         2 => 'id',
                         3 => 'class',
                         4 => 'classes'
+                    ],
+                    'gfm' => [
+                        'task_lists' => true,
+                        'marks' => true,
+                        'tagfilter' => false,
+                        'autolinks' => true
+                    ],
+                    'tables' => [
+                        'colspan' => false,
+                        'headerless' => false,
+                        'captions' => false,
+                        'attributes' => false,
+                        'multiline' => false
                     ]
                 ],
                 'types' => [
@@ -4147,7 +4610,8 @@ node_modules'
             'cache' => [
                 'enabled' => false,
                 'check' => [
-                    'method' => 'file'
+                    'method' => 'file',
+                    'interval' => 2
                 ],
                 'driver' => 'auto',
                 'prefix' => 'g',
@@ -4181,8 +4645,6 @@ node_modules'
                 'debug' => true,
                 'auto_reload' => true,
                 'autoescape' => true,
-                'undefined_functions' => true,
-                'undefined_filters' => true,
                 'safe_functions' => [
                     
                 ],
@@ -4269,6 +4731,7 @@ node_modules'
             'session' => [
                 'enabled' => true,
                 'initialize' => false,
+                'read_and_close' => false,
                 'timeout' => 9000,
                 'name' => 'site',
                 'uniqueness' => 'path',
@@ -4283,6 +4746,11 @@ node_modules'
             'gpm' => [
                 'releases' => 'stable',
                 'official_gpm_only' => true,
+                'archive' => [
+                    'max_uncompressed_size' => 1073741824,
+                    'max_files' => 50000,
+                    'max_depth' => 48
+                ],
                 'verify_peer' => true
             ],
             'http' => [
@@ -4317,8 +4785,10 @@ node_modules'
             ],
             'strict_mode' => [
                 'yaml_compat' => false,
-                'twig_compat' => false,
-                'blueprint_compat' => false
+                'twig2_compat' => false,
+                'twig3_compat' => true,
+                'blueprint_compat' => false,
+                'twig_compat' => false
             ]
         ],
         'versions' => [

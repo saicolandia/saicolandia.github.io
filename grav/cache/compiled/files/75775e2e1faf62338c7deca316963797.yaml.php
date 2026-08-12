@@ -2,7 +2,7 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/flex-objects/languages/ru.yaml',
-    'modified' => 1772038424,
+    'modified' => 1786572383,
     'size' => 588,
     'data' => [
         'PLUGIN_FLEX_OBJECTS' => [

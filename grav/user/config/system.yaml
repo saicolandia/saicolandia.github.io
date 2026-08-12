@@ -55,6 +55,8 @@ pages:
     page: true
     twig: true
   markdown:
+    gfm:
+      tagfilter: false
     extra: true
     auto_line_breaks: true
     auto_url_links: false
@@ -129,8 +131,6 @@ twig:
   debug: true
   auto_reload: true
   autoescape: true
-  undefined_functions: true
-  undefined_filters: true
   safe_functions: {  }
   safe_filters: {  }
   umask_fix: false

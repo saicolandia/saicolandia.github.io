@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
     'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages/hu.yaml',
-    'modified' => 1782871084,
-    'size' => 2262,
+    'modified' => 1786572335,
+    'size' => 2485,
     'data' => [
         'GRAV' => [
             'FRONTMATTER_ERROR_PAGE' => '---
@@ -121,6 +121,15 @@ Elérési út: `%2$s`
                 'ERROR3' => 'A jquery_element-et a jqCron beállítsokban kell meghatározni',
                 'ERROR4' => 'Ismeretlen kifejezés'
             ]
+        ],
+        'PLUGIN_ADMIN' => [
+            'MEDIA' => 'Média',
+            'MEDIA_TYPES' => 'Médiatípusok',
+            'IMAGE_OPTIONS' => 'Képbeállítások',
+            'MIME_TYPE' => 'MIME-típus',
+            'THUMB' => 'Bélyegkép',
+            'TYPE' => 'Típus',
+            'FILE_EXTENSION' => 'Fájlkiterjesztés'
         ]
     ]
 ];
