@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psicología Social y Neurociencia Social</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
+        h1 { color: #2c3e50; }
+        h2 { color: #34495e; cursor: pointer; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; }
+        h2:hover { color: #3498db; }
+        .content { display: none; padding: 10px; background: #f9f9f9; border-left: 4px solid #3498db; }
+        .active { display: block; }
+        ul { padding-left: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Psicología Social y Neurociencia Social</h1>
+    <p>Lucía Agulla & Hernán López Morales</p>
+
+    <h2 onclick="toggleSection('intro')">Introducción</h2>
+    <div id="intro" class="content">
+        <p>Explora la vinculación histórica entre el individuo y la sociedad, desde Wundt hasta la revolución cognitiva de la segunda mitad del siglo XX.</p>
+    </div>
+
+    <h2 onclick="toggleSection('cognicion-social')">Psicología Social & Cognición Social</h2>
+    <div id="cognicion-social" class="content">
+        <p>La cognición social analiza cómo pensamientos, sentimientos y conducta son influidos por otros. Los temas principales incluyen:</p>
+        <ul>
+            <li>Formación y cambio de actitudes</li>
+            <li>Atribución e inferencia causal</li>
+            <li>Percepción social</li>
+            <li>Teoría de la mente y empatía</li>
+            <li>Prejuicios y discriminaciones</li>
+            <li>Autoconocimiento y autorregulación</li>
+            <li>Motivación y emociones</li>
+        </ul>
+    </div>
+
+    <h2 onclick="toggleSection('neurociencia-social')">Neurociencia Social & Cognición Social</h2>
+    <div id="neurociencia-social" class="content">
+        <p>Campo interdisciplinario que estudia los procesos neurobiológicos de la interacción social. Incluye:</p>
+        <ul>
+            <li>Comportamiento social</li>
+            <li>Cognición social</li>
+            <li>Actividad neuronal social</li>
+            <li>Funcionamiento social</li>
+        </ul>
+    </div>
+
+    <h2 onclick="toggleSection('conclusiones')">Conclusiones</h2>
+    <div id="conclusiones" class="content">
+        <p>La Neurociencia Social y la Psicología Social son complementarias. La integración no debe subsumir una disciplina en la otra; ambas son necesarias para entender los fenómenos en su contexto.</p>
+    </div>
+
+    <script>
+        function toggleSection(id) {
+            const element = document.getElementById(id);
+            element.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

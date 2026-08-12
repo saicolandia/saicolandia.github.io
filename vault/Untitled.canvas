@@ -1,0 +1,12 @@
+{
+	"nodes":[
+		{"id":"6a25985ff71664a4","type":"file","file":"desarrollos-del-psicoanalisis/bruto/img/u1-saussure10.jpg","x":-170,"y":60,"width":400,"height":202},
+		{"id":"4f243ee8121b5b4c","type":"text","text":"what is this\n","x":-170,"y":-300,"width":250,"height":60},
+		{"id":"89b3b3258de835ee","type":"file","file":"desarrollos-del-psicoanalisis/bruto/u1-el-seminario-de-jacques-lacan.md","x":-740,"y":-980,"width":400,"height":400},
+		{"id":"1254a70df7f2d3c0","type":"text","text":"¿En qué otro lugar Freud tuvo ya oportunidad de rechazar la idea de la muerte? En un lugar cercano a Bosnia, donde recibió muy malas nuevas sobre uno de sus enfermos.","x":-260,"y":-980,"width":420,"height":140}
+	],
+	"edges":[
+		{"id":"726c5c0525d2f71c","fromNode":"4f243ee8121b5b4c","fromSide":"bottom","toNode":"6a25985ff71664a4","toSide":"top"},
+		{"id":"0f1843b64c50899c","fromNode":"89b3b3258de835ee","fromSide":"right","toNode":"1254a70df7f2d3c0","toSide":"left"}
+	]
+}
