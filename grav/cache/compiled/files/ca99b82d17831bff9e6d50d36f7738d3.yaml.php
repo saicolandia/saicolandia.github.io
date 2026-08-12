@@ -1,0 +1,124 @@
+<?php
+return [
+    '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
+    'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/themes/oxygen/blueprints.yaml',
+    'modified' => 1771323265,
+    'size' => 3259,
+    'data' => [
+        'name' => 'Oxygen',
+        'version' => '2.1.12',
+        'slug' => 'oxygen',
+        'type' => 'theme',
+        'description' => 'Oxygen is a crazy fast, accessible and GDPR-compliant theme + build tools. Now with modular building blocks!',
+        'icon' => 'sun-o',
+        'author' => [
+            'name' => 'Kittyfish from Mars',
+            'url' => 'https://github.com/kittyfishfrommars'
+        ],
+        'keywords' => 'grav, theme, accessiblity, performance, maintenance, legal, gulp',
+        'homepage' => 'https://github.com/kittyfishfrommars/grav-theme-oxygen',
+        'demo' => 'https://kittyfishfrommars.github.io/grav/grav-theme-oxygen',
+        'readme' => 'https://github.com/kittyfishfrommars/grav-theme-oxygen/blob/main/README.md',
+        'docs' => 'https://github.com/kittyfishfrommars/grav-theme-oxygen/blob/main/README.md',
+        'bugs' => 'https://github.com/kittyfishfrommars/grav-theme-oxygen/issues',
+        'license' => 'MIT',
+        'dependencies' => [
+            0 => [
+                'name' => 'grav',
+                'version' => '>=1.7.8'
+            ],
+            1 => [
+                'name' => 'error'
+            ],
+            2 => [
+                'name' => 'markdown-notices'
+            ],
+            3 => [
+                'name' => 'problems'
+            ],
+            4 => [
+                'name' => 'sitemap'
+            ]
+        ],
+        'form' => [
+            'validation' => 'strict',
+            'fields' => [
+                'spacer' => [
+                    'type' => 'spacer',
+                    'title' => 'Theme Options',
+                    'text' => 'Please refer to <a target="_blank" href="https://github.com/kittyfishfrommars/grav-theme-oxygen/blob/main/README.md#theme-options">README - Theme Options</a> for a more detailed explanation of each setting.
+',
+                    'underline' => true
+                ],
+                'index' => [
+                    'type' => 'toggle',
+                    'label' => 'Search Engine Index',
+                    'description' => '<small>SEO: Allow this website to be indexed by search engines, individual page exceptions may apply (default: disabled).</small>
+',
+                    'default' => 0,
+                    'highlight' => 1,
+                    'options' => [
+                        0 => 'PLUGIN_ADMIN.DISABLED',
+                        1 => 'PLUGIN_ADMIN.ENABLED'
+                    ],
+                    'validate' => [
+                        'type' => 'bool'
+                    ]
+                ],
+                'sitetitle' => [
+                    'type' => 'toggle',
+                    'label' => 'Include sitename in page title',
+                    'description' => '<small>SEO: Add the global sitename to every page\'s title attribute.</small>
+',
+                    'default' => 0,
+                    'highlight' => 1,
+                    'options' => [
+                        0 => 'PLUGIN_ADMIN.DISABLED',
+                        1 => 'PLUGIN_ADMIN.ENABLED'
+                    ],
+                    'validate' => [
+                        'type' => 'bool'
+                    ]
+                ],
+                'sitetitleseparator' => [
+                    'type' => 'text',
+                    'size' => 'small',
+                    'label' => 'Sitename separator in page title',
+                    'description' => '<small>Deafault is \'-\', you can use your own, e.g. \'|\'.</small>
+',
+                    'default' => '-'
+                ],
+                'dropdown' => [
+                    'type' => 'toggle',
+                    'label' => 'Dropdown in Navigation',
+                    'description' => '<small>Desktop navigation: Display submenus in a dropdown (default: enabled).</small>
+',
+                    'default' => 1,
+                    'highlight' => 1,
+                    'options' => [
+                        0 => 'PLUGIN_ADMIN.DISABLED',
+                        1 => 'PLUGIN_ADMIN.ENABLED'
+                    ],
+                    'validate' => [
+                        'type' => 'bool'
+                    ]
+                ],
+                'jquery' => [
+                    'type' => 'toggle',
+                    'label' => 'Load jQuery',
+                    'description' => '<small>Include jQuery library from theme folder (default: enabled).</small>
+',
+                    'default' => 1,
+                    'highlight' => 1,
+                    'options' => [
+                        0 => 'PLUGIN_ADMIN.DISABLED',
+                        1 => 'PLUGIN_ADMIN.ENABLED'
+                    ],
+                    'validate' => [
+                        'type' => 'bool'
+                    ]
+                ]
+            ]
+        ]
+    ]
+];

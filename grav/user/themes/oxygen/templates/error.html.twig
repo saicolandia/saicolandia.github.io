@@ -1,0 +1,30 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block banner %}
+	{% include 'partials/banner.html.twig' %}
+{% endblock banner %}
+
+{% do page.title(page.title ~ ' ' ~ header.http_response_code) %}
+
+{% block body %}
+
+<div id="main" class="wrapper style4 plain">
+
+	<div id="content" class="container">
+		<section class="mb-3">
+			{% include 'partials/heading.html.twig' with {title: 'Fabien'} %}
+			{% set msgError = 'PLUGIN_ERROR.ERROR_MESSAGE'|t %}
+			{% set url = base_url_simple ~ '/sitemap' %}
+
+			{{ msgError|replace({'%SITEMAP%': '<a href="' ~ url ~ '">' ~ 'PLUGIN_SITEMAP.TITLE_SITEMAP'|t ~ '</a>'})|t|raw }}
+		</section>
+		<section>
+			{{ page.content|raw }}
+		</section>
+
+		{% include 'partials/modular.html.twig' %}
+
+	</div>
+</div>
+
+{% endblock body %}

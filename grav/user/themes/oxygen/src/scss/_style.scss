@@ -1,0 +1,878 @@
+@use "_config.scss" as config;
+@use "sass:color";
+
+/* Basic */
+
+body {
+    background: transparent;
+}
+
+body.loading * {
+    animation: none !important;
+    transition: none !important;
+}
+
+body, input, select, textarea {
+    color: config.$color-text;
+    font-family: config.$font-family;
+    font-weight: 300;
+}
+
+body, p, li, input, select, textarea {
+    font-size: 14pt;
+    line-height: config.$line-height-text;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: inherit;
+    display: block;
+    font-weight: normal;
+    line-height: config.$line-height-headlines;
+    margin-bottom: config.$margin-bottom;
+}
+
+h1 {
+    font-size: 1.9em;
+}
+
+h2 {
+    font-size: 1.6em;
+}
+
+h3 {
+    font-size: 1.25em;
+}
+
+h5 {
+    font-size: 1.25em;
+    font-weight: 300;
+}
+
+a {
+    color: config.$color-link-default;
+    text-decoration: underline;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:visited {
+    color: config.$color-link-visited;
+}
+
+a.color-link-text,
+.color-link-text a {
+    color: config.$color-text;
+}
+
+a.color-link-secondary,
+.color-link-secondary a {
+    color: config.$color-secondary;
+}
+
+strong, b {
+    font-weight: 400;
+}
+
+em, i {
+    font-style: italic;
+}
+
+p {
+    line-height: 1.5em;
+    margin-bottom: config.$margin-bottom;
+}
+
+p + h1, p + h2, p + h3, p + h4, p + h5, p + h6 {
+    padding-top: config.$margin-bottom * 0.5;
+}
+
+sub {
+    font-size: 0.8em;
+    position: relative;
+    top: 0.5em;
+}
+
+sup {
+    font-size: 0.8em;
+    position: relative;
+    top: -0.5em;
+}
+
+hr {
+    border: 0;
+    border-top: solid 1px config.$color-text;
+    clear: both;
+    margin-bottom: 1.5em;
+}
+
+/* Tables */
+
+dl, table, table.default {
+    margin: 0 0 2em;
+}
+
+table td, table th {
+    padding: 0 1em 1em 0;
+}
+
+table.default tbody tr {
+    border-bottom: solid 1px config.$color-primary;
+}
+
+table.default td {
+    padding: 0.5em 1em;
+}
+
+table.default th {
+    font-weight: 700;
+    padding: 0.5em 1em;
+    text-align: left;
+}
+
+table.default thead {
+    background-color: config.$color-primary;
+    color: config.$color-secondary;
+}
+
+section.special, article.special {
+    text-align: center;
+}
+
+header.major {
+    text-align: center;
+    text-transform: uppercase;
+
+    h1, h2, h3, h4 {
+        font-weight: bold;
+    }
+
+    .byline {
+        text-transform: none;
+    }
+}
+
+header.major h1 {
+    font-size: 2.6em;
+    font-weight: 700;
+    line-height: 100%;
+}
+
+header.major .byline {
+    display: block;
+    font-size: 1.4em;
+    letter-spacing: 1px;
+    line-height: 1.4em;
+    margin-bottom: config.$margin-bottom * 2;
+}
+
+/* Form */
+
+input[type = "email"],
+input[type = "password"],
+input[type = "text"],
+textarea {
+    appearance: none;
+    background: none;
+    border: solid 1px config.$color-primary;
+    color: inherit;
+    display: block;
+    outline: 0;
+    padding: 0.75em;
+    text-decoration: none;
+    width: 100%;
+}
+
+input[type = "text"]:focus,
+input[type = "password"]:focus,
+input[type = "email"]:focus,
+textarea:focus {
+    border-color: config.$color-primary;
+}
+
+input[type = "email"],
+input[type = "password"],
+input[type = "text"] {
+    line-height: 1em;
+}
+
+:input-placeholder,
+::input-placeholder,
+:placeholder,
+::placeholder {
+    color: inherit;
+    opacity: 0.5;
+}
+
+::input-placeholder {
+    position: relative;
+    top: 3px;
+}
+
+.formerize-placeholder {
+    color: rgb(85 85 85 / 50%) !important;
+}
+
+/* Content */
+
+#content {
+    padding-bottom: config.$margin-bottom * 2;
+}
+
+#content img {
+    border: 1px solid config.$color-disabled;
+
+    /* stylelint-disable */
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+    /* stylelint-enable */
+
+    clear: left;
+    float: left;
+    margin: 8px 2.5rem 2.5rem 0;
+    max-width: 100%;
+    position: relative;
+
+    &.float-right {
+        clear: right;
+        float: right;
+        margin: 8px 0 2.5rem 2.5rem;
+    }
+
+    &.fit  {
+        width: 100%;
+    }
+}
+
+/* Icon */
+
+.icon {
+    position: relative;
+}
+
+.icon:before {
+    content: "";
+
+    /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
+    font-family: FontAwesome;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: normal;
+    text-transform: none !important;
+}
+
+.button.icon:before {
+    margin-right: 0.5em;
+}
+
+.icon > .label {
+    display: none;
+}
+
+/* Lists */
+
+ul,
+ol {
+    list-style-position: outside;
+    padding: 0;
+}
+
+ul,
+ul.default {
+    list-style-type: disc;
+    margin: 0 0 1em 1.23em;
+}
+
+ol,
+ol.default {
+    list-style-type: decimal;
+    margin: 0 0 1em 1.1em;
+}
+
+ul li,
+ol li,
+ul.default li,
+ol.default li {
+    padding-bottom: 0.75em;
+    padding-left: 0.35em;
+}
+
+ul ul,
+ol ol {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+ul ul li,
+ol ol li {
+    padding-bottom: 0;
+}
+
+ul ul li {
+    list-style-type: circle;
+}
+
+ol ol li {
+    list-style-type: lower-latin;
+}
+
+
+.alt ul ul,
+.alt ol ol,
+.sitemap ul ul,
+.sitemap ol ol {
+    margin-top: 1em;
+}
+
+.alt ul li,
+.alt ul li li,
+.sitemap ul li,
+.sitemap ul li li {
+    list-style-type: disc;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-bottom: 1em;
+    padding-top: 0;
+
+    &:last-child {
+        padding-bottom: 0;
+    }
+}
+
+ul.actions,
+ul.icons,
+ul.special-icons {
+    cursor: default;
+    list-style-type: none;
+    margin: 0;
+    margin-bottom: config.$margin-bottom * 2;
+}
+
+ul.icons li {
+    display: inline-block;
+    line-height: 1em;
+    padding: 0.5em 1em;
+}
+
+ul.icons li span {
+    display: none;
+}
+
+ul.icons li a {
+    color: inherit;
+    font-size: 2em;
+    opacity: 0.35;
+    text-decoration: none;
+    transition: all 0.25s ease-in-out;
+}
+
+ul.icons li a:hover {
+    color: inherit;
+    opacity: 1;
+}
+
+ul.actions li {
+    display: inline-block;
+}
+
+ul.actions li:first-child {
+    padding: 0;
+}
+
+ul.actions:last-child {
+    margin-bottom: 0;
+}
+
+ul.actions.vertical li {
+    display: block;
+    padding: 1.5em 0 0;
+}
+
+ul.actions.vertical li:first-child {
+    padding: 0;
+}
+
+ul.special-icons {
+    margin: 0;
+    padding: 0 0 0 1.35em;
+}
+
+ul.special-icons li {
+    margin-bottom: config.$margin-bottom * 1;
+    padding: 0;
+    padding-left: 1.40em;
+    position: relative;
+    vertical-align: top;
+    width: 100%;
+}
+
+ul.special-icons li:before {
+    border-radius: 5px;
+    display: block;
+    font-size: 2em;
+    left: 0;
+    position: absolute;
+    top: 2em;
+}
+
+ul.special-icons span {
+    display: inline-block;
+    font-size: 1.35em;
+    left: -0.5em;
+    line-height: 190%;
+    overflow: hidden;
+    position: absolute;
+    top: -0.28em;
+    width: 1.4em;
+}
+
+ul.special-icons h3 {
+    font-size: 1.2em;
+    margin-bottom: 1em;
+}
+
+ul.special-icons h3,
+ul.special-icons h3 a,
+ul.special-icons h3 a:visited {
+    color: config.$color-text;
+    display: block;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+ul.special-icons p {
+    margin: 0;
+}
+
+/* Button */
+
+input[type = "submit"],
+input[type = "reset"],
+input[type = "button"],
+.button {
+    appearance: none;
+    background: none;
+    border: 2px solid;
+    border-color: config.$color-primary;
+    border-radius: none;
+    color: config.$color-primary;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.4em;
+    font-weight: 300;
+    letter-spacing: 1px;
+    padding: 0.90em 1.2em;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.35s ease-in-out;
+}
+
+input[type = "submit"]:visited,
+input[type = "reset"]:visited,
+input[type = "button"]:visited,
+.button:visited {
+    color: config.$color-primary;
+}
+
+input[type = "submit"]:hover,
+input[type = "reset"]:hover,
+input[type = "button"]:hover,
+.button:hover,
+.button:active {
+    background-color: config.$color-primary;
+    color: config.$color-secondary;
+}
+
+input[type = "submit"].alt,
+input[type = "reset"].alt,
+input[type = "button"].alt,
+.button.alt {
+    border-color: inherit;
+    color: inherit;
+}
+
+input[type = "submit"].alt:hover,
+input[type = "reset"].alt:hover,
+input[type = "button"].alt:hover,
+.button.alt:hover {
+    background-color: config.$color-secondary;
+    color: config.$color-primary;
+}
+
+input[type = "submit"].fit,
+input[type = "reset"].fit,
+input[type = "button"].fit,
+.button.fit {
+    width: 100%;
+}
+
+.button.button-secondary,
+.button.button-secondary:visited {
+    border-color: color.adjust(config.$color-secondary, $lightness: - 50%);
+    color: config.$color-secondary;
+    opacity: 0.6;
+}
+
+.button.button-secondary:hover,
+.button.button-secondary:active {
+    background-color: config.$color-secondary;
+    color: config.$color-bg-secondary;
+    opacity: 1;
+}
+
+/* Wrapper */
+
+.wrapper {
+    padding: 4rem 0 0;
+}
+
+.wrapper.style1 {
+    padding: 0;
+}
+
+.wrapper.style1 #header h1 {
+    margin: 0;
+}
+
+.wrapper.hooks {
+    background-color: config.$color-bg-primary;
+    padding: 4rem 0 2rem;
+}
+
+.wrapper.hooks .major {
+    text-align: left;
+}
+
+.wrapper.hooks .major h2 {
+    display: block;
+    font-size: 1.8em;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin-bottom: 0.70em;
+    text-transform: uppercase;
+}
+
+.wrapper.hooks .major .byline{
+    font-size: 1.2em;
+    letter-spacing: normal;
+    line-height: config.$line-height-headlines;
+    text-transform: none;
+}
+
+.wrapper.hooks h3 {
+    display: block;
+    font-size: 1.6em;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.wrapper.callout {
+    background-color: config.$color-primary;
+    color: config.$color-secondary;
+    padding-bottom: 4rem;
+    text-align: center;
+}
+
+.wrapper.callout .container {
+    padding-left: 6em;
+    padding-right: 6em;
+}
+
+.wrapper.callout p {
+    font-size: 1.4em;
+}
+
+/* Sidebar */
+
+.wrapper.style4,
+.wrapper.plain {
+    background-color: config.$color-bg-primary;
+    padding-bottom: 4rem;
+}
+
+.wrapper.portals {
+    background-color: config.$color-primary;
+    color: config.$color-secondary;
+    padding-bottom: 1rem;
+    text-align: center;
+}
+
+.wrapper.portals .image {
+    display: block;
+    margin: 0 auto 2em;
+    width: 60%;
+}
+
+.wrapper.portals .image img {
+    border: 10px solid;
+    border-color: config.$color-secondary;
+    border-radius: 50%;
+    max-width: 100%;
+}
+
+/* Header */
+
+#header {
+    background-color: config.$color-nav-bg;
+    color: config.$color-nav-text;
+    height: 4em;
+    width: 100%;
+}
+
+#header .container {
+    position: relative;
+}
+
+#logo {
+    color: config.$color-nav-text;
+    display: inline-block;
+    font-size: 1.8em;
+    font-weight: 400;
+    letter-spacing: 2px;
+    line-height: 2.2em;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+#nav {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#nav > ul {
+    margin: 0;
+    position: static;
+}
+
+#nav > ul > li {
+    display: inline-block;
+    margin: 0;
+    padding: 1.7rem 0.5rem 1rem;
+}
+
+#nav > ul > li a {
+    color: inherit;
+    font-size: 1em;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.dropotron a.nav-active, 
+#nav a.nav-active, 
+#nav > ul > li a:hover  {
+    color: config.$color-nav-active;
+}
+
+#nav > ul > li > ul {
+    display: none;
+}
+
+/* Dropotron */
+
+.dropotron {
+    background-color: config.$color-nav-bg;
+    border-radius: 4px;
+    color: config.$color-secondary;
+    list-style-type: none !important;
+    margin: 0 0 0 -2rem;
+    padding: 0;
+}
+
+.dropotron li {
+    border-top: solid 1px config.$color-nav-border;
+    line-height: 1.5em;
+    list-style-type: none !important;
+    padding: 0.6rem 1rem;
+}
+
+.dropotron > li:first-child {
+    border-top: 0.25em solid config.$color-nav-bg;
+}
+
+.dropotron > li:last-child {
+    border-bottom: 0.25em solid config.$color-nav-bg;
+}
+
+.dropotron > li > a {
+    color: config.$color-nav-text;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-transform: none;
+}
+
+.dropotron > li.active > a, .dropotron > li:hover > a {
+    color: config.$color-nav-active;
+}
+
+.dropotron.level-0,
+.dropotron.level-1 {
+    border-radius: 0 0 4px 4px;
+    font-size: 1em;
+}
+
+/* Banner */
+
+#banner {
+    background-color: config.$color-disabled;
+
+    /* background-position will be overwritten by yaml, if set */
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: config.$color-nav-text;
+    height: 24em;
+    overflow: hidden;
+}
+
+#banner .container h2 {
+    background-color: config.$color-primary;
+    display: inline-block;
+    font-size: 2.4em;
+    font-weight: 400;
+    line-height: 0.5em;
+    margin: 0;
+    padding: 0.5em 0.3em;
+    text-transform: uppercase;
+}
+
+#banner .container .follower, #banner .container .blurb {
+    font-size: 1.2em;
+    font-weight: 300;
+    letter-spacing: 1px;
+    margin: 1em 0;
+    padding: 0.25em 1.3em;
+}
+
+#banner .container .follower {
+    display: inline-block;
+}
+
+#banner .container .blurb {
+    display: inline-block;
+}
+
+/* Main */
+
+#main {
+    padding: 3rem 0 0;
+}
+
+#main #content .major, #main #sidebar .major {
+    text-align: left;
+}
+
+#main #sidebar section {
+    margin-top: 3em;
+}
+
+#main #sidebar section:first-child {
+    margin-top: 0;
+}
+
+#main #sidebar .major {
+    padding-top: 0.35em;
+}
+
+#main #sidebar .major h2 {
+    font-size: 1.8em;
+    line-height: 100%;
+    margin: 0 0 2.6rem;
+}
+
+/* Extra */
+
+#extra h2 {
+    display: block;
+    font-size: 1.8em;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+#extra h3 {
+    display: block;
+    font-size: 1.6em;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* socials */
+
+.socials {
+    background-color: config.$color-bg-secondary;
+    color: config.$color-secondary;
+    padding: 3em 0 2em;
+    text-align: center;
+}
+
+.socials hr {
+    border-bottom: 1px solid;
+    border-color: inherit;
+    opacity: 0.05;
+}
+
+.socials .major h2 {
+    color: inherit;
+}
+
+.socials .major .byline,
+.socials-links {
+    color: inherit;
+    opacity: 0.6;
+}
+
+.socials .socials-links {
+    text-align: center;
+}
+
+/* Footer */
+
+.socials-links {
+    align-items: center;
+    display: inline-block;
+    margin: 0 auto;
+    padding: 1em 0;
+    position: relative;
+    text-align: center;
+    text-transform: none;
+    width: auto;
+}
+
+.socials-links a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.socials-links li {
+    display: contents;
+    float: left;
+    list-style-type: none;
+}
+
+.socials-links li + li::before {
+    content: "|";
+    margin: auto 0.5em;
+}
+
+/* Team */
+ 
+#team h3 {
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 0.50em;
+    text-transform: uppercase;
+}

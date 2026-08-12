@@ -1,0 +1,33 @@
+title: Sidebar
+extends@:
+    type: default
+    context: 'blueprints://pages'
+
+form:
+    fields:
+        tabs:
+            type: tabs
+            active: 1
+            fields:
+                content:
+                    fields:
+                        # @start: DEFAULTS
+                        # @end: DEFAULTS
+                        header.sidebar:
+                            type: fieldset
+                            title: Sidebar
+                            info: ' click to expand / collapse'
+                            # underline: true
+                            icon: align-left
+                            collapsed: false
+                            collapsible: true
+                            # ordering@: content
+                            ordering@: header.banner
+                            fields:
+                                .position:
+                                    type: toggle
+                                    label: Sidebar Position
+                                    default: left
+                                    options:
+                                        left: left
+                                        right: right

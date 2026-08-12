@@ -1,0 +1,36 @@
+{% extends 'partials/base.html.twig' %}
+
+{% set showChildren = 1 %}
+{% import 'macros/loop.html.twig' as macros %}
+
+{% block body %}
+<div id="main" class="wrapper style4 plain">
+
+  <div id="content" class="container">
+    <section>
+        {% include 'partials/heading.html.twig' %}
+
+        <div class="sitemap">
+            <ul>
+                {% if showChildren %}
+                    {{ macros.loop(pages) }}
+                {% else %}
+                    {% for page in pages.children.visible %}
+                        {% set current_page = (page.active or page.activeChild) ? 'active' : '' %}
+                        <li class="{{ current_page }}">
+                            <a href="{{ page.url }}">
+                                {% if page.header.icon %}<i class="fa fa-{{ page.header.icon }}"></i>{% endif %}
+                                {{ page.menu }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+
+	    {% include 'partials/modular.html.twig' %}
+
+    </section>
+  </div>
+</div>
+{% endblock body %}

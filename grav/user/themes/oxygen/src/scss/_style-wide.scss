@@ -1,0 +1,8 @@
+@use "_config.scss" as config;
+
+@media ( width >= 1281px ) {
+
+    #nav > ul > li {
+        padding: 1.7rem 0.75rem 1rem;
+    }
+}

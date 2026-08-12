@@ -1,0 +1,14 @@
+{% for page in taxonomy.findTaxonomy({'tag':'id-footer'}) %}
+
+	{% include 'partials/modular.html.twig' %}
+
+	<div class="socials pt-0 pb-0">
+
+		<section class="container pt-0 pb-0">
+			<div class="socials-links small">
+				{{ page.content|raw }}
+			</div>
+		</section>
+
+	</div>
+{% endfor %}

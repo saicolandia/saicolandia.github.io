@@ -1,0 +1,9 @@
+version: '1.2'
+timestamp: 1786557715
+count: 1
+index:
+  saicolandia:
+    storage_key: saicolandia
+    storage_timestamp: 1786557715
+    key: saicolandia
+    email: jsanmartinbraile@mdp.edu.ar

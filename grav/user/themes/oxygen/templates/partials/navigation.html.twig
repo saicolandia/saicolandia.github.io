@@ -1,0 +1,19 @@
+<!-- Navigation -->
+{% import 'macros/loop.html.twig' as macros %}
+<nav id="nav">
+    <ul id="nav-ul">
+        {% if config.theme.dropdown %}
+            {{ macros.loop(pages) }}
+        {% else %}
+            {% for page in pages.children.visible %}
+                {% set current_page = (page.active or page.activeChild) ? 'nav-active' : '' %}
+                <li>
+                    <a href="{{ page.url }}" class="{{ current_page }}">
+                        {% if page.header.icon %}<i class="fa fa-{{ page.header.icon }}"></i>{% endif %}
+                        {{ page.menu }}
+                    </a>
+                </li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+</nav>

@@ -1,0 +1,27 @@
+
+{% if page.header.links %}
+	{% set links = page.header.links %}
+	<section>
+		{% if links.headline %}
+			<header class="major">
+				<h2>{{ links.headline|raw }}</h2>
+			</header>
+		{% endif %}
+		{% if links.byline.text %}
+			<p>{{ links.byline.text|raw }}</p>
+		{% endif %}
+		<ul class="default {{ links.type }}">
+			{% for item in links.items %}
+				<li>
+					{% if item.url %}
+						<a href="{{ getUrl(item.url) }}">{{ item.text|raw }}</a>
+					{% else %}
+						<span>{{ item.text|raw }}</span>
+					{% endif %}
+					<br>
+					{{ item.description|raw }}
+				</li>
+			{% endfor %}
+		</ul>
+	</section>
+{% endif %}
