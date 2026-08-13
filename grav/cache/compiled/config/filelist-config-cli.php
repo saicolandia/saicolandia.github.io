@@ -2,12 +2,10 @@
 return [
     '@class' => 'Grav\\Common\\Service\\ConfigServiceProvider',
     'type' => 'config',
-    'environment' => 'localhost',
-    'timestamp' => 1786580248,
+    'environment' => 'cli',
+    'timestamp' => 1786580217,
     'check_interval' => 2,
     'directories' => [
-        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/env/localhost/config' => 1786572505,
-        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/env/localhost/config/plugins' => 1786572593,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/config' => 1786572493,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/config/plugins' => 1786572372,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/config' => 1786572335,
@@ -31,10 +29,6 @@ return [
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/themes/oxygen' => 1786572373
     ],
     'file_mtimes' => [
-        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/env/localhost/config/plugins/api.yaml' => 1786572505,
-        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/env/localhost/config/plugins/feed.yaml' => 1786572372,
-        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/env/localhost/config/security.yaml' => 1786572505,
-        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/env/localhost/config/system.yaml' => 1786572372,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/config/media.yaml' => 1786572372,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/config/plugins/admin.yaml' => 1786572372,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/config/plugins/sitemap.yaml' => 1786572372,
@@ -68,24 +62,6 @@ return [
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/themes/oxygen/oxygen.yaml' => 1786572373
     ],
     'files' => [
-        'user/env/localhost/config' => [
-            'plugins/api' => [
-                'file' => 'user/env/localhost/config/plugins/api.yaml',
-                'modified' => 1786572505
-            ],
-            'plugins/feed' => [
-                'file' => 'user/env/localhost/config/plugins/feed.yaml',
-                'modified' => 1786572372
-            ],
-            'security' => [
-                'file' => 'user/env/localhost/config/security.yaml',
-                'modified' => 1786572505
-            ],
-            'system' => [
-                'file' => 'user/env/localhost/config/system.yaml',
-                'modified' => 1786572372
-            ]
-        ],
         'user/config' => [
             'media' => [
                 'file' => 'user/config/media.yaml',

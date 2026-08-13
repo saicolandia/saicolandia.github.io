@@ -1,27 +1,9 @@
 <?php
 return [
     '@class' => 'Grav\\Common\\Config\\CompiledConfig',
-    'timestamp' => 1786580248,
-    'checksum' => 'a80ecf693ac42abfa0eacfb47331915a',
+    'timestamp' => 1786580217,
+    'checksum' => '60a3c56479301690983340e44ce16b16',
     'files' => [
-        'user/env/localhost/config' => [
-            'plugins/api' => [
-                'file' => 'user/env/localhost/config/plugins/api.yaml',
-                'modified' => 1786572505
-            ],
-            'plugins/feed' => [
-                'file' => 'user/env/localhost/config/plugins/feed.yaml',
-                'modified' => 1786572372
-            ],
-            'security' => [
-                'file' => 'user/env/localhost/config/security.yaml',
-                'modified' => 1786572505
-            ],
-            'system' => [
-                'file' => 'user/env/localhost/config/system.yaml',
-                'modified' => 1786572372
-            ]
-        ],
         'user/config' => [
             'media' => [
                 'file' => 'user/config/media.yaml',
@@ -170,8 +152,8 @@ return [
             'feed' => [
                 'enabled' => true,
                 'limit' => 10,
-                'title' => 'Saicolandia',
-                'description' => 'Material de asignaturas de la carrera de Psicología de la UNMdP',
+                'title' => 'My Feed Title',
+                'description' => 'My Feed Description',
                 'length' => 500,
                 'enable_json_feed' => false,
                 'show_last_modified' => false
@@ -435,8 +417,7 @@ return [
                     'ignore' => [
                         0 => '/test*',
                         1 => '/modular'
-                    ],
-                    'salt' => 'c537cdea7ffb58a22c05f2cc959c10ef1719a96aa216a7f6f49f1698bbc9cac6'
+                    ]
                 ]
             ],
             'sitemap' => [
@@ -4741,9 +4722,7 @@ node_modules'
                 'js_minify' => true,
                 'enable_asset_timestamp' => false,
                 'enable_asset_sri' => false,
-                'collections' => [
-                    'jquery' => 'system://assets/jquery/jquery-3.x.min.js'
-                ]
+                'collections' => NULL
             ],
             'errors' => [
                 'display' => 1,

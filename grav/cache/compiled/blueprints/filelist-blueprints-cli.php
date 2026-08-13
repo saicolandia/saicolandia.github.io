@@ -2,8 +2,8 @@
 return [
     '@class' => 'Grav\\Common\\Service\\ConfigServiceProvider',
     'type' => 'blueprints',
-    'environment' => 'localhost',
-    'timestamp' => 1786580248,
+    'environment' => 'cli',
+    'timestamp' => 1786580217,
     'check_interval' => 2,
     'directories' => [
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/blueprints/config' => 1786572335,
