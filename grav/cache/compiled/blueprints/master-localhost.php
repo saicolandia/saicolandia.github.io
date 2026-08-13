@@ -1,8 +1,8 @@
 <?php
 return [
     '@class' => 'Grav\\Common\\Config\\CompiledBlueprints',
-    'timestamp' => 1786572589,
-    'checksum' => '678c3856ecfa30ebf42c99a5f4283ee8',
+    'timestamp' => 1786579857,
+    'checksum' => '998642384597f414a7831077358772e4',
     'files' => [
         'system/blueprints/config' => [
             'backups' => [
@@ -42,6 +42,10 @@ return [
             'plugins/problems' => [
                 'file' => 'user/plugins/problems/blueprints.yaml',
                 'modified' => 1786572389
+            ],
+            'plugins/admin' => [
+                'file' => 'user/plugins/admin/blueprints.yaml',
+                'modified' => 1786579405
             ],
             'plugins/shortcode-core' => [
                 'file' => 'user/plugins/shortcode-core/blueprints.yaml',
@@ -4371,6 +4375,994 @@ function generateWebhookToken() {
                 'name' => 'plugins.problems.built_in_css',
                 'validation' => 'strict'
             ],
+            'plugins.admin' => [
+                'type' => '_root',
+                'form_field' => false,
+                'form' => [
+                    'validation' => 'loose'
+                ]
+            ],
+            'plugins.admin.Basics' => [
+                'type' => 'section',
+                'underline' => false,
+                'name' => 'plugins.admin.Basics',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.enabled' => [
+                'type' => 'hidden',
+                'label' => 'PLUGIN_ADMIN.PLUGIN_STATUS',
+                'highlight' => 1,
+                'default' => 0,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.ENABLED',
+                    0 => 'PLUGIN_ADMIN.DISABLED'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.admin.enabled',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.cache_enabled' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.ADMIN_CACHING',
+                'highlight' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.admin.cache_enabled',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.twofa_enabled' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_LOGIN.2FA_TITLE',
+                'default' => 1,
+                'highlight' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.admin.twofa_enabled',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.route' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.ADMIN_PATH',
+                'size' => 'medium',
+                'name' => 'plugins.admin.route',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.logo_text' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.LOGO_TEXT',
+                'size' => 'medium',
+                'name' => 'plugins.admin.logo_text',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.content_padding' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.CONTENT_PADDING',
+                'highlight' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.YES',
+                    0 => 'PLUGIN_ADMIN.NO'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.admin.content_padding',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.body_classes' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.BODY_CLASSES',
+                'size' => 'medium',
+                'name' => 'plugins.admin.body_classes',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.sidebar' => [
+                'type' => '_parent',
+                'name' => 'plugins.admin.sidebar',
+                'form_field' => false
+            ],
+            'plugins.admin.sidebar.activate' => [
+                'type' => 'select',
+                'label' => 'PLUGIN_ADMIN.SIDEBAR_ACTIVATION',
+                'size' => 'small',
+                'default' => 'tab',
+                'options' => [
+                    'tab' => 'PLUGIN_ADMIN.SIDEBAR_ACTIVATION_TAB',
+                    'hover' => 'PLUGIN_ADMIN.SIDEBAR_ACTIVATION_HOVER'
+                ],
+                'name' => 'plugins.admin.sidebar.activate',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.sidebar.hover_delay' => [
+                'type' => 'text',
+                'size' => 'x-small',
+                'append' => 'PLUGIN_ADMIN.SIDEBAR_HOVER_DELAY_APPEND',
+                'label' => 'PLUGIN_ADMIN.SIDEBAR_HOVER_DELAY',
+                'default' => 500,
+                'validate' => [
+                    'type' => 'number',
+                    'min' => 1
+                ],
+                'name' => 'plugins.admin.sidebar.hover_delay',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.sidebar.size' => [
+                'type' => 'select',
+                'label' => 'PLUGIN_ADMIN.SIDEBAR_SIZE',
+                'size' => 'medium',
+                'default' => 'auto',
+                'options' => [
+                    'auto' => 'PLUGIN_ADMIN.SIDEBAR_SIZE_AUTO',
+                    'small' => 'PLUGIN_ADMIN.SIDEBAR_SIZE_SMALL'
+                ],
+                'name' => 'plugins.admin.sidebar.size',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.theme' => [
+                'type' => 'hidden',
+                'label' => 'PLUGIN_ADMIN.THEME',
+                'default' => 'grav',
+                'name' => 'plugins.admin.theme',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.edit_mode' => [
+                'type' => 'select',
+                'label' => 'PLUGIN_ADMIN.EDIT_MODE',
+                'size' => 'small',
+                'default' => 'normal',
+                'options' => [
+                    'normal' => 'PLUGIN_ADMIN.NORMAL',
+                    'expert' => 'PLUGIN_ADMIN.EXPERT'
+                ],
+                'name' => 'plugins.admin.edit_mode',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.frontend_preview_target' => [
+                'type' => 'select',
+                'label' => 'PLUGIN_ADMIN.FRONTEND_PREVIEW_TARGET',
+                'size' => 'medium',
+                'default' => 'inline',
+                'options' => [
+                    'inline' => 'PLUGIN_ADMIN.FRONTEND_PREVIEW_TARGET_INLINE',
+                    '_blank' => 'PLUGIN_ADMIN.FRONTEND_PREVIEW_TARGET_NEW',
+                    '_self' => 'PLUGIN_ADMIN.FRONTEND_PREVIEW_TARGET_CURRENT'
+                ],
+                'name' => 'plugins.admin.frontend_preview_target',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.pages' => [
+                'type' => '_parent',
+                'name' => 'plugins.admin.pages',
+                'form_field' => false
+            ],
+            'plugins.admin.pages.show_parents' => [
+                'type' => 'select',
+                'size' => 'medium',
+                'label' => 'PLUGIN_ADMIN.PARENT_DROPDOWN',
+                'highlight' => 1,
+                'options' => [
+                    'both' => 'PLUGIN_ADMIN.PARENT_DROPDOWN_BOTH',
+                    'folder' => 'PLUGIN_ADMIN.PARENT_DROPDOWN_FOLDER',
+                    'fullpath' => 'PLUGIN_ADMIN.PARENT_DROPDOWN_FULLPATH'
+                ],
+                'name' => 'plugins.admin.pages.show_parents',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.pages.parents_levels' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.PARENTS_LEVELS',
+                'size' => 'small',
+                'name' => 'plugins.admin.pages.parents_levels',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.pages.show_modular' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.MODULAR_PARENTS',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.ENABLED',
+                    0 => 'PLUGIN_ADMIN.DISABLED'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.admin.pages.show_modular',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.show_beta_msg' => [
+                'type' => 'hidden',
+                'name' => 'plugins.admin.show_beta_msg',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.show_github_msg' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.SHOW_GITHUB_LINK',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.ENABLED',
+                    0 => 'PLUGIN_ADMIN.DISABLED'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.admin.show_github_msg',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.enable_auto_updates_check' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.AUTO_UPDATES',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.ENABLED',
+                    0 => 'PLUGIN_ADMIN.DISABLED'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.admin.enable_auto_updates_check',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.session' => [
+                'type' => '_parent',
+                'name' => 'plugins.admin.session',
+                'form_field' => false
+            ],
+            'plugins.admin.session.timeout' => [
+                'type' => 'text',
+                'size' => 'small',
+                'label' => 'PLUGIN_ADMIN.TIMEOUT',
+                'append' => 'GRAV.NICETIME.SECOND_PLURAL',
+                'validate' => [
+                    'type' => 'number',
+                    'min' => 1
+                ],
+                'name' => 'plugins.admin.session.timeout',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.hide_page_types' => [
+                'type' => 'select',
+                'size' => 'large',
+                'label' => 'PLUGIN_ADMIN.HIDE_PAGE_TYPES',
+                'classes' => 'fancy',
+                'multiple' => true,
+                'array' => true,
+                'selectize' => [
+                    'create' => true
+                ],
+                'data-options@' => [
+                    0 => '\\Grav\\Plugin\\AdminPlugin::pagesTypes',
+                    1 => true
+                ],
+                'name' => 'plugins.admin.hide_page_types',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.hide_modular_page_types' => [
+                'type' => 'select',
+                'size' => 'large',
+                'label' => 'PLUGIN_ADMIN.HIDE_MODULAR_PAGE_TYPES',
+                'classes' => 'fancy',
+                'multiple' => true,
+                'array' => true,
+                'selectize' => [
+                    'create' => true
+                ],
+                'data-options@' => [
+                    0 => '\\Grav\\Plugin\\AdminPlugin::pagesModularTypes',
+                    1 => true
+                ],
+                'name' => 'plugins.admin.hide_modular_page_types',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.Dashboard' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.admin.Dashboard',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.widgets_display' => [
+                'type' => 'widgets',
+                'label' => 'PLUGIN_ADMIN.WIDGETS_DISPLAY',
+                'validate' => [
+                    'type' => 'array'
+                ],
+                'name' => 'plugins.admin.widgets_display',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.Notifications' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.admin.Notifications',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.notifications' => [
+                'type' => '_parent',
+                'name' => 'plugins.admin.notifications',
+                'form_field' => false
+            ],
+            'plugins.admin.notifications.feed' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.FEED_NOTIFICATIONS',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.ENABLED',
+                    0 => 'PLUGIN_ADMIN.DISABLED'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.admin.notifications.feed',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.notifications.dashboard' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.DASHBOARD_NOTIFICATIONS',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.ENABLED',
+                    0 => 'PLUGIN_ADMIN.DISABLED'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.admin.notifications.dashboard',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.notifications.plugins' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.PLUGINS_NOTIFICATIONS',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.ENABLED',
+                    0 => 'PLUGIN_ADMIN.DISABLED'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.admin.notifications.plugins',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.notifications.themes' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.THEMES_NOTIFICATIONS',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.ENABLED',
+                    0 => 'PLUGIN_ADMIN.DISABLED'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.admin.notifications.themes',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.config_tab' => [
+                'type' => 'tab',
+                'name' => 'plugins.admin.config_tab',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel' => [
+                'type' => '_parent',
+                'name' => 'plugins.admin.whitelabel',
+                'form_field' => false
+            ],
+            'plugins.admin.whitelabel.logos' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.admin.whitelabel.logos',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.logo_login' => [
+                'type' => 'file',
+                'label' => 'PLUGIN_ADMIN.LOGIN_SCREEN_CUSTOM_LOGO_LABEL',
+                'destination' => 'user://assets',
+                'accept' => [
+                    0 => 'image/*'
+                ],
+                'name' => 'plugins.admin.whitelabel.logo_login',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.logo_custom' => [
+                'type' => 'file',
+                'label' => 'PLUGIN_ADMIN.TOP_LEFT_CUSTOM_LOGO_LABEL',
+                'destination' => 'user://assets',
+                'accept' => [
+                    0 => 'image/*'
+                ],
+                'name' => 'plugins.admin.whitelabel.logo_custom',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.codemirror_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.admin.codemirror_section',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.codemirror_theme' => [
+                'type' => 'select',
+                'label' => 'PLUGIN_ADMIN.CODEMIRROR_THEME',
+                'default' => 'paper',
+                'markdown' => true,
+                'data-options@' => '\\Grav\\Plugin\\AdminPlugin::themeOptions',
+                'description' => 'PLUGIN_ADMIN.CODEMIRROR_THEME_DESC',
+                'name' => 'plugins.admin.whitelabel.codemirror_theme',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.codemirror_fontsize' => [
+                'type' => 'select',
+                'label' => 'PLUGIN_ADMIN.CODEMIRROR_FONTSIZE',
+                'default' => 'md',
+                'options' => [
+                    'sm' => 'PLUGIN_ADMIN.CODEMIRROR_FONTSIZE_SM',
+                    'md' => 'PLUGIN_ADMIN.CODEMIRROR_FONTSIZE_MD',
+                    'lg' => 'PLUGIN_ADMIN.CODEMIRROR_FONTSIZE_LG'
+                ],
+                'name' => 'plugins.admin.whitelabel.codemirror_fontsize',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.codemirror_md_font' => [
+                'type' => 'select',
+                'label' => 'PLUGIN_ADMIN.CODEMIRROR_MD_FONT',
+                'default' => 'sans',
+                'options' => [
+                    'sans' => 'PLUGIN_ADMIN.CODEMIRROR_MD_FONT_SANS',
+                    'mono' => 'PLUGIN_ADMIN.CODEMIRROR_MD_FONT_MONO'
+                ],
+                'name' => 'plugins.admin.whitelabel.codemirror_md_font',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.customization_section' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.admin.customization_section',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.quicktray_recompile' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.QUICKTRAY_RECOMPILE',
+                'highlight' => 0,
+                'default' => 0,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.ENABLED',
+                    0 => 'PLUGIN_ADMIN.DISABLED'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.admin.whitelabel.quicktray_recompile',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme' => [
+                'type' => '_parent',
+                'name' => 'plugins.admin.whitelabel.color_scheme',
+                'form_field' => false
+            ],
+            'plugins.admin.whitelabel.color_scheme.name' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.COLOR_SCHEME_NAME',
+                'name' => 'plugins.admin.whitelabel.color_scheme.name',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.themes-preview' => [
+                'type' => 'themepreview',
+                'ignore' => 'true;',
+                'label' => 'PLUGIN_ADMIN.PRESETS',
+                'style' => 'vertical',
+                'name' => 'plugins.admin.themes-preview',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors' => [
+                'type' => '_parent',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors',
+                'form_field' => false
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.logo-bg' => [
+                'type' => 'colorscheme.color',
+                'default' => '#1e333e',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.logo-bg',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.logo-link' => [
+                'type' => 'colorscheme.color',
+                'default' => '#ffffff',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.logo-link',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.nav-bg' => [
+                'type' => 'colorscheme.color',
+                'default' => '#253a47',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.nav-bg',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.nav-text' => [
+                'type' => 'colorscheme.color',
+                'default' => '#afc7d5',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.nav-text',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.nav-link' => [
+                'type' => 'colorscheme.color',
+                'default' => '#d1dee7',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.nav-link',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.nav-selected-bg' => [
+                'type' => 'colorscheme.color',
+                'default' => '#2d4d5b',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.nav-selected-bg',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.nav-selected-link' => [
+                'type' => 'colorscheme.color',
+                'default' => '#ffffff',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.nav-selected-link',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.nav-hover-bg' => [
+                'type' => 'colorscheme.color',
+                'default' => '#1e333e',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.nav-hover-bg',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.nav-hover-link' => [
+                'type' => 'colorscheme.color',
+                'default' => '#ffffff',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.nav-hover-link',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.toolbar-bg' => [
+                'type' => 'colorscheme.color',
+                'default' => '#349886',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.toolbar-bg',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.toolbar-text' => [
+                'type' => 'colorscheme.color',
+                'default' => '#ffffff',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.toolbar-text',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.page-bg' => [
+                'type' => 'colorscheme.color',
+                'default' => '#314d5b',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.page-bg',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.page-text' => [
+                'type' => 'colorscheme.color',
+                'default' => '#81a5b5',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.page-text',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.page-link' => [
+                'type' => 'colorscheme.color',
+                'default' => '#aad9ed',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.page-link',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.content-bg' => [
+                'type' => 'colorscheme.color',
+                'default' => '#eeeeee',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.content-bg',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.content-text' => [
+                'type' => 'colorscheme.color',
+                'default' => '#737c81',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.content-text',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.content-link' => [
+                'type' => 'colorscheme.color',
+                'default' => '#0082ba',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.content-link',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.content-link2' => [
+                'type' => 'colorscheme.color',
+                'default' => '#da4b46',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.content-link2',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.content-header' => [
+                'type' => 'colorscheme.color',
+                'default' => '#314d5b',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.content-header',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.content-tabs-bg' => [
+                'type' => 'colorscheme.color',
+                'default' => '#223a47',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.content-tabs-bg',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.content-tabs-text' => [
+                'type' => 'colorscheme.color',
+                'default' => '#d1dee7',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.content-tabs-text',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.content-highlight' => [
+                'type' => 'colorscheme.color',
+                'default' => '#ffffd7',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.content-highlight',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.button-bg' => [
+                'type' => 'colorscheme.color',
+                'default' => '#41bea8',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.button-bg',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.button-text' => [
+                'type' => 'colorscheme.color',
+                'default' => '#ffffff',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.button-text',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.notice-bg' => [
+                'type' => 'colorscheme.color',
+                'default' => '#00a6cf',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.notice-bg',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.notice-text' => [
+                'type' => 'colorscheme.color',
+                'default' => '#ffffff',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.notice-text',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.update-bg' => [
+                'type' => 'colorscheme.color',
+                'default' => '#8f5aad',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.update-bg',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.update-text' => [
+                'type' => 'colorscheme.color',
+                'default' => '#ffffff',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.update-text',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.critical-bg' => [
+                'type' => 'colorscheme.color',
+                'default' => '#da4b46',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.critical-bg',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.colors.critical-text' => [
+                'type' => 'colorscheme.color',
+                'default' => '#ffffff',
+                'name' => 'plugins.admin.whitelabel.color_scheme.colors.critical-text',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.colorschemes' => [
+                'type' => 'colorscheme',
+                'label' => 'PLUGIN_ADMIN.COLOR_SCHEME_LABEL',
+                'style' => 'vertical',
+                'name' => 'plugins.admin.colorschemes',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.accents' => [
+                'type' => '_parent',
+                'name' => 'plugins.admin.whitelabel.color_scheme.accents',
+                'form_field' => false
+            ],
+            'plugins.admin.whitelabel.color_scheme.accents.primary-accent' => [
+                'type' => 'select',
+                'size' => 'medium',
+                'classes' => 'fancy',
+                'label' => 'PLUGIN_ADMIN.PRIMARY_ACCENT_LABEL',
+                'options' => [
+                    'button' => 'PLUGIN_ADMIN.BUTTON_COLORS',
+                    'content' => 'PLUGIN_ADMIN.CONTENT_COLORS',
+                    'tabs' => 'PLUGIN_ADMIN.TABS_COLORS',
+                    'critical' => 'PLUGIN_ADMIN.CRITICAL_COLORS',
+                    'logo' => 'PLUGIN_ADMIN.LOGO_COLORS',
+                    'nav' => 'PLUGIN_ADMIN.NAV_COLORS',
+                    'notice' => 'PLUGIN_ADMIN.NOTICE_COLORS',
+                    'page' => 'PLUGIN_ADMIN.PAGE_COLORS',
+                    'toolbar' => 'PLUGIN_ADMIN.TOOLBAR_COLORS',
+                    'update' => 'PLUGIN_ADMIN.UPDATE_COLORS'
+                ],
+                'name' => 'plugins.admin.whitelabel.color_scheme.accents.primary-accent',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.accents.secondary-accent' => [
+                'type' => 'select',
+                'size' => 'medium',
+                'classes' => 'fancy',
+                'label' => 'PLUGIN_ADMIN.SECONDARY_ACCENT_LABEL',
+                'options' => [
+                    'button' => 'PLUGIN_ADMIN.BUTTON_COLORS',
+                    'content' => 'PLUGIN_ADMIN.CONTENT_COLORS',
+                    'tabs' => 'PLUGIN_ADMIN.TABS_COLORS',
+                    'critical' => 'PLUGIN_ADMIN.CRITICAL_COLORS',
+                    'logo' => 'PLUGIN_ADMIN.LOGO_COLORS',
+                    'nav' => 'PLUGIN_ADMIN.NAV_COLORS',
+                    'notice' => 'PLUGIN_ADMIN.NOTICE_COLORS',
+                    'page' => 'PLUGIN_ADMIN.PAGE_COLORS',
+                    'toolbar' => 'PLUGIN_ADMIN.TOOLBAR_COLORS',
+                    'update' => 'PLUGIN_ADMIN.UPDATE_COLORS'
+                ],
+                'name' => 'plugins.admin.whitelabel.color_scheme.accents.secondary-accent',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.color_scheme.accents.tertiary-accent' => [
+                'type' => 'select',
+                'size' => 'medium',
+                'classes' => 'fancy',
+                'label' => 'PLUGIN_ADMIN.TERTIARY_ACCENT_LABEL',
+                'options' => [
+                    'button' => 'PLUGIN_ADMIN.BUTTON_COLORS',
+                    'content' => 'PLUGIN_ADMIN.CONTENT_COLORS',
+                    'tabs' => 'PLUGIN_ADMIN.TABS_COLORS',
+                    'critical' => 'PLUGIN_ADMIN.CRITICAL_COLORS',
+                    'logo' => 'PLUGIN_ADMIN.LOGO_COLORS',
+                    'nav' => 'PLUGIN_ADMIN.NAV_COLORS',
+                    'notice' => 'PLUGIN_ADMIN.NOTICE_COLORS',
+                    'page' => 'PLUGIN_ADMIN.PAGE_COLORS',
+                    'toolbar' => 'PLUGIN_ADMIN.TOOLBAR_COLORS',
+                    'update' => 'PLUGIN_ADMIN.UPDATE_COLORS'
+                ],
+                'name' => 'plugins.admin.whitelabel.color_scheme.accents.tertiary-accent',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.custom_footer' => [
+                'type' => 'textarea',
+                'rows' => 2,
+                'label' => 'PLUGIN_ADMIN.CUSTOM_FOOTER',
+                'name' => 'plugins.admin.whitelabel.custom_footer',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.custom_css' => [
+                'label' => 'PLUGIN_ADMIN.CUSTOM_CSS_LABEL',
+                'type' => 'editor',
+                'codemirror' => [
+                    'mode' => 'css',
+                    'indentUnit' => 2,
+                    'autofocus' => true,
+                    'indentWithTabs' => true,
+                    'lineNumbers' => true,
+                    'styleActiveLine' => true
+                ],
+                'name' => 'plugins.admin.whitelabel.custom_css',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.whitelabel.custom_presets' => [
+                'label' => 'PLUGIN_ADMIN.CUSTOM_PRESETS',
+                'type' => 'editor',
+                'codemirror' => [
+                    'mode' => 'yaml',
+                    'indentUnit' => 2,
+                    'autofocus' => true,
+                    'indentWithTabs' => false,
+                    'lineNumbers' => true,
+                    'styleActiveLine' => true,
+                    'gutters' => [
+                        0 => 'CodeMirror-lint-markers'
+                    ],
+                    'lint' => true
+                ],
+                'name' => 'plugins.admin.whitelabel.custom_presets',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.customization_tab' => [
+                'type' => 'tab',
+                'name' => 'plugins.admin.customization_tab',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.Popularity' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.admin.Popularity',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.popularity' => [
+                'type' => '_parent',
+                'name' => 'plugins.admin.popularity',
+                'form_field' => false
+            ],
+            'plugins.admin.popularity.enabled' => [
+                'type' => 'toggle',
+                'label' => 'PLUGIN_ADMIN.VISITOR_TRACKING',
+                'highlight' => 1,
+                'default' => 1,
+                'options' => [
+                    1 => 'PLUGIN_ADMIN.ENABLED',
+                    0 => 'PLUGIN_ADMIN.DISABLED'
+                ],
+                'validate' => [
+                    'type' => 'bool'
+                ],
+                'name' => 'plugins.admin.popularity.enabled',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.dashboard' => [
+                'type' => '_parent',
+                'name' => 'plugins.admin.dashboard',
+                'form_field' => false
+            ],
+            'plugins.admin.dashboard.days_of_stats' => [
+                'type' => 'text',
+                'label' => 'PLUGIN_ADMIN.DAYS_OF_STATS',
+                'append' => 'days',
+                'size' => 'x-small',
+                'default' => 7,
+                'validate' => [
+                    'type' => 'int'
+                ],
+                'name' => 'plugins.admin.dashboard.days_of_stats',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.popularity.ignore' => [
+                'type' => 'array',
+                'label' => 'PLUGIN_ADMIN.IGNORE_URLS',
+                'size' => 'large',
+                'default' => [
+                    0 => '/test*',
+                    1 => '/modular'
+                ],
+                'value_only' => true,
+                'name' => 'plugins.admin.popularity.ignore',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.popularity.history' => [
+                'type' => '_parent',
+                'name' => 'plugins.admin.popularity.history',
+                'form_field' => false
+            ],
+            'plugins.admin.popularity.history.daily' => [
+                'type' => 'hidden',
+                'label' => 'PLUGIN_ADMIN.DAILY_HISTORY',
+                'default' => 30,
+                'name' => 'plugins.admin.popularity.history.daily',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.popularity.history.monthly' => [
+                'type' => 'hidden',
+                'label' => 'PLUGIN_ADMIN.MONTHLY_HISTORY',
+                'default' => 12,
+                'name' => 'plugins.admin.popularity.history.monthly',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.popularity.history.visitors' => [
+                'type' => 'hidden',
+                'label' => 'PLUGIN_ADMIN.VISITORS_HISTORY',
+                'default' => 20,
+                'name' => 'plugins.admin.popularity.history.visitors',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.MediaResize' => [
+                'type' => 'section',
+                'underline' => true,
+                'name' => 'plugins.admin.MediaResize',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.MediaResizeNote' => [
+                'type' => 'spacer',
+                'text' => 'PLUGIN_ADMIN.PAGEMEDIA_RESIZER',
+                'markdown' => true,
+                'name' => 'plugins.admin.MediaResizeNote',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.pagemedia' => [
+                'type' => '_parent',
+                'name' => 'plugins.admin.pagemedia',
+                'form_field' => false
+            ],
+            'plugins.admin.pagemedia.resize_width' => [
+                'type' => 'number',
+                'size' => 'x-small',
+                'append' => 'PLUGIN_ADMIN.PIXELS',
+                'label' => 'PLUGIN_ADMIN.RESIZE_WIDTH',
+                'default' => 0,
+                'validate' => [
+                    'type' => 'number'
+                ],
+                'name' => 'plugins.admin.pagemedia.resize_width',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.pagemedia.resize_height' => [
+                'type' => 'number',
+                'size' => 'x-small',
+                'append' => 'PLUGIN_ADMIN.PIXELS',
+                'label' => 'PLUGIN_ADMIN.RESIZE_HEIGHT',
+                'default' => 0,
+                'validate' => [
+                    'type' => 'number'
+                ],
+                'name' => 'plugins.admin.pagemedia.resize_height',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.pagemedia.res_min_width' => [
+                'type' => 'number',
+                'size' => 'x-small',
+                'append' => 'PLUGIN_ADMIN.PIXELS',
+                'label' => 'PLUGIN_ADMIN.RES_MIN_WIDTH',
+                'default' => 0,
+                'validate' => [
+                    'type' => 'number'
+                ],
+                'name' => 'plugins.admin.pagemedia.res_min_width',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.pagemedia.res_min_height' => [
+                'type' => 'number',
+                'size' => 'x-small',
+                'append' => 'PLUGIN_ADMIN.PIXELS',
+                'label' => 'PLUGIN_ADMIN.RES_MIN_HEIGHT',
+                'default' => 0,
+                'validate' => [
+                    'type' => 'number'
+                ],
+                'name' => 'plugins.admin.pagemedia.res_min_height',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.pagemedia.res_max_width' => [
+                'type' => 'number',
+                'size' => 'x-small',
+                'append' => 'PLUGIN_ADMIN.PIXELS',
+                'label' => 'PLUGIN_ADMIN.RES_MAX_WIDTH',
+                'default' => 0,
+                'validate' => [
+                    'type' => 'number'
+                ],
+                'name' => 'plugins.admin.pagemedia.res_max_width',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.pagemedia.res_max_height' => [
+                'type' => 'number',
+                'size' => 'x-small',
+                'append' => 'PLUGIN_ADMIN.PIXELS',
+                'label' => 'PLUGIN_ADMIN.RES_MAX_HEIGHT',
+                'default' => 0,
+                'validate' => [
+                    'type' => 'number'
+                ],
+                'name' => 'plugins.admin.pagemedia.res_max_height',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.pagemedia.resize_quality' => [
+                'type' => 'number',
+                'size' => 'x-small',
+                'append' => '0...1',
+                'label' => 'PLUGIN_ADMIN.RESIZE_QUALITY',
+                'default' => 0.8,
+                'validate' => [
+                    'type' => 'number',
+                    'step' => 0.01
+                ],
+                'name' => 'plugins.admin.pagemedia.resize_quality',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.extras_tab' => [
+                'type' => 'tab',
+                'name' => 'plugins.admin.extras_tab',
+                'validation' => 'loose'
+            ],
+            'plugins.admin.admin_tabs' => [
+                'type' => 'tabs',
+                'name' => 'plugins.admin.admin_tabs',
+                'validation' => 'loose'
+            ],
             'plugins.shortcode-core' => [
                 'type' => '_root',
                 'form_field' => false,
@@ -7973,6 +8965,130 @@ function generateWebhookToken() {
                 'problems' => [
                     'enabled' => 'plugins.problems.enabled',
                     'built_in_css' => 'plugins.problems.built_in_css'
+                ],
+                'admin' => [
+                    'admin_tabs' => 'plugins.admin.admin_tabs',
+                    'config_tab' => 'plugins.admin.config_tab',
+                    'Basics' => 'plugins.admin.Basics',
+                    'enabled' => 'plugins.admin.enabled',
+                    'cache_enabled' => 'plugins.admin.cache_enabled',
+                    'twofa_enabled' => 'plugins.admin.twofa_enabled',
+                    'route' => 'plugins.admin.route',
+                    'logo_text' => 'plugins.admin.logo_text',
+                    'content_padding' => 'plugins.admin.content_padding',
+                    'body_classes' => 'plugins.admin.body_classes',
+                    'sidebar' => [
+                        'activate' => 'plugins.admin.sidebar.activate',
+                        'hover_delay' => 'plugins.admin.sidebar.hover_delay',
+                        'size' => 'plugins.admin.sidebar.size'
+                    ],
+                    'theme' => 'plugins.admin.theme',
+                    'edit_mode' => 'plugins.admin.edit_mode',
+                    'frontend_preview_target' => 'plugins.admin.frontend_preview_target',
+                    'pages' => [
+                        'show_parents' => 'plugins.admin.pages.show_parents',
+                        'parents_levels' => 'plugins.admin.pages.parents_levels',
+                        'show_modular' => 'plugins.admin.pages.show_modular'
+                    ],
+                    'show_beta_msg' => 'plugins.admin.show_beta_msg',
+                    'show_github_msg' => 'plugins.admin.show_github_msg',
+                    'enable_auto_updates_check' => 'plugins.admin.enable_auto_updates_check',
+                    'session' => [
+                        'timeout' => 'plugins.admin.session.timeout'
+                    ],
+                    'hide_page_types' => 'plugins.admin.hide_page_types',
+                    'hide_modular_page_types' => 'plugins.admin.hide_modular_page_types',
+                    'Dashboard' => 'plugins.admin.Dashboard',
+                    'widgets_display' => 'plugins.admin.widgets_display',
+                    'Notifications' => 'plugins.admin.Notifications',
+                    'notifications' => [
+                        'feed' => 'plugins.admin.notifications.feed',
+                        'dashboard' => 'plugins.admin.notifications.dashboard',
+                        'plugins' => 'plugins.admin.notifications.plugins',
+                        'themes' => 'plugins.admin.notifications.themes'
+                    ],
+                    'customization_tab' => 'plugins.admin.customization_tab',
+                    'whitelabel' => [
+                        'logos' => 'plugins.admin.whitelabel.logos',
+                        'logo_login' => 'plugins.admin.whitelabel.logo_login',
+                        'logo_custom' => 'plugins.admin.whitelabel.logo_custom',
+                        'codemirror_theme' => 'plugins.admin.whitelabel.codemirror_theme',
+                        'codemirror_fontsize' => 'plugins.admin.whitelabel.codemirror_fontsize',
+                        'codemirror_md_font' => 'plugins.admin.whitelabel.codemirror_md_font',
+                        'quicktray_recompile' => 'plugins.admin.whitelabel.quicktray_recompile',
+                        'color_scheme' => [
+                            'name' => 'plugins.admin.whitelabel.color_scheme.name',
+                            'colors' => [
+                                'logo-bg' => 'plugins.admin.whitelabel.color_scheme.colors.logo-bg',
+                                'logo-link' => 'plugins.admin.whitelabel.color_scheme.colors.logo-link',
+                                'nav-bg' => 'plugins.admin.whitelabel.color_scheme.colors.nav-bg',
+                                'nav-text' => 'plugins.admin.whitelabel.color_scheme.colors.nav-text',
+                                'nav-link' => 'plugins.admin.whitelabel.color_scheme.colors.nav-link',
+                                'nav-selected-bg' => 'plugins.admin.whitelabel.color_scheme.colors.nav-selected-bg',
+                                'nav-selected-link' => 'plugins.admin.whitelabel.color_scheme.colors.nav-selected-link',
+                                'nav-hover-bg' => 'plugins.admin.whitelabel.color_scheme.colors.nav-hover-bg',
+                                'nav-hover-link' => 'plugins.admin.whitelabel.color_scheme.colors.nav-hover-link',
+                                'toolbar-bg' => 'plugins.admin.whitelabel.color_scheme.colors.toolbar-bg',
+                                'toolbar-text' => 'plugins.admin.whitelabel.color_scheme.colors.toolbar-text',
+                                'page-bg' => 'plugins.admin.whitelabel.color_scheme.colors.page-bg',
+                                'page-text' => 'plugins.admin.whitelabel.color_scheme.colors.page-text',
+                                'page-link' => 'plugins.admin.whitelabel.color_scheme.colors.page-link',
+                                'content-bg' => 'plugins.admin.whitelabel.color_scheme.colors.content-bg',
+                                'content-text' => 'plugins.admin.whitelabel.color_scheme.colors.content-text',
+                                'content-link' => 'plugins.admin.whitelabel.color_scheme.colors.content-link',
+                                'content-link2' => 'plugins.admin.whitelabel.color_scheme.colors.content-link2',
+                                'content-header' => 'plugins.admin.whitelabel.color_scheme.colors.content-header',
+                                'content-tabs-bg' => 'plugins.admin.whitelabel.color_scheme.colors.content-tabs-bg',
+                                'content-tabs-text' => 'plugins.admin.whitelabel.color_scheme.colors.content-tabs-text',
+                                'content-highlight' => 'plugins.admin.whitelabel.color_scheme.colors.content-highlight',
+                                'button-bg' => 'plugins.admin.whitelabel.color_scheme.colors.button-bg',
+                                'button-text' => 'plugins.admin.whitelabel.color_scheme.colors.button-text',
+                                'notice-bg' => 'plugins.admin.whitelabel.color_scheme.colors.notice-bg',
+                                'notice-text' => 'plugins.admin.whitelabel.color_scheme.colors.notice-text',
+                                'update-bg' => 'plugins.admin.whitelabel.color_scheme.colors.update-bg',
+                                'update-text' => 'plugins.admin.whitelabel.color_scheme.colors.update-text',
+                                'critical-bg' => 'plugins.admin.whitelabel.color_scheme.colors.critical-bg',
+                                'critical-text' => 'plugins.admin.whitelabel.color_scheme.colors.critical-text'
+                            ],
+                            'accents' => [
+                                'primary-accent' => 'plugins.admin.whitelabel.color_scheme.accents.primary-accent',
+                                'secondary-accent' => 'plugins.admin.whitelabel.color_scheme.accents.secondary-accent',
+                                'tertiary-accent' => 'plugins.admin.whitelabel.color_scheme.accents.tertiary-accent'
+                            ]
+                        ],
+                        'custom_footer' => 'plugins.admin.whitelabel.custom_footer',
+                        'custom_css' => 'plugins.admin.whitelabel.custom_css',
+                        'custom_presets' => 'plugins.admin.whitelabel.custom_presets'
+                    ],
+                    'codemirror_section' => 'plugins.admin.codemirror_section',
+                    'customization_section' => 'plugins.admin.customization_section',
+                    'themes-preview' => 'plugins.admin.themes-preview',
+                    'colorschemes' => 'plugins.admin.colorschemes',
+                    'extras_tab' => 'plugins.admin.extras_tab',
+                    'Popularity' => 'plugins.admin.Popularity',
+                    'popularity' => [
+                        'enabled' => 'plugins.admin.popularity.enabled',
+                        'ignore' => 'plugins.admin.popularity.ignore',
+                        'history' => [
+                            'daily' => 'plugins.admin.popularity.history.daily',
+                            'monthly' => 'plugins.admin.popularity.history.monthly',
+                            'visitors' => 'plugins.admin.popularity.history.visitors'
+                        ]
+                    ],
+                    'dashboard' => [
+                        'days_of_stats' => 'plugins.admin.dashboard.days_of_stats'
+                    ],
+                    'MediaResize' => 'plugins.admin.MediaResize',
+                    'MediaResizeNote' => 'plugins.admin.MediaResizeNote',
+                    'pagemedia' => [
+                        'resize_width' => 'plugins.admin.pagemedia.resize_width',
+                        'resize_height' => 'plugins.admin.pagemedia.resize_height',
+                        'res_min_width' => 'plugins.admin.pagemedia.res_min_width',
+                        'res_min_height' => 'plugins.admin.pagemedia.res_min_height',
+                        'res_max_width' => 'plugins.admin.pagemedia.res_max_width',
+                        'res_max_height' => 'plugins.admin.pagemedia.res_max_height',
+                        'resize_quality' => 'plugins.admin.pagemedia.resize_quality'
+                    ]
                 ],
                 'shortcode-core' => [
                     'shortcode_tabs' => 'plugins.shortcode-core.shortcode_tabs',

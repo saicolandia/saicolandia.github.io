@@ -11,32 +11,49 @@
 
 			{% if page.header.sidebar.position|lower  == 'left' %}
 				<div id="sidebar" class="4u mb-3">
-					{% set modules = page.collection().ofType('modular/links') %}
-					{% if modules is not empty %}
-						{% include 'partials/modular.html.twig' with { 'modules' : modules } %}
-					{% endif %}
-				</div>
+					{% set sidebar_page = page.find('/sidebars/sidebar-left') %}
+					{% if sidebar_page %}
+				<section>
+							{{ sidebar_page.content|raw }}
+						</section>
+	{% endif %}
+			</div>
 			{% endif %}
 
 			<div id="content" class="8u skel-cell-important mb-3">
 				<section>
 					{% include 'partials/heading.html.twig' %}
+					{% if page.route == '/blog' %}
+						<h2>Entradas recientes</h2>
+						<ul>
+							{% for post in page.children %}
+								<li><a href="{{ post.url }}">{{ post.title }}</a></li>
+							{% endfor %}
+						</ul>
+					{% else %}
 					{{ page.content|raw }}
+	{% endif %}
 				</section>
 			</div>
 
 			{% if page.header.sidebar.position|lower  == 'right' %}
 				<div id="sidebar" class="4u">
-					{% set modules = page.collection().ofType('modular/links') %}
-					{% include 'partials/modular.html.twig' with { 'modules' : modules } %}
-				</div>
-			{% endif %}
-
-		</div>
+					{% set sidebar_page = page.find('/sidebars/sidebar-right') %}
+					{% if sidebar_page %}
+						<section>
+							{{ sidebar_page.content|raw }}
+						</section>
+	{% endif %}
+</div>
+	{% endif %}
+</div>
 	</div>
+	{#
 	{% set modules = page.collection()|filter(module => module.template != 'modular/links') %}
 	{% if modules is not empty %}
 		{% include 'partials/modular.html.twig' with { 'modules' : modules } %}
 	{% endif %}
+	#}
 </div>
 {% endblock body %}
+

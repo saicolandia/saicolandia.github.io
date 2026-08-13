@@ -1,8 +1,8 @@
 <?php
 return [
     '@class' => 'Grav\\Common\\Config\\CompiledConfig',
-    'timestamp' => 1786572600,
-    'checksum' => 'd4ac283f4fb48edb6c6cb228e3fcf5eb',
+    'timestamp' => 1786579857,
+    'checksum' => '03404331390561321d82d5fc3c350046',
     'files' => [
         'user/env/localhost/config' => [
             'plugins/api' => [
@@ -45,7 +45,7 @@ return [
             ],
             'system' => [
                 'file' => 'user/config/system.yaml',
-                'modified' => 1786572493
+                'modified' => 1786579852
             ],
             'versions' => [
                 'file' => 'user/config/versions.yaml',
@@ -94,6 +94,10 @@ return [
             'plugins/problems' => [
                 'file' => 'user/plugins/problems/problems.yaml',
                 'modified' => 1786572389
+            ],
+            'plugins/admin' => [
+                'file' => 'user/plugins/admin/admin.yaml',
+                'modified' => 1786579405
             ],
             'plugins/shortcode-core' => [
                 'file' => 'user/plugins/shortcode-core/shortcode-core.yaml',
@@ -171,6 +175,113 @@ return [
             'problems' => [
                 'enabled' => true,
                 'built_in_css' => true
+            ],
+            'admin' => [
+                'enabled' => true,
+                'route' => '/admin',
+                'cache_enabled' => false,
+                'theme' => 'grav',
+                'logo_text' => '',
+                'body_classes' => '',
+                'content_padding' => true,
+                'twofa_enabled' => false,
+                'sidebar' => [
+                    'activate' => 'tab',
+                    'hover_delay' => 100,
+                    'size' => 'auto'
+                ],
+                'dashboard' => [
+                    'days_of_stats' => 365
+                ],
+                'widgets_display' => [
+                    'dashboard-maintenance' => 'false',
+                    'dashboard-statistics' => 'false',
+                    'dashboard-notifications' => 'false',
+                    'dashboard-feed' => 'false',
+                    'dashboard-pages' => 'true'
+                ],
+                'pages' => [
+                    'show_parents' => 'both',
+                    'show_modular' => true,
+                    'parents_levels' => NULL
+                ],
+                'session' => [
+                    'timeout' => 3600
+                ],
+                'edit_mode' => 'normal',
+                'frontend_preview_target' => 'inline',
+                'show_github_msg' => false,
+                'admin_icons' => 'line-awesome',
+                'enable_auto_updates_check' => false,
+                'notifications' => [
+                    'feed' => false,
+                    'dashboard' => false,
+                    'plugins' => true,
+                    'themes' => true
+                ],
+                'popularity' => [
+                    'enabled' => false,
+                    'ignore' => [
+                        0 => '/test*',
+                        1 => '/modular',
+                        2 => '/'
+                    ],
+                    'history' => [
+                        'daily' => 30,
+                        'monthly' => 12,
+                        'visitors' => 20
+                    ]
+                ],
+                'whitelabel' => [
+                    'quicktray_recompile' => false,
+                    'codemirror_theme' => 'paper',
+                    'codemirror_fontsize' => 'md',
+                    'codemirror_md_font' => 'sans',
+                    'logo_custom' => NULL,
+                    'logo_login' => NULL,
+                    'color_scheme' => [
+                        'accents' => [
+                            'primary-accent' => 'button',
+                            'secondary-accent' => 'notice',
+                            'tertiary-accent' => 'critical'
+                        ],
+                        'colors' => [
+                            'logo-bg' => '#323640',
+                            'logo-link' => '#FFFFFF',
+                            'nav-bg' => '#3D424E',
+                            'nav-text' => '#B7B9BD',
+                            'nav-link' => '#ffffff',
+                            'nav-selected-bg' => '#323640',
+                            'nav-selected-link' => '#ffffff',
+                            'nav-hover-bg' => '#434753',
+                            'nav-hover-link' => '#ffffff',
+                            'toolbar-bg' => '#ffffff',
+                            'toolbar-text' => '#3D424E',
+                            'page-bg' => '#F6F6F6',
+                            'page-text' => '#6f7b8a',
+                            'page-link' => '#0090D9',
+                            'content-bg' => '#ffffff',
+                            'content-text' => '#6f7b8a',
+                            'content-link' => '#0090D9',
+                            'content-link2' => '#da4b46',
+                            'content-header' => '#414147',
+                            'content-tabs-bg' => '#e6e6e6',
+                            'content-tabs-text' => '#808080',
+                            'button-bg' => '#0090D9',
+                            'button-text' => '#ffffff',
+                            'notice-bg' => '#06A599',
+                            'notice-text' => '#ffffff',
+                            'update-bg' => '#77559D',
+                            'update-text' => '#ffffff',
+                            'critical-bg' => '#F45857',
+                            'critical-text' => '#ffffff'
+                        ]
+                    ]
+                ],
+                'show_beta_msg' => NULL,
+                'pagemedia' => [
+                    'resize_quality' => 0.99
+                ]
             ],
             'shortcode-core' => [
                 'enabled' => true,
@@ -578,52 +689,6 @@ return [
                     0 => 'blueprints://flex-objects/pages.yaml',
                     1 => 'blueprints://flex-objects/user-accounts.yaml',
                     2 => 'blueprints://flex-objects/user-groups.yaml'
-                ]
-            ],
-            'admin' => [
-                'enabled' => true,
-                'route' => '/admin',
-                'cache_enabled' => false,
-                'twofa_enabled' => false,
-                'dashboard' => [
-                    'days_of_stats' => 365
-                ],
-                'widgets_display' => [
-                    'dashboard-maintenance' => 'false',
-                    'dashboard-statistics' => 'false',
-                    'dashboard-notifications' => 'false',
-                    'dashboard-feed' => 'false',
-                    'dashboard-pages' => 'true'
-                ],
-                'pages' => [
-                    'show_parents' => 'both',
-                    'show_modular' => true,
-                    'parents_levels' => NULL
-                ],
-                'session' => [
-                    'timeout' => 3600
-                ],
-                'frontend_preview_target' => 'inline',
-                'show_github_msg' => false,
-                'admin_icons' => 'line-awesome',
-                'enable_auto_updates_check' => false,
-                'notifications' => [
-                    'feed' => false,
-                    'dashboard' => false,
-                    'plugins' => true,
-                    'themes' => true
-                ],
-                'popularity' => [
-                    'enabled' => false,
-                    'ignore' => [
-                        0 => '/test*',
-                        1 => '/modular',
-                        2 => '/'
-                    ]
-                ],
-                'show_beta_msg' => NULL,
-                'pagemedia' => [
-                    'resize_quality' => 0.99
                 ]
             ]
         ],

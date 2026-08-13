@@ -3,13 +3,14 @@ return [
     '@class' => 'Grav\\Common\\Service\\ConfigServiceProvider',
     'type' => 'blueprints',
     'environment' => 'localhost',
-    'timestamp' => 1786572589,
+    'timestamp' => 1786579857,
     'check_interval' => 2,
     'directories' => [
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/blueprints/config' => 1786572335,
-        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins' => 1786572395,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins' => 1786579405,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/feed' => 1786572372,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/problems' => 1786572389,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin' => 1786579405,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/shortcode-core' => 1786572373,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/api' => 1786572395,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/sitemap' => 1786572390,
@@ -34,6 +35,7 @@ return [
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/blueprints/config/system.yaml' => 1786572335,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/feed/blueprints.yaml' => 1786572372,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/problems/blueprints.yaml' => 1786572389,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/blueprints.yaml' => 1786579405,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/shortcode-core/blueprints.yaml' => 1786572373,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/api/blueprints.yaml' => 1786572395,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/sitemap/blueprints.yaml' => 1786572390,
@@ -86,6 +88,10 @@ return [
             'plugins/problems' => [
                 'file' => 'user/plugins/problems/blueprints.yaml',
                 'modified' => 1786572389
+            ],
+            'plugins/admin' => [
+                'file' => 'user/plugins/admin/blueprints.yaml',
+                'modified' => 1786579405
             ],
             'plugins/shortcode-core' => [
                 'file' => 'user/plugins/shortcode-core/blueprints.yaml',

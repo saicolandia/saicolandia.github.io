@@ -3,13 +3,14 @@ return [
     '@class' => 'Grav\\Common\\Service\\ConfigServiceProvider',
     'type' => 'languages',
     'environment' => 'localhost',
-    'timestamp' => 1786572589,
+    'timestamp' => 1786579857,
     'check_interval' => 2,
     'directories' => [
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/languages' => 1786572335,
-        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins' => 1786572395,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins' => 1786579405,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/feed' => 1786572372,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/problems' => 1786572389,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin' => 1786579405,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/shortcode-core' => 1786572373,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/api' => 1786572395,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/sitemap' => 1786572390,
@@ -77,6 +78,58 @@ return [
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/email/languages.yaml' => 1786572373,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/form/languages.yaml' => 1786572385,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/error/languages.yaml' => 1786572382,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/ar.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/bg.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/bn.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/br.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/ca.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/cs.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/cy.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/da.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/de.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/el.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/en.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/eo.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/es.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/et.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/eu.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/fa.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/fi.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/fr.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/gl.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/he.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/hr.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/hu.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/id.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/it.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/ja.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/km.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/ko.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/ku.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/lt.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/lv.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/mn.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/my.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/nl.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/no.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/pl.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/pt.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/ro.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/ru.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/si.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/sk.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/sl.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/sr.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/sv.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/sw.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/th.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/tlh.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/tr.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/uk.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/vi.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/zh.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/zh-cn.yaml' => 1786579405,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/languages/zh-tw.yaml' => 1786579405,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/api/languages/en.yaml' => 1786572395,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin2/languages/ar-SA.yaml' => 1786572393,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin2/languages/cs-CZ.yaml' => 1786572393,
@@ -339,6 +392,216 @@ return [
             'plugins/error' => [
                 'file' => 'user/plugins/error/languages.yaml',
                 'modified' => 1786572382
+            ]
+        ],
+        'user/plugins/admin/languages' => [
+            'ar' => [
+                'file' => 'user/plugins/admin/languages/ar.yaml',
+                'modified' => 1786579405
+            ],
+            'bg' => [
+                'file' => 'user/plugins/admin/languages/bg.yaml',
+                'modified' => 1786579405
+            ],
+            'bn' => [
+                'file' => 'user/plugins/admin/languages/bn.yaml',
+                'modified' => 1786579405
+            ],
+            'br' => [
+                'file' => 'user/plugins/admin/languages/br.yaml',
+                'modified' => 1786579405
+            ],
+            'ca' => [
+                'file' => 'user/plugins/admin/languages/ca.yaml',
+                'modified' => 1786579405
+            ],
+            'cs' => [
+                'file' => 'user/plugins/admin/languages/cs.yaml',
+                'modified' => 1786579405
+            ],
+            'cy' => [
+                'file' => 'user/plugins/admin/languages/cy.yaml',
+                'modified' => 1786579405
+            ],
+            'da' => [
+                'file' => 'user/plugins/admin/languages/da.yaml',
+                'modified' => 1786579405
+            ],
+            'de' => [
+                'file' => 'user/plugins/admin/languages/de.yaml',
+                'modified' => 1786579405
+            ],
+            'el' => [
+                'file' => 'user/plugins/admin/languages/el.yaml',
+                'modified' => 1786579405
+            ],
+            'en' => [
+                'file' => 'user/plugins/admin/languages/en.yaml',
+                'modified' => 1786579405
+            ],
+            'eo' => [
+                'file' => 'user/plugins/admin/languages/eo.yaml',
+                'modified' => 1786579405
+            ],
+            'es' => [
+                'file' => 'user/plugins/admin/languages/es.yaml',
+                'modified' => 1786579405
+            ],
+            'et' => [
+                'file' => 'user/plugins/admin/languages/et.yaml',
+                'modified' => 1786579405
+            ],
+            'eu' => [
+                'file' => 'user/plugins/admin/languages/eu.yaml',
+                'modified' => 1786579405
+            ],
+            'fa' => [
+                'file' => 'user/plugins/admin/languages/fa.yaml',
+                'modified' => 1786579405
+            ],
+            'fi' => [
+                'file' => 'user/plugins/admin/languages/fi.yaml',
+                'modified' => 1786579405
+            ],
+            'fr' => [
+                'file' => 'user/plugins/admin/languages/fr.yaml',
+                'modified' => 1786579405
+            ],
+            'gl' => [
+                'file' => 'user/plugins/admin/languages/gl.yaml',
+                'modified' => 1786579405
+            ],
+            'he' => [
+                'file' => 'user/plugins/admin/languages/he.yaml',
+                'modified' => 1786579405
+            ],
+            'hr' => [
+                'file' => 'user/plugins/admin/languages/hr.yaml',
+                'modified' => 1786579405
+            ],
+            'hu' => [
+                'file' => 'user/plugins/admin/languages/hu.yaml',
+                'modified' => 1786579405
+            ],
+            'id' => [
+                'file' => 'user/plugins/admin/languages/id.yaml',
+                'modified' => 1786579405
+            ],
+            'it' => [
+                'file' => 'user/plugins/admin/languages/it.yaml',
+                'modified' => 1786579405
+            ],
+            'ja' => [
+                'file' => 'user/plugins/admin/languages/ja.yaml',
+                'modified' => 1786579405
+            ],
+            'km' => [
+                'file' => 'user/plugins/admin/languages/km.yaml',
+                'modified' => 1786579405
+            ],
+            'ko' => [
+                'file' => 'user/plugins/admin/languages/ko.yaml',
+                'modified' => 1786579405
+            ],
+            'ku' => [
+                'file' => 'user/plugins/admin/languages/ku.yaml',
+                'modified' => 1786579405
+            ],
+            'lt' => [
+                'file' => 'user/plugins/admin/languages/lt.yaml',
+                'modified' => 1786579405
+            ],
+            'lv' => [
+                'file' => 'user/plugins/admin/languages/lv.yaml',
+                'modified' => 1786579405
+            ],
+            'mn' => [
+                'file' => 'user/plugins/admin/languages/mn.yaml',
+                'modified' => 1786579405
+            ],
+            'my' => [
+                'file' => 'user/plugins/admin/languages/my.yaml',
+                'modified' => 1786579405
+            ],
+            'nl' => [
+                'file' => 'user/plugins/admin/languages/nl.yaml',
+                'modified' => 1786579405
+            ],
+            'no' => [
+                'file' => 'user/plugins/admin/languages/no.yaml',
+                'modified' => 1786579405
+            ],
+            'pl' => [
+                'file' => 'user/plugins/admin/languages/pl.yaml',
+                'modified' => 1786579405
+            ],
+            'pt' => [
+                'file' => 'user/plugins/admin/languages/pt.yaml',
+                'modified' => 1786579405
+            ],
+            'ro' => [
+                'file' => 'user/plugins/admin/languages/ro.yaml',
+                'modified' => 1786579405
+            ],
+            'ru' => [
+                'file' => 'user/plugins/admin/languages/ru.yaml',
+                'modified' => 1786579405
+            ],
+            'si' => [
+                'file' => 'user/plugins/admin/languages/si.yaml',
+                'modified' => 1786579405
+            ],
+            'sk' => [
+                'file' => 'user/plugins/admin/languages/sk.yaml',
+                'modified' => 1786579405
+            ],
+            'sl' => [
+                'file' => 'user/plugins/admin/languages/sl.yaml',
+                'modified' => 1786579405
+            ],
+            'sr' => [
+                'file' => 'user/plugins/admin/languages/sr.yaml',
+                'modified' => 1786579405
+            ],
+            'sv' => [
+                'file' => 'user/plugins/admin/languages/sv.yaml',
+                'modified' => 1786579405
+            ],
+            'sw' => [
+                'file' => 'user/plugins/admin/languages/sw.yaml',
+                'modified' => 1786579405
+            ],
+            'th' => [
+                'file' => 'user/plugins/admin/languages/th.yaml',
+                'modified' => 1786579405
+            ],
+            'tlh' => [
+                'file' => 'user/plugins/admin/languages/tlh.yaml',
+                'modified' => 1786579405
+            ],
+            'tr' => [
+                'file' => 'user/plugins/admin/languages/tr.yaml',
+                'modified' => 1786579405
+            ],
+            'uk' => [
+                'file' => 'user/plugins/admin/languages/uk.yaml',
+                'modified' => 1786579405
+            ],
+            'vi' => [
+                'file' => 'user/plugins/admin/languages/vi.yaml',
+                'modified' => 1786579405
+            ],
+            'zh' => [
+                'file' => 'user/plugins/admin/languages/zh.yaml',
+                'modified' => 1786579405
+            ],
+            'zh-cn' => [
+                'file' => 'user/plugins/admin/languages/zh-cn.yaml',
+                'modified' => 1786579405
+            ],
+            'zh-tw' => [
+                'file' => 'user/plugins/admin/languages/zh-tw.yaml',
+                'modified' => 1786579405
             ]
         ],
         'user/plugins/api/languages' => [

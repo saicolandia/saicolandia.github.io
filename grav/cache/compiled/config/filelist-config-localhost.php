@@ -3,7 +3,7 @@ return [
     '@class' => 'Grav\\Common\\Service\\ConfigServiceProvider',
     'type' => 'config',
     'environment' => 'localhost',
-    'timestamp' => 1786572600,
+    'timestamp' => 1786579857,
     'check_interval' => 2,
     'directories' => [
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/env/localhost/config' => 1786572505,
@@ -11,9 +11,10 @@ return [
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/config' => 1786572493,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/config/plugins' => 1786572372,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/config' => 1786572335,
-        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins' => 1786572395,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins' => 1786579405,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/feed' => 1786572372,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/problems' => 1786572389,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin' => 1786579405,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/shortcode-core' => 1786572373,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/api' => 1786572395,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/sitemap' => 1786572390,
@@ -38,7 +39,7 @@ return [
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/config/plugins/sitemap.yaml' => 1786572372,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/config/security.yaml' => 1786572372,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/config/site.yaml' => 1786572372,
-        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/config/system.yaml' => 1786572493,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/config/system.yaml' => 1786579852,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/config/versions.yaml' => 1786572372,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/config/backups.yaml' => 1786572335,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/config/media.yaml' => 1786572335,
@@ -50,6 +51,7 @@ return [
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/system/config/system.yaml' => 1786572335,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/feed/feed.yaml' => 1786572372,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/problems/problems.yaml' => 1786572389,
+        '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/admin/admin.yaml' => 1786579405,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/shortcode-core/shortcode-core.yaml' => 1786572373,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/api/api.yaml' => 1786572395,
         '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/plugins/sitemap/sitemap.yaml' => 1786572390,
@@ -105,7 +107,7 @@ return [
             ],
             'system' => [
                 'file' => 'user/config/system.yaml',
-                'modified' => 1786572493
+                'modified' => 1786579852
             ],
             'versions' => [
                 'file' => 'user/config/versions.yaml',
@@ -154,6 +156,10 @@ return [
             'plugins/problems' => [
                 'file' => 'user/plugins/problems/problems.yaml',
                 'modified' => 1786572389
+            ],
+            'plugins/admin' => [
+                'file' => 'user/plugins/admin/admin.yaml',
+                'modified' => 1786579405
             ],
             'plugins/shortcode-core' => [
                 'file' => 'user/plugins/shortcode-core/shortcode-core.yaml',

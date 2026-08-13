@@ -1,0 +1,20 @@
+<?php
+return [
+    '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
+    'filename' => '/home/kikodelmar/saicolandia/github/saicolandia.github.io/grav/user/data/flex/indexes/accounts.yaml',
+    'modified' => 1786579973,
+    'size' => 191,
+    'data' => [
+        'version' => '1.2',
+        'timestamp' => 1786579973,
+        'count' => 1,
+        'index' => [
+            'saicolandia' => [
+                'storage_key' => 'saicolandia',
+                'storage_timestamp' => 1786572479,
+                'key' => 'saicolandia',
+                'email' => 'jsanmartinbraile@mdp.edu.ar'
+            ]
+        ]
+    ]
+];

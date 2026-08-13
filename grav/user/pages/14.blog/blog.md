@@ -1,5 +1,9 @@
 ---
 title: Blog
+template: sidebar    # <--- ESTO ES CLAVE
+sidebar:
+  position: left
+
 content:
     items: '@self.children'
     order:
@@ -13,3 +17,4 @@ feed:
 # Mis Publicaciones
 
 Billy Freud
+
