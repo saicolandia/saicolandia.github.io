@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Las operaciones del Edipo</title>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#141110;--ink:#EDE6D8;--ink2:rgba(237,230,216,.88);--dim:rgba(237,230,216,.5);--line:rgba(237,230,216,.45);--acc:#D9482B;
+--f:'Jost','Futura','Century Gothic','Avenir Next',system-ui,sans-serif;color-scheme:dark;box-sizing:border-box;
+padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:var(--f);overflow:hidden;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left}
+.u{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.28em;text-decoration-color:var(--line)}
+button:focus-visible{outline:1px solid var(--acc);outline-offset:6px}
+#track{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+#track::-webkit-scrollbar{display:none}
+.slide{position:relative;flex:0 0 100%;height:100%;scroll-snap-align:start;scroll-snap-stop:always}
+.op{position:absolute;left:28px;top:22px;margin:0;font-size:15px;font-weight:500;letter-spacing:.14em;color:var(--acc)}
+.bands{height:100%;padding:64px 28px 52px;display:grid;grid-template-rows:repeat(3,1fr)}
+.band{display:flex;align-items:center}
+.it{display:flex;flex-direction:column;gap:8px;animation:fl 7s ease-in-out infinite alternate}
+.band:nth-child(2) .it{animation-duration:8.5s;animation-delay:-3s}
+.band:nth-child(3) .it{animation-duration:9.5s;animation-delay:-6s}
+@keyframes fl{from{transform:translateY(-4px)}to{transform:translateY(4px)}}
+.lb{font-size:13px;letter-spacing:.16em;color:var(--dim)}
+.ph{font-size:clamp(27px,8.4vw,40px);font-weight:300;line-height:1.18;padding:4px 0;max-width:15em}
+#dots{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);display:flex;justify-content:center;gap:12px;pointer-events:none}
+#dots i{width:5px;height:5px;border-radius:50%;background:var(--ink);opacity:.25;transition:opacity .3s}
+#dots i.on{opacity:.9}
+#ov{position:fixed;inset:0;z-index:5;background:rgba(20,17,16,.9);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
+#ov.on{opacity:1;visibility:visible;transition:opacity .3s}
+#hd{position:absolute;z-index:2;top:0;left:0;right:0;display:flex;align-items:center;gap:14px;padding:calc(env(safe-area-inset-top,0px) + 16px) 22px 14px 28px;background:linear-gradient(var(--bg) 55%,transparent)}
+#cr{flex:1;display:flex;align-items:center;gap:8px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;font-size:13px;letter-spacing:.06em}
+#cr::-webkit-scrollbar{display:none}
+#cr button{color:var(--dim);padding:8px 0;max-width:11em;overflow:hidden;text-overflow:ellipsis}
+#cr button.cur{color:var(--acc)}
+#cr span{color:var(--dim);opacity:.5}
+#x{font-size:13px;letter-spacing:.06em;color:var(--dim);padding:8px 0}
+.layer{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;padding:calc(env(safe-area-inset-top,0px) + 76px) 28px calc(env(safe-area-inset-bottom,0px) + 36px);transition:transform .3s cubic-bezier(.2,.7,.2,1),opacity .3s,filter .3s;animation:in .32s cubic-bezier(.2,.7,.2,1)}
+.layer.behind{transform:scale(.94) translateY(-10px);opacity:.1;filter:blur(3px);pointer-events:none}
+.layer.out{opacity:0;transform:translateY(14px);pointer-events:none}
+@keyframes in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.inner{max-width:34rem;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
+h2{margin:0 0 22px;font-size:clamp(28px,8vw,36px);font-weight:300;line-height:1.15}
+.body p{margin:0 0 1.1em;font-size:18px;line-height:1.65;font-weight:400;color:var(--ink2)}
+.lk{display:inline;color:var(--ink);padding:2px 0}
+.sp{flex:1;min-height:56px}
+@media (prefers-reduced-motion:reduce){.it{animation:none}.layer,#ov{animation:none;transition:opacity .2s}.layer.behind{transform:none}}
+</style>
+</head>
+<body>
+<main id="track" aria-label="Operaciones del Edipo"></main>
+<div id="dots"></div>
+<div id="ov" role="dialog" aria-modal="true" aria-label="Desarrollo"><div id="hd"><nav id="cr"></nav><button id="x" data-x>Cerrar</button></div></div>
+<script>
+var OPS=[{name:'Frustración',axes:[
+{k:'Agente',t:'la madre simbólica',n:'a_madre'},
+{k:'Falta que opera',t:'un daño o denegación en lo imaginario',n:'f_falta'},
+{k:'Objeto sobre el que recae',t:'un objeto real',n:'o_objeto'}]},
+{name:'Privación',axes:[
+{k:'Agente',t:'el padre imaginario',n:'p_padre'},
+{k:'Falta que opera',t:'un agujero en lo real',n:'p_falta'},
+{k:'Objeto sobre el que recae',t:'el falo simbólico',n:'p_falo'}]},
+{name:'Castración',axes:[
+{k:'Agente',t:'el padre real',n:'c_padre'},
+{k:'Falta que opera',t:'un acto simbólico',n:'c_falta'},
+{k:'Objeto sobre el que recae',t:'el falo imaginario',n:'c_objeto'}]}];
+var N={
+a_madre:{c:'Madre simbólica',t:'La madre simbólica',x:'Al inicio de la vida psíquica, el niño introduce sus necesidades en los desfiladeros de la demanda, dirigidos al primer Otro. La madre queda constituida como simbólica porque su presencia o su ausencia es simbolizada por el niño mediante las primeras articulaciones del lenguaje, al modo del Fort-Da: ya la sitúa en el par presencia/ausencia.\nPero las pequeñas faltas, retrasos o denegaciones en la satisfacción de la necesidad provocan la crisis de la frustración. Entonces la madre, hasta ahí simbólica, empieza a realizarse como {m_real|madre real}. Y como el acceso al objeto depende de su voluntad, queda ubicada como Otro omnipotente.'},
+m_real:{c:'Madre real',t:'Madre real',x:'Es el lugar al que pasa la madre simbólica a partir de la crisis de la frustración. Ante las faltas, retrasos o denegaciones en la satisfacción de la necesidad (el pecho, el alimento, la presencia física), la madre se realiza como madre real en la medida en que el niño la experimenta como aquella que frustra su amor.'},
+f_falta:{c:'Denegación imaginaria',t:'Daño o denegación en lo imaginario',x:'En la frustración, la falta que opera es un daño o denegación en lo imaginario, un acto imaginario. Lo es por cuatro razones.\nPrimera: se vive como {f_narc|un daño narcisista en el Yo}. Segunda: {f_ley|no hay una Ley simbólica que la regule}. Tercera: {f_real|en lo real nada falta}; la falta la construye el anhelo imaginario. Cuarta: {demanda|transforma la necesidad orgánica en demanda de amor}.'},
+f_narc:{c:'Daño narcisista',t:'Daño narcisista en el Yo',x:'El niño aborda la primera relación con el Otro bajo la ilusión de completud especular. Cuando la madre retrasa o rehúsa la entrega del objeto real, no vive esa ausencia como un dato neutro u objetivo, sino como un agravio, un rechazo o una herida en su propia imagen.'},
+f_ley:{c:'Sin Ley simbólica',t:'Ausencia de Ley simbólica',x:'A diferencia de la castración, donde la falta está normativizada por la Ley del Padre, en la frustración no interviene aún una regla simbólica que ordene o justifique la falta. Para el sujeto, la madre deniega el objeto simplemente porque quiere.\nLa denegación se vive así como un acto arbitrario y caprichoso del Otro.'},
+f_real:{c:'En lo real nada falta',t:'En lo real nada falta',x:'Lacan señala que en el registro de lo real no hay huecos ni ausencias: lo real es pleno y nada está privado de nada por sí mismo. Un objeto que no está presente es solo un elemento ubicado en otro lugar de la realidad.\nPara que su ausencia sea leída como denegación o rehusamiento hace falta la proyección imaginaria del anhelo y del reclamo del niño sobre ese objeto ausente.'},
+demanda:{c:'Necesidad y demanda de amor',t:'De la necesidad a la demanda de amor',x:'Al ser denegado el objeto real, pierde su mero valor biológico y pasa a significar en el plano afectivo: deja de valer por su función nutritiva y funciona como signo de amor y de presencia del Otro.\nLa concesión o la denegación se lee como prueba: si me lo da, me ama; si me lo niega, no me ama. La denegación desgarra la pura necesidad y abre la puerta a la demanda de amor, y detrás de ella aparece {o_deseo|el deseo de la madre}.'},
+o_objeto:{c:'Objeto real',t:'Un objeto real',x:'El objeto real comprende las satisfacciones biológicas primitivas y los cuidados del cuerpo que brinda la madre: el pecho, el alimento, la leche, la presencia física. En el inicio de la vida psíquica, las urgencias orgánicas del viviente se dirigen primero a la búsqueda de estos objetos.\nAl entrar en los desfiladeros de la demanda, el objeto real se desnaturaliza: {demanda|ya no vale solo como alimento, sino como signo de amor}. Y al ser frustrado en este plano, el niño descubre que busca {o_deseo|el deseo de la madre}.'},
+o_deseo:{c:'Deseo de la madre y Falo',t:'El deseo de la madre y el Falo',x:'Al ser frustrado en el plano del objeto real, el sujeto descubre que lo que busca no es solo la respuesta física, sino la apetición del deseo de la madre.\nLa denegación revela que la madre está atravesada por una falta enigmática que va más allá del niño, y se abre la pregunta por lo que ella desea cuando se ausenta. Esa falta, un significante no colmado, es el Falo.'},
+p_padre:{c:'Padre imaginario',t:'El padre imaginario',x:'En el segundo tiempo del Edipo, el padre se manifiesta en el plano imaginario como un personaje interdictor o privador, que quiebra la relación especular entre la madre y el niño. Lo hace mediante {p_inter|una doble interdicción}.\nSu eficacia obliga a la madre a remitir su deseo a {p_ley|un más allá de su relación con el hijo}.'},
+p_inter:{c:'Doble interdicción',t:'La doble interdicción',x:'A la madre: «no reintegrarás tu producto». Le prohíbe poseer o devorar al niño como su objeto fálico exclusivo.\nAl niño: «no te acostarás con tu madre». Le prohíbe el acceso a ella como objeto de goce.\nCon este doble veto, el niño es desalojado, por su bien, de la posición ideal en la que él y su madre intentaban satisfacerse de forma recíproca y completa.'},
+p_ley:{c:'Ley del Otro',t:'El viraje hacia la Ley del Otro',x:'Al asumir que no tiene el falo, la madre reconoce que su voluntad está subordinada a la Ley del Padre, el Nombre del Padre.\nPara el niño, esto transforma el capricho arbitrario de la madre en un deseo regulado por la estructura simbólica.'},
+p_falta:{c:'Agujero en lo real',t:'Un agujero en lo real',x:'La privación consiste en la deducción de un objeto simbólico allí donde no hay nada en lo real. {p_real|En lo real nada falta por sí mismo}: es el orden del lenguaje el que lee esa ausencia como privación.\nY no recae de entrada sobre el niño, sino sobre {p_madre|la madre}.'},
+p_real:{c:'Lo real y el lenguaje',t:'En lo real nada falta, pero el lenguaje lo lee como privación',x:'En el plano biológico, lo real es pleno y nada falta por sí mismo. Pero al introducirse el orden de la cultura y del lenguaje, la ausencia en lo real se lee simbólicamente como una privación: allí donde no hay nada, se deduce la falta de un objeto simbólico.'},
+p_madre:{c:'La madre privada',t:'La madre como privada',x:'La privación no recae de entrada sobre el niño, sino sobre la madre. El padre imaginario demuestra que ella no posee el falo simbólico que el niño pretendía encarnar para colmarla.\nAsí la madre revela su propia falta: no es omnipotente ni está completa de manera autónoma.'},
+p_falo:{c:'Falo simbólico',t:'El falo simbólico (Φ)',x:'La privación recae sobre el falo simbólico: es la madre quien está privada de él. Se produce {p_des|el desengaño del niño}, y el registro de esa falta es {p_nodal|el punto nodal} para pasar al tercer tiempo del Edipo.'},
+p_des:{c:'Desengaño del niño',t:'El desengaño del niño',x:'El niño pretendía encarnar el falo simbólico para colmar a la madre. El padre imaginario demuestra que ella no lo posee, y el niño se desengaña de esa posición.'},
+p_nodal:{c:'Punto nodal',t:'Punto nodal hacia el tercer tiempo',x:'Que el niño registre que la madre está privada del falo es el punto imprescindible para franquear el paso al tercer tiempo edípico: la castración simbólica y el pasaje del ser al tener el falo.'},
+c_padre:{c:'Padre real',t:'El padre real',x:'En el tercer tiempo del Edipo, el padre real no interviene como una figura puramente punitiva o destructiva, sino como una instancia de donación y promesa. Demuestra que {c_tiene|él tiene el falo}, y su potencia le permite autorizar el deseo más allá del cerco materno.\nAl varón le confiere {c_titulos|títulos en el bolsillo}: una promesa de virilidad para el futuro.'},
+c_tiene:{c:'El padre tiene el falo',t:'El padre como poseedor del falo',x:'El padre demuestra que él tiene el falo y que su potencia le permite autorizar el deseo más allá del cerco materno.'},
+c_titulos:{c:'Títulos en el bolsillo',t:'Títulos en el bolsillo',x:'Al varón no se le exige ejercer la potencia genital en el acto: el padre le confiere una especie de título simbólico, una promesa de virilidad para el futuro, alcanzable tras la pubertad.\nA la niña se le demuestra dónde situar el falo y hacia quién dirigirse para recibirlo, mediante la equivalencia simbólica pene = hijo.'},
+c_falta:{c:'Acto simbólico',t:'Un acto simbólico',x:'La castración es un acto simbólico, resultado directo de la eficacia de {c_meta|la metáfora paterna}. Nadie le corta el órgano al niño: el acto es la interdicción paterna, por la cual el sujeto registra que no puede ser el falo del Otro.'},
+c_meta:{c:'Metáfora paterna',t:'La metáfora paterna',x:'El significante Nombre del Padre sustituye al Deseo de la Madre, que queda enviado a la represión primordial.\nComo producto de esta operación surge la significación fálica (Φ), que inscribe la falta en el inconsciente y permite que el deseo circule por la cadena significante de forma metaforizada.\nEl padre queda introyectado como Ideal del Yo y pacifica la rivalidad agresiva del estadio del espejo.'},
+c_objeto:{c:'Falo imaginario',t:'El falo imaginario (φ)',x:'La castración recae sobre la posición del niño respecto del falo imaginario, con el que intentaba coincidir en el primer tiempo para colmar la falta materna. Lo que se pierde no es el pene anatómico, sino {c_ser|la posición de ser el falo}.\nEl pene real queda como {c_soporte|soporte} de la significación fálica.'},
+c_ser:{c:'Del ser al tener',t:'Del ser al tener',x:'Por la interdicción paterna, el sujeto registra que no puede ser el falo del Otro. Al caer esa pretensión, abandona el plano del ser y accede al registro simbólico del tener o no tener el falo.\nAsí, el pene anatómico (o su ausencia en la niña) se organiza bajo una significación simbólica normativizada y no bajo un estigma de mutilación corporal.\nQueda además inscripta una pérdida estructural: ningún objeto real podrá colmar de manera absoluta el deseo.'},
+c_soporte:{c:'El pene como soporte',t:'El pene real: soporte, no objeto castrado',x:'En la formulación freudiana, la castración parecía recaer sobre un objeto anatómico. Para Lacan, el pene real no es el objeto castrado sino su soporte: deja de ser un mero órgano biológico y pasa a ser el instrumento empírico que sostiene la significación fálica.'}
+};
+var $=function(s){return document.querySelector(s)},tr=$('#track'),ov=$('#ov'),cr=$('#cr'),dots=$('#dots');
+var stack=[],cur=0,H=false;
+tr.innerHTML=OPS.map(function(o){return '<section class="slide"><h1 class="op">'+o.name+'</h1><div class="bands">'+o.axes.map(function(a){return '<div class="band"><div class="it"><span class="lb">'+a.k+'</span><button class="ph" data-n="'+a.n+'"><span class="u">'+a.t+'</span></button></div></div>'}).join('')+'</div></section>'}).join('');
+if(OPS.length>1){dots.innerHTML=OPS.map(function(){return '<i></i>'}).join('');}
+function dot(){cur=Math.round(tr.scrollLeft/tr.clientWidth)||0;[].forEach.call(dots.children,function(d,i){d.classList.toggle('on',i===cur)})}
+tr.addEventListener('scroll',dot,{passive:true});dot();
+function fmt(s){return s.split('\n').map(function(p){return '<p>'+p.replace(/\{(\w+)\|([^}]+)\}/g,'<button class="lk" data-n="$1"><span class="u">$2</span></button>')+'</p>'}).join('')}
+function crumbs(){var h='<button data-c="0"'+(stack.length?'':' class="cur"')+'>'+OPS[cur].name+'</button>';
+stack.forEach(function(id,i){h+='<span>›</span><button data-c="'+(i+1)+'"'+(i===stack.length-1?' class="cur"':'')+'>'+N[id].c+'</button>'});
+cr.innerHTML=h;cr.scrollLeft=cr.scrollWidth}
+function sync(){var L=ov.querySelectorAll('.layer:not(.out)');[].forEach.call(L,function(l,i){l.classList.toggle('behind',i<L.length-1)});crumbs()}
+function push(id){if(!N[id])return;if(!stack.length)ov.classList.add('on');stack.push(id);
+try{history.pushState({d:stack.length},'');H=true}catch(e){}
+var l=document.createElement('div');l.className='layer';l.innerHTML='<div class="inner"><h2>'+N[id].t+'</h2><div class="body">'+fmt(N[id].x)+'</div><div class="sp"></div></div>';
+ov.appendChild(l);sync();try{navigator.vibrate&&navigator.vibrate(8)}catch(e){}}
+function doPop(){if(!stack.length)return;stack.pop();var L=ov.querySelectorAll('.layer:not(.out)'),t=L[L.length-1];
+if(t){t.classList.add('out');setTimeout(function(){t.remove()},220)}
+if(!stack.length)ov.classList.remove('on');sync()}
+function to(n){if(n>=stack.length)return;if(H){history.go(-(stack.length-n))}else{while(stack.length>n)doPop()}}
+window.addEventListener('popstate',function(e){var t=(e.state&&e.state.d)||0;while(stack.length>t)doPop()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')to(stack.length-1)});
+document.addEventListener('click',function(e){
+var b=e.target.closest('button');
+if(b){if(b.dataset.n)return push(b.dataset.n);if(b.dataset.c!==undefined)return to(+b.dataset.c);if(b.hasAttribute('data-x'))return to(0)}
+else if(ov.classList.contains('on')&&(e.target.classList.contains('layer')||e.target.classList.contains('sp')))to(stack.length-1)});
+var sy=0,dy=0,dr=false,tl=null;
+ov.addEventListener('touchstart',function(e){var L=ov.querySelectorAll('.layer:not(.out)');tl=L[L.length-1];if(!tl||tl.scrollTop>0){dr=false;return}sy=e.touches[0].clientY;dy=0;dr=true},{passive:true});
+ov.addEventListener('touchmove',function(e){if(!dr)return;dy=e.touches[0].clientY-sy;if(dy>0){tl.style.transition='none';tl.style.transform='translateY('+dy*.6+'px)';tl.style.opacity=Math.max(.2,1-dy/450)}else dy=0},{passive:true});
+ov.addEventListener('touchend',function(){if(!dr)return;dr=false;tl.style.transition='';tl.style.transform='';tl.style.opacity='';if(dy>90)to(stack.length-1)});
+</script>
+</body>
+</html>

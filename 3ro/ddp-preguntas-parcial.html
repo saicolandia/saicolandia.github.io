@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DDP · Preguntas de parcial</title>
+<style>
+:root{
+  --accent:#4f46e5;
+  --bg:#fafaf9; --surface:#fff; --text:#1c1917; --muted:#78716c; --line:#e7e5e4;
+  --ok:#15803d; --bad:#b91c1c;
+  --r:16px;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --serif:ui-serif,Georgia,"Times New Roman",serif;
+}
+:root[data-theme=dark]{
+  --bg:#131211; --surface:#1d1b1a; --text:#f5f5f4; --muted:#a8a29e; --line:#2e2b29;
+  --ok:#4ade80; --bad:#f87171;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:1rem/1.6 var(--sans);-webkit-text-size-adjust:100%}
+main{max-width:720px;margin:0 auto;padding:1.25rem 1rem 4rem}
+.muted{color:var(--muted)}
+#bar-wrap{position:sticky;top:0;height:3px;background:var(--line);z-index:5}
+#bar{height:100%;width:0;background:var(--accent);transition:width .4s}
+header{text-align:center;padding:2.5rem 0 1.5rem;position:relative}
+header h1{font:600 clamp(1.6rem,6vw,2.25rem)/1.2 var(--serif);margin:.75rem 0 .25rem}
+header p{margin:0;color:var(--muted)}
+#theme{position:absolute;top:.75rem;right:0;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:999px;width:44px;height:44px;font-size:1.1rem;cursor:pointer}
+.emoji{display:block;font-size:clamp(2.75rem,11vw,4.5rem);line-height:1;transition:transform .25s}
+.card:hover .emoji,.flip:hover .emoji{transform:scale(1.08) rotate(-3deg)}
+nav{display:flex;gap:.5rem;overflow-x:auto;padding:.25rem 0 1rem;scrollbar-width:none}
+.pill{flex:none;min-height:44px;padding:0 1rem;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:999px;font:inherit;cursor:pointer;white-space:nowrap}
+.pill[aria-current=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:1.25rem;text-align:center}
+.card h3{font:600 1.1rem/1.3 var(--serif);margin:.75rem 0 .25rem}
+.card p{margin:0;color:var(--muted)}
+button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* flip */
+.flip{display:grid;border:0;background:none;padding:0;min-height:11rem;perspective:900px;cursor:pointer;font:inherit;color:inherit}
+.face{grid-area:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;padding:1.25rem;text-align:center;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .5s}
+.back{transform:rotateY(180deg);background:color-mix(in srgb,var(--accent) 10%,var(--surface));border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
+.flip[aria-pressed=true] .front{transform:rotateY(-180deg)}
+.flip[aria-pressed=true] .back{transform:rotateY(0)}
+
+/* accordion */
+details{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);margin-bottom:.75rem}
+summary{display:flex;align-items:center;gap:.9rem;min-height:56px;padding:.5rem 1.1rem;cursor:pointer;font-weight:600;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary .emoji{font-size:2rem}
+details[open] summary{color:var(--accent)}
+details p{margin:0;padding:0 1.1rem 1.1rem}
+
+/* quiz */
+.quiz .card{text-align:left;margin-bottom:1rem}
+.quiz .card .emoji,.quiz .card h3{text-align:center}
+.opt{display:block;width:100%;min-height:44px;margin-top:.5rem;padding:.6rem 1rem;text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:12px;font:inherit;cursor:pointer}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,var(--surface))}
+.opt.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,var(--surface))}
+.fb{margin:.75rem 0 0;color:var(--muted)}
+.tally{text-align:right;margin:0 0 .5rem}
+
+
+h2.sec{font:600 1.15rem/1.3 var(--serif);margin:1.75rem 0 .75rem;color:var(--accent)}
+.lead{color:var(--muted);margin:0 0 1rem}
+.wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);margin-bottom:1rem}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+th,td{padding:.7rem .85rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+th{font-weight:600;background:color-mix(in srgb,var(--accent) 9%,var(--surface))}
+td:first-child{font-weight:600;color:var(--accent);white-space:nowrap}
+.formula{display:flex;flex-wrap:wrap;gap:.9rem;align-items:center;justify-content:center;padding:1.5rem 1rem;margin-bottom:1rem;background:color-mix(in srgb,var(--accent) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));border-radius:var(--r);font:600 clamp(1.05rem,4.5vw,1.5rem) var(--serif)}
+.frac{display:inline-flex;flex-direction:column;align-items:center;line-height:1.25}
+.frac span:first-child{border-bottom:2px solid currentColor;padding:0 .4rem .1rem}
+details ul{margin:0;padding:0 1.1rem 1.1rem 2.4rem}
+details li{margin-bottom:.4rem}
+details p+ul{margin-top:-.4rem}
+details b{color:var(--accent)}
+.pager{display:flex;justify-content:space-between;gap:.5rem;margin-top:2rem}
+.card p+p{margin-top:.5rem}
+.card.t{text-align:left}
+.card.t h3{text-align:left}
+.card.t .emoji{margin-bottom:.25rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="bar-wrap"><div id="bar"></div></div>
+<main>
+  <header>
+    <button id="theme" aria-label="Cambiar tema">🌓</button>
+    <span class="emoji" id="h-emoji"></span>
+    <h1 id="h-title"></h1>
+    <p id="h-sub"></p>
+  </header>
+  <nav id="nav"></nav>
+  <section id="view"></section>
+</main>
+<script>
+const DATA = {
+  emoji: "🗝️", title: "Desarrollos del Psicoanálisis",
+  subtitle: "Preguntas de parcial · Lacan, Seminarios IV y V · ordenado por tema", accent: "violet",
+  sections: [
+  { emoji: "🪞", title: "Yo", blocks: [
+    { type: "p", text: "Constitución del Yo (moi): Estadio del Espejo, narcisismo y matriz simbólica." },
+    { type: "acc", items: [
+      { e: "🧱", t: "El Yo no es originario", o: 1, x: "Freud (1914): el Yo requiere un «nuevo acto psíquico» que se agregue a las pulsiones autoeróticas, anárquicas y parciales, para constituir el narcisismo primario. Lacan lo homologa con la identificación primaria especular del Estadio del Espejo (6 a 18 meses, período infans). El Yo (moi) no está en el centro del sistema percepción-conciencia ni es madurativo: es una construcción fantasmática del registro Imaginario." },
+      { e: "🔗", t: "Prematuración → insuficiencia → anticipación", l: [
+        "<b>Prematuración:</b> inacabamiento anatómico y neuromuscular al nacer (fetalización, falta de mielinización del sistema piramidal).",
+        "<b>Insuficiencia:</b> impotencia motriz, incoordinación equilibratoria, desamparo; se vive como cuerpo fragmentado.",
+        "<b>Anticipación:</b> la maduración precoz de la percepción visual capta la Gestalt unificada del cuerpo; la asunción jubilosa da un espejismo de unidad y dominio que todavía no existe: armadura «ortopédica» = Yo ideal."] },
+      { e: "👑", t: "Su majestad el bebé", x: "Freud (1914): el amor parental es el renacimiento del narcisismo abandonado de los padres. Proyectan sobre el lactante una sobreestimación compulsiva: todas las perfecciones, centro del universo, para revivir su propia omnipotencia." },
+      { e: "🗣️", t: "La matriz simbólica (Gran Otro)", x: "La captura por la imagen no ocurre en un vacío visual ni por biología. La libidinización parental aporta baño de lenguaje, deseo y sobreestimación desde el Gran Otro (A). La mirada y la palabra de la madre ratifican la imagen («¡Mirá, ese sos vos!»): ese lugar simbólico es el Ideal del Yo, I(A), el marco desde donde la imagen i'(a) se fija como identidad y no se agota en una fascinación efímera." },
+      { e: "👁️", t: "Por qué el Yo es de carácter paranoico", l: [
+        "<b>“Yo es otro”:</b> se constituye por alienación en una imagen exterior (Gestalt o semejante); no es síntesis autónoma. Desconocimiento estructural (méconnaissance).",
+        "<b>Eje imaginario a–a':</b> simetría con el semejante, que queda como doble y rival que amenaza con arrebatar el lugar: «o él o yo». Matriz de agresividad narcisista.",
+        "<b>Para-noiesis:</b> el conocimiento viene de afuera (para: exterior; noiesis: conocimiento). La ilusión de totalidad se vive bajo amenaza de fragmentación y desposesión por parte de ese otro."] }
+    ]}
+  ]},
+  { emoji: "🎯", title: "Ideales", blocks: [
+    { type: "p", text: "Freud (1914) usa Yo ideal e Ideal del Yo casi como sinónimos. En el narcisismo primario el sujeto es su propio ideal; la crítica parental y cultural destruye esa omnipotencia y desplaza la libido a un Ideal del Yo para recobrar la perfección perdida. Lacan los deslinda en dos registros." },
+    { type: "table", cols: ["", "Yo ideal  (a' / i(a))", "Ideal del Yo  (I / I(A))"], rows: [
+      ["Registro", "Imaginario", "Simbólico"],
+      ["Origen", "Captación de la Gestalt del cuerpo en el espejo", "Palabra, mirada y Ley del Gran Otro (A)"],
+      ["Función", "Matriz «ortopédica» de la unidad del Yo; pacifica la fragmentación", "Marco significante que sostiene y valida la imagen"],
+      ["Esquema lambda", "Eje imaginario a–a': simetría y fascinación con el semejante (a)", "Polo simbólico, junto al Gran Otro (A): lugar de la palabra y la Ley"],
+      ["Efecto subjetivo", "Alienación en la imagen y rivalidad", "Dirección del deseo; lugar de reconocimiento desde donde el sujeto se mira para ser aprobado"],
+      ["En el Edipo", "—", "Se consolida en el 3.er tiempo por identificación con el Padre / la Ley"]
+    ]}
+  ]},
+  { emoji: "👶", title: "Edipo", blocks: [
+    { type: "p", text: "Operaciones de los tres tiempos (Seminario V). Para Lacan son tiempos lógicos, no etapas cronológicas." },
+    { type: "acc", items: [
+      { e: "1️⃣", t: "1.er tiempo · Ser o no ser el falo", o: 1, l: [
+        "El niño entra como <b>objeto de deseo del Otro</b>, no como sujeto deseante. Lo comanda el significante Deseo de la Madre (DM).",
+        "Se ofrece como falo imaginario (φ) para colmar la falta materna.",
+        "Triángulo imaginario Niño–Madre–Falo. El Nombre del Padre (NP) opera velado, de fondo."] },
+      { e: "2️⃣", t: "2.º tiempo · Punto nodal", l: [
+        "<b>Metáfora paterna:</b> NP sustituye a DM (ver Metáfora).",
+        "<b>Privación de la madre:</b> el Padre Imaginario le muestra que no tiene el falo simbólico (Φ); su deseo está sujeto a una Ley que la trasciende.",
+        "<b>Interdicción doble:</b> «No te acostarás con tu madre» (al niño) y «No reintegrarás tu producto» (a la madre).",
+        "<b>Efecto:</b> desaloja al niño de objeto metonímico materno; viraje de «ser o no ser el falo» a «tenerlo o no tenerlo»."] },
+      { e: "3️⃣", t: "3.er tiempo · Donación y declive", l: [
+        "El Padre interviene en lo real como padre potente: demuestra que sí tiene el falo y puede darlo.",
+        "Identificación terminal con la función paterna en el Ideal del Yo.",
+        "<b>Varón:</b> «títulos en el bolsillo». <b>Niña:</b> acepta la privación y recibe el falo como don (pene = hijo).",
+        "<b>Efecto:</b> declive del Edipo, producción de la significación fálica (Φ), asunción de la posición sexuada."] }
+    ]}
+  ]},
+  { emoji: "✨", title: "Metáfora", blocks: [
+    { type: "p", text: "Operación de sustitución significante (S → S') por la cual el Nombre del Padre reemplaza al Deseo de la Madre." },
+    { type: "formula", parts: [["NP", "DM"], "·", ["DM", "x"], "→", "NP ( Φ )"] },
+    { type: "cards", items: [
+      { e: "🏛️", t: "NP", x: "Nombre del Padre: significante de la Ley simbólica interdictora; función paterna." },
+      { e: "🤱", t: "DM", x: "Deseo de la Madre: significante del 1.er tiempo; regula ausencias, presencias y caprichos del Otro materno." },
+      { e: "❓", t: "x", x: "El enigma del deseo materno: «¿qué quiere ella más allá de mí?»" },
+      { e: "✨", t: "Φ", x: "Significación Fálica (falo simbólico): resultado del chispazo metafórico; inscribe ley y sentido en el inconsciente." }
+    ]},
+    { type: "h", text: "Sustitución y efecto sobre el sujeto dividido ($)" },
+    { type: "acc", items: [
+      { e: "🔀", t: "Qué se sustituye", x: "NP irrumpe y reemplaza a DM. El significante materno cae por debajo de la barra de represión primordial: queda elidido, soporte de la significación reprimida." },
+      { e: "🚪", t: "Desalojo de la captura imaginaria", x: "Saca al sujeto dividido de la posición de objeto metonímico o señuelo que intentaba «ser el falo» (φ) para colmar a la madre." },
+      { e: "⚖️", t: "Emerge la Significación Fálica", x: "Viraje a «tenerlo o no tenerlo»: inscribe la castración como posibilidad simbólica y ordena los intercambios sexuados." },
+      { e: "📌", t: "Punto de capitón", x: "Ancla la cadena significante frente al flujo ilimitado del sentido; permite subjetivar la Ley de prohibición del incesto y orientar el deseo a la exogamia." }
+    ]}
+  ]},
+  { emoji: "🕳️", title: "Faltas", blocks: [
+    { type: "p", text: "Tres operaciones de falta de objeto (Seminarios IV y V)." },
+    { type: "table", cols: ["", "Castración", "Frustración", "Privación"], rows: [
+      ["Registro de la falta", "Simbólico (acto simbólico)", "Imaginario (acto imaginario)", "Real (agujero en lo real)"],
+      ["Agente", "Padre Real", "Madre Simbólica", "Padre Imaginario"],
+      ["Objeto", "Falo imaginario (φ)", "Objeto real (presencia / ausencia de la madre)", "Falo simbólico (Φ)"],
+      ["Sujeto afectado", "El niño", "El niño", "La madre"]
+    ]},
+    { type: "acc", items: [
+      { e: "✂️", t: "Castración", x: "Desaloja al niño de la ilusión de «ser el falo» que colma al Otro materno. Transforma la falta imaginaria en Ley simbólica: la pérdida se inscribe como regla del deseo y abre el acceso a la posición sexuada y a la exogamia." },
+      { e: "🍼", t: "Frustración", x: "Vivencia imaginaria ante la denegación o ausencia de la madre real frente a las demandas de cuidado y afecto. Primeras insatisfacciones de la relación dual: la necesidad biológica pasa a ser dependencia de la palabra y del amor del Otro." },
+      { e: "🫥", t: "Privación", x: "Demuestra que la madre no tiene el falo en lo real (2.º tiempo). Como lo real es pleno y nada falta por sí mismo, la privación requiere simbolización previa: el objeto falta porque fue invocado como símbolo. Desestructura la fantasía de la «madre fálica» omnipotente." }
+    ]}
+  ]},
+  { emoji: "🧔", title: "Padre", blocks: [
+    { type: "h", text: "Los tres padres" },
+    { type: "cards", items: [
+      { e: "🪦", t: "Simbólico", x: "Significante NP y lugar de la Ley de prohibición del incesto. No es un personaje: es una posición lógica, el «lugar del muerto». Ordena los linajes y sanciona la interdicción sobre el discurso materno." },
+      { e: "🎭", t: "Imaginario", x: "Imagen paterna construida en la fantasmática del sujeto. Agente de la privación; figura de rivalidad y agresividad en el eje a–a' (el padre temido)." },
+      { e: "⚡", t: "Real", x: "Interviene en la realidad de la estructura como quien encarna la potencia genital. Agente de la castración; en el 3.er tiempo muestra que sí tiene el falo y da los «títulos en el bolsillo»." }
+    ]},
+    { type: "acc", items: [
+      { e: "🦴", t: "Tótem y tabú → Nombre del Padre", l: [
+        "<b>Horda primitiva:</b> tirano omnipotente y gozador, poseía a todas las mujeres e interdecía el acceso a los hijos.",
+        "<b>Padre Muerto:</b> los hermanos lo matan y lo devoran; surgen la culpa y la obediencia de efecto retardado (Nachträglichkeit). Ya muerto, es más poderoso que en vida: nacen la prohibición del incesto y la inviolabilidad del tótem.",
+        "<b>Lacan:</b> el único padre «único» e «inmortal», con valor de Ley, es el Padre Muerto. El Padre Simbólico es una necesidad lógica de la cadena significante: la delimitación del «lugar del muerto», lugar vacío que representa el NP.",
+        "<b>Homología:</b> como el asesinato instaura los tabúes, la irrupción del NP interdice la relación dual madre-hijo; DM cae bajo la barra y se produce Φ."] },
+      { e: "🏠", t: "Crítica al debate ambientalista", l: [
+        "<b>Reduccionismo biográfico:</b> los postfreudianos reducen el padre al ambiente: si viajaba, si era autoritario, débil o sumiso, si había desavenencia conyugal.",
+        "<b>Dilema sin salida:</b> si es severo, se lo culpa de la neurosis por exceso; si es amable o débil, se le reclama firmeza.",
+        "<b>Confunden Familia y Complejo:</b> la posición empírica del padre con su función normativizante. La función paterna es significante, no conducta."] },
+      { e: "👻", t: "«El padre existe incluso sin estar»", l: [
+        "La eficacia del Edipo no depende de la presencia física del progenitor.",
+        "La clínica muestra Edipos plenamente estructurados (normalizantes y neurotizantes) en niños criados a solas con la madre.",
+        "El padre opera como significante NP en el orden simbólico y en la palabra de la madre: mientras ella hable y su deseo esté sujeto a la Ley y a la prohibición del incesto, la función paterna actúa aun sin el personaje real."] }
+    ]}
+  ]},
+  { emoji: "⚖️", title: "Sexuación y Klein", blocks: [
+    { type: "h", text: "Disimetría en la salida del Edipo (Seminario V)" },
+    { type: "table", cols: ["", "Varón", "Niña"], rows: [
+      ["Posición ante el falo", "Asume el «tener» como poseedor acreditado", "Reconoce la privación y busca recibirlo como don"],
+      ["Operación", "Atraviesa el riesgo de castración y renuncia a «ser el falo» de la madre", "Acepta la privación materna y asume su falta: desengaño y extrañamiento del objeto materno"],
+      ["Identificación", "Con el Padre como Ideal del Yo, I(A)", "Se orienta al Padre como poseedor del falo; salida «más simple»: no necesita defensa metafórica para conservar un título de virilidad"],
+      ["Salida", "«Títulos en el bolsillo»: certificado simbólico, acceso diferido a la virilidad y a la elección exogámica en la pubertad", "Feminidad por la ecuación pene = hijo"]
+    ]},
+    { type: "acc", items: [
+      { e: "🌸", t: "DM y sexualidad femenina", l: [
+        "<b>Freud (1931):</b> intensa y prolongada ligazón-madre preedípica, anterior al Edipo positivo. Amamantamiento, cuidados corporales e higiene hacen de la madre el primer objeto de amor.",
+        "<b>Lacan:</b> esos cuidados entran en los «desfiladeros del significante». La sexualidad no surge de pulsiones orgánicas propias: el niño es libidinizado por el Otro e introducido en el lenguaje. Simboliza idas y venidas (Fort-Da) y descubre una madre parlante movida por una falta (x): se funda el DM. La dependencia de los cuidados pasa a ser dependencia de su palabra y de su amor.",
+        "<b>1.er tiempo:</b> la niña es objeto de deseo del Otro y se ofrece como φ.",
+        "<b>Viraje:</b> descubre la privación materna, se desengaña del DM como centro exclusivo, abandona «ser el falo» y se vuelve al padre que tiene Φ: lo espera como don (pene = hijo)."] }
+    ]},
+    { type: "h", text: "Klein, Freud y Lacan: tempranización del Edipo" },
+    { type: "table", cols: ["", "Klein", "Freud", "Lacan"], rows: [
+      ["Inicio", "Precoz: fin del 1.er año y comienzos del 2.º (12–18 meses)", "Fase fálica, 3 a 5 años. La ligazón preedípica es anterior y prolongada", "Estructural: tiempos lógicos, no cronología biológica"],
+      ["Objeto prevalente", "Pecho / frustración oral y anal", "Falo (pene) / castración genital", "Falo imaginario (φ) y simbólico (Φ)"],
+      ["Motor", "Destete y frustraciones anales; impulsos sádicos contra el cuerpo materno (heces, hermanos, pene del padre)", "Primacía del falo y complejo de castración (angustia en el varón, envidia del pene en la niña); las pérdidas previas son antecedentes", "Metáfora paterna: NP sustituye a DM; la castración es operación simbólica"],
+      ["Superyó", "Precoz, sádico y devorador (introyección); angustia de persecución y culpa pregenital", "Heredero del Complejo de Edipo", "Efecto de la metáfora paterna (Ideal del Yo)"]
+    ]},
+    { type: "p", text: "Freud critica remontar el Edipo al segundo año. Lacan dice que Klein confunde relaciones imaginarias precoces con el Edipo, pero reconoce que muestra la presencia del tercer término (el pene del padre en el cuerpo materno) desde el inicio; rechaza su biologicismo." }
+  ]}
+  ]
+};
+
+const PALETTE = {
+  indigo:["#4f46e5","#818cf8"], teal:["#0d9488","#2dd4bf"], amber:["#b45309","#fbbf24"],
+  rose:["#e11d48","#fb7185"], emerald:["#059669","#34d399"], violet:["#7c3aed","#a78bfa"]
+};
+const $ = (s, r = document) => r.querySelector(s);
+const h = (tag, attrs = {}, ...kids) => {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+  e.append(...kids.flat());
+  return e;
+};
+const root = document.documentElement;
+const em = (x, cls = "emoji") => h("span", { class: cls }, x);
+// texto con <b> permitido: se arma con nodos, sin innerHTML
+const rich = s => s.split(/(<b>.*?<\/b>)/).filter(Boolean).map(t => t.startsWith("<b>") ? h("b", {}, t.slice(3, -4)) : t);
+
+function applyTheme(dark) {
+  root.dataset.theme = dark ? "dark" : "light";
+  const p = PALETTE[DATA.accent] || PALETTE.indigo;
+  root.style.setProperty("--accent", dark ? p[1] : p[0]);
+}
+applyTheme(matchMedia("(prefers-color-scheme: dark)").matches);
+$("#theme").onclick = () => applyTheme(root.dataset.theme !== "dark");
+document.title = DATA.title;
+$("#h-emoji").textContent = DATA.emoji;
+$("#h-title").textContent = DATA.title;
+$("#h-sub").textContent = DATA.subtitle;
+
+const R = {
+  h: b => h("h2", { class: "sec" }, b.text),
+  p: b => h("p", { class: "lead" }, b.text),
+  cards: b => h("div", { class: "grid", style: "margin-bottom:1rem" }, ...b.items.map(i =>
+    h("article", { class: "card t" }, em(i.e), h("h3", {}, i.t), h("p", {}, i.x)))),
+  acc: b => h("div", {}, ...b.items.map(i => {
+    const d = h("details", {}, h("summary", {}, em(i.e), i.t));
+    if (i.o) d.open = true;
+    if (i.x) d.append(h("p", {}, i.x));
+    if (i.l) d.append(h("ul", {}, ...i.l.map(t => h("li", {}, ...rich(t)))));
+    return d;
+  })),
+  table: b => h("div", { class: "wrap" }, h("table", {},
+    h("thead", {}, h("tr", {}, ...b.cols.map(c => h("th", {}, c)))),
+    h("tbody", {}, ...b.rows.map(r => h("tr", {}, ...r.map(c => h("td", {}, c))))))),
+  formula: b => h("div", { class: "formula", role: "img", "aria-label": "NP sobre DM por DM sobre x, da NP con significación fálica" },
+    ...b.parts.map(p => Array.isArray(p) ? h("span", { class: "frac" }, h("span", {}, p[0]), h("span", {}, p[1])) : h("span", {}, p)))
+};
+
+const nav = $("#nav"), view = $("#view"), bar = $("#bar"), seen = new Set(), N = DATA.sections.length;
+const pill = (i, txt) => { const b = h("button", { class: "pill", "aria-current": "false" }, txt); b.onclick = () => show(i); return b; };
+DATA.sections.forEach((s, i) => nav.append(pill(i, `${s.emoji} ${s.title}`)));
+function show(i) {
+  seen.add(i);
+  [...nav.children].forEach((b, j) => b.setAttribute("aria-current", String(j === i)));
+  nav.children[i].scrollIntoView({ inline: "center", block: "nearest" });
+  const s = DATA.sections[i];
+  const pager = h("div", { class: "pager" });
+  pager.append(i > 0 ? pill(i - 1, "← " + DATA.sections[i - 1].title) : h("span"),
+               i < N - 1 ? pill(i + 1, DATA.sections[i + 1].title + " →") : h("span"));
+  view.replaceChildren(...s.blocks.map(b => R[b.type](b)), pager);
+  bar.style.width = (seen.size / N * 100) + "%";
+  scrollTo({ top: 0 });
+}
+show(0);
+</script>
+</body>
+</html>

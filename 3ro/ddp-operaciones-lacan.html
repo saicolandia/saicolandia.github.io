@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Las tres modalidades de la falta de objeto — Jacques Lacan</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600&display=swap');
+
+    :root {
+      --bg: #F7F4EF;
+      --surface: #FFFFFF;
+      --ink: #1E2124;
+      --muted: #5B6168;
+      --accent: #7C2D36;
+      --gold: #9E7B42;
+      --border: #E2DDD5;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #16181A;
+      color: var(--ink);
+      font-family: var(--sans);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .deck-wrapper {
+      width: min(94vw, 1180px);
+      aspect-ratio: 16 / 9;
+      background: var(--bg);
+      position: relative;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45);
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .progress-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: var(--accent);
+      transition: width 0.35s ease;
+      z-index: 10;
+    }
+
+    .slides-container {
+      flex: 1;
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 4.5% 6% 6%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    /* Tipografía y elementos comunes */
+    .eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 4.2vw, 3.6rem);
+      font-weight: 600;
+      line-height: 1.08;
+      color: var(--ink);
+      margin-bottom: 1.2rem;
+    }
+
+    h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: clamp(0.95rem, 1.3vw, 1.12rem);
+      color: var(--muted);
+      line-height: 1.5;
+      max-width: 72ch;
+    }
+
+    .divider {
+      width: 64px;
+      height: 2px;
+      background: var(--accent);
+      margin: 1.4rem 0;
+    }
+
+    /* Portada */
+    .slide-cover {
+      justify-content: center;
+      background: radial-gradient(circle at 88% 18%, rgba(158, 123, 66, 0.09), transparent 45%), var(--bg);
+    }
+
+    .cover-meta {
+      margin-top: 2rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 2.5rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    /* Grid de tarjetas */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent);
+      padding: 1.4rem;
+      border-radius: 4px;
+    }
+
+    .card.gold { border-top-color: var(--gold); }
+    .card.ink { border-top-color: var(--ink); }
+
+    .card-title {
+      font-family: var(--serif);
+      font-size: 1.45rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .card-tag {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    /* Layout de 2 columnas para cada modalidad */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 2.2rem;
+      margin-top: 1.6rem;
+      align-items: start;
+    }
+
+    .specs-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.2rem 1.4rem;
+    }
+
+    .spec-item {
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .spec-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .spec-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .spec-value {
+      font-size: 0.94rem;
+      color: var(--ink);
+      line-height: 1.4;
+      font-weight: 500;
+    }
+
+    .spec-desc {
+      font-size: 0.83rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .narrative-box h3 {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      color: var(--accent);
+      margin-bottom: 0.45rem;
+      margin-top: 1rem;
+    }
+
+    .narrative-box h3:first-child {
+      margin-top: 0;
+    }
+
+    .narrative-box p {
+      font-size: 0.94rem;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+
+    /* Metáfora Paterna */
+    .metaphor-flow {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .flow-step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.3rem;
+      border-radius: 4px;
+      height: 100%;
+    }
+
+    .flow-num {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      color: var(--accent);
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .flow-step h4 {
+      font-size: 0.98rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--ink);
+    }
+
+    .flow-step p {
+      font-size: 0.86rem;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .arrow {
+      font-size: 1.4rem;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .formula-banner {
+      margin-top: 1.6rem;
+      padding: 1rem 1.4rem;
+      background: rgba(124, 45, 54, 0.06);
+      border-left: 3px solid var(--accent);
+      font-size: 0.92rem;
+      line-height: 1.55;
+      color: var(--ink);
+    }
+
+    /* Tabla comparativa */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 0.9rem 1rem;
+      background: #EFECE6;
+      color: var(--ink);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    td {
+      padding: 0.95rem 1rem;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.45;
+      vertical-align: top;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    td strong {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      color: var(--accent);
+    }
+
+    /* Conclusión */
+    .quote-block {
+      margin-top: 1.6rem;
+      padding: 2rem 2.4rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
+      font-family: var(--serif);
+      font-size: clamp(1.35rem, 2.1vw, 1.75rem);
+      line-height: 1.45;
+      color: var(--ink);
+    }
+
+    .closure-pillars {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1.8rem;
+    }
+
+    .pillar {
+      flex: 1;
+      padding-top: 0.8rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .pillar strong {
+      color: var(--ink);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    /* Controles inferiores */
+    .controls {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.85rem 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(226, 221, 213, 0.7);
+      background: rgba(247, 244, 239, 0.9);
+    }
+
+    .nav-btns {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    button {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--ink);
+      padding: 0.35rem 0.75rem;
+      border-radius: 3px;
+      cursor: pointer;
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      transition: all 0.2s ease;
+    }
+
+    button:hover:not(:disabled) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    button:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+
+    /* Impresión a PDF */
+    @media print {
+      body { background: white; display: block; height: auto; overflow: visible; }
+      .deck-wrapper { width: 100%; height: auto; box-shadow: none; aspect-ratio: auto; }
+      .slide { position: relative; opacity: 1; pointer-events: auto; transform: none; page-break-after: always; min-height: 100vh; }
+      .controls, .progress-bar { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="deck-wrapper">
+    <div class="progress-bar" id="progress"></div>
+
+    <div class="slides-container">
+
+      <!-- Diapositiva 1: Portada -->
+      <section class="slide slide-cover active">
+        <span class="eyebrow">Psicoanálisis · Teoría de la estructuración subjetiva</span>
+        <h1>Las tres modalidades de la falta de objeto en Jacques Lacan</h1>
+        <p class="subtitle">Articulación entre frustración, privación y castración a partir de la incidencia del lenguaje sobre lo Simbólico, lo Imaginario y lo Real.</p>
+        <div class="divider"></div>
+        <div class="cover-meta">
+          <span><strong>Seminario IV:</strong> La relación de objeto</span>
+          <span><strong>Seminario V:</strong> Las formaciones del inconsciente</span>
+        </div>
+      </section>
+
+      <!-- Diapositiva 2: Marco Teórico -->
+      <section class="slide">
+        <span class="eyebrow">01 · Premisa fundamental</span>
+        <h2>El lenguaje y la producción de la falta</h2>
+        <p class="subtitle">En lo real nada falta por sí mismo. La falta surge únicamente por la incidencia del lenguaje sobre los tres registros del aparato psíquico.</p>
+
+        <div class="grid-3">
+          <div class="card">
+            <span class="card-tag">Registro Imaginario</span>
+            <div class="card-title">Frustración</div>
+            <p>Acto imaginario sobre la vivencia del sujeto. Introduce el desfiladero del significante en la demanda dirigida al Otro materno.</p>
+          </div>
+          <div class="card gold">
+            <span class="card-tag">Registro Real</span>
+            <div class="card-title">Privación</div>
+            <p>Producción de un agujero en lo real. Desarma la omnipotencia materna mediante la simbolización previa de una falta.</p>
+          </div>
+          <div class="card ink">
+            <span class="card-tag">Registro Simbólico</span>
+            <div class="card-title">Castración</div>
+            <p>Acto simbólico fundamental que funda la estructuración del inconsciente y orienta el deseo bajo la Ley.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Diapositiva 3: Frustración -->
+      <section class="slide">
+        <span class="eyebrow">02 · Primera modalidad</span>
+        <h2>La Frustración</h2>
+        <p class="subtitle">Operación perteneciente al registro <strong>Imaginario</strong>, desplegada como acto imaginario sobre la vivencia del sujeto.</p>
+
+        <div class="two-col">
+          <div class="specs-box">
+            <div class="spec-item">
+              <span class="spec-label">Agente</span>
+              <span class="spec-value">Madre Simbólica</span>
+              <span class="spec-desc"> — Figura materna elevada a Otro hablante al que el niño dirige sus llamados.</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Objeto de la falta</span>
+              <span class="spec-value">Objeto real</span>
+              <span class="spec-desc"> — Respuestas corporales concretas (nutrición, cuidado físico).</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Afectado</span>
+              <span class="spec-value">El niño</span>
+              <span class="spec-desc"> — En su estado primario de dependencia.</span>
+            </div>
+          </div>
+
+          <div class="narrative-box">
+            <h3>¿Por qué ocurre?</h3>
+            <p>La necesidad biológica del lactante debe atravesar los desfiladeros del significante, transformando la petición de satisfacción en una <strong>demanda incondicional de amor</strong>.</p>
+            <h3>¿Cómo opera?</h3>
+            <p>La madre deniega o retrasa su respuesta mediante la alternancia de presencia y ausencia. El rechazo del objeto real deja al niño sometido al <strong>capricho e inconmensurabilidad del deseo materno</strong>.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Diapositiva 4: Privación -->
+      <section class="slide">
+        <span class="eyebrow">03 · Segunda modalidad</span>
+        <h2>La Privación</h2>
+        <p class="subtitle">Operación ubicada en el registro <strong>Real</strong> como la producción de un agujero en lo real.</p>
+
+        <div class="two-col">
+          <div class="specs-box">
+            <div class="spec-item">
+              <span class="spec-label">Agente</span>
+              <span class="spec-value">Padre Imaginario</span>
+              <span class="spec-desc"> — Imago de autoridad severa construida en la fantasía del sujeto.</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Objeto de la falta</span>
+              <span class="spec-value">Falo Simbólico</span>
+              <span class="spec-desc"> — Aquel que nombra la falta en la madre.</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Afectada</span>
+              <span class="spec-value">La madre</span>
+              <span class="spec-desc"> — Despojada de la ilusión de omnipotencia.</span>
+            </div>
+          </div>
+
+          <div class="narrative-box">
+            <h3>¿Por qué ocurre?</h3>
+            <p>En el <strong>segundo tiempo edípico</strong> resulta indispensable desarmar la ilusión infantil de una madre omnipotente y fálica, mostrando que su deseo se orienta hacia otra parte y está subordinado a una Ley.</p>
+            <h3>¿Cómo opera?</h3>
+            <p>Nada falta en lo real sin previa simbolización: el Padre Imaginario priva a la madre del falo simbólico que no posee en lo real. Esto se evidencia en el discurso materno al remitir su deseo al <strong>Nombre del Padre</strong> e inscribir la prohibición del incesto.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Diapositiva 5: Castración -->
+      <section class="slide">
+        <span class="eyebrow">04 · Tercera modalidad</span>
+        <h2>La Castración</h2>
+        <p class="subtitle">Operación fundamental del registro <strong>Simbólico</strong>: acto simbólico que funda la estructuración del inconsciente.</p>
+
+        <div class="two-col">
+          <div class="specs-box">
+            <div class="spec-item">
+              <span class="spec-label">Agente</span>
+              <span class="spec-value">Padre Real</span>
+              <span class="spec-desc"> — Encarna la potencia genital y la efectividad en la realidad de la estructura.</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Objeto de la falta</span>
+              <span class="spec-value">Falo Imaginario</span>
+              <span class="spec-desc"> — Imagen con la que el niño intentaba colmar la falta de la madre.</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Afectado</span>
+              <span class="spec-value">El niño</span>
+              <span class="spec-desc"> — Constituido como sujeto del inconsciente.</span>
+            </div>
+          </div>
+
+          <div class="narrative-box">
+            <h3>¿Por qué ocurre?</h3>
+            <p>Para desalojar al niño del lugar de objeto metonímico o señuelo materno.</p>
+            <h3>Transformación subjetiva</h3>
+            <p>Le permite efectuar el pasaje decisivo desde el plano de <strong>ser el falo</strong> (identificación imaginaria con el objeto de deseo de la madre) hacia la dialéctica simbólica de <strong>tenerlo o no tenerlo</strong>.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Diapositiva 6: Metáfora Paterna -->
+      <section class="slide">
+        <span class="eyebrow">05 · Operatoria formal de la castración</span>
+        <h2>La Metáfora Paterna</h2>
+        <p class="subtitle">Mecanismo significante mediante el cual se inscribe la castración simbólica y se estructura el deseo.</p>
+
+        <div class="metaphor-flow">
+          <div class="flow-step">
+            <div class="flow-num">01</div>
+            <h4>Sustitución significante</h4>
+            <p>El significante del <strong>Nombre del Padre</strong> sustituye al significante del <strong>Deseo de la Madre</strong>.</p>
+          </div>
+          <div class="arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-num">02</div>
+            <h4>Represión primordial</h4>
+            <p>El significante del Deseo de la Madre es enviado a la represión primordial, fundando el inconsciente.</p>
+          </div>
+          <div class="arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-num">03</div>
+            <h4>Significación Fálica</h4>
+            <p>Se produce la <strong>Significación Fálica</strong> como efecto estructural ordenador del sentido.</p>
+          </div>
+        </div>
+
+        <div class="formula-banner">
+          <strong>Destino cultural:</strong> Esta operación otorga al sujeto una reserva o título simbólico que le permite orientar su deseo hacia la <strong>exogamia en la cultura</strong>.
+        </div>
+      </section>
+
+      <!-- Diapositiva 7: Cuadro Comparativo -->
+      <section class="slide">
+        <span class="eyebrow">06 · Síntesis estructural</span>
+        <h2>Cuadro comparativo de las faltas</h2>
+        <p class="subtitle">Articulación de registros, agentes, objetos y destinatarios en las tres modalidades.</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Modalidad</th>
+              <th>Registro (Operación)</th>
+              <th>Agente</th>
+              <th>Objeto de la falta</th>
+              <th>Afectado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Frustración</strong></td>
+              <td><strong>Imaginario</strong><br><span style="color:var(--muted);font-size:0.82rem;">Acto imaginario sobre la vivencia</span></td>
+              <td>Madre Simbólica</td>
+              <td>Objeto real</td>
+              <td>El niño (estado primario de dependencia)</td>
+            </tr>
+            <tr>
+              <td><strong>Privación</strong></td>
+              <td><strong>Real</strong><br><span style="color:var(--muted);font-size:0.82rem;">Producción de un agujero en lo real</span></td>
+              <td>Padre Imaginario</td>
+              <td>Falo Simbólico</td>
+              <td>La madre</td>
+            </tr>
+            <tr>
+              <td><strong>Castración</strong></td>
+              <td><strong>Simbólico</strong><br><span style="color:var(--muted);font-size:0.82rem;">Acto simbólico que funda el inconsciente</span></td>
+              <td>Padre Real</td>
+              <td>Falo Imaginario</td>
+              <td>El niño (sujeto del inconsciente)</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Diapositiva 8: Cierre -->
+      <section class="slide">
+        <span class="eyebrow">07 · Conclusión</span>
+        <h2>Del capricho materno a la Ley simbólica</h2>
+
+        <div class="quote-block">
+          La articulación entre frustración, privación y castración permite comprender el pasaje desde la dependencia imaginaria del capricho materno hasta la asunción de una posición sexuada bajo la regla de la Ley simbólica.
+        </div>
+
+        <div class="closure-pillars">
+          <div class="pillar">
+            <strong>1. Demanda y alteridad</strong>
+            La frustración introduce la falta en la relación con la Madre Simbólica mediante la palabra.
+          </div>
+          <div class="pillar">
+            <strong>2. Límite a la omnipotencia</strong>
+            La privación revela la falta en la madre y remite su deseo al Nombre del Padre.
+          </div>
+          <div class="pillar">
+            <strong>3. Subjetivación y cultura</strong>
+            La castración habilita la significación fálica y abre la vía del deseo hacia la exogamia.
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="controls">
+      <span id="slide-counter">Diapositiva 01 / 08</span>
+      <div class="nav-btns">
+        <button id="prev-btn" aria-label="Diapositiva anterior">← Anterior</button>
+        <button id="next-btn" aria-label="Siguiente diapositiva">Siguiente →</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const counter = document.getElementById('slide-counter');
+    const progress = document.getElementById('progress');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    let current = 0;
+
+    function updateSlide(index) {
+      slides[current].classList.remove('active');
+      current = Math.max(0, Math.min(index, slides.length - 1));
+      slides[current].classList.add('active');
+
+      const num = String(current + 1).padStart(2, '0');
+      const total = String(slides.length).padStart(2, '0');
+      counter.textContent = `Diapositiva ${num} / ${total}`;
+      progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === slides.length - 1;
+    }
+
+    prevBtn.addEventListener('click', () => updateSlide(current - 1));
+    nextBtn.addEventListener('click', () => updateSlide(current + 1));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        updateSlide(current + 1);
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        updateSlide(current - 1);
+      }
+    });
+
+    updateSlide(0);
+  </script>
+</body>
+</html>

@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tópica de lo imaginario · Mapa mental</title>
+<style>
+:root{--paper:#EFE6D2;--ink:#2A211B;--accent:#D9A441;--card:#FFFDF6;--dev:#FFF6DF}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--paper);color:var(--ink);font:16px/1.4 Georgia,serif;overflow:hidden}
+button,h1,small,input,select,textarea,.ui-font{font-family:"Futura","Avenir Next","Century Gothic","Trebuchet MS",system-ui,sans-serif}
+#map{position:fixed;inset:0;background-image:radial-gradient(#2A211B22 1.2px,transparent 1.2px);background-size:26px 26px}
+#ui{position:fixed;top:10px;left:10px;right:10px;z-index:2;pointer-events:none;max-width:680px}
+#ui>*{pointer-events:auto}
+h1{margin:0 0 4px;font:400 clamp(1.5rem,5vw,2.4rem)/1 Impact,"Arial Narrow Bold",system-ui,sans-serif;text-transform:uppercase}
+small{display:block;font-size:.8rem;margin-bottom:8px;max-width:560px}
+button{color:inherit;cursor:pointer}
+.btn{background:var(--paper);border:3px solid var(--ink);padding:6px 12px;font-weight:700;margin-right:6px;margin-bottom:6px;font-size:.85rem}
+.btn:hover,.btn.on{background:var(--accent)}
+.btn-sm{background:var(--card);border:2px solid var(--ink);padding:4px 8px;font-weight:700;font-size:.76rem}
+.btn-sm:hover,.btn-sm.on{background:var(--accent)}
+.btn-sm:disabled{opacity:.45;cursor:not-allowed}
+.l{fill:none;stroke-width:3.5;opacity:.85}
+.nd{cursor:pointer}.nd:focus{outline:none}.nd:focus-visible rect:first-child{stroke-width:6}
+.nd-active rect:first-child{stroke-width:5.5;filter:drop-shadow(4px 4px 0 rgba(42,33,27,.38))}
+
+#panel{
+ position:fixed;top:10px;right:10px;bottom:10px;width:375px;z-index:4;
+ background:var(--paper);border:3px solid var(--ink);box-shadow:6px 6px 0 var(--ink);
+ display:flex;flex-direction:column;transition:transform .25s ease,opacity .2s ease;
+}
+#panel.closed{transform:translateX(calc(100% + 24px));opacity:0;pointer-events:none}
+#panel-bar{height:8px;background:var(--ink);flex-shrink:0}
+#panel-head{padding:10px 12px;border-bottom:3px solid var(--ink);background:var(--card);flex-shrink:0}
+.head-top{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:4px}
+.crumb{font-size:.72rem;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+#panel-title{margin:0;font-size:1.05rem;line-height:1.2;font-weight:700}
+#panel-desc{margin:3px 0 0;font-size:.82rem;opacity:.85}
+#panel-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+.chip{background:var(--paper);border:1.5px solid var(--ink);padding:2px 7px;font-size:.72rem;font-weight:700}
+.chip:hover{background:var(--accent)}
+
+#tts-bar{padding:8px 12px;border-bottom:2px solid var(--ink);background:var(--dev);display:flex;flex-wrap:wrap;align-items:center;gap:6px;flex-shrink:0}
+#tts-bar select{background:var(--card);border:2px solid var(--ink);padding:3px 5px;font-size:.74rem;max-width:130px;color:var(--ink)}
+.tts-auto{display:inline-flex;align-items:center;gap:4px;font-size:.74rem;font-weight:700;cursor:pointer;margin-left:auto}
+#tts-status{width:100%;font-size:.72rem;opacity:.82;display:none}
+#tts-status.show{display:block}
+
+#ai-cfg{display:none;padding:10px 12px;border-bottom:2px solid var(--ink);background:#F8EED8;font-size:.78rem;flex-shrink:0}
+#ai-cfg.open{display:block}
+#ai-cfg label{display:block;font-weight:700;margin:5px 0 2px}
+#ai-cfg select,#ai-cfg input{width:100%;padding:5px 7px;border:2px solid var(--ink);background:var(--card);font-size:.78rem;color:var(--ink)}
+.cfg-row{display:flex;gap:6px;margin-top:8px;align-items:center}
+
+#chat-log{flex:1;overflow-y:auto;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:92%;padding:8px 10px;border:2px solid var(--ink);font-size:.86rem;line-height:1.42}
+.msg.user{align-self:flex-end;background:var(--ink);color:var(--paper)}
+.msg.bot{align-self:flex-start;background:var(--card);box-shadow:3px 3px 0 rgba(42,33,27,.18)}
+.msg.sys{align-self:stretch;background:var(--dev);border-style:dashed;font-size:.78rem;padding:6px 9px}
+.msg-meta{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:5px;font-size:.7rem;opacity:.8}
+.msg-speak,.msg-jump{background:var(--paper);border:1.5px solid var(--ink);padding:2px 7px;font-size:.71rem;font-weight:700}
+.msg-speak:hover,.msg-jump:hover{background:var(--accent)}
+.msg-jumps{margin-top:6px;display:flex;flex-wrap:wrap;gap:4px}
+
+#quick{padding:6px 12px;border-top:2px solid var(--ink);background:var(--paper);display:flex;gap:5px;overflow-x:auto;flex-shrink:0}
+#quick button{white-space:nowrap;background:var(--card);border:1.5px solid var(--ink);padding:3px 8px;font-size:.73rem;font-weight:700}
+#quick button:hover{background:var(--accent)}
+
+#chat-form{display:flex;gap:6px;padding:9px 12px;border-top:3px solid var(--ink);background:var(--card);flex-shrink:0}
+#chat-in{flex:1;resize:none;border:2px solid var(--ink);background:var(--paper);padding:7px 9px;font-size:.86rem;color:var(--ink);min-height:38px;max-height:92px}
+#chat-in:focus{outline:none;background:#FFFDF8}
+#chat-send{background:var(--ink);color:var(--paper);border:2px solid var(--ink);padding:0 13px;font-weight:700;font-size:.82rem}
+#chat-send:hover{background:var(--accent);color:var(--ink)}
+
+@media(max-width:767px){
+ #panel{top:auto;left:8px;right:8px;bottom:8px;width:auto;height:56vh}
+ #panel.closed{transform:translateY(calc(100% + 20px))}
+}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<div id="ui">
+ <h1>Tópica de lo imaginario</h1>
+ <small>Tocá un nodo para abrirlo, activarlo o cerrarlo. Arrastrá para mover el mapa; pellizcá o usá la rueda para el zoom.</small>
+ <button class="btn" id="ex">Expandir todo</button>
+ <button class="btn" id="co">Contraer todo</button>
+ <button class="btn" id="ft">Ajustar vista</button>
+ <button class="btn on" id="tp">💬 Chat y voz</button>
+</div>
+
+<aside id="panel" aria-label="Voz y chat del nodo activo">
+ <div id="panel-bar"></div>
+ <div id="panel-head">
+  <div class="head-top">
+   <span class="crumb ui-font" id="crumb">Nodo activo</span>
+   <button class="btn-sm" id="btn-cfg" title="Configurar IA externa opcional">⚙️ IA</button>
+   <button class="btn-sm" id="btn-close" title="Ocultar panel">✕</button>
+  </div>
+  <h2 id="panel-title" class="ui-font">Tópica imaginaria</h2>
+  <p id="panel-desc"></p>
+  <div id="panel-chips"></div>
+ </div>
+
+ <div id="tts-bar" class="ui-font">
+  <button class="btn-sm" id="tts-play">🔊 Leer nodo</button>
+  <button class="btn-sm" id="tts-stop" disabled>⏹</button>
+  <select id="tts-rate" title="Velocidad de lectura">
+   <option value="0.9">0.9x</option>
+   <option value="1" selected>1.0x</option>
+   <option value="1.15">1.15x</option>
+   <option value="1.3">1.3x</option>
+  </select>
+  <select id="tts-voice" title="Voz TTS"></select>
+  <label class="tts-auto"><input type="checkbox" id="tts-auto"> Auto</label>
+  <div id="tts-status"></div>
+ </div>
+
+ <div id="ai-cfg" class="ui-font">
+  <div><strong>Modo de respuesta:</strong> sin clave funciona con el tutor local basado en el mapa. Si agregás una API key (guardada solo en tu navegador), responde con IA generativa.</div>
+  <label for="cfg-prov">Proveedor</label>
+  <select id="cfg-prov">
+   <option value="local">Tutor local del mapa (sin API)</option>
+   <option value="openai">OpenAI (gpt-4o-mini)</option>
+   <option value="gemini">Google Gemini (gemini-2.0-flash)</option>
+  </select>
+  <label for="cfg-key">API Key (opcional)</label>
+  <input id="cfg-key" type="password" placeholder="sk-... o AIza...">
+  <div class="cfg-row">
+   <button class="btn-sm" id="cfg-save">Guardar</button>
+   <button class="btn-sm" id="cfg-clear">Borrar key</button>
+   <span id="cfg-msg"></span>
+  </div>
+ </div>
+
+ <div id="chat-log" aria-live="polite"></div>
+
+ <div id="quick" class="ui-font">
+  <button type="button" data-q="Resumime este nodo">Resumen</button>
+  <button type="button" data-q="Explicámelo de forma simple">Simple</button>
+  <button type="button" data-q="¿Cómo se conecta con el resto del mapa?">Conexiones</button>
+  <button type="button" data-q="Haceme una pregunta para practicar">Quiz</button>
+ </div>
+
+ <form id="chat-form">
+  <textarea id="chat-in" rows="1" placeholder="Preguntá sobre el nodo activo..."></textarea>
+  <button id="chat-send" type="submit">Enviar</button>
+ </form>
+</aside>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script>
+const N=(name,desc,children)=>({name,desc,children});
+const L=(name,desc,e,text)=>N(name,desc,[{name:'',dev:1,e,text}]);
+const DATA=N("Tópica imaginaria",null,[
+N("Introducción del Narcisismo y Estadio del Espejo",null,[
+ N("Planteo freudiano (1914)",null,[
+  L("Naturaleza del yo","No es una instancia originaria ni biológica","🌱","Para Freud el yo no está desde el comienzo: tiene que ser desarrollado. Al principio hay autoerotismo, pulsiones parciales que se satisfacen cada una por su lado, en distintas zonas del cuerpo. El yo no es una instancia innata ni un dato biológico, sino una construcción, y por eso hace falta una operación que lo constituya."),
+  L("Nuevo acto psíquico","Unifica pulsiones parciales y anárquicas","⚡","Para pasar del autoerotismo al narcisismo hace falta algo más: un nuevo acto psíquico que reúna las pulsiones dispersas en una unidad que se toma como objeto de amor. La libido inviste al yo, y eso es el narcisismo. Freud no precisa cuál es ese acto. Lacan lo lee como la identificación especular del estadio del espejo.")]),
+ N("Relectura lacaniana",null,[
+  L("Identificación especular primaria","En el Estadio del Espejo","🪞","Lacan la define como la transformación que se produce en el sujeto cuando asume una imagen. Frente al espejo, el niño reconoce jubiloso su cuerpo como una forma total y unificada. Esa imagen, el Yo ideal, es la matriz del yo. La identificación es primordial y también alienante: el yo nace afuera, en una imagen."),
+  L("Período infans","Entre los 6 y 18 meses de edad","🍼","Infans es el que todavía no habla. Es el tiempo en que el niño no se sostiene sin ayuda y, sin embargo, asume como propia una imagen unificada. Lacan lo toma como prueba de que la estructura psíquica humana no es simple maduración: lo imaginario tiene su propia lógica.")]),
+ N("Prematuración y anticipación",null,[
+  L("Cuerpo fragmentado","Incoordinación motriz biológica","🧩","El humano nace prematuro, con el sistema nervioso inacabado, y vive su cuerpo como disperso. Las fantasías de miembros desunidos no son anteriores al espejo: aparecen después, como amenaza de volver a esa dispersión cuando la unidad del yo vacila."),
+  L("Anticipación psíquica","Gestalt unificada ortopédica","🏃","La visión madura antes que la motricidad, así que el niño se ve entero antes de serlo: capta una Gestalt unificada y se adelanta a su maduración real. Esa forma es una armadura ortopédica que sostiene al organismo incoordinado. El estadio es un drama que va de la insuficiencia a la anticipación."),
+  L("Sostén parental","Libidinización del Gran Otro","🤱","El espejo no opera en el vacío. Los padres libidinizan al niño y lo ponen en el lugar de Su Majestad el Bebé. La mirada y la palabra del adulto que lo sostiene ratifican la imagen: ese sos vos. Esa es la matriz simbólica del Gran Otro. Sin ella, la imagen sería una fascinación pasajera, como la del chimpancé.")])]),
+N("Yo es otro (Je est un autre)",null,[
+ L("Origen exterior","Imagen virtual exterior o semejante","🪟","La imagen en la que el yo se constituye está afuera: es la del espejo o la de un semejante, virtual, simétrica e invertida. Por eso el yo no es un centro propio. Se forma con lo que le viene de otro y queda en una exterioridad respecto del sujeto."),
+ L("Construcción fantasmática","Identificación a forma ajena e invertida","🎭","El niño se identifica a una forma ajena, y esa identificación construye una ficción: la de ser uno, completo y dueño de sí. Es la línea de ficción de Lacan. Esa ilusión de unidad sostiene al yo, por eso es una estructura permanente y no una etapa que se supera."),
+ L("Desconocimiento estructural","Función de ficción (méconnaissance)","🙈","El niño no sabe que se constituye identificándose a una imagen, y ese desconocimiento, la méconnaissance, define al yo. No es un error que se corrija con más conciencia: el yo es la función que oculta al sujeto del inconsciente, el je. De ahí la crítica de Lacan a la psicología del yo y al cogito.")]),
+N("Yo Ideal e Ideal del Yo",null,[
+ N("Yo Ideal i(a)",null,[
+  L("Registro","Imaginario","🖼️","El Yo ideal es imaginario: funciona por imagen, parecido y reflejo. En el esquema Lambda se ubica en el eje a' - a, entre el yo y el semejante. Algo se vuelve yo porque se parece a otro."),
+  L("Característica","Imagen primordial, armónica y ortopédica","🏛️","Es la forma unificada que el niño asume ante el espejo: completa y armónica, con una estatura que todavía no tiene. Es ortopédica porque sostiene la vivencia de dispersión. Es la forma a la que el yo se identifica, y de ahí nace su pretensión de perfección.")]),
+ N("Ideal del Yo I(A)",null,[
+  L("Registro","Simbólico","📜","El Ideal del Yo es simbólico: funciona por diferencia, como significante, y es una función del Otro. En Freud, 1914, aparecía casi como sinónimo del Yo ideal. Lacan los distingue y los ubica en registros diferentes."),
+  L("Característica","Matriz significante provista por el Gran Otro","👁️","Es el lugar desde el cual el Otro mira al niño y desde donde la imagen cobra valor. Se vincula con el Edipo: al final del tercer tiempo, la identificación con el padre como quien tiene el falo constituye el Ideal del Yo, con los títulos en el bolsillo.")])]),
+N("Esquema Lambda",null,[
+ L("Estructura cruzada","Articulación entre Simbólico e Imaginario","✖️","Cuatro puntos unidos por dos líneas que se cruzan: el eje simbólico y el eje imaginario. El esquema muestra que hay dos lugares distintos, el yo y el sujeto, y que el yo no está donde está el sujeto. Cada eje tiene su lógica, y se interfieren."),
+ L("Eje Imaginario a' - a","Fascinación, rivalidad y alienación","🪞","Une el yo, a prima, con el semejante o imagen especular, a. Los extremos son equivalentes: se reflejan. Es el eje de la fascinación, la rivalidad y la alienación del yo en la imagen del otro, y también el de la agresividad."),
+ L("Eje Simbólico S - A","Sujeto dividido y Gran Otro","🗣️","Va del Gran Otro, A, al sujeto dividido, S. El Otro es el tesoro del significante, el lenguaje que preexiste. El sujeto es el del inconsciente: efecto del significante, siervo del lenguaje y no su amo. Por este eje habla lo que el yo desconoce."),
+ L("Efecto de obstáculo","Cortocircuito a la comunicación simbólica","🚧","El eje imaginario atraviesa al simbólico y le hace de obstáculo. Las certezas y las identificaciones del yo interrumpen la emergencia de la palabra del sujeto: cuanto más se identifica con su imagen, menos se escucha lo que habla en él. Por eso reforzar el yo no es el camino del análisis.")]),
+N("Narcisismo y Agresividad",null,[
+ L("Transitivismo infantil","El niño que pega dice que le pegaron","👶","Entre el niño y su semejante hay reversibilidad: los lugares son intercambiables. Un niño le pega a otro y es el que pegó el que llora, porque dice que le pegaron. Muestra que la identificación con el otro es una confusión de lugares."),
+ L("Dialéctica él o yo","El semejante como doble o amo rival","⚔️","Como el yo se forma en la imagen del semejante, ese otro es a la vez lo que me completa y lo que me amenaza: un doble o un amo rival. Si me captura, pierdo la unidad lograda. De ahí la estructura paranoica del yo y la fórmula del él o yo."),
+ L("Tensión agresiva","Derivada de la rivalidad por la posesión","🔥","Nace de la rivalidad por la posesión, en una relación dual donde solo uno puede ocupar el lugar. Amor y agresividad no son opuestos en lo imaginario: son efectos de la misma estructura. Lo que la pacifica es lo simbólico, con la inscripción del ternario simbólico que se juega en el Edipo.")]),
+N("Lo real en el esquema óptico",null,[
+ L("Experiencia de Bouasse","Uso del espejo cóncavo","💐","Lacan toma de la óptica un dispositivo de Bouasse, el ramillete invertido, como modelo auxiliar para un concepto muy abstracto, como Freud había usado el esquema del peine. Hay un espejo cóncavo, un florero apoyado sobre una caja y un ramo de flores oculto en ella, boca abajo."),
+ L("Imagen real","Producida por delante del espejo","🔍","En óptica, la imagen real se forma por la convergencia de los rayos delante del espejo, en el mismo campo del observador, como si fuera un objeto. La virtual, como la de un espejo plano, se ve detrás. Aquí el espejo cóncavo proyecta una imagen real del ramo, que parece estar dentro del florero."),
+ L("Articulación estructural","Ojo del observador en el cono de reflexión","👀","La ilusión solo se ve si el ojo está dentro del cono de reflexión. Si el observador se mueve, se desvanece. Las flores son el cuerpo disperso, el florero es la imagen unificadora y el espejo plano es el Otro. La unidad del yo depende del lugar desde el que el sujeto mira, es decir, de su posición respecto del Otro.")]),
+N("Imbricación de registros y avance de lo real",null,[
+ L("Matriz simbólica","Sostén del Gran Otro","🧵","Los tres registros no funcionan por separado. Lo imaginario necesita el sostén simbólico del Gran Otro, la mirada y la palabra que ratifican la imagen. Sin esa matriz, la imagen unificada no se sostiene."),
+ L("Avance de lo Real","Fantasías de cuerpo fragmentado y angustia","🌪️","Cuando la unidad imaginaria vacila, lo real avanza sobre ella: reaparecen las fantasías de cuerpo fragmentado, con miembros desunidos, y la angustia. Es la dispersión original que el yo viene a velar y que nunca desaparece del todo."),
+ L("Esquema R","Franja enmarcada de la Realidad","🖼️","La realidad aparece como una franja enmarcada entre lo simbólico y lo imaginario. La inscripción de lo simbólico sobre lo imaginario permite romper el cautiverio especular y acceder a una realidad normativizada, que no es un dato dado sino un efecto de esa articulación.")])]);
+
+const PAL=['#B5472B','#3E6B5A','#2F5D8A','#8A4F7D','#9A5B13','#5B6B3A','#A33B5B'];
+const NW=235,NH=80,DW=450,dur=450;
+const wrap=(s,m)=>{const o=[];let l='';s.split(' ').forEach(w=>{if((l+' '+w).trim().length>m&&l){o.push(l);l=w}else l=(l+' '+w).trim()});if(l)o.push(l);return o};
+
+const root=d3.hierarchy(DATA);
+root.each((d,i)=>{d.id=i;if(d.data.dev){d.ln=wrap(d.data.text,56);d.w=DW;d.hh=Math.max(100,d.ln.length*16+26)}else{d.w=NW;d.hh=NH}});
+root.col='#2A211B';
+root.children.forEach((c,i)=>c.each(d=>d.col=PAL[i]));
+
+const collapse=d=>{if(d.children){d._children=d.children;d._children.forEach(collapse);d.children=null}};
+const expand=d=>{if(d._children){d.children=d._children;d._children=null}(d.children||[]).forEach(expand)};
+root.children.forEach(collapse);
+root.x0=0;root.y0=0;
+
+const g0=d3.select('#map').append('svg').attr('width','100%').attr('height','100%');
+const g=g0.append('g');
+const zoom=d3.zoom().scaleExtent([.2,2.5]).on('zoom',e=>g.attr('transform',e.transform));
+g0.call(zoom);
+const tree=d3.tree().nodeSize([20,NW+70]).separation((a,b)=>((a.hh+b.hh)/2+16)/20);
+const P=(a,b)=>{const sx=a.y+a.w,m=(sx+b.y)/2;return `M${sx},${a.x}C${m},${a.x} ${m},${b.x} ${b.y},${b.x}`};
+const view=(tx,ty,k)=>g0.transition().duration(dur).call(zoom.transform,d3.zoomIdentity.translate(tx,ty).scale(k));
+
+let panelOpen=true;
+let activeNode=root;
+const mapW=()=>panelOpen&&innerWidth>=768?Math.max(300,innerWidth-395):innerWidth;
+
+function update(src){
+ tree(root);
+ g.selectAll('path.l').data(root.links(),d=>d.target.id).join(
+  e=>e.append('path').attr('class','l').attr('stroke',d=>d.target.col).attr('d',()=>P({x:src.x0,y:src.y0,w:src.w},{x:src.x0,y:src.y0+src.w})),
+  u=>u,
+  x=>x.transition().duration(dur).attr('d',()=>P({x:src.x,y:src.y,w:src.w},{x:src.x,y:src.y+src.w})).remove()
+ ).transition().duration(dur).attr('d',d=>P(d.source,d.target));
+
+ g.selectAll('g.nd').data(root.descendants(),d=>d.id).join(
+  e=>{const n=e.append('g').attr('class','nd').attr('transform',`translate(${src.y0},${src.x0})`).attr('opacity',0).attr('tabindex',0).attr('role','button')
+   .on('click',(ev,d)=>act(d)).on('keydown',(ev,d)=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();act(d)}});
+   n.append('rect').attr('y',d=>-d.hh/2).attr('width',d=>d.w).attr('height',d=>d.hh).attr('fill',d=>d.data.dev?'#FFF6DF':d.depth?'#FFFDF6':'#2A211B').attr('stroke',d=>d.col).attr('stroke-width',3);
+   n.append('rect').attr('y',d=>-d.hh/2).attr('width',12).attr('height',d=>d.hh).attr('fill',d=>d.col);
+   n.each(function(d){const s=d3.select(this),dev=!!d.data.dev,fg=d.depth?'#2A211B':'#EFE6D2',F='Futura,Avenir Next,Trebuchet MS,system-ui,sans-serif';
+    let L,tx=24;
+    if(dev){s.append('text').attr('x',20).attr('y',16).attr('font-size',46).attr('pointer-events','none').text(d.data.e);tx=76;L=d.ln.map(q=>[q,0])}
+    else{L=wrap(d.data.name,(d.children||d._children)?24:27).map(q=>[q,1]);if(d.data.desc)wrap(d.data.desc,32).forEach(q=>L.push([q,0]))}
+    const lh=dev?16:15,y0=-(L.length*lh)/2+11;
+    L.forEach(([q,bo],i)=>s.append('text').attr('x',tx).attr('y',y0+i*lh).attr('fill',fg).attr('font-size',bo?13:12.5).attr('font-weight',bo?700:400).attr('font-family',bo?F:'Georgia,serif').attr('pointer-events','none').text(q));
+    s.append('text').attr('class','bd').attr('x',NW-8).attr('y',-NH/2+15).attr('text-anchor','end').attr('font-size',12).attr('font-weight',700).attr('fill',d.depth?d.col:'#EFE6D2').attr('pointer-events','none')});
+   return n},
+  u=>u,
+  x=>x.transition().duration(dur).attr('transform',`translate(${src.y},${src.x})`).attr('opacity',0).remove()
+ ).each(function(d){
+  const c=(d.children||d._children||[]).length;
+  d3.select(this).classed('nd-active',activeNode&&d.id===activeNode.id)
+   .select('.bd').text(c?(d.children?'−':'+'+c):'');
+ }).transition().duration(dur).attr('transform',d=>`translate(${d.y},${d.x})`).attr('opacity',1);
+ root.each(d=>{d.x0=d.x;d.y0=d.y});
+}
+
+function act(d){
+ if(d.data.dev)d=d.parent;
+ if(d.children)collapse(d);else if(d._children){d.children=d._children;d._children=null}
+ setActiveNode(d,true);
+ update(d);
+ const k=d3.zoomTransform(g0.node()).k;
+ view(mapW()*.24-d.y*k,innerHeight/2-d.x*k,k);
+}
+
+function jumpToNode(target){
+ if(!target)return;
+ target.ancestors().reverse().forEach(a=>{
+  if(a._children){a.children=a._children;a._children=null}
+ });
+ if(target._children){target.children=target._children;target._children=null}
+ setActiveNode(target,true);
+ update(target);
+ const k=Math.max(.85,d3.zoomTransform(g0.node()).k);
+ view(mapW()*.22-target.y*k,innerHeight/2-target.x*k,k);
+}
+
+function fit(){
+ const ns=root.descendants(),a=d3.min(ns,d=>d.x-d.hh/2),b=d3.max(ns,d=>d.x+d.hh/2),y=d3.max(ns,d=>d.y+d.w)+30;
+ const k=Math.min(1,(mapW()-30)/y,(innerHeight-110)/(b-a));
+ view(15,(innerHeight+70)/2-((a+b)/2)*k,k);
+}
+
+ex.onclick=()=>{expand(root);update(root);fit()};
+co.onclick=()=>{root.children.forEach(collapse);setActiveNode(root,false);update(root);fit()};
+ft.onclick=fit;
+
+/* ===== UTILIDADES DE NODOS ===== */
+const getAllChildren=d=>d.children||d._children||[];
+function getNodeInfo(d){
+ const kids=getAllChildren(d);
+ const dev=kids.find(c=>c.data.dev);
+ const subtopics=kids.filter(c=>!c.data.dev);
+ const path=d.ancestors().reverse().map(a=>a.data.name);
+ const siblings=d.parent?getAllChildren(d.parent).filter(s=>s!==d&&!s.data.dev):[];
+ return {node:d,id:d.id,name:d.data.name,desc:d.data.desc||'',devText:dev?dev.data.text:'',emoji:dev?dev.data.e:'',subtopics,path,siblings};
+}
+
+const norm=s=>(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const STOP=new Set(['que','como','cual','cuales','donde','cuando','quien','para','por','con','sin','sobre','entre','este','esta','esto','estos','estas','ese','esa','eso','una','uno','unos','unas','los','las','del','al','el','la','lo','de','en','y','o','a','es','son','ser','se','su','sus','mi','me','te','nos','mas','muy','pero','porque','si','no','ya','hay','fue','esta','nodo','tema','mapa']);
+const tokens=s=>norm(s).replace(/[^a-z0-9\s]/g,' ').split(/\s+/).filter(w=>w.length>2&&!STOP.has(w));
+
+const ALL_TOPICS=root.descendants().filter(d=>!d.data.dev).map(d=>{
+ const info=getNodeInfo(d);
+ const full=`${info.name} ${info.desc} ${info.devText} ${info.subtopics.map(s=>s.data.name).join(' ')}`;
+ return {...info,search:norm(full),words:new Set(tokens(full))};
+});
+
+/* ===== PANEL LATERAL ===== */
+const panelEl=document.getElementById('panel');
+const tpBtn=document.getElementById('tp');
+const crumbEl=document.getElementById('crumb');
+const titleEl=document.getElementById('panel-title');
+const descEl=document.getElementById('panel-desc');
+const chipsEl=document.getElementById('panel-chips');
+const barEl=document.getElementById('panel-bar');
+const chatLog=document.getElementById('chat-log');
+
+function togglePanel(force){
+ panelOpen=typeof force==='boolean'?force:!panelOpen;
+ panelEl.classList.toggle('closed',!panelOpen);
+ tpBtn.classList.toggle('on',panelOpen);
+ if(innerWidth>=768)fit();
+}
+tpBtn.onclick=()=>togglePanel();
+document.getElementById('btn-close').onclick=()=>togglePanel(false);
+
+function setActiveNode(d,announce){
+ const changed=!activeNode||activeNode.id!==d.id;
+ activeNode=d;
+ const info=getNodeInfo(d);
+ barEl.style.background=d.col||'#2A211B';
+ crumbEl.textContent=info.path.join(' › ');
+ titleEl.textContent=(info.emoji?info.emoji+' ':'')+info.name;
+ descEl.textContent=info.desc||(info.devText?info.devText.slice(0,115)+(info.devText.length>115?'…':''):`Contiene ${info.subtopics.length} subtemas.`);
+
+ chipsEl.innerHTML='';
+ if(d.parent){
+  const pBtn=document.createElement('button');
+  pBtn.type='button';pBtn.className='chip';
+  pBtn.textContent='↑ '+d.parent.data.name;
+  pBtn.onclick=()=>jumpToNode(d.parent);
+  chipsEl.appendChild(pBtn);
+ }
+ info.subtopics.forEach(ch=>{
+  const cBtn=document.createElement('button');
+  cBtn.type='button';cBtn.className='chip';
+  cBtn.textContent='↳ '+ch.data.name;
+  cBtn.onclick=()=>jumpToNode(ch);
+  chipsEl.appendChild(cBtn);
+ });
+
+ if(changed){
+  addSysMsg(`Nodo activo: <strong>${esc(info.name)}</strong>${info.desc?' — '+esc(info.desc):''}`);
+  if(announce&&ttsAuto.checked)readActiveNode();
+ }
+}
+
+/* ===== TTS (WEB SPEECH API) ===== */
+const ttsPlay=document.getElementById('tts-play');
+const ttsStop=document.getElementById('tts-stop');
+const ttsRate=document.getElementById('tts-rate');
+const ttsVoice=document.getElementById('tts-voice');
+const ttsAuto=document.getElementById('tts-auto');
+const ttsStatus=document.getElementById('tts-status');
+const hasTTS='speechSynthesis' in window&&'SpeechSynthesisUtterance' in window;
+let voices=[];
+
+function loadVoices(){
+ if(!hasTTS){
+  ttsPlay.disabled=true;ttsVoice.disabled=true;
+  ttsStatus.textContent='Este navegador no soporta síntesis de voz (TTS).';
+  ttsStatus.classList.add('show');return;
+ }
+ const raw=speechSynthesis.getVoices()||[];
+ const es=raw.filter(v=>/^es/i.test(v.lang)).sort((a,b)=>{
+  const score=v=>/es-ar/i.test(v.lang)?0:/es-419|es-uy/i.test(v.lang)?1:/es-es/i.test(v.lang)?2:3;
+  return score(a)-score(b);
+ });
+ voices=es.length?es:raw;
+ const saved=localStorage.getItem('ti_voice')||'';
+ ttsVoice.innerHTML='';
+ if(!voices.length){
+  const o=document.createElement('option');o.textContent='Voz predeterminada';ttsVoice.appendChild(o);return;
+ }
+ voices.forEach(v=>{
+  const o=document.createElement('option');
+  o.value=v.voiceURI;o.textContent=`${v.name.slice(0,22)} (${v.lang})`;
+  if(v.voiceURI===saved)o.selected=true;
+  ttsVoice.appendChild(o);
+ });
+}
+if(hasTTS){loadVoices();speechSynthesis.onvoiceschanged=loadVoices;}
+ttsVoice.onchange=()=>localStorage.setItem('ti_voice',ttsVoice.value);
+
+function setTtsUI(speaking,label){
+ ttsPlay.textContent=speaking?'🔊 Leyendo…':'🔊 Leer nodo';
+ ttsPlay.classList.toggle('on',speaking);
+ ttsStop.disabled=!speaking;
+ ttsStatus.textContent=label||'';
+ ttsStatus.classList.toggle('show',!!label);
+}
+
+function cleanForSpeech(text){
+ return text.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu,'').replace(/\s+/g,' ').trim();
+}
+
+function speakText(text,label){
+ if(!hasTTS)return;
+ const clean=cleanForSpeech(text);
+ if(!clean)return;
+ const wasSpeaking=speechSynthesis.speaking||speechSynthesis.pending;
+ speechSynthesis.cancel();
+ const start=()=>{
+  const u=new SpeechSynthesisUtterance(clean);
+  u.lang='es-AR';
+  u.rate=parseFloat(ttsRate.value)||1;
+  const v=voices.find(x=>x.voiceURI===ttsVoice.value)||voices[0];
+  if(v){u.voice=v;u.lang=v.lang}
+  u.onstart=()=>setTtsUI(true,label||'Leyendo...');
+  u.onend=()=>setTtsUI(false,'');
+  u.onerror=()=>setTtsUI(false,'');
+  speechSynthesis.speak(u);
+ };
+ if(wasSpeaking)setTimeout(start,60);else start();
+}
+
+function readActiveNode(){
+ const info=getNodeInfo(activeNode);
+ let parts=[info.name];
+ if(info.desc)parts.push(info.desc);
+ if(info.devText)parts.push(info.devText);
+ else if(info.subtopics.length)parts.push('Subtemas: '+info.subtopics.map(s=>s.data.name).join(', '));
+ speakText(parts.join('. '),'Leyendo: '+info.name);
+}
+
+ttsPlay.onclick=readActiveNode;
+ttsStop.onclick=()=>{if(hasTTS){speechSynthesis.cancel();setTtsUI(false,'');}};
+
+/* ===== CONFIG IA OPCIONAL ===== */
+const cfgBox=document.getElementById('ai-cfg');
+const cfgProv=document.getElementById('cfg-prov');
+const cfgKey=document.getElementById('cfg-key');
+const cfgMsg=document.getElementById('cfg-msg');
+let aiCfg={prov:localStorage.getItem('ti_prov')||'local',key:localStorage.getItem('ti_key')||''};
+cfgProv.value=aiCfg.prov;cfgKey.value=aiCfg.key;
+
+document.getElementById('btn-cfg').onclick=()=>cfgBox.classList.toggle('open');
+document.getElementById('cfg-save').onclick=()=>{
+ aiCfg={prov:cfgProv.value,key:cfgKey.value.trim()};
+ localStorage.setItem('ti_prov',aiCfg.prov);
+ localStorage.setItem('ti_key',aiCfg.key);
+ cfgMsg.textContent=aiCfg.prov==='local'?'Modo local activo.':(aiCfg.key?'Guardado.':'Falta API key (usará modo local).');
+ setTimeout(()=>cfgMsg.textContent='',2600);
+};
+document.getElementById('cfg-clear').onclick=()=>{
+ cfgKey.value='';cfgProv.value='local';
+ aiCfg={prov:'local',key:''};
+ localStorage.removeItem('ti_key');localStorage.setItem('ti_prov','local');
+ cfgMsg.textContent='Key borrada.';setTimeout(()=>cfgMsg.textContent='',2000);
+};
+
+/* ===== CHAT Y TUTOR CONTEXTUAL ===== */
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const chatHistory=[];
+
+function addSysMsg(html){
+ const el=document.createElement('div');
+ el.className='msg sys ui-font';el.innerHTML=html;
+ chatLog.appendChild(el);chatLog.scrollTop=chatLog.scrollHeight;
+}
+
+function addMsg(role,text,jumps){
+ const el=document.createElement('div');
+ el.className='msg '+role;
+ const body=document.createElement('div');
+ body.innerHTML=esc(text).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+ el.appendChild(body);
+
+ if(jumps&&jumps.length){
+  const jWrap=document.createElement('div');jWrap.className='msg-jumps ui-font';
+  jumps.forEach(j=>{
+   const b=document.createElement('button');b.type='button';b.className='msg-jump';
+   b.textContent='Ir a: '+j.name;
+   b.onclick=()=>jumpToNode(j.node);
+   jWrap.appendChild(b);
+  });
+  el.appendChild(jWrap);
+ }
+ if(role==='bot'){
+  const meta=document.createElement('div');meta.className='msg-meta ui-font';
+  const tag=document.createElement('span');tag.textContent=aiCfg.prov!=='local'&&aiCfg.key?'IA externa':'Tutor del mapa';
+  const sp=document.createElement('button');sp.type='button';sp.className='msg-speak';sp.textContent='🔊 Escuchar';
+  sp.onclick=()=>speakText(text,'Leyendo respuesta');
+  meta.appendChild(tag);meta.appendChild(sp);el.appendChild(meta);
+ }
+ chatLog.appendChild(el);chatLog.scrollTop=chatLog.scrollHeight;
+ return el;
+}
+
+function searchRelated(query,excludeId){
+ const qTokens=tokens(query);
+ if(!qTokens.length)return [];
+ return ALL_TOPICS.filter(t=>t.id!==excludeId).map(t=>{
+  let score=0;
+  qTokens.forEach(w=>{
+   if(t.words.has(w))score+=2;
+   else if(t.search.includes(w))score+=1;
+  });
+  if(norm(t.name).includes(norm(query)))score+=4;
+  return {topic:t,score};
+ }).filter(x=>x.score>=2).sort((a,b)=>b.score-a.score).slice(0,3).map(x=>x.topic);
+}
+
+function localAnswer(query,d){
+ const q=norm(query);
+ const info=getNodeInfo(d);
+ const parentName=d.parent?d.parent.data.name:'la raíz del mapa';
+ const jumps=[];
+
+ if(/^(hola|buenas|hey|ayuda|que podes|que haces)/.test(q)){
+  return {
+   text:`Estoy enfocado en **${info.name}**. Podés pedirme un resumen, una explicación simple, cómo se conecta con otros nodos, una pregunta tipo quiz o consultar cualquier concepto del esquema (por ejemplo: *Bouasse*, *méconnaissance*, *falo*, *Lambda*, *transitivismo*).`,
+   jumps:[]
+  };
+ }
+
+ if(/quiz|pregunt|practic|evalua|test/.test(q)){
+  if(info.devText){
+   const clue=info.subtopics.length?info.subtopics.map(s=>s.data.name).join(', '):info.desc||info.name;
+   return {
+    text:`**Pregunta sobre "${info.name}":**\n¿Cómo explicarías con tus palabras qué función cumple **${info.name}** (${clue}) dentro de **${parentName}**?\n\n*Pista:* pensá en cómo articula la imagen, el yo y la relación con el Otro.`,
+    jumps:[]
+   };
+  }
+  const subs=info.subtopics.map(s=>s.data.name).join(' · ');
+  return {
+   text:`**Pregunta sobre "${info.name}":**\nEste eje se organiza en: ${subs}. ¿Cuál de esos puntos considerás clave para entender lo imaginario y por qué?`,
+   jumps:info.subtopics.slice(0,2).map(s=>({name:s.data.name,node:s}))
+  };
+ }
+
+ if(/conect|relacion|ubic|donde|rama|contexto|resto|diferencia/.test(q)){
+  const related=searchRelated(query,d.id);
+  let txt=`**Ubicación de "${info.name}":**\nPertenece a la ruta: *${info.path.join(' › ')}*.`;
+  if(info.siblings.length){
+   txt+=`\n\nSe articula junto a nodos hermanos como: ${info.siblings.map(s=>`**${s.data.name}**`).join(', ')}.`;
+  }
+  if(info.subtopics.length){
+   txt+=`\n\nDe aquí se despliegan: ${info.subtopics.map(s=>`**${s.data.name}**`).join(', ')}.`;
+  }
+  if(related.length){
+   txt+=`\n\nTambién encontré vínculos directos con: ${related.map(r=>`**${r.name}**`).join(', ')}.`;
+   related.forEach(r=>jumps.push({name:r.name,node:r.node}));
+  }else if(info.siblings.length){
+   info.siblings.slice(0,2).forEach(s=>jumps.push({name:s.data.name,node:s}));
+  }
+  return {text:txt,jumps};
+ }
+
+ if(/resum|simple|facil|explic|que es|significa|desarroll|ejemplo/.test(q)){
+  if(info.devText){
+   let txt=`**${info.name}**${info.desc?` (${info.desc})`:''}:\n${info.devText}`;
+   if(/simple|facil|ejemplo/.test(q)){
+    txt+=`\n\n**En clave simple:** dentro de *${parentName}*, este punto subraya que la unidad del yo no es natural ni autónoma, sino un efecto de imagen sostenido desde el Otro.`;
+   }
+   return {text:txt,jumps:[]};
+  }
+  const kidsText=info.subtopics.map(s=>{
+   const ki=getNodeInfo(s);
+   return `• **${ki.name}**${ki.desc?': '+ki.desc:''}`;
+  }).join('\n');
+  return {
+   text:`**${info.name}** agrupa los siguientes desarrollos:\n${kidsText}\n\nPodés hacer clic en cualquiera para profundizar.`,
+   jumps:info.subtopics.slice(0,3).map(s=>({name:s.data.name,node:s}))
+  };
+ }
+
+ const qTokens=tokens(query);
+ const activeTopic=ALL_TOPICS.find(t=>t.id===d.id);
+ const activeHits=qTokens.filter(w=>activeTopic&&(activeTopic.words.has(w)||activeTopic.search.includes(w))).length;
+ const related=searchRelated(query,d.id);
+
+ if(related.length&&activeHits===0){
+  const best=related[0];
+  const snippet=best.devText||best.desc||`Agrupa: ${best.subtopics.map(s=>s.data.name).join(', ')}`;
+  return {
+   text:`En el nodo activo (**${info.name}**) no aparece ese término directamente, pero sí en **${best.name}** (*${best.path.join(' › ')}*):\n\n${snippet}`,
+   jumps:related.map(r=>({name:r.name,node:r.node}))
+  };
+ }
+
+ if(info.devText){
+  let txt=`Sobre **${info.name}**: ${info.devText}`;
+  if(related.length){
+   txt+=`\n\nConceptos relacionados en el mapa: ${related.map(r=>`**${r.name}**`).join(', ')}.`;
+   related.forEach(r=>jumps.push({name:r.name,node:r.node}));
+  }
+  return {text:txt,jumps};
+ }
+
+ return {
+  text:`Estás en **${info.name}**. Sus subtemas son: ${info.subtopics.map(s=>`**${s.data.name}**`).join(', ')}. Elegí uno o preguntame por un concepto específico.`,
+  jumps:info.subtopics.slice(0,3).map(s=>({name:s.data.name,node:s}))
+ };
+}
+
+function buildSystemPrompt(d){
+ const info=getNodeInfo(d);
+ const subDetails=info.subtopics.map(s=>{
+  const si=getNodeInfo(s);
+  return `- ${si.name}${si.desc?' ('+si.desc+')':''}${si.devText?': '+si.devText:''}`;
+ }).join('\n');
+ return `Sos un tutor de psicoanálisis lacaniano que responde en español (rioplatense claro, preciso y didáctico) sobre un mapa mental titulado "Tópica de lo imaginario".
+NODO ACTIVO ACTUAL:
+- Ruta: ${info.path.join(' > ')}
+- Título: ${info.name}
+- Subtítulo: ${info.desc||'(ninguno)'}
+- Desarrollo del nodo: ${info.devText||'(es un nodo agrupador)'}
+- Nodos hermanos: ${info.siblings.map(s=>s.data.name).join(', ')||'(ninguno)'}
+- Subtemas hijos:\n${subDetails||'(ninguno)'}
+
+Respondé de forma concisa (máximo 150 palabras salvo que pidan más detalle) tomando como eje el nodo activo y conectándolo con el resto del mapa cuando aporte claridad.`;
+}
+
+async function askAI(query,d){
+ if(aiCfg.prov==='local'||!aiCfg.key)return localAnswer(query,d);
+ const sys=buildSystemPrompt(d);
+ try{
+  if(aiCfg.prov==='openai'){
+   const msgs=[{role:'system',content:sys},...chatHistory.slice(-6),{role:'user',content:query}];
+   const res=await fetch('https://api.openai.com/v1/chat/completions',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+aiCfg.key},
+    body:JSON.stringify({model:'gpt-4o-mini',messages:msgs,temperature:.4})
+   });
+   if(!res.ok)throw new Error('HTTP '+res.status);
+   const data=await res.json();
+   return {text:data.choices[0].message.content.trim(),jumps:[]};
+  }
+  if(aiCfg.prov==='gemini'){
+   const url=`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${encodeURIComponent(aiCfg.key)}`;
+   const res=await fetch(url,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+     systemInstruction:{parts:[{text:sys}]},
+     contents:[{role:'user',parts:[{text:query}]}]
+    })
+   });
+   if(!res.ok)throw new Error('HTTP '+res.status);
+   const data=await res.json();
+   const txt=data.candidates?.[0]?.content?.parts?.[0]?.text;
+   if(!txt)throw new Error('Sin respuesta');
+   return {text:txt.trim(),jumps:[]};
+  }
+ }catch(err){
+  const fb=localAnswer(query,d);
+  return {text:`*(No pude conectar con ${aiCfg.prov}: ${err.message}. Respondo con el tutor local.)*\n\n${fb.text}`,jumps:fb.jumps};
+ }
+ return localAnswer(query,d);
+}
+
+const chatForm=document.getElementById('chat-form');
+const chatIn=document.getElementById('chat-in');
+
+async function sendQuery(text){
+ const q=text.trim();
+ if(!q)return;
+ addMsg('user',q);
+ chatHistory.push({role:'user',content:q});
+ chatIn.value='';chatIn.style.height='auto';
+ const waitEl=addMsg('bot','Pensando...');
+ const ans=await askAI(q,activeNode);
+ waitEl.remove();
+ addMsg('bot',ans.text,ans.jumps);
+ chatHistory.push({role:'assistant',content:ans.text});
+}
+
+chatForm.onsubmit=e=>{e.preventDefault();sendQuery(chatIn.value);};
+chatIn.addEventListener('keydown',e=>{
+ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendQuery(chatIn.value);}
+});
+chatIn.addEventListener('input',()=>{
+ chatIn.style.height='auto';
+ chatIn.style.height=Math.min(92,chatIn.scrollHeight)+'px';
+});
+document.querySelectorAll('#quick button').forEach(b=>{
+ b.onclick=()=>sendQuery(b.dataset.q);
+});
+
+update(root);
+setActiveNode(root,false);
+fit();
+</script>
+</body>
+</html>
