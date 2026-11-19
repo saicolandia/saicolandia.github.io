@@ -2,20 +2,18 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Kalam:wght@400;700&display=swap">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>El Edipo lacaniano</title>
 <style>
 :root{--ink:#2a1f14;--brass:#d9a441}
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;overflow:hidden}
-body{font:16px/1.5 Georgia,'Times New Roman',serif;color:var(--ink);
-background:
-linear-gradient(180deg,transparent 0 158px,rgba(15,6,0,.55) 158px 160px) 0 0/100% 160px,
-repeating-linear-gradient(180deg,rgba(255,190,110,.07) 0 160px,rgba(0,0,0,.1) 160px 320px),
-url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='320'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.003 .14' numOctaves='4' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .16 0 0 0 0 .08 0 0 0 0 .02 0 0 0 1.3 -.4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E"),
-#7a4e2b}
+body{font:17px/1.45 Kalam,'Segoe Print','Bradley Hand',cursive;color:var(--ink);background:#7a4e2b}
+#wood{position:fixed;inset:0;width:100%;height:100%;z-index:0}
 #stage{position:fixed;inset:0;z-index:2;overflow:hidden;touch-action:pan-y}
-.lamp{position:fixed;inset:0;z-index:4;pointer-events:none;background:radial-gradient(circle at 50% 45%,rgba(255,230,165,.4) 0,rgba(255,205,120,.17) 20%,rgba(30,12,0,.35) 42%,rgba(0,0,0,.9) 82%)}
+.lamp{position:fixed;inset:0;z-index:4;pointer-events:none;background:radial-gradient(circle at 34% 32%,rgba(255,232,170,.42) 0,rgba(255,205,120,.18) 22%,rgba(30,12,0,.35) 46%,rgba(0,0,0,.9) 88%)}
 .paper{position:absolute;left:50%;top:50%;max-height:78vh;overflow:auto;padding:18px 22px 22px;background:#f4ebd6;border-radius:2px;
 box-shadow:0 1px 1px rgba(0,0,0,.3),0 8px 20px rgba(0,0,0,.55);transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .4s;touch-action:pan-y}
 .h{width:min(86vw,540px)}
@@ -25,27 +23,29 @@ box-shadow:0 1px 1px rgba(0,0,0,.3),0 8px 20px rgba(0,0,0,.55);transition:transf
 .g{width:min(92vw,680px)}
 .hd{display:flex;gap:12px;align-items:center;margin-bottom:8px}
 .hd .e{font-size:clamp(2.6rem,9vw,3.6rem);line-height:1}
-.paper h2{margin:0;font-size:1.25rem;line-height:1.2}
+.paper h2{margin:0;font:700 1.9rem/1.1 Caveat,'Segoe Print',cursive}
 .paper p{margin:.5em 0}
-.fx p{font:1.05rem ui-monospace,Menlo,monospace;text-align:center;background:rgba(0,0,0,.06);padding:10px;line-height:1.5}
+.fx p:first-of-type{font:700 1.6rem/1.4 Caveat,cursive;text-align:center;background:rgba(0,0,0,.06);padding:8px}
 .tw{overflow-x:auto}
 table{border-collapse:collapse;font-size:.88rem;min-width:540px}
 th,td{padding:6px 8px;border-bottom:1px solid rgba(0,0,0,.3);text-align:left;vertical-align:top}
-details.sub{margin-top:14px;background:#f1d77f;padding:8px 12px;transform:rotate(-1.2deg);box-shadow:0 3px 8px rgba(0,0,0,.35)}
-.n details.sub{background:#fffdf5}
-details.sub summary{cursor:pointer;font-weight:700;font-size:.95rem;min-height:30px}
-#side{position:fixed;left:0;top:0;bottom:0;width:260px;z-index:20;background:rgba(28,16,8,.95);color:#eadcc0;overflow:auto;padding:16px 10px 20px;border-right:1px solid rgba(217,164,65,.35);transition:transform .3s;font-family:system-ui,sans-serif}
-#side h1{font:700 1.05rem Georgia,serif;margin:0 8px 8px;color:var(--brass)}
+.sub{margin:12px 0 4px;background:#f1d77f;padding:8px 12px;transform:rotate(-1.2deg);box-shadow:0 3px 8px rgba(0,0,0,.35);animation:pop .25s}
+.sub p{margin:.2em 0 0;line-height:1.35}
+.n .sub{background:#fffdf5}
+.t{background:none;border:0;padding:0;font:inherit;color:#8a2c14;text-decoration:underline wavy;text-underline-offset:3px;cursor:pointer}
+@keyframes pop{from{opacity:0;transform:rotate(-1.2deg) scale(.92)}}
+#side{position:fixed;left:0;top:0;bottom:0;width:260px;z-index:20;background:rgba(28,16,8,.95);color:#eadcc0;overflow:auto;padding:16px 10px 20px;border-right:1px solid rgba(217,164,65,.35);transition:transform .3s;font-family:Kalam,cursive}
+#side h1{font:700 1.7rem Caveat,cursive;margin:0 8px 8px;color:var(--brass)}
 .gh{font-weight:700;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:#a58a62;margin:16px 8px 6px}
 .tb{display:flex;gap:10px;align-items:center;width:100%;min-height:44px;padding:6px 10px;border:0;border-radius:6px;background:none;color:inherit;font:inherit;font-size:.92rem;text-align:left;cursor:pointer}
 .tb:hover{background:rgba(255,255,255,.07)}
 .tb[aria-current=true]{background:rgba(217,164,65,.22);color:#fff}
 .tb .e{font-size:1.5rem}
-#menu{position:fixed;top:10px;left:10px;z-index:21;min-height:44px;padding:0 14px;border-radius:22px;border:2px solid var(--brass);background:rgba(30,16,6,.85);color:var(--brass);font:700 .9rem system-ui,sans-serif;cursor:pointer}
+#menu{position:fixed;top:10px;left:10px;z-index:21;min-height:44px;padding:0 14px;border-radius:22px;border:2px solid var(--brass);background:rgba(30,16,6,.85);color:var(--brass);font:700 1rem Kalam,cursive;cursor:pointer}
 .ar{position:fixed;top:50%;z-index:15;width:46px;height:46px;margin-top:-23px;border-radius:50%;border:2px solid var(--brass);background:rgba(30,16,6,.82);color:var(--brass);font-size:1.4rem;cursor:pointer}
 .ar:disabled{opacity:.25;cursor:default}
 #prev{left:6px}#next{right:6px}
-#info{position:fixed;bottom:12px;left:0;right:0;text-align:center;z-index:15;color:#eadcc0;font:.85rem system-ui,sans-serif;text-shadow:0 1px 3px #000;pointer-events:none}
+#info{position:fixed;bottom:12px;left:0;right:0;text-align:center;z-index:15;color:#eadcc0;font:.95rem Kalam,cursive;text-shadow:0 1px 3px #000;pointer-events:none}
 :focus-visible{outline:3px solid var(--brass);outline-offset:2px}
 @media(max-width:819px){#side{transform:translateX(-100%)}#side.open{transform:none}}
 @media(min-width:820px){#menu{display:none}#stage,.lamp,#info{left:260px}#prev{left:276px}.ar{width:54px;height:54px;margin-top:-27px}}
@@ -53,83 +53,110 @@ details.sub summary{cursor:pointer;font-weight:700;font-size:.95rem;min-height:3
 </style>
 </head>
 <body>
-<aside id="side"><h1>🕯️ El Edipo lacaniano</h1><nav id="nav" aria-label="Temas"></nav></aside>
-<button id="menu" aria-label="Abrir temas">☰ Temas</button>
+<canvas id="wood"></canvas>
+<aside id="side"><h1>El Edipo lacaniano</h1><nav id="nav" aria-label="Temas"></nav></aside>
+<button id="menu" aria-label="Abrir temas">Temas</button>
 <main id="stage"></main>
 <div class="lamp"></div>
-<button class="ar" id="prev" aria-label="Papel anterior">◀</button>
-<button class="ar" id="next" aria-label="Papel siguiente">▶</button>
+<button class="ar" id="prev" aria-label="Papel anterior"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+<button class="ar" id="next" aria-label="Papel siguiente"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
 <div id="info" aria-live="polite"></div>
 <script>
 const G=['I · Imaginario y tópica del Yo','II · El Edipo en Freud','III · Melanie Klein','IV · El Edipo en Lacan'];
 const T=[
-{g:0,e:'🍼',n:'Prematuración y cuerpo fragmentado',p:[
-['h','Prematuración específica del nacimiento','La cría humana (infans) nace con inacabamiento anatómico del sistema piramidal, falta de coordinación motriz y dependencia fisiológica absoluta de la lactancia.','Los embriólogos lo llaman «fetalización» de Bolk. Sume al lactante en una dehiscencia o discordia primordial.'],
+{g:0,n:'Prematuración y cuerpo fragmentado',p:[
+['h','Prematuración específica del nacimiento','La cría humana (infans) nace con inacabamiento anatómico del sistema piramidal, falta de coordinación motriz y dependencia fisiológica absoluta de la lactancia. Los embriólogos llaman a esta condición [[fetalización]] de Bolk.'],
 ['n','Cuerpo fragmentado','En los primeros meses el niño no vive su cuerpo como unidad: dispersión inarmónica de sensaciones propioceptivas, cenestésicas e interoceptivas, marcadas por el malestar. Es el corps morcelé.']]},
-{g:0,e:'🪞',n:'Estadio del Espejo',p:[
-['h','Entre los 6 y los 18 meses','Con impotencia motriz pero maduración precoz de la percepción visual, el niño se fascina con su imagen y la asume como propia (Aha-Erlebnis, de Köhler). El chimpancé descubre la «inanidad» de la imagen y pierde el interés.'],
-['f','De la insuficiencia a la anticipación','Identificación en sentido pleno: transformación del sujeto al asumir una imago. El niño capta la Gestalt exterior de su cuerpo —armónica, simétrica, unificada— y se adelanta a su maduración real.','La Gestalt funciona como armadura «ortopédica»: pacifica el cuerpo fragmentado y precipita el Yo Ideal (moi ideal / i(a)).'],
+{g:0,n:'Estadio del Espejo',p:[
+['h','Entre los 6 y los 18 meses','Con impotencia motriz pero maduración precoz de la percepción visual, el niño se fascina con su imagen y la asume como propia ([[Aha-Erlebnis]], de Köhler). El chimpancé descubre la «inanidad» de la imagen y pierde el interés.'],
+['f','De la insuficiencia a la anticipación','Identificación en sentido pleno: transformación del sujeto al asumir una imago. El niño capta la Gestalt exterior de su cuerpo —armónica, simétrica, unificada— y se adelanta a su maduración real. Esa Gestalt funciona como [[armadura ortopédica]].'],
 ['n','Alienación estructural','La imagen es exterior y virtual: el Yo (moi) queda para siempre en una línea de ficción. «Yo es otro» (Rimbaud).']]},
-{g:0,e:'👑',n:'Gran Otro y «Su majestad el bebé»',p:[
+{g:0,n:'Gran Otro y «Su majestad el bebé»',p:[
 ['h','La matriz simbólica','La fascinación especular requiere la mediación del Gran Otro (A): la palabra, la mirada y el deseo de la madre. Su confirmación —«¡Mirá, ese sos vos!»— ratifica la imagen del Yo ideal i(a) en articulación con el Ideal del Yo I(A).'],
 ['f','His Majesty the Baby','Según Freud (Introducción del narcisismo), los padres proyectan en el niño su narcisismo redivivo y le atribuyen todas las perfecciones.']]},
-{g:0,e:'🔁',n:'Eje a–a’ y transitivismo',p:[
-['h','Desconocimiento estructural','El Yo (moi) es una construcción fantasmática originada en la imagen del semejante (a’): su naturaleza es la méconnaissance. Esa alienación primaria funda la estructura paranoica del Yo.'],
+{g:0,n:'Eje a–a’ y transitivismo',p:[
+['h','Desconocimiento estructural','El Yo (moi) es una construcción fantasmática originada en la imagen del semejante (a’): su naturaleza es la [[méconnaissance]]. Esa alienación primaria funda la estructura paranoica del Yo.'],
 ['n','Transitivismo infantil','Charlotte Bühler: el niño confunde sus acciones con las del semejante. Si pega a otro, el agresor llora: «él me pegó».'],
 ['f','Rivalidad narcisista','El semejante es objeto de amor y fascinación, pero también rival o amo que amenaza con desposeer al sujeto: o él o yo.']]},
-{g:1,e:'🌱',n:'Narcisismo (1914): Yo Ideal e Ideal del Yo',p:[
+{g:1,n:'Narcisismo (1914): Yo Ideal e Ideal del Yo',p:[
 ['h','Un nuevo acto psíquico','El Yo no está desde el comienzo: las pulsiones autoeróticas son parciales y anárquicas. El narcisismo primario no se observa en el bebé; se deduce por inferencia retrospectiva a través de la conducta de los padres.'],
 ['f','Yo Ideal · i(a) / Idealich','Registro Imaginario. Forma unificada de la Gestalt especular en la que el Yo se aliena; tronco de las identificaciones narcisistas.'],
-['f','Ideal del Yo · I(A) / Ichideal','Registro Simbólico. Trazo o mandamiento significante del Gran Otro: punto desde el cual el sujeto se mira para evaluarse.','En 1914 Freud usa ambas expresiones de forma fluctuante; la lectura lacaniana precisa la diferencia estructural.']]},
-{g:1,e:'🚺',n:'Sexualidad femenina (1931)',p:[
+['f','Ideal del Yo · I(A) / Ichideal','Registro Simbólico. Trazo o mandamiento significante del Gran Otro: punto desde el cual el sujeto se mira para evaluarse. En 1914 Freud usa ambas expresiones de forma fluctuante.']]},
+{g:1,n:'Sexualidad femenina (1931)',p:[
 ['h','Disimetría edípica','El Edipo no es simétrico entre los sexos; Freud rechaza «complejo de Electra». La madre es el primer objeto de ambos, pero en la niña hay cambio de vía y de objeto (madre → padre), tras una ligazón preedípica de enorme duración e intensidad.'],
-['f','Descubrimiento de la castración','Ni ella ni la madre tienen pene: herida narcisista que abre tres salidas.','1. Aterroriamiento y renuncia a la sexualidad. 2. Complejo de masculinidad: retiene la esperanza de un pene; puede derivar en elección homosexual. 3. Feminidad definitiva: acepta la falta, se aleja de la madre y se orienta al padre; ecuación simbólica pene = hijo.']]},
-{g:1,e:'🦴',n:'Tótem y tabú: el Padre Muerto',p:[
+['f','Descubrimiento de la castración','Ni ella ni la madre tienen pene: herida narcisista que abre [[tres salidas]].']]},
+{g:1,n:'Tótem y tabú: el Padre Muerto',p:[
 ['h','La horda primordial','Padre tiránico, violento y celoso que poseía a todas las hembras y expulsaba a los hijos. Los hermanos se aliaron, lo mataron y lo devoraron en el banquete totémico: identificación con él al apropiarse de un fragmento de su fuerza.'],
 ['f','El Padre Muerto','Tras el odio, ambivalencia: arrepentimiento y culpa. Por obediencia de efecto retardado (Nachträglichkeit) el Padre Muerto se vuelve más poderoso que en vida. Erigen dos tabúes: no matar al animal totémico y no cometer incesto con las mujeres del clan.'],
 ['n','Tuer / tutare','Matar (tuer) remite a conservar (tutare): se mata al padre para conservarlo como significante de la Ley, el Nombre del Padre. El único Padre que sostiene la Ley es el Padre Muerto.']]},
-{g:2,e:'🧸',n:'Klein y la crítica de Lacan',p:[
+{g:2,n:'Klein y la crítica de Lacan',p:[
 ['h','Edipo y Superyó tempranos','Estadios tempranos del conflicto edípico (1928): comienzan al final del primer año, hacia el destete. El Superyó es una imago materna arcaica, voraz y extremadamente cruel.'],
 ['f','Cuerpo de la madre','El conflicto gira en torno al interior del cuerpo materno: receptáculo de bebés, heces, alimento y del pene del padre. El padre entra como objeto parcial, de envidia y temor (fase paranoide-esquizoide).'],
 ['n','Crítica de Lacan','Reconoce que el tercer término (el padre) aparece muy temprano. Pero Klein degrada el Edipo al plano Imaginario (frustración, fantasías de devoración) y confunde imagos arcaicas con el Nombre del Padre y la castración simbólica: no distingue psicosis de neurosis.']]},
-{g:3,e:'🎭',n:'Primer tiempo',p:[
+{g:3,n:'Primer tiempo',p:[
 ['h','El niño como objeto de deseo','El niño ingresa como objeto del deseo del Otro (N = φ), comandado por el significante Deseo de la Madre (DM). Tríada imaginaria: Madre, Niño, Falo imaginario (φ).'],
-['f','Ser o no ser el falo','El niño percibe que a la madre le falta algo. Para capturar su amor descifra su enigma (Che vuoi?) y se ofrece a «ser el falo» de la madre.'],
+['f','Ser o no ser el falo','El niño percibe que a la madre le falta algo. Para capturar su amor descifra su enigma ([[Che vuoi?]]) y se ofrece a «ser el falo» de la madre.'],
 ['n','Capricho materno','Ley no simbolizada, omnipotente e impredecible. El niño, súbdito pasivo, está en el «paraíso del señuelo» (leurre). El Nombre del Padre (NP) opera velado.']]},
-{g:3,e:'✂️',n:'Segundo tiempo y metáfora paterna',p:[
-['h','Padre Privador','Punto nodal y negativo que corta la fijación madre-hijo. Su palabra remite el discurso materno a un tribunal superior (el Otro del Otro) y demuestra que la madre no es omnipotente: la priva del falo simbólico (Φ) que no posee en lo real.'],
-['f fx','Metáfora Paterna','NP / DM · DM / x → NP (1 / Φ)','NP sustituye a DM. DM va bajo la barra de represión (represión primordial), se resuelve la incógnita del deseo materno (x) y resulta la Significación Fálica (Φ). El niño pasa de «ser o no ser el falo» a «tenerlo o no tenerlo».']]},
-{g:3,e:'🔺',n:'Tres faltas de objeto',p:[
-['g','Castración, frustración, privación',null,'Castración: el niño es desalojado de ser el falo; recae sobre el pene en lo imaginario. Frustración: presencia/ausencia de la madre. Privación: se demuestra que la madre carece del falo.',[
+{g:3,n:'Segundo tiempo y metáfora paterna',p:[
+['h','Padre Privador','Punto nodal y negativo que corta la fijación madre-hijo. Su palabra remite el discurso materno a un tribunal superior ([[Otro del Otro]]) y demuestra que la madre no es omnipotente: la priva del falo simbólico (Φ) que no posee en lo real.'],
+['f fx','Metáfora Paterna',['NP / DM · DM / x → NP (1 / Φ)','El [[Nombre del Padre]] sustituye al [[Deseo de la Madre]]. El niño pasa de «ser o no ser el falo» a «tenerlo o no tenerlo».']]]},
+{g:3,n:'Tres faltas de objeto',p:[
+['g','Castración, frustración, privación','Tres modos en que el objeto falta, según los tres registros (Seminarios 4 y 5): [[castración]], [[frustración]] y [[privación]].',null,[
 ['Falta','Registro','Agente','Objeto','Afectado'],
 ['Castración','Simbólico','Padre Real','Falo Imaginario (φ)','El Niño'],
 ['Frustración','Imaginario','Madre Simbólica','Objeto Real','El Niño (demanda de necesidad)'],
 ['Privación','Real','Padre Imaginario','Falo Simbólico (Φ)','La Madre']]]]},
-{g:3,e:'👻',n:'El padre existe incluso sin estar',p:[
+{g:3,n:'El padre existe incluso sin estar',p:[
 ['h','Crítica al debate ambientalista','Lacan rechaza reducir la función del padre a su conducta, su amabilidad o su presencia física en el hogar. El personaje real suele ser un «pobre hombre».'],
 ['f','Función significante','El Padre es el Nombre del Padre, inscripto en el orden simbólico. Si la madre reconoce en su palabra que su deseo está sujeto a la Ley de un Otro que la trasciende, la metáfora paterna se efectúa aunque el padre biológico esté ausente.']]},
-{g:3,e:'📜',n:'Tercer tiempo',p:[
+{g:3,n:'Tercer tiempo',p:[
 ['h','Padre Real y Potente','Concluye el Edipo con salida normativizante. El Padre demuestra que él sí tiene el falo y puede dárselo a la madre: la interdicción se convierte en donación y permiso.'],
 ['n','En el varón','Se identifica con el Padre en el polo del Ideal del Yo I(A). Obtiene los «títulos en el bolsillo»: certificado simbólico que autoriza la virilidad y la elección de objeto exogámico en la pubertad.'],
 ['n','En la niña','Reconoce que no tiene el falo, pero identifica al Padre como quien lo tiene y orienta su deseo a recibirlo en el futuro como un don, por la ecuación simbólica.']]}
 ];
 const $=id=>document.getElementById(id),mk=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
 const st=$('stage'),nav=$('nav'),side=$('side'),P=[];let cur=0,x0=0;
-T.forEach((tp,ti)=>tp.p.forEach(([k,t,b,m,rows])=>{
+const D={
+'fetalización':'Condición biológica de prematuración del nacimiento humano. Sume al lactante en una dehiscencia o discordia primordial.',
+'Aha-Erlebnis':'Noción tomada de Wolfgang Köhler: la mímica jubilosa de iluminación o reconocimiento.',
+'armadura ortopédica':'Prótesis rígida que ensambla y pacifica la turbulencia del cuerpo fragmentado, y precipita la formación del Yo Ideal (moi ideal / i(a)).',
+'méconnaissance':'Desconocimiento estructural: el Yo no es una instancia de percepción directa ni transparente.',
+'tres salidas':'1. Aterroriamiento y renuncia a la sexualidad. 2. Complejo de masculinidad: la niña retiene la esperanza de un pene; puede derivar en elección homosexual. 3. Feminidad definitiva: acepta la falta, se aleja de la madre y se orienta al padre; ecuación simbólica pene = hijo.',
+'Che vuoi?':'¿Qué me quieres?',
+'Otro del Otro':'El tribunal superior al que la palabra del Padre remite el discurso materno.',
+'Nombre del Padre':'Significante (NP) que existe en lo real de la cultura; en el primer tiempo opera velado. Irrumpe para sustituir al significante del Deseo de la Madre.',
+'Deseo de la Madre':'Significante (DM) que comanda el primer tiempo. En la metáfora es enviado bajo la barra de represión (represión primordial): se resuelve la incógnita del deseo materno (x) y resulta la Significación Fálica (Φ).',
+'castración':'El niño es desalojado de ser el falo; recae sobre el pene en lo imaginario.',
+'frustración':'Se juega en la presencia o ausencia de la madre (objeto real), en la demanda de necesidad del niño.',
+'privación':'Se demuestra que la madre carece del falo simbólico (Φ): agujero en lo real.'};
+function para(s,el){const p=mk('p');s.split(/\[\[(.+?)\]\]/).forEach((x,j)=>{if(j%2){const b=mk('button','t',x);b.type='button';b.onclick=()=>note(el,p,x);p.append(b)}else if(x)p.append(x)});return p}
+function note(el,p,k){const o=el.querySelector('.sub'),same=o&&o.dataset.k===k;if(o)o.remove();if(same)return;const n=mk('aside','sub');n.dataset.k=k;n.append(mk('strong','',k),mk('p','',D[k]));p.after(n)}
+let wt;
+function wood(){const c=$('wood'),W=c.width=Math.ceil(innerWidth/2),H=c.height=Math.ceil(innerHeight/2),x=c.getContext('2d'),im=x.createImageData(W,H),d=im.data,PH=72;
+  const hs=(a,b)=>{const n=Math.sin(a*127.1+b*311.7)*43758.5453;return n-Math.floor(n)};
+  const vn=(a,b)=>{const i=Math.floor(a),j=Math.floor(b),f=a-i,g=b-j,u=f*f*(3-2*f),v=g*g*(3-2*g);return hs(i,j)*(1-u)*(1-v)+hs(i+1,j)*u*(1-v)+hs(i,j+1)*(1-u)*v+hs(i+1,j+1)*u*v};
+  const fb=(a,b)=>vn(a,b)*.5+vn(a*2,b*2)*.25+vn(a*4,b*4)*.125+vn(a*8,b*8)*.0625;
+  for(let y=0;y<H;y++){const pk=Math.floor(y/PH),yy=y-pk*PH,o=pk*13.7,tn=hs(pk,1),jx=hs(pk,3)*W;
+    for(let X=0;X<W;X++){
+      const w=fb(X*.005+o,yy*.03+o),t=Math.pow(Math.sin(yy*.3+w*22+o)*.5+.5,1.8),f=vn(X*.015+o,yy*1.4+o*3);
+      let k=(.8+.2*(1-t*.75))*(.88+.24*f);
+      if(yy<1.3||Math.abs(X-jx)<.8)k*=.3;else if(yy<2.6)k*=.72;
+      const p=(y*W+X)*4;d[p]=(150+55*tn)*k;d[p+1]=(96+38*tn)*k;d[p+2]=(52+22*tn)*k;d[p+3]=255}}
+  x.putImageData(im,0,0)}
+T.forEach((tp,ti)=>tp.p.forEach(([k,t,b,,rows])=>{
   const i=P.length,el=mk('article','paper '+k),hd=mk('div','hd');
-  hd.append(mk('span','e',tp.e),mk('h2','',t));el.append(hd);
-  if(b)el.append(mk('p','',b));
+  hd.append(mk('h2','',t));el.append(hd);
+  [].concat(b||[]).forEach(s=>el.append(para(s,el)));
   if(rows){const w=mk('div','tw'),tb=mk('table');
     rows.forEach((r,j)=>{const tr=mk('tr');r.forEach(c=>tr.append(mk(j?'td':'th','',c)));tb.append(tr)});
     w.append(tb);el.append(w)}
-  if(m){const d=mk('details','sub');d.append(mk('summary','','🗒️ Más desarrollo'),mk('p','',m));el.append(d)}
   el.dataset.t=ti;el.onclick=()=>{if(i!==cur)go(i)};
   if(tp.f===undefined)tp.f=i;
   P.push(el);st.append(el);
 }));
 G.forEach((g,gi)=>{nav.append(mk('div','gh',g));
   T.forEach(tp=>{if(tp.g!==gi)return;
-    const b=mk('button','tb');b.append(mk('span','e',tp.e),mk('span','',tp.n));
+    const b=mk('button','tb');b.append(mk('span','',tp.n));
     b.onclick=()=>{go(tp.f);side.classList.remove('open')};tp.b=b;nav.append(b)})});
 function render(){
   const dx=Math.min(st.clientWidth*.42,400);
@@ -138,8 +165,8 @@ function render(){
     el.style.opacity=a>1?0:1;el.style.zIndex=9-a;
     el.style.pointerEvents=a>1?'none':'auto';el.style.visibility=a>2?'hidden':'visible';
     el.setAttribute('aria-hidden',a?'true':'false');
-    el.querySelectorAll('summary').forEach(s=>s.tabIndex=a?-1:0);
-    if(a)el.scrollTop=0});
+    el.querySelectorAll('.t').forEach(s=>s.tabIndex=a?-1:0);
+    if(a){el.scrollTop=0;el.querySelectorAll('.sub').forEach(n=>n.remove())}});
   const ti=+P[cur].dataset.t;
   T.forEach((tp,j)=>tp.b.setAttribute('aria-current',j===ti));
   T[ti].b.scrollIntoView({block:'nearest'});
@@ -152,8 +179,8 @@ $('menu').onclick=()=>side.classList.toggle('open');
 addEventListener('keydown',e=>{if(e.key==='ArrowLeft')go(cur-1);else if(e.key==='ArrowRight')go(cur+1);else if(e.key==='Escape')side.classList.remove('open')});
 st.addEventListener('pointerdown',e=>x0=e.clientX);
 st.addEventListener('pointerup',e=>{const d=e.clientX-x0;if(e.pointerType==='touch'&&Math.abs(d)>60)go(cur+(d<0?1:-1))});
-addEventListener('resize',render);
-render();
+addEventListener('resize',()=>{render();clearTimeout(wt);wt=setTimeout(wood,300)});
+wood();render();
 </script>
 </body>
 </html>
