@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="artifact-type" content="tool">
+<meta name="design-style" content="handbook">
+<title>Simulador de Examen — Instrumentos de Exploración Psicológica II</title>
+<style>
+:root {
+  color-scheme: light;
+
+  /* 1. Base palette inspired by Handbook on clean physical paper */
+  --background: #fcfbf8;
+  --surface-container-low: #fcfbf8;
+  --surface-container: #fcfbf8;
+  --surface-container-high: #fcfbf8;
+
+  /* Ink colors */
+  --on-surface: #1b1b1b;
+  --on-surface-variant: #4a4f54;
+  --hover-ink: #4b6884;
+
+  /* Rules (unused for borders per strict user specification) */
+  --outline: transparent;
+  --outline-variant: transparent;
+
+  /* Interactive & semantic accents (text color only) */
+  --primary: #1a569e;
+  --on-primary: #fcfbf8;
+  --primary-container: #fcfbf8;
+  --on-primary-container: #0c2d4a;
+  --secondary: #4c2c92;
+  --tertiary: #0c3b73;
+  --error: #a93226;
+  --on-error: #fcfbf8;
+  --positive: #186a3b;
+  --warning: #8a5a00;
+  --focus: #0c3b73;
+  --muted-ink: #767b80;
+
+  /* Data series tokens */
+  --data-1: #1a569e;
+  --data-2: #c75a0a;
+  --data-3: #28a197;
+  --data-4: #4c2c92;
+  --data-context: #b1b4b6;
+
+  /* 2. User-requested uniform Arial typography & single font size */
+  --font-headline: Arial, Helvetica, sans-serif;
+  --font-body: Arial, Helvetica, sans-serif;
+  --font-label: Arial, Helvetica, sans-serif;
+
+  /* 3. Shared tokens */
+  --display-size: 1rem;
+  --headline-size: 1rem;
+  --subhead-size: 1rem;
+  --body-size: 1rem;
+  --label-size: 1rem;
+
+  --rounded: 0;
+  --rounded-lg: 0;
+  --rounded-full: 0;
+
+  /* Spacing scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.25rem;
+  --space-2xl: 3.5rem;
+  --space-3xl: 5rem;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+}
+
+/* Base reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  font-weight: normal;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  border-radius: var(--rounded);
+}
+
+html, body {
+  overflow-x: clip;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background);
+  color: var(--on-surface);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+header {
+  position: static !important;
+}
+
+.page-sheet {
+  width: 100%;
+  max-width: 70ch;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.page-sheet * {
+  min-width: 0;
+}
+
+.exam-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.exam-header p,
+.exam-header h1 {
+  margin: 0;
+  font-size: var(--body-size);
+  font-weight: normal;
+}
+
+.header-meta {
+  color: var(--on-surface-variant);
+}
+
+.exam-status {
+  color: var(--on-surface-variant);
+}
+
+.questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+.question-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.question-stem {
+  margin: 0;
+  color: var(--on-surface);
+}
+
+.question-vignette {
+  margin: 0;
+  padding-left: var(--space-lg);
+  color: var(--on-surface-variant);
+  white-space: pre-line;
+}
+
+.question-instruction {
+  margin: 0;
+  color: var(--on-surface-variant);
+}
+
+.options-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-left: var(--space-md);
+}
+
+.vf-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xl);
+  padding-left: var(--space-md);
+}
+
+.option-btn {
+  display: inline-flex;
+  align-items: flex-start;
+  text-align: left;
+  background: transparent;
+  color: var(--on-surface);
+  padding: var(--space-sm) 0;
+  min-height: 44px;
+  cursor: pointer;
+  line-height: 1.55;
+  transition: color var(--dur-micro) var(--ease-out);
+}
+
+.option-btn:hover {
+  color: var(--hover-ink);
+}
+
+.option-btn:focus-visible {
+  color: var(--focus);
+}
+
+.option-btn.is-selected {
+  color: var(--primary);
+}
+
+.option-btn.is-selected:hover {
+  color: var(--tertiary);
+}
+
+.option-btn.is-correct {
+  color: var(--positive);
+}
+
+.option-btn.is-incorrect {
+  color: var(--error);
+}
+
+.option-btn.is-dimmed {
+  color: var(--muted-ink);
+}
+
+.option-btn:disabled {
+  cursor: default;
+}
+
+/* Ordering question rows */
+.order-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-left: var(--space-md);
+}
+
+.order-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  min-height: 44px;
+}
+
+.order-label {
+  color: var(--on-surface);
+  cursor: pointer;
+}
+
+.paper-select {
+  background: transparent;
+  color: var(--primary);
+  padding: var(--space-sm) var(--space-xs) var(--space-sm) 0;
+  min-height: 44px;
+  cursor: pointer;
+  transition: color var(--dur-micro) var(--ease-out);
+}
+
+.paper-select:hover {
+  color: var(--tertiary);
+}
+
+.paper-select:focus-visible {
+  color: var(--focus);
+}
+
+.paper-select.is-unselected {
+  color: var(--hover-ink);
+}
+
+.paper-select.is-correct {
+  color: var(--positive);
+}
+
+.paper-select.is-incorrect {
+  color: var(--error);
+}
+
+.paper-select:disabled {
+  cursor: default;
+}
+
+/* Cloze / fill-in-the-blank inline select */
+.cloze-paragraph {
+  margin: 0;
+  padding-left: var(--space-md);
+  color: var(--on-surface);
+  line-height: 1.85;
+}
+
+.cloze-select {
+  display: inline;
+  background: transparent;
+  color: var(--primary);
+  padding: 0 var(--space-xs) 0 0;
+  min-height: 44px;
+  cursor: pointer;
+  transition: color var(--dur-micro) var(--ease-out);
+}
+
+.cloze-select:hover {
+  color: var(--tertiary);
+}
+
+.cloze-select:focus-visible {
+  color: var(--focus);
+}
+
+.cloze-select.is-unselected {
+  color: var(--hover-ink);
+}
+
+.cloze-select.is-correct {
+  color: var(--positive);
+}
+
+.cloze-select.is-incorrect {
+  color: var(--error);
+}
+
+.cloze-select:disabled {
+  cursor: default;
+}
+
+/* Action controls */
+.actions-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xl);
+  padding-top: var(--space-md);
+}
+
+.action-link {
+  background: transparent;
+  color: var(--primary);
+  padding: var(--space-sm) 0;
+  min-height: 44px;
+  cursor: pointer;
+  transition: color var(--dur-micro) var(--ease-out);
+}
+
+.action-link:hover {
+  color: var(--tertiary);
+}
+
+.action-link:focus-visible {
+  color: var(--focus);
+}
+
+.action-link:disabled {
+  color: var(--muted-ink);
+  cursor: default;
+}
+
+.inline-notice {
+  margin: 0;
+  color: var(--error);
+  min-height: 1.65em;
+}
+
+.inline-notice.is-info {
+  color: var(--on-surface-variant);
+}
+
+/* Feedback block */
+.feedback-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-left: var(--space-md);
+  padding-top: var(--space-xs);
+}
+
+.feedback-verdict {
+  margin: 0;
+}
+
+.feedback-verdict.is-correct {
+  color: var(--positive);
+}
+
+.feedback-verdict.is-incorrect {
+  color: var(--error);
+}
+
+.feedback-detail {
+  margin: 0;
+  color: var(--on-surface-variant);
+}
+
+.exam-footer {
+  padding-top: var(--space-lg);
+  color: var(--on-surface-variant);
+}
+
+.exam-footer p {
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .page-sheet {
+    padding: var(--space-lg) var(--space-md) var(--space-2xl);
+    gap: var(--space-lg);
+  }
+
+  .questions-list {
+    gap: var(--space-xl);
+  }
+
+  .options-group,
+  .vf-group,
+  .order-group,
+  .cloze-paragraph,
+  .feedback-block,
+  .question-vignette {
+    padding-left: var(--space-sm);
+  }
+
+  .actions-bar {
+    gap: var(--space-lg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+<main class="page-sheet">
+  <header class="exam-header">
+    <h1>Instrumentos de Exploración Psicológica II — Técnicas Proyectivas</h1>
+    <p class="header-meta">Simulador de examen parcial impreso · Banco de 30 consignas conceptuales y clínicas</p>
+    <p>Instrucciones: responda las 3 consignas numeradas seleccionando sus respuestas directamente sobre la hoja o mediante los menús desplegables incluidos en los enunciados. Al finalizar, seleccione «Entregar examen» para recibir la corrección y la retroalimentación fundamentada. Puede generar un nuevo examen aleatorio en cualquier momento.</p>
+    <p id="exam-status" class="exam-status" aria-live="polite">Examen en curso · 3 consignas aleatorias seleccionadas.</p>
+  </header>
+
+  <section id="questions-container" class="questions-list" aria-label="Consignas del examen">
+  </section>
+
+  <section class="controls-section" aria-label="Acciones del examen">
+    <div class="actions-bar">
+      <button type="button" id="btn-submit" class="action-link" onclick="submitExam()">Entregar examen</button>
+      <button type="button" id="btn-clear" class="action-link" onclick="clearCurrentAnswers()">Limpiar respuestas</button>
+      <button type="button" id="btn-new-exam" class="action-link" onclick="generateNewExam()">Generar otro examen</button>
+    </div>
+    <p id="form-message" class="inline-notice" aria-live="polite"></p>
+  </section>
+
+  <footer class="exam-footer">
+    <p>Fuentes teóricas integradas: Test de Relaciones Objetales (H. Phillipson, M. Klein, W. Fairbairn, H. Ezriel, G. Celener, N. Álvarez), Cuestionario Desiderativo (J. Bernstein) y Técnicas Gráficas — HTP, T2P, Dibujo Libre, Familia Kinética, Persona Bajo la Lluvia y DFH (E. Hammer, R. Rodulfo, N. Álvarez, F. Dolto, K. Machover, D. Winnicott).</p>
+  </footer>
+</main>
+
+<api-shim></api-shim>
+<script>
+const QUESTION_BANK = [
+  {
+    id: `tro-serie-b`,
+    type: `mc`,
+    topic: `Test de Relaciones Objetales (TRO)`,
+    stem: `En el Test de Relaciones Objetales (TRO) de Herbert Phillipson, ¿cuál es el valor diagnóstico principal de las láminas pertenecientes a la Serie B?`,
+    options: [
+      `Evaluar estrictamente la prueba de realidad mediante escenarios arquitectónicos definidos y alto contraste blanco-negro, donde las distorsiones perceptivas son muy significativas.`,
+      `Inducir climas de calidez afectiva y sexualidad a través de tonos sepia, amarillos y marrones integrados con menor nitidez formal.`,
+      `Promover la proyección pura ante la ausencia absoluta de estímulo gráfico o sombreado externo.`,
+      `Ofrecer máxima ambigüedad mediante grises difusos y contornos indefinidos para movilizar ansiedades distímicas de abandono.`
+    ],
+    correctIndex: 0,
+    feedback: `La Serie B del TRO presenta alto contraste (blancos, negros saturados y grises nítidos), figuras y escenarios arquitectónicos definidos sin color, promoviendo climas de frialdad, amenaza, exclusión y ansiedades persecutorias. Su valor diagnóstico principal es evaluar estrictamente la prueba de realidad; las adiciones, omisiones o distorsiones perceptivas resultan altamente significativas aquí. La Serie A corresponde a grises difusos y alta ambigüedad; la Serie C incorpora el color; y la lámina 13 es la lámina en blanco.`
+  },
+  {
+    id: `tro-tres-tiempos`,
+    type: `mc`,
+    topic: `Test de Relaciones Objetales (TRO)`,
+    stem: `En la consigna básica del Test de Relaciones Objetales (TRO), se solicita al evaluado que imagine una historia contemplando tres tiempos (qué está pasando, qué ocurrió antes y cómo terminará). ¿Qué evalúa clínicamente este requisito temporal?`,
+    options: [
+      `La capacidad de discriminar los tres reinos no humanos dentro de una secuencia lúdica sistemática.`,
+      `La continuidad temporal del yo sin despersonalización y la presencia de indicadores pronósticos según el desenlace imaginado.`,
+      `El nivel de madurez visomotriz y neurocognitiva esperado según los baremos evolutivos cronológicos.`,
+      `La tendencia antropomórfica del sujeto al proyectar su esquema corporal sobre objetos arquitectónicos.`
+    ],
+    correctIndex: 1,
+    feedback: `Desplazarse imaginariamente hacia el pasado y el futuro evalúa la continuidad temporal del yo sin despersonalización y aporta indicadores pronósticos clínicos (por ejemplo, observar si el sujeto logra imaginar salidas reparatorias o si queda atrapado en finales catastróficos).`
+  },
+  {
+    id: `graf-humanizacion`,
+    type: `mc`,
+    topic: `Técnicas Gráficas`,
+    stem: `De acuerdo con los criterios de interpretación de las técnicas gráficas, ¿qué dimensiones componen específicamente el indicador «grado de humanización» y en qué producciones se evalúa?`,
+    options: [
+      `Se compone de completud, proporcionalidad y simetría, y se aplica a toda técnica gráfica incluida la Casa y el Árbol.`,
+      `Se compone de emplazamiento, tamaño y presión del trazo, y evalúa únicamente el Dibujo Libre.`,
+      `Se compone de completud, complejidad e integración, y se evalúa exclusivamente cuando aparece graficada una figura humana.`,
+      `Se compone de figurabilidad, condensación y desplazamiento, y mide exclusivamente la madurez conceptual psicométrica.`
+    ],
+    correctIndex: 2,
+    feedback: `El grado de humanización es una pauta de contenido específica que se evalúa siempre y exclusivamente cuando aparece una figura humana (como en la Persona del HTP, T2P, Familia Kinética o espontáneamente en Dibujo Libre), sin confundirlo con la visión antropomórfica. Se analiza mediante tres criterios: completud, complejidad e integración (la proporcionalidad y la simetría corresponden a pautas formales). Junto con el trazo, constituye uno de los dos indicadores gráficos centrales para valorar el contacto con la realidad y la base constitutiva del Yo.`
+  },
+  {
+    id: `graf-esquema-imagen`,
+    type: `mc`,
+    topic: `Técnicas Gráficas`,
+    stem: `En la fundamentación teórica de las técnicas gráficas, ¿cómo se articulan el esquema corporal y la imagen inconsciente del cuerpo?`,
+    options: [
+      `El esquema corporal es estrictamente inconsciente y erogenizado, mientras que la imagen inconsciente del cuerpo es una gnosia anatómica cognitiva.`,
+      `Ambos conceptos son sinónimos que designan la coordinación visomotriz necesaria para trazar un círculo cerrado.`,
+      `La imagen inconsciente del cuerpo se constituye en el vínculo libidinal con un otro, y el esquema corporal funciona como el vehículo gráfico que permite comunicarla.`,
+      `El esquema corporal solo se manifiesta en el Test del Árbol y la imagen inconsciente del cuerpo únicamente en el Cuestionario Desiderativo.`
+    ],
+    correctIndex: 2,
+    feedback: `El esquema corporal es una gnosia o representación mental cognitiva del cuerpo humano y sus particularidades anatómicas que se construye evolutivamente. La imagen inconsciente del cuerpo es estrictamente inconsciente porque se constituye en el vínculo con un otro como cuerpo libidinal (experiencias de sostén, caricias, placer y dolor). En la producción gráfica, el esquema corporal es el vehículo que permite comunicar la imagen inconsciente del cuerpo.`
+  },
+  {
+    id: `graf-perspectiva`,
+    type: `mc`,
+    topic: `Evolutiva Gráfica (Nélida Álvarez)`,
+    stem: `Según Nélida Álvarez, en la cuarta transformación de la evolutiva gráfica aparece la línea del horizonte y prevalece la perspectiva. ¿Qué valor clínico tiene la presencia de perspectiva en un gráfico?`,
+    options: [
+      `Indica capacidad de insight, reflexión, angustia señal y tolerancia a la angustia para tomar distancia y elaborar conflictos.`,
+      `Señala un déficit cognitivo regresivo equivalente al «salpicado» espacial infantil de objetos aislados.`,
+      `Evidencia un mecanismo de negación maníaca frente a la pérdida del objeto originario en la posición esquizo-paranoide.`,
+      `Demuestra exclusivamente un alto entrenamiento artístico sin valor diagnóstico para la dinámica yoica.`
+    ],
+    correctIndex: 0,
+    feedback: `Para Nélida Álvarez, tanto en los gráficos como en el Test de Rorschach, la presencia de perspectiva es un indicador sumamente favorable de capacidad de insight, reflexión, angustia señal y tolerancia a la angustia para analizar los conflictos (implica que el psiquismo no «achata» la realidad, sino que puede tomar distancia y ubicar elementos más cerca o más lejos).`
+  },
+  {
+    id: `cd-tiempos-reaccion`,
+    type: `mc`,
+    topic: `Cuestionario Desiderativo`,
+    stem: `En el Cuestionario Desiderativo, si un evaluado presenta tiempos de reacción (TR) muy prolongados en las catexias positivas y respuestas muy rápidas en las catexias negativas, ¿qué hipótesis clínica sugiere esta diferencia?`,
+    options: [
+      `Ausencia total de capacidad simbólica por no haber alcanzado aún los cinco años de edad cronológica.`,
+      `Dificultad del Yo para hallar recursos defensivos valorados, acompañada de mucha claridad sobre aquello interno que rechaza y de lo que se defiende.`,
+      `Un fallo en la segunda disociación instrumental por mezcla ambivalente dentro de una misma elección.`,
+      `Pérdida irreversible del principio de realidad con irrupción literal de la pulsión en ecuación simbólica.`
+    ],
+    correctIndex: 1,
+    feedback: `En el Cuestionario Desiderativo se analiza especialmente la diferencia de tiempos de reacción entre preguntas y entre series: tardar mucho en las catexias positivas (que muestran los recursos defensivos que el Yo valoriza y desea conservar) y responder rápido en las negativas (que revelan de qué se defiende y qué rechaza de su mundo interno) indica dificultad para hallar recursos defensivos, pero mucha claridad sobre lo que rechaza.`
+  },
+  {
+    id: `tro-comparacion-tecnicas`,
+    type: `mc`,
+    topic: `Técnicas Proyectivas Temáticas`,
+    stem: `Dentro de las técnicas proyectivas temáticas, ¿cómo se sitúa y diferencia el Test de Relaciones Objetales (TRO) respecto del Rorschach, el TAT, el CAT y el Test de Pata Negra?`,
+    options: [
+      `El TRO utiliza dibujos figurativos muy definidos de personas al igual que el TAT, pero impresos en papel de color.`,
+      `El TRO emplea manchas cromáticas altamente ambiguas sin contenido humano inducido, ubicándose antes del Rorschach.`,
+      `El TRO se ubica entre la ambigüedad del Rorschach y la figuración definida del TAT, diferenciándose del CAT (animales antropomorfizados para infancias) y de Pata Negra (centrado en el contenido de las interacciones).`,
+      `El TRO puede fotocopiarse libremente sin pérdida diagnóstica, a diferencia del CAT y del TAT que exigen cartulina cruda A4.`
+    ],
+    correctIndex: 2,
+    feedback: `El TRO emplea estímulos en cartulina cruda tamaño A4 que inducen contenido humano sin representarlo explícitamente, situándose en un punto intermedio entre el Rorschach (manchas ambiguas) y el TAT (dibujos figurativos definidos). Se diferencia del CAT (dibujos de animales antropomorfizados para infancias) y del Test de Pata Negra (centrado exclusivamente en el contenido de las interacciones). Sus láminas nunca pueden fotocopiarse ni proyectarse porque se perderían los matices de claroscuro, texturas y sombreados.`
+  },
+  {
+    id: `vf-cd-contraindicaciones`,
+    type: `vf`,
+    topic: `Cuestionario Desiderativo`,
+    stem: `Indique si la siguiente afirmación sobre el Cuestionario Desiderativo es verdadera o falsa: «Es conveniente administrar el Cuestionario Desiderativo inmediatamente después de que los sujetos hayan atravesado un duelo agudo, una situación postraumática reciente o una amenaza real a su integridad física.»`,
+    correctAnswer: `Falso`,
+    feedback: `Falso. Al someter al Yo a una fantasía simbólica de aniquilación o muerte («si no pudiera ser persona»), la consigna moviliza un elevado monto de angustia. Por ello el Cuestionario Desiderativo está contraindicado ante duelos agudos, situaciones postraumáticas recientes, accidentes con daño corporal real o amenazas a la integridad física, donde puede resultar desestructurante para un Yo vulnerado.`
+  },
+  {
+    id: `vf-graf-gestaltica-contratransferencia`,
+    type: `vf`,
+    topic: `Técnicas Gráficas`,
+    stem: `Indique si la siguiente afirmación sobre técnicas gráficas es verdadera o falsa: «En la interpretación de los gráficos, los términos visión gestáltica y contratransferencia son sinónimos técnicos que refieren exclusivamente al afecto despertado en el entrevistador.»`,
+    correctAnswer: `Falso`,
+    feedback: `Falso. Aunque la visión gestáltica incluye un componente contratransferencial (como la impresión afectiva de ternura o de lo siniestro que suscita el dibujo), no son sinónimos: la visión gestáltica refiere primordialmente a la primera impresión y estructura global objetivable de la producción gráfica, independientemente del relato racional consciente del evaluado.`
+  },
+  {
+    id: `vf-cd-soporte-simbolizacion`,
+    type: `vf`,
+    topic: `Cuestionario Desiderativo`,
+    stem: `Indique si la siguiente afirmación sobre el Cuestionario Desiderativo es verdadera o falsa: «Al no contar con apoyatura en un soporte perceptual externo como una hoja de papel o una lámina, el Cuestionario Desiderativo exige al Yo un mayor esfuerzo de abstracción y representación autónoma a través de la palabra.»`,
+    correctAnswer: `Verdadero`,
+    feedback: `Verdadero. La ausencia de estímulo figurativo o sostén perceptual externo no disminuye el trabajo psíquico, sino que demanda un mayor esfuerzo de abstracción y representación autónoma en el proceso secundario para metabolizar la micro-angustia de muerte implícita en el «si no pudiera ser persona» y elegir un símbolo de los reinos no humanos.`
+  },
+  {
+    id: `vf-tro-interrogatorio`,
+    type: `vf`,
+    topic: `Test de Relaciones Objetales (TRO)`,
+    stem: `Indique si la siguiente afirmación sobre el Test de Relaciones Objetales (TRO) es verdadera o falsa: «A diferencia del Rorschach, donde se retestean todas las láminas, en el TRO solo se interroga al finalizar aquellas láminas en las que faltó alguno de los tres tiempos, hubo expresiones incomprensibles o se omitió un estímulo muy llamativo como el círculo rojo en C3.»`,
+    correctAnswer: `Verdadero`,
+    feedback: `Verdadero. En el TRO el interrogatorio (retest) es selectivo: se aplica al finalizar la serie únicamente sobre aquellas láminas en las que faltó alguno de los tres tiempos solicitados (pasado, presente o futuro), aparecieron expresiones incomprensibles o se omitió un estímulo llamativo del diseño pictórico, como el círculo rojo intrusivo de la lámina C3.`
+  },
+  {
+    id: `vf-graf-persona-lluvia`,
+    type: `vf`,
+    topic: `Técnicas Gráficas`,
+    stem: `Indique si la siguiente afirmación sobre la técnica Persona Bajo la Lluvia es verdadera o falsa: «Sus indicadores de contenido poseen un significado universal fijo, por lo que deben interpretarse de modo idéntico sin considerar las condiciones geográficas y climáticas del lugar donde vive el evaluado.»`,
+    correctAnswer: `Falso`,
+    feedback: `Falso. Un indicador gráfico nunca debe interpretarse desconectado de la realidad cultural y geográfica del evaluado. En Persona Bajo la Lluvia, la lluvia introduce un estresor ambiental para comparar las defensas frente al dibujo de una persona sin lluvia; sin embargo, en zonas de sequía o regiones como La Pampa (donde se presentó la adaptación «Persona en un día de viento»), la lluvia puede ser vivida con alegría y el estresor real es el viento.`
+  },
+  {
+    id: `vf-graf-rodulfo`,
+    type: `vf`,
+    topic: `Técnicas Gráficas`,
+    stem: `Indique si la siguiente afirmación basada en Ricardo Rodulfo es verdadera o falsa: «El grafismo cumple únicamente una función expresiva de un psiquismo que ya se encuentra completamente constituido de antemano.»`,
+    correctAnswer: `Falso`,
+    feedback: `Falso. Siguiendo a Ricardo Rodulfo, el grafismo no cumple solo una función expresiva de un psiquismo previo, sino que opera como un andamio o lugar de aposentamiento de la constitución subjetiva en doble retroalimentación: la maduración habilita el trazo, y el acto mismo de graficar (como lograr cerrar el círculo, inaugurando adentro/afuera y el placer de la regulación) retroalimenta la complejización psíquica.`
+  },
+  {
+    id: `order-bateria-grafica`,
+    type: `order`,
+    topic: `Técnicas Gráficas`,
+    stem: `Asigne el número de orden (1°, 2° y 3°) para administrar correctamente la secuencia de la batería gráfica según el criterio de estructuración creciente de la consigna y gradiente de reactividad emocional:`,
+    items: [
+      { label: `Test de las Dos Personas (T2P)`, correctOrder: `3` },
+      { label: `Dibujo Libre (DL)`, correctOrder: `1` },
+      { label: `Test Casa-Árbol-Persona (HTP)`, correctOrder: `2` }
+    ],
+    feedback: `El orden metodológico es: 1° Dibujo Libre (DL), 2° Test Casa-Árbol-Persona (HTP) y 3° Test de las Dos Personas (T2P). Se progresa de menor a mayor estructuración de la consigna (mayor a menor ambigüedad) y con ansiedad creciente: el DL es la prueba más abierta; el HTP avanza gradualmente desde objetos más neutrales y distantes (Casa, Árbol) hacia la figura humana; y el T2P de Bernstein solicita figurar un vínculo diádico más una historia y título, movilizando las ansiedades ligadas a la pareja interna.`
+  },
+  {
+    id: `order-embudo-completa`,
+    type: `order`,
+    topic: `Batería Psicodiagnóstica`,
+    stem: `Ordene del 1° al 5° lugar la secuencia habitual de administración dentro de un proceso psicodiagnóstico completo aplicando la técnica del embudo (de lo más abierto a lo más estructurado):`,
+    items: [
+      { label: `Cuestionario Desiderativo`, correctOrder: `3` },
+      { label: `Test de Relaciones Objetales (TRO)`, correctOrder: `5` },
+      { label: `Entrevista inicial`, correctOrder: `1` },
+      { label: `Test de Rorschach`, correctOrder: `4` },
+      { label: `Técnicas gráficas`, correctOrder: `2` }
+    ],
+    feedback: `Según la técnica del embudo, la secuencia habitual es: 1° Entrevista inicial, 2° Técnicas gráficas, 3° Cuestionario Desiderativo, 4° Test de Rorschach y 5° Test de Relaciones Objetales (TRO). El Cuestionario Desiderativo va después de los gráficos y antes de las láminas; el TRO se ubica después del Rorschach por tener mayor saturación proyectiva humana y exigir la elaboración de una historia.`
+  },
+  {
+    id: `order-cd-momentos`,
+    type: `order`,
+    topic: `Cuestionario Desiderativo`,
+    stem: `Ordene del 1° al 4° paso los momentos secuenciales de la administración estándar del Cuestionario Desiderativo (Jaime Bernstein):`,
+    items: [
+      { label: `Catexias negativas descartando sucesivamente los tres reinos no humanos`, correctOrder: `3` },
+      { label: `Introducción de una pregunta o tema agradable si coincide con el cierre del encuentro`, correctOrder: `4` },
+      { label: `Primera catexia positiva («¿Qué es lo que más le gustaría ser si no pudiera ser persona?») y su «¿Por qué?»`, correctOrder: `1` },
+      { label: `Desvitalización lúdica sistemática en positivo hasta cubrir Animal, Vegetal y Cosas`, correctOrder: `2` }
+    ],
+    feedback: `La secuencia estándar inicia con la primera catexia positiva y su racionalización («¿Por qué?»), continúa con la desvitalización lúdica sistemática descartando los reinos ya elegidos hasta cubrir Animal, Vegetal y Cosas; luego repite el procedimiento en las catexias negativas; y, si coincide con el final de la sesión, concluye introduciendo una pregunta o tema agradable para no dejar al sujeto con la angustia movilizada.`
+  },
+  {
+    id: `cloze-tro-distancia`,
+    type: `cloze`,
+    topic: `Test de Relaciones Objetales (TRO)`,
+    stem: `Complete la oración seleccionando el concepto técnico correspondiente:`,
+    beforeBlank: `En la lectura del Test de Relaciones Objetales (TRO), cuando el evaluado adjudica nombres propios de su entorno real a las figuras de la lámina (por ejemplo, decir «la que está arriba es Roxana y la mancha es Raúl») o asume que el entrevistador conoce su historia privada, se evidencia una`,
+    afterBlank: `, reflejando fronteras difusas entre el yo y el no-yo.`,
+    options: [
+      `pérdida de distancia proyectiva`,
+      `segunda disociación instrumental`,
+      `visión antropomórfica`,
+      `angustia señal elaborada`
+    ],
+    correctAnswer: `pérdida de distancia proyectiva`,
+    feedback: `Se denomina pérdida de distancia proyectiva al solapamiento concreto entre fantasía y realidad que refleja fronteras difusas entre el yo y el no-yo, diferenciándose de la verdadera capacidad de metaforizar.`
+  },
+  {
+    id: `cloze-graf-emplazamiento`,
+    type: `cloze`,
+    topic: `Técnicas Gráficas`,
+    stem: `Complete la oración seleccionando el concepto técnico correspondiente:`,
+    beforeBlank: `Dentro de las pautas formales o expresivas de las técnicas gráficas, el concepto técnico específico que designa el lugar de la hoja que ocupa el dibujo (superior, inferior, izquierda, derecha, central o expansivo) es el`,
+    afterBlank: `.`,
+    options: [
+      `emplazamiento`,
+      `grado de humanización`,
+      `criterio de completud`,
+      `comportamiento típico`
+    ],
+    correctAnswer: `emplazamiento`,
+    feedback: `El término técnico riguroso en técnicas gráficas es «emplazamiento» (evitando decir «ubicación en la hoja»), y forma parte de las pautas formales o expresivas junto con el tamaño, la presión y el trazo.`
+  },
+  {
+    id: `cloze-cd-ecuacion`,
+    type: `cloze`,
+    topic: `Cuestionario Desiderativo`,
+    stem: `Complete la oración seleccionando el concepto técnico correspondiente:`,
+    beforeBlank: `En el Cuestionario Desiderativo, responder «No me gustaría ser el Obelisco porque todos me verían desnudo» rompe la lógica real del objeto elegido por una irrupción cruda de la pulsión sin mediación del «como si», configurando una`,
+    afterBlank: `.`,
+    options: [
+      `ecuación simbólica`,
+      `menor distancia proyectiva`,
+      `racionalización tautológica`,
+      `discrepancia semiótica`
+    ],
+    correctAnswer: `ecuación simbólica`,
+    feedback: `Se configura una ecuación simbólica: desaparece la distancia entre el símbolo y lo simbolizado e irrumpe el proceso primario. Se distingue de la menor distancia proyectiva (como decir «no me gustaría ser delfín porque me cazarían»), donde se emplea la primera persona pero se mantiene la lógica del objeto y el juego del «como si».`
+  },
+  {
+    id: `cloze-tro-comportamiento`,
+    type: `cloze`,
+    topic: `Test de Relaciones Objetales (TRO)`,
+    stem: `Complete la oración seleccionando el concepto técnico correspondiente:`,
+    beforeBlank: `Según los fundamentos de Henry Ezriel y Herbert Phillipson en el TRO, el patrón singular y observable con el que cada sujeto intenta conciliar sus sistemas tensionales primarios con la realidad actual se denomina`,
+    afterBlank: `.`,
+    options: [
+      `comportamiento típico`,
+      `posición esquizo-paranoide`,
+      `realismo intelectual`,
+      `vínculo continente-contenido`
+    ],
+    correctAnswer: `comportamiento típico`,
+    feedback: `El comportamiento típico designa el modo singular y observable en que cada persona intenta equilibrar sus sistemas tensionales primarios (deseos, temores y consecuencias temidas) con defensas secundarias socialmente adaptadas, mostrando su capacidad de regular impulsos destructivos y sostener la alteridad.`
+  },
+  {
+    id: `cloze-graf-trazo`,
+    type: `cloze`,
+    topic: `Técnicas Gráficas`,
+    stem: `Complete la oración seleccionando el concepto técnico correspondiente:`,
+    beforeBlank: `Entre las pautas formales de las técnicas gráficas, la continuidad de la línea (continua, entrecortada, repasada o temblorosa) corresponde al`,
+    afterBlank: `, indicador fundamental porque expresa la capacidad de generar límites y diferenciación entre el Yo y el no-Yo.`,
+    options: [
+      `trazo`,
+      `eje simbólico`,
+      `grado de complejidad`,
+      `tiempo de reacción`
+    ],
+    correctAnswer: `trazo`,
+    feedback: `El trazo evalúa la continuidad gráfica de la línea y expresa la capacidad de delimitación y diferenciación entre figura y fondo y entre el Yo y el no-Yo. Junto con el grado de humanización, constituye uno de los dos indicadores gráficos clave del contacto con la realidad.`
+  },
+  {
+    id: `cloze-graf-antropomorfica`,
+    type: `cloze`,
+    topic: `Técnicas Gráficas`,
+    stem: `Complete la oración seleccionando el concepto técnico correspondiente:`,
+    beforeBlank: `La tendencia universal del ser humano a percibir y representar objetos y estímulos verticales no humanos —como la Casa o el Árbol en el HTP— a través de la matriz de su propia forma corporal e imagen psíquica se denomina`,
+    afterBlank: `.`,
+    options: [
+      `visión antropomórfica`,
+      `grado de humanización`,
+      `capacidad de armar escena`,
+      `segunda transformación gráfica`
+    ],
+    correctAnswer: `visión antropomórfica`,
+    feedback: `La visión antropomórfica (Hammer) responde al mecanismo de proyección y al narcisismo constitutivo, siendo el fundamento del Test de la Casa y del Test del Árbol (donde se proyecta la imagen inconsciente del cuerpo con menor censura consciente que al dibujar una persona). La antropomorfización literal (dibujar ojos o boca en un tronco o pared) indica en cambio una distorsión regresiva grave.`
+  },
+  {
+    id: `clin-cd-batman`,
+    type: `clinical`,
+    topic: `Clínica del Cuestionario Desiderativo`,
+    stem: `Analice la siguiente viñeta de administración del Cuestionario Desiderativo e identifique el fallo instrumental y la intervención técnica adecuada:`,
+    vignette: `Entrevistador: «¿Si no pudiera ser persona, qué es lo que más le gustaría ser?»
+Evaluado: «Batman.»`,
+    options: [
+      `Falla en la primera disociación instrumental por respuesta antropomórfica; se reconsigna explicitando que Batman tiene características humanas y pidiendo elegir algo fuera de lo humano y por qué.`,
+      `Falla en la segunda disociación instrumental por discrepancia semiótica; se debe interrumpir de inmediato la administración del test.`,
+      `Falla en la identificación proyectiva por símbolo disgregado; se acepta como animal alado y se pasa a la segunda catexia positiva.`,
+      `Acierto esperado dentro del «como si»; se pregunta únicamente «¿Por qué?» sin realizar ninguna aclaración adicional.`
+    ],
+    correctIndex: 0,
+    feedback: `«Batman» constituye una respuesta antropomórfica (falla parcial en la primera disociación instrumental por imposibilidad temporaria de desprenderse de lo humano). La prueba no se interrumpe; corresponde reconsignar: «Batman es un personaje con características humanas. Si no pudiera ser persona ni nada que tenga que ver con lo humano, ¿qué es lo que más le gustaría ser? ¿Por qué?».`
+  },
+  {
+    id: `clin-cd-planta`,
+    type: `clinical`,
+    topic: `Clínica del Cuestionario Desiderativo`,
+    stem: `Analice la siguiente respuesta al Cuestionario Desiderativo e identifique el fallo observado y la repregunta necesaria:`,
+    vignette: `Entrevistador: «¿Si no pudiera ser persona, qué es lo que más le gustaría ser?»
+Evaluado: «Una planta.»`,
+    options: [
+      `Falla en la identificación proyectiva por elección genérica (falta de especie particular) y omisión de la racionalización; se repregunta qué planta en particular le gustaría ser y por qué.`,
+      `Falla en la segunda disociación instrumental por perseveración del símbolo; se pasa directamente a la serie de catexias negativas.`,
+      `Acierto pleno en la identificación proyectiva al cubrir el reino vegetal; solo resta anotar el tiempo de reacción y pasar al reino animal.`,
+      `Irrupción del proceso primario por desvitalización literal; corresponde suspender la prueba y cerrar con un tema agradable.`
+    ],
+    correctIndex: 0,
+    feedback: `Responder «una planta» sin especificar especie constituye una elección genérica (fallo de especificación en la identificación proyectiva / primera disociación parcial que requiere inducción), además de omitir el «¿Por qué?». Se debe repreguntar: «¿Qué planta en particular le gustaría ser? ¿Por qué?».`
+  },
+  {
+    id: `clin-cd-chancho`,
+    type: `clinical`,
+    topic: `Clínica del Cuestionario Desiderativo`,
+    stem: `En la serie negativa del Cuestionario Desiderativo, un evaluado emite la siguiente respuesta. Identifique qué defensa instrumental fracasa:`,
+    vignette: `1-: «No me gustaría ser chancho porque es sucio, pero también me gusta porque su carne sirve para comer.»`,
+    options: [
+      `Segunda disociación instrumental, ya que irrumpen aspectos valorados y placenteros dentro de una catexia negativa, impidiendo discriminar lo rechazado de lo rescatado.`,
+      `Primera disociación instrumental, porque el evaluado confunde la consigna condicional con una amenaza real de muerte.`,
+      `Identificación proyectiva, porque el animal elegido carece de consistencia, límites o masa corporal definida.`,
+      `Racionalización desiderativa, porque el evaluado omite por completo la justificación y contesta «porque sí».`
+    ],
+    correctIndex: 0,
+    feedback: `Fracasa la segunda disociación instrumental, encargada de discriminar dentro de sí y en los objetos los aspectos valorados de los rechazados. Al mezclar en una catexia negativa un rasgo rechazado («es sucio») con uno valorado («su carne sirve para comer»), el Yo no logra sostener la polarización adaptativa entre lo deseable y lo rechazado.`
+  },
+  {
+    id: `clin-cd-humo`,
+    type: `clinical`,
+    topic: `Clínica del Cuestionario Desiderativo`,
+    stem: `Evalúe la siguiente respuesta dada en la primera catexia positiva (1+) del Cuestionario Desiderativo e identifique el indicador clínico correspondiente:`,
+    vignette: `1+: «Me gustaría ser humo, porque se disipa en el aire y nadie lo puede agarrar.»`,
+    options: [
+      `Fallo en la identificación proyectiva por elección de un símbolo disgregado, inconsistente y sin límites definidos, que remite a fragilidad entre el Yo y el no-Yo.`,
+      `Acierto en la identificación proyectiva y en la racionalización, al tratarse de un elemento inanimado con clara delimitación espacial.`,
+      `Fallo en la primera disociación instrumental por respuesta de acción en lugar de un sustantivo.`,
+      `Fallo en la racionalización desiderativa por sobredimensionamiento mágico sin sustento en propiedades del objeto.`
+    ],
+    correctIndex: 0,
+    feedback: `Se observa un fallo en la identificación proyectiva. La elección de símbolos disgregados, inconsistentes y sin contorno o límites definidos (como «humo», «viento», «bruma», «arena» o «agua») evidencia fragilidad yoica en la delimitación entre el Yo y el no-Yo y en el esquema corporal. La racionalización conserva lógica formal acorde al humo.`
+  },
+  {
+    id: `clin-cd-jazmin`,
+    type: `clinical`,
+    topic: `Clínica del Cuestionario Desiderativo`,
+    stem: `Analice la siguiente secuencia del Cuestionario Desiderativo e identifique el fallo y la intervención del entrevistador:`,
+    vignette: `Entrevistador: «¿Si no pudiera ser persona, qué es lo que más le gustaría ser?»
+Evaluado: «Un jazmín.»
+Entrevistador: «¿Por qué le gustaría ser un jazmín?»
+Evaluado: «Porque me gustan.»`,
+    options: [
+      `Fallo en la racionalización desiderativa por respuesta autorreferencial/tautológica sin explicitar cualidades del objeto; se repregunta: «¿Qué es lo que más le gusta del jazmín?».`,
+      `Fallo en la primera disociación instrumental por bloqueo absoluto; se espera en silencio y se pasa a catexias negativas.`,
+      `Fallo en la identificación proyectiva por elección múltiple; se solicita elegir una sola especie floral.`,
+      `Error técnico del entrevistador por no haber excluido previamente el reino inanimado en la consigna.`
+    ],
+    correctIndex: 0,
+    feedback: `El símbolo («un jazmín») está adecuadamente delimitado, pero justificarlo diciendo «porque me gustan» constituye un fallo en la racionalización desiderativa por respuesta autorreferencial/tautológica, sin dar cuenta mediante el proceso secundario de las propiedades reales del objeto. Corresponde repreguntar: «¿Qué es lo que más le gusta del jazmín?».`
+  },
+  {
+    id: `clin-graf-tro-discrepancia`,
+    type: `clinical`,
+    topic: `Clínica Gráficos y TRO`,
+    stem: `Considere las siguientes producciones clínicas dentro de una misma batería psicodiagnóstica y seleccione la interpretación adecuada:`,
+    vignette: `En el Dibujo Libre, el evaluado grafica un palito con un rulo y relata verbalmente que es «un roble centenario». Posteriormente, ante una lámina sombría y difusa de la Serie A del TRO, construye el relato de un «pícnic alegre de primavera».`,
+    options: [
+      `En el gráfico, las asociaciones verbales evidencian una marcada discrepancia respecto de lo dibujado; en el TRO, la incongruencia entre el tono afectivo del relato y la lámina sombría sugiere disociación o negación maníaca frente a la angustia.`,
+      `Ambas producciones demuestran un ajuste perceptivo óptimo y ausencia de maniobras defensivas en el protocolo.`,
+      `En el gráfico se verifica una antropomorfización literal del árbol y en el TRO un shock frente a la ausencia total de estímulo de la lámina 13.`,
+      `Corresponde invalidar moralmente la respuesta del TRO por apartarse de los clisés arquitectónicos de la Serie B.`
+    ],
+    correctIndex: 0,
+    feedback: `Las asociaciones verbales resultan ineludibles en técnicas gráficas para confrontar la figurabilidad de la imagen con el discurso del proceso secundario y detectar hiancias o discrepancias (como graficar un palito mínimo y relatar «un roble centenario»). En el TRO, evaluar el clima emocional permite contrastar el afecto del relato con el inducido por la lámina: relatar un «pícnic alegre de primavera» en una lámina sombría de la Serie A (que induce ansiedades depresivas o de abandono) no se invalida moralmente, sino que señala una fuerte disociación o negación maníaca frente a la angustia.`
+  },
+  {
+    id: `clin-graf-fk-micrografia`,
+    type: `clinical`,
+    topic: `Clínica de Técnicas Gráficas`,
+    stem: `Analice la siguiente producción en el Test de la Familia Kinética Prospectiva e identifique los indicadores convergentes:`,
+    vignette: `El evaluado dibuja figuras diminutas en un espacio de 2x2 cm en el margen superior izquierdo de la hoja A4, ubicando a todos los integrantes de espaldas, sin rostros y sin ninguna acción compartida.`,
+    options: [
+      `Convergen la pauta formal de micrografía y emplazamiento superior izquierdo (inadecuación, retraimiento, refugio ideacional/regresivo) con una evasión de la consigna en las pautas de contenido (sin acción, rostros ni escena).`,
+      `Convergen una pauta formal de macrografía expansiva con el cumplimiento pleno de la capacidad de armar escena según Nélida Álvarez.`,
+      `Se trata exclusivamente de un déficit cognitivo equivalente al «salpicado» infantil sin valor proyectivo clínico.`,
+      `La disposición de espaldas y el tamaño diminuto constituyen un indicador directo de perspectiva en cuarta transformación y tolerancia a la angustia señal.`
+    ],
+    correctIndex: 0,
+    feedback: `En un adulto, el tamaño diminuto (micrografía) remite a sentimientos de inadecuación, pequeñez, retraimiento e inhibición; el emplazamiento superior izquierdo alude a la proyección hacia lo ideacional y regresivo/arcaico; y en las pautas de contenido se observa evasión respecto de la consigna de la Familia Kinética Prospectiva al graficar a los integrantes de espaldas, sin rostros, sin acción ni articulación escénica.`
+  },
+  {
+    id: `clin-cd-error-admin`,
+    type: `clinical`,
+    topic: `Clínica del Cuestionario Desiderativo`,
+    stem: `Lea atentamente la siguiente toma del Cuestionario Desiderativo e identifique el error técnico de administración y cómo subsanarlo:`,
+    vignette: `1+: «Gato, porque lo miman y lo cuidan.»
+2+: Entrevistador: «¿Si no pudiera ser persona ni animal, qué es lo que más le gustaría ser?» Evaluado: «Montaña, porque es imponente.»
+3+: Entrevistador: «¿Si no pudiera ser persona, ni animal, ni una cosa inanimada, qué es lo que más le gustaría ser?» Evaluado: «Lago, porque los lagos son cristalinos.»`,
+    options: [
+      `Error técnico del entrevistador al repetir la exclusión del reino inanimado y omitir el reino vegetal; corresponde reconsignar orientando explícitamente hacia el reino vegetal.`,
+      `Fallo del evaluado en la segunda disociación instrumental por responder dos elementos naturales; corresponde interrumpir la prueba.`,
+      `La secuencia es técnicamente correcta porque se registraron tres respuestas positivas y ya puede pasarse a las catexias negativas.`,
+      `Fallo del evaluado en la primera disociación instrumental por elegir paisajes; se repregunta qué animal prefiere.`
+    ],
+    correctIndex: 0,
+    feedback: `El evaluador cometió un error técnico de administración al volver a excluir el reino inanimado («ni una cosa inanimada») luego de que el sujeto eligiera «montaña» (objeto inanimado), lo que permitió una segunda elección inanimada («lago») y omitió el reino vegetal. Se debe reconsignar orientando al reino faltante: «Si no pudiera ser persona, ni animal, ni una cosa inanimada, ¿qué es lo que más le gustaría ser dentro del reino vegetal? ¿Por qué?».`
+  }
+];
+
+let appState = {
+  currentIds: [],
+  answers: {},
+  submitted: false,
+  examsCompleted: 0,
+  lastScore: null
+};
+
+const LETTERS = [`a`, `b`, `c`, `d`];
+
+function shuffleArray(arr) {
+  const copy = arr.slice();
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = copy[i];
+    copy[i] = copy[j];
+    copy[j] = tmp;
+  }
+  return copy;
+}
+
+function pickThreeRandomIds(excludeIds) {
+  let pool = QUESTION_BANK.filter(function(q) {
+    return excludeIds.indexOf(q.id) === -1;
+  });
+  if (pool.length < 3) {
+    pool = QUESTION_BANK.slice();
+  }
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const shuffled = shuffleArray(pool);
+    const chosen = shuffled.slice(0, 3);
+    const types = {};
+    chosen.forEach(function(q) {
+      types[q.type] = true;
+    });
+    if (Object.keys(types).length >= 2) {
+      return chosen.map(function(q) { return q.id; });
+    }
+  }
+  return shuffleArray(pool).slice(0, 3).map(function(q) { return q.id; });
+}
+
+function getQuestionById(id) {
+  for (let i = 0; i < QUESTION_BANK.length; i++) {
+    if (QUESTION_BANK[i].id === id) {
+      return QUESTION_BANK[i];
+    }
+  }
+  return null;
+}
+
+function buildEmptyAnswer(q) {
+  if (q.type === `mc` || q.type === `clinical`) {
+    return null;
+  }
+  if (q.type === `vf` || q.type === `cloze`) {
+    return ``;
+  }
+  if (q.type === `order`) {
+    return q.items.map(function() { return ``; });
+  }
+  return null;
+}
+
+function isQuestionAnswered(q, ans) {
+  if (q.type === `mc` || q.type === `clinical`) {
+    return typeof ans === `number` && ans >= 0;
+  }
+  if (q.type === `vf` || q.type === `cloze`) {
+    return typeof ans === `string` && ans.length > 0;
+  }
+  if (q.type === `order`) {
+    if (!Array.isArray(ans) || ans.length !== q.items.length) {
+      return false;
+    }
+    for (let i = 0; i < ans.length; i++) {
+      if (!ans[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+  return false;
+}
+
+function evaluateQuestion(q, ans) {
+  if (q.type === `mc` || q.type === `clinical`) {
+    return ans === q.correctIndex;
+  }
+  if (q.type === `vf` || q.type === `cloze`) {
+    return ans === q.correctAnswer;
+  }
+  if (q.type === `order`) {
+    if (!Array.isArray(ans) || ans.length !== q.items.length) {
+      return false;
+    }
+    for (let i = 0; i < q.items.length; i++) {
+      if (ans[i] !== q.items[i].correctOrder) {
+        return false;
+      }
+    }
+    return true;
+  }
+  return false;
+}
+
+function formatExpectedAnswerText(q) {
+  if (q.type === `mc` || q.type === `clinical`) {
+    return LETTERS[q.correctIndex] + `) ` + q.options[q.correctIndex];
+  }
+  if (q.type === `vf` || q.type === `cloze`) {
+    return q.correctAnswer;
+  }
+  if (q.type === `order`) {
+    const ordered = q.items.slice().sort(function(a, b) {
+      return Number(a.correctOrder) - Number(b.correctOrder);
+    });
+    return ordered.map(function(item) {
+      return item.correctOrder + `° ` + item.label;
+    }).join(` · `);
+  }
+  return ``;
+}
+
+function selectOption(qId, optionIndex) {
+  if (appState.submitted) return;
+  appState.answers[qId] = optionIndex;
+  clearNotice();
+  renderExam();
+  persistState();
+}
+
+function selectVF(qId, value) {
+  if (appState.submitted) return;
+  appState.answers[qId] = value;
+  clearNotice();
+  renderExam();
+  persistState();
+}
+
+function selectOrder(qId, itemIndex, value) {
+  if (appState.submitted) return;
+  if (!Array.isArray(appState.answers[qId])) {
+    const q = getQuestionById(qId);
+    appState.answers[qId] = q ? buildEmptyAnswer(q) : [];
+  }
+  appState.answers[qId][itemIndex] = value;
+  clearNotice();
+  renderExam();
+  persistState();
+}
+
+function selectCloze(qId, value) {
+  if (appState.submitted) return;
+  appState.answers[qId] = value;
+  clearNotice();
+  renderExam();
+  persistState();
+}
+
+function clearNotice() {
+  const msgEl = document.getElementById(`form-message`);
+  if (msgEl) {
+    msgEl.textContent = ``;
+    msgEl.className = `inline-notice`;
+  }
+}
+
+function showNotice(text, isInfo) {
+  const msgEl = document.getElementById(`form-message`);
+  if (!msgEl) return;
+  msgEl.textContent = text;
+  msgEl.className = isInfo ? `inline-notice is-info` : `inline-notice`;
+}
+
+function submitExam() {
+  if (appState.submitted) return;
+  const missing = [];
+  for (let i = 0; i < appState.currentIds.length; i++) {
+    const q = getQuestionById(appState.currentIds[i]);
+    if (q && !isQuestionAnswered(q, appState.answers[q.id])) {
+      missing.push(i + 1);
+    }
+  }
+  if (missing.length > 0) {
+    const label = missing.length === 1
+      ? `Por favor, complete la consigna ` + missing[0] + ` antes de entregar el examen.`
+      : `Por favor, complete las consignas ` + missing.join(`, `) + ` antes de entregar el examen.`;
+    showNotice(label, false);
+    return;
+  }
+
+  let score = 0;
+  for (let i = 0; i < appState.currentIds.length; i++) {
+    const q = getQuestionById(appState.currentIds[i]);
+    if (q && evaluateQuestion(q, appState.answers[q.id])) {
+      score += 1;
+    }
+  }
+
+  appState.submitted = true;
+  appState.examsCompleted = (appState.examsCompleted || 0) + 1;
+  appState.lastScore = score;
+  clearNotice();
+  renderExam();
+  persistState();
+}
+
+function clearCurrentAnswers() {
+  if (appState.submitted) {
+    appState.submitted = false;
+  }
+  for (let i = 0; i < appState.currentIds.length; i++) {
+    const q = getQuestionById(appState.currentIds[i]);
+    if (q) {
+      appState.answers[q.id] = buildEmptyAnswer(q);
+    }
+  }
+  clearNotice();
+  renderExam();
+  persistState();
+}
+
+function generateNewExam() {
+  const nextIds = pickThreeRandomIds(appState.currentIds);
+  const nextAnswers = {};
+  for (let i = 0; i < nextIds.length; i++) {
+    const q = getQuestionById(nextIds[i]);
+    if (q) {
+      nextAnswers[q.id] = buildEmptyAnswer(q);
+    }
+  }
+  appState.currentIds = nextIds;
+  appState.answers = nextAnswers;
+  appState.submitted = false;
+  clearNotice();
+  renderExam();
+  persistState();
+}
+
+function renderExam() {
+  const container = document.getElementById(`questions-container`);
+  const statusEl = document.getElementById(`exam-status`);
+  const submitBtn = document.getElementById(`btn-submit`);
+  const clearBtn = document.getElementById(`btn-clear`);
+  if (!container) return;
+
+  if (submitBtn) {
+    submitBtn.disabled = appState.submitted;
+  }
+  if (clearBtn) {
+    clearBtn.textContent = appState.submitted ? `Reintentar estas 3 consignas` : `Limpiar respuestas`;
+  }
+
+  if (statusEl) {
+    if (appState.submitted && appState.lastScore !== null) {
+      statusEl.textContent = `Examen corregido · Resultado: ` + appState.lastScore + ` de 3 consignas correctas · Exámenes entregados en la sesión: ` + appState.examsCompleted + `.`;
+    } else if (appState.examsCompleted > 0) {
+      statusEl.textContent = `Examen en curso · 3 consignas aleatorias · Exámenes entregados en la sesión: ` + appState.examsCompleted + `.`;
+    } else {
+      statusEl.textContent = `Examen en curso · 3 consignas aleatorias seleccionadas.`;
+    }
+  }
+
+  container.innerHTML = ``;
+
+  for (let idx = 0; idx < appState.currentIds.length; idx++) {
+    const q = getQuestionById(appState.currentIds[idx]);
+    if (!q) continue;
+    const num = idx + 1;
+    const ans = appState.answers[q.id];
+
+    const block = document.createElement(`article`);
+    block.className = `question-block`;
+
+    const stem = document.createElement(`p`);
+    stem.className = `question-stem`;
+    stem.textContent = num + `. [` + q.topic + `] ` + q.stem;
+    block.appendChild(stem);
+
+    if (q.vignette) {
+      const vig = document.createElement(`p`);
+      vig.className = `question-vignette`;
+      vig.textContent = q.vignette;
+      block.appendChild(vig);
+    }
+
+    if (q.type === `mc` || q.type === `clinical`) {
+      const instr = document.createElement(`p`);
+      instr.className = `question-instruction`;
+      instr.textContent = `(Seleccione una opción)`;
+      block.appendChild(instr);
+
+      const group = document.createElement(`div`);
+      group.className = `options-group`;
+      group.setAttribute(`role`, `radiogroup`);
+      group.setAttribute(`aria-label`, `Opciones de la consigna ` + num);
+
+      for (let oi = 0; oi < q.options.length; oi++) {
+        const btn = document.createElement(`button`);
+        btn.type = `button`;
+        btn.className = `option-btn`;
+        btn.textContent = LETTERS[oi] + `) ` + q.options[oi];
+        btn.setAttribute(`role`, `radio`);
+        btn.setAttribute(`aria-checked`, ans === oi ? `true` : `false`);
+
+        if (appState.submitted) {
+          btn.disabled = true;
+          if (oi === q.correctIndex) {
+            btn.classList.add(`is-correct`);
+          } else if (ans === oi && ans !== q.correctIndex) {
+            btn.classList.add(`is-incorrect`);
+          } else {
+            btn.classList.add(`is-dimmed`);
+          }
+        } else if (ans === oi) {
+          btn.classList.add(`is-selected`);
+        }
+
+        btn.onclick = (function(questionId, optIdx) {
+          return function() {
+            selectOption(questionId, optIdx);
+          };
+        })(q.id, oi);
+
+        group.appendChild(btn);
+      }
+      block.appendChild(group);
+    } else if (q.type === `vf`) {
+      const group = document.createElement(`div`);
+      group.className = `vf-group`;
+      group.setAttribute(`role`, `radiogroup`);
+      group.setAttribute(`aria-label`, `Verdadero o Falso para la consigna ` + num);
+
+      const vfChoices = [`Verdadero`, `Falso`];
+      for (let vi = 0; vi < vfChoices.length; vi++) {
+        const val = vfChoices[vi];
+        const btn = document.createElement(`button`);
+        btn.type = `button`;
+        btn.className = `option-btn`;
+        btn.textContent = val;
+        btn.setAttribute(`role`, `radio`);
+        btn.setAttribute(`aria-checked`, ans === val ? `true` : `false`);
+
+        if (appState.submitted) {
+          btn.disabled = true;
+          if (val === q.correctAnswer) {
+            btn.classList.add(`is-correct`);
+          } else if (ans === val && ans !== q.correctAnswer) {
+            btn.classList.add(`is-incorrect`);
+          } else {
+            btn.classList.add(`is-dimmed`);
+          }
+        } else if (ans === val) {
+          btn.classList.add(`is-selected`);
+        }
+
+        btn.onclick = (function(questionId, choiceVal) {
+          return function() {
+            selectVF(questionId, choiceVal);
+          };
+        })(q.id, val);
+
+        group.appendChild(btn);
+      }
+      block.appendChild(group);
+    } else if (q.type === `order`) {
+      const instr = document.createElement(`p`);
+      instr.className = `question-instruction`;
+      instr.textContent = `(Asigne un número de orden del 1° al ` + q.items.length + `° a cada ítem mediante su menú desplegable)`;
+      block.appendChild(instr);
+
+      const group = document.createElement(`div`);
+      group.className = `order-group`;
+      const currentArr = Array.isArray(ans) ? ans : buildEmptyAnswer(q);
+
+      for (let ii = 0; ii < q.items.length; ii++) {
+        const row = document.createElement(`div`);
+        row.className = `order-row`;
+
+        const selectId = `order-` + q.id + `-` + ii;
+        const sel = document.createElement(`select`);
+        sel.id = selectId;
+        sel.className = `paper-select`;
+
+        const placeholderOpt = document.createElement(`option`);
+        placeholderOpt.value = ``;
+        placeholderOpt.textContent = `[orden]`;
+        sel.appendChild(placeholderOpt);
+
+        for (let n = 1; n <= q.items.length; n++) {
+          const opt = document.createElement(`option`);
+          opt.value = String(n);
+          opt.textContent = String(n) + `°`;
+          sel.appendChild(opt);
+        }
+
+        sel.value = currentArr[ii] || ``;
+        if (appState.submitted) {
+          sel.disabled = true;
+          if (currentArr[ii] === q.items[ii].correctOrder) {
+            sel.classList.add(`is-correct`);
+          } else {
+            sel.classList.add(`is-incorrect`);
+          }
+        } else if (!sel.value) {
+          sel.classList.add(`is-unselected`);
+        }
+
+        sel.onchange = (function(questionId, itemIdx) {
+          return function(ev) {
+            selectOrder(questionId, itemIdx, ev.target.value);
+          };
+        })(q.id, ii);
+
+        const lbl = document.createElement(`label`);
+        lbl.className = `order-label`;
+        lbl.setAttribute(`for`, selectId);
+        lbl.textContent = q.items[ii].label;
+
+        row.appendChild(sel);
+        row.appendChild(lbl);
+        group.appendChild(row);
+      }
+      block.appendChild(group);
+    } else if (q.type === `cloze`) {
+      const p = document.createElement(`p`);
+      p.className = `cloze-paragraph`;
+
+      const beforeSpan = document.createElement(`span`);
+      beforeSpan.textContent = q.beforeBlank + ` `;
+      p.appendChild(beforeSpan);
+
+      const sel = document.createElement(`select`);
+      sel.id = `cloze-` + q.id;
+      sel.className = `cloze-select`;
+      sel.setAttribute(`aria-label`, `Concepto faltante para la consigna ` + num);
+
+      const defOpt = document.createElement(`option`);
+      defOpt.value = ``;
+      defOpt.textContent = `[elegir concepto]`;
+      sel.appendChild(defOpt);
+
+      for (let ci = 0; ci < q.options.length; ci++) {
+        const opt = document.createElement(`option`);
+        opt.value = q.options[ci];
+        opt.textContent = q.options[ci];
+        sel.appendChild(opt);
+      }
+
+      sel.value = typeof ans === `string` ? ans : ``;
+      if (appState.submitted) {
+        sel.disabled = true;
+        if (sel.value === q.correctAnswer) {
+          sel.classList.add(`is-correct`);
+        } else {
+          sel.classList.add(`is-incorrect`);
+        }
+      } else if (!sel.value) {
+        sel.classList.add(`is-unselected`);
+      }
+
+      sel.onchange = (function(questionId) {
+        return function(ev) {
+          selectCloze(questionId, ev.target.value);
+        };
+      })(q.id);
+
+      p.appendChild(sel);
+
+      const afterSpan = document.createElement(`span`);
+      afterSpan.textContent = q.afterBlank;
+      p.appendChild(afterSpan);
+
+      block.appendChild(p);
+    }
+
+    if (appState.submitted) {
+      const isOk = evaluateQuestion(q, ans);
+      const fb = document.createElement(`div`);
+      fb.className = `feedback-block`;
+
+      const verdict = document.createElement(`p`);
+      verdict.className = `feedback-verdict ` + (isOk ? `is-correct` : `is-incorrect`);
+      verdict.textContent = isOk
+        ? `Correcto.`
+        : `Incorrecto. Respuesta esperada: ` + formatExpectedAnswerText(q);
+      fb.appendChild(verdict);
+
+      const detail = document.createElement(`p`);
+      detail.className = `feedback-detail`;
+      detail.textContent = `Fundamentación: ` + q.feedback;
+      fb.appendChild(detail);
+
+      block.appendChild(fb);
+    }
+
+    container.appendChild(block);
+  }
+}
+
+async function persistState() {
+  if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+    try {
+      await window.notebookAppApi.setAppState(appState);
+    } catch (e) {
+      // Ignore persistence errors silently in non-hosted previews
+    }
+  }
+}
+
+async function initApp() {
+  let loaded = null;
+  if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+    try {
+      loaded = await window.notebookAppApi.getAppState();
+    } catch (e) {
+      loaded = null;
+    }
+  }
+
+  if (loaded && Array.isArray(loaded.currentIds) && loaded.currentIds.length === 3) {
+    const validAll = loaded.currentIds.every(function(id) {
+      return getQuestionById(id) !== null;
+    });
+    if (validAll) {
+      appState = {
+        currentIds: loaded.currentIds,
+        answers: loaded.answers || {},
+        submitted: Boolean(loaded.submitted),
+        examsCompleted: Number(loaded.examsCompleted || 0),
+        lastScore: loaded.lastScore !== undefined ? loaded.lastScore : null
+      };
+    } else {
+      generateNewExam();
+    }
+  } else {
+    const initialIds = pickThreeRandomIds([]);
+    const initialAnswers = {};
+    for (let i = 0; i < initialIds.length; i++) {
+      const q = getQuestionById(initialIds[i]);
+      if (q) {
+        initialAnswers[q.id] = buildEmptyAnswer(q);
+      }
+    }
+    appState.currentIds = initialIds;
+    appState.answers = initialAnswers;
+  }
+
+  renderExam();
+
+  if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+    window.notebookAppApi.notifyAppReady();
+  }
+}
+
+document.addEventListener(`DOMContentLoaded`, function() {
+  initApp();
+});
+</script>
+</body>
+</html>
