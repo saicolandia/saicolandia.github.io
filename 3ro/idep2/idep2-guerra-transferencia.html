@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Transferencia · Guerra</title>
+    <style>
+        /* Reset & base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #faf7f2;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            color: #2c2b28;
+            padding: 1.2rem 1rem 3rem;
+            line-height: 1.65;
+            font-size: 17px;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            background: #fffcf9;
+            border-radius: 32px 32px 24px 24px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.03);
+            padding: 2rem 1.4rem 2.2rem;
+            transition: all 0.2s;
+        }
+
+        /* Títulos */
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #3d352e;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+        }
+
+        h1 .emoji-big {
+            font-size: 2.8rem;
+            line-height: 1;
+        }
+
+        .subtitulo {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #7a6e64;
+            margin-top: -0.2rem;
+            margin-bottom: 1.8rem;
+            border-left: 4px solid #d4c9bc;
+            padding-left: 0.9rem;
+            font-style: italic;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin: 2.2rem 0 1rem;
+            color: #3d352e;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 2px solid #e8dfd6;
+            padding-bottom: 0.5rem;
+        }
+
+        h2 .emoji-big {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 1.6rem 0 0.6rem;
+            color: #4d423a;
+        }
+
+        /* Párrafos */
+        p {
+            margin-bottom: 1.2rem;
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        /* Citas en bloque */
+        .cita {
+            background: #f3efe9;
+            border-left: 6px solid #b8a99a;
+            padding: 1rem 1.2rem;
+            margin: 1.6rem 0;
+            border-radius: 0 16px 16px 0;
+            font-style: italic;
+            color: #3f3a35;
+            font-size: 0.95rem;
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.02);
+        }
+
+        .cita .referencia {
+            display: block;
+            margin-top: 0.6rem;
+            font-style: normal;
+            font-size: 0.85rem;
+            color: #7a6e64;
+            font-weight: 500;
+        }
+
+        /* Números de nota / referencia */
+        .nota {
+            font-size: 0.7rem;
+            vertical-align: super;
+            color: #8a7e72;
+            margin: 0 0.1rem;
+        }
+
+        /* Lista de referencias */
+        .ref-list {
+            margin-top: 2.4rem;
+            border-top: 2px dashed #ddd2c7;
+            padding-top: 1.8rem;
+        }
+
+        .ref-list h3 {
+            margin-top: 0;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ref-list ul {
+            list-style: none;
+            padding-left: 0.5rem;
+        }
+
+        .ref-list li {
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .ref-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #b8a99a;
+            font-size: 1.4rem;
+        }
+
+        .ref-list .autor {
+            font-weight: 600;
+            color: #3d352e;
+        }
+
+        /* Fragmentos clínicos */
+        .fragmento {
+            background: #f9f5f0;
+            border-radius: 20px;
+            padding: 1.2rem 1.2rem 0.8rem;
+            margin: 1.8rem 0;
+            border: 1px solid #e8dfd6;
+        }
+
+        .fragmento p:last-child {
+            margin-bottom: 0.4rem;
+        }
+
+        .fragmento .emoji-big {
+            font-size: 1.8rem;
+            margin-right: 0.3rem;
+        }
+
+        /* Espaciado y ajustes móviles */
+        @media (max-width: 480px) {
+            body {
+                padding: 0.8rem 0.6rem 2rem;
+                font-size: 16px;
+            }
+            .container {
+                padding: 1.2rem 1rem 1.8rem;
+                border-radius: 24px;
+            }
+            h1 {
+                font-size: 1.9rem;
+            }
+            h1 .emoji-big {
+                font-size: 2.2rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+            .cita {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Estilo para enlaces (no hay enlaces, pero por si acaso) */
+        a {
+            color: #7a6e64;
+            text-decoration: underline dotted;
+        }
+
+        /* Separadores visuales */
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(90deg, #ddd2c7, transparent);
+            margin: 2rem 0;
+        }
+
+        /* Emoji grande en línea */
+        .emoji-big {
+            font-size: 1.8rem;
+            line-height: 1;
+            display: inline-block;
+        }
+
+        /* Para el pie */
+        .footer-note {
+            font-size: 0.85rem;
+            color: #9a8e82;
+            text-align: center;
+            margin-top: 2rem;
+            border-top: 1px solid #e8dfd6;
+            padding-top: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- Título principal -->
+    <h1>
+        <span class="emoji-big">📖</span> 
+        Una puntuación sobre la transferencia
+    </h1>
+    <div class="subtitulo">
+        Lic. María Marta Guerra · Revisión 2010
+    </div>
+
+    <!-- INTRO / Recorrido -->
+    <h2><span class="emoji-big">🔍</span> 1. Un recorrido por textos freudianos</h2>
+    <p>
+        Este apartado pretende acercar al alumno un breve recorrido por una selección de textos freudianos, subrayando referencias al concepto de transferencia. En modo alguno debe tomarse como síntesis sustitutiva del texto freudiano, sino como un material que acompañe la lectura de los artículos a los que se hace referencia.
+    </p>
+    <p>
+        Freud introduce el término <em>transferencia</em> en 1895 en <strong>“Estudios sobre la Histeria”</strong>. En el apartado “Psicoterapia de la histeria”, Freud habla de <em>“(…) una circunstancia que en la realización de tal análisis catártico desempeña un papel indeseadamente importante.”</em><span class="nota">1</span>
+    </p>
+    <p>
+        Tal circunstancia se presenta por un fracaso en el esfuerzo asociativo. Circunstancia que ya Freud había denominado <strong>resistencia</strong>. Aquí explica que tal resistencia puede aparecer vinculada con la perturbación de la relación del enfermo con el médico. Expone así tres casos en los cuales dicha relación queda perturbada. Pero es el tercero de ellos que, en relación a la transferencia, nos interesa.
+    </p>
+    <div class="cita">
+        “Cuando la enferma se atemoriza al ver que transfiere a la persona del médico representaciones displacientes emergidas durante el análisis, caso muy frecuente e incluso regular en ciertos análisis, la transferencia al médico se lleva a cabo por medio de una falsa asociación.”<span class="nota">2</span>
+        <span class="referencia">— Freud, 1895</span>
+    </div>
+    <p>Como vemos se produce allí una sustitución.</p>
+
+    <p>
+        En 1912, Freud escribe <strong>“La dinámica de la transferencia”</strong>. Allí se pregunta por qué aparece este fenómeno en la cura analítica.
+    </p>
+    <div class="cita">
+        “Recordaremos, ante todo, que la acción conjunta de la disposición congénita y las influencias experimentadas durante los años infantiles determina, en cada individuo, la modalidad especial de su vida erótica, fijando los fines de la misma, las condiciones que el sujeto habrá de exigir en ella y los instintos que en ella habrá de satisfacer.”<span class="nota">3</span>
+        <span class="referencia">— Freud, 1912</span>
+    </div>
+    <p>
+        Como puede observarse, Freud apela al esquema de las series complementarias para situar la transferencia en tanto que repetición de una especie de patrón o clisé de la relación del sujeto con los objetos.
+    </p>
+
+    <h3>Inclusión del analista en esos clisés</h3>
+    <div class="cita">
+        “(…) sólo una parte de estas tendencias libidinosas que determinan la vida erótica han realizado una evolución psíquica completa. Esta parte, vuelta hacia la realidad, se halla a disposición de la personalidad consciente. (…) En cambio, otra parte de tales tendencias libidinosas ha quedado detenida en su desarrollo por el veto de la personalidad consciente y de la misma realidad y sólo ha podido desplegarse en la fantasía o ha permanecido confinada en lo inconsciente. (…) Es, por tanto, perfectamente normal y comprensible que la carga de libido que el individuo parcialmente insatisfecho mantiene esperanzadamente pronta se oriente hacia la persona del médico. Conforme a nuestra hipótesis, esta carga se atendrá a ciertos modelos, se enlazará a uno de los clisés dados en el sujeto de que se trate o, dicho de otro modo, incluirá al médico en una de las “series” psíquicas que el paciente ha formado hasta entonces.”<span class="nota">4</span>
+        <span class="referencia">— Freud, 1912</span>
+    </div>
+
+    <p>
+        Ya adelantábamos, la referencia de las series complementarias, esquema en el cual, adquiere fundamental relevancia la noción de <strong>fijación</strong>. Fijación a un objeto, a un modo de satisfacción.<span class="nota">5</span>
+    </p>
+    <p>
+        Ahora bien, recordemos que, en la enseñanza de Freud, lo que caracteriza al sujeto humano, es que no hay objeto “natural”<span class="nota">6</span>, todo objeto es sustituto de aquel míticamente perdido, de la vivencia de satisfacción. Las “tendencias que han hecho una evolución psíquica completa” no anulan aquellas que “quedan confinadas en lo inconsciente”. La sexualidad no se domina por la realidad; y lo reprimido es eficaz.
+    </p>
+    <p>
+        Si la insatisfacción se entiende como el encuentro imposible con el objeto perdido, ello caracteriza lo esencial de la estructura del sujeto neurótico; circunstancia no reductible a la frustración. Ésta última es una de las formas en las que se devela la falta de objeto.
+    </p>
+    <p>
+        La disposición a la transferencia no se reduce, entonces, a ser efecto del dispositivo analítico, sino que se halla determinado por la estructura misma de la neurosis.
+    </p>
+
+    <h3>Resistencia y repetición</h3>
+    <p>
+        Avancemos ahora, sobre el aspecto resistencial que Freud le otorga a la transferencia. En <strong>“Recuerdo, repetición y elaboración”</strong> de 1914, Freud subraya que la cura se entiende como tendiente a la supresión de las lagunas del recuerdo; esto es, venciendo las resistencias, tal su visión de la cura.
+    </p>
+    <div class="cita">
+        “Con la nueva técnica, el curso de los análisis se hace mucho más complicado y trabajoso (…) pero lo general es que las dificultades surjan desde el principio. Ateniéndonos a este último tipo, para caracterizar la diferencia, podemos decir que el analizado no recuerda nada de lo olvidado o reprimido, sino que lo vive de nuevo. No lo reproduce como recuerdo, sino como acto; lo repite, sin saber, naturalmente, que lo repite.”<span class="nota">7</span>
+        <span class="referencia">— Freud, 1914</span>
+    </div>
+    <p>
+        Alude así, Freud, a la transferencia. Más adelante, en el mismo texto explica que <em>“(…) la transferencia no es por sí misma más que una repetición y la repetición, la transferencia del pretérito olvidado.”</em><span class="nota">8</span>
+    </p>
+    <p>
+        Liga entonces, a la transferencia con la resistencia y la repetición. Pues en la transferencia, el analizante repite en lugar de recordar.
+    </p>
+    <div class="cita">
+        “Cuanto más intensa es ésta (la resistencia), más ampliamente quedará sustituido el recuerdo por la acción.”<span class="nota">9</span>
+        <span class="referencia">— Freud, 1914</span>
+    </div>
+    <p>
+        De todas formas la transferencia, es reconocida por Freud, no sólo como expresión de la resistencia, sino como aquello que permite y posibilita la cura analítica.
+    </p>
+
+    <h3>Amor de transferencia</h3>
+    <p>
+        Comencemos por recordar lo que enunciáramos primero, en relación a que Freud tempranamente liga la transferencia con la operación de una sustitución, un enlace asociativo, que ubica como erróneo. Es decir, allí donde debía advenir la asociación buscada adviene una ocurrencia relativa a la persona del analista, o la negativa a toda ocurrencia, como resistencia.
+    </p>
+    <p>
+        En <strong>“Observaciones sobre el amor de transferencia”</strong> (1914), Freud trabaja específicamente sobre este fenómeno; es decir sobre el manejo de la transferencia.
+    </p>
+    <div class="cita">
+        “El camino que ha de seguir el analista es muy otro, y carece de antecedentes en la vida real. Nos guardamos de desviar a la paciente de su transferencia amorosa o disuadirla de ello, pero también, y con igual firmeza, de toda correspondencia. Conservamos la transferencia amorosa, pero la tratamos como algo irreal, como una situación por la que se ha de atravesar fatalmente en la cura, que ha de ser referido a sus orígenes inconscientes y que ha de ayudarnos a llevar a la conciencia de la paciente los elementos más ocultos de su vida erótica, sometiéndolos así a su dominio consciente.”<span class="nota">10</span>
+        <span class="referencia">— Freud, 1914</span>
+    </div>
+    <p>
+        Volveremos luego sobre el punto acerca de lo “irreal” del amor de transferencia.
+    </p>
+
+    <h3>Diferencia con la “alianza terapéutica”</h3>
+    <p>
+        La diferencia radica en que la transferencia no se equipara, o bien no se reduce, a lo que puede instalarse como confianza otorgada a quien escucha en tanto profesional; como efecto de un dispositivo y roles socialmente definidos: la transferencia no es la instalación de una orientación racional hacia el paciente. La llamada alianza terapéutica se desarrolla en el plano de una relación de Yo a Yo, entre el paciente y la persona del analista. Por tanto, si la transferencia supone la presentificación en acto de lo inconsciente, implica un más allá del plano de la relación de Yo a Yo. (Este punto se desarrollará más profundamente en el apartado II).
+    </p>
+
+    <h3>Lo “irreal” del amor de transferencia</h3>
+    <div class="cita">
+        “(…) no tenemos derecho alguno a negar al enamoramiento que surge en el tratamiento analítico el carácter del auténtico. Si nos parece tan poco normal, ello se debe principalmente a que también el enamoramiento corriente, ajeno a la cura analítica, recuerda más bien los fenómenos anímicos anormales que los normales.”<span class="nota">11</span>
+        <span class="referencia">— Freud, 1914</span>
+    </div>
+    <p>
+        En consecuencia, si de error se trata en el amor de transferencia, es el mismo lo que lo iguala al amor verdadero.
+    </p>
+    <p>
+        Por último, resulta importante señalar que la transferencia implica un elemento que hace diagnóstico, que demarca categorías nosográficas, que implican a su vez, diferenciar las que son accesibles al análisis y las que no.
+    </p>
+    <div class="cita">
+        “En las histerias, histerias de angustia y neurosis obsesivas es donde la transferencia presenta esta importancia extraordinaria e incluso central, desde el punto de vista del tratamiento, razón por la cual reunimos estas afecciones bajo el nombre común de neurosis de transferencia. (…) El factor que decide el resultado no es ya la introspección intelectual del enfermo, facultad que carece de energía y de libertad suficientes para ello, sino únicamente su actitud con respecto al médico. (…) De este modo, resulta que el hombre no es, en general, accesible por su lado intelectual, sino en proporción a su capacidad de revestimiento libidinoso de objetos; razón por la cual, podemos afirmar que el grado de influencia que la más acertada técnica analítica puede ejercer sobre él, depende por completo de la medida de su narcisismo, barrera contra tal influencia.”<span class="nota">12</span>
+        <span class="referencia">— Freud, 1914</span>
+    </div>
+
+    <hr>
+
+    <!-- II. Contratransferencia -->
+    <h2><span class="emoji-big">💭</span> II. Un comentario sobre la contratransferencia</h2>
+    <p>
+        Se ha definido la contratransferencia como <em>“Conjunto de las manifestaciones del inconsciente del analista relacionadas con las manifestaciones de la transferencia del paciente”</em><span class="nota">13</span>.
+    </p>
+    <p>
+        Dicho concepto ha sido ocasión de polémicas a lo largo de la historia del movimiento psicoanalítico. Según lo refieren Roudinesco y Plon, en su <strong>Diccionario de Psicoanálisis</strong>, Freud empleó el término contratransferencia, entrecomillado, en una carta a C.G. Jung en 1909. En 1910, refiriéndose a las perspectivas de la terapia psicoanalítica y, en relación a la persona del terapeuta, evoca la existencia de una contratransferencia que <em>“se instala en el médico por la influencia del paciente sobre la sensibilidad inconsciente”</em> del primero. Más adelante, en 1913, en una carta a Binswanger expresa que el analista no debe nunca darle nada al analizante que provenga de su propio inconsciente. En cada caso tiene que <em>“reconocer y superar su contratransferencia, para estar libre de sí mismo”</em>.
+    </p>
+    <p>
+        Más allá de releer estas citas, localizarlas en la obra freudiana, vale la pena recordar que, tal como lo señalan Roudinesco y Plon, la posición de Freud al respecto de la contratransferencia no evolucionó más allá de estos enunciados, y nunca más encaró la posibilidad de que la contratransferencia se utilizara de manera dinámica en el desarrollo de la cura analítica.<span class="nota">14</span>
+    </p>
+
+    <h3>Discusión y posiciones posfreudianas</h3>
+    <p>
+        Resulta de interés retomar esta discusión, a propósito de lo que suele afirmarse en torno a la contratransferencia respecto de su valor, ya sea en el diagnóstico como en la cura analítica. No se trata de negar el fenómeno (innegable por cierto) sino de situar su lugar y discutir el estatuto del mismo.
+    </p>
+    <p>
+        Diferentes autores pos freudianos, han retomado el concepto de contratransferencia y la discusión sobre el mismo: dichas posiciones han ido desde la idea de Sandor Ferenczi del <em>“análisis mutuo”</em>, a la visión de Paula Heinman, respecto de considerar la contratransferencia como herramienta para comprender el inconsciente del analizante.
+    </p>
+    <p>
+        La mayoría de los textos sobre la entrevista, en general y de la entrevista en psicodiagnóstico en particular, hacen hincapié en la contratransferencia. Una lectura, subsidiaria de los desarrollos pos freudianos, deja establecida cierta correspondencia biunívoca entre la transferencia y la contratransferencia. Ello colaboraría en una percepción de simetría y reciprocidad afectiva entre los participantes de la escena de la entrevista: sin embargo el concepto mismo de transferencia, tal como se advierte en el primer apartado, subraya la no correspondencia. Freud nos advierte muy tempranamente de la novedosa posición que, en el dispositivo psicoanalítico, tiene el analista.<span class="nota">15</span>
+    </p>
+
+    <h3>Ego-Psychology y la cuestión del Ideal</h3>
+    <p>
+        La llamada Ego-Psychology, en su entronización del yo, ha orientado la idea del análisis a la identificación. Eso implica que el yo del analista (a quien se suponía un inconsciente <em>“suavizado”</em> en sus efectos por vía del análisis didáctico) se constituye en un modelo de adaptación a la realidad.<span class="nota">16</span> Además de crear la pregunta de si es el Yo del analista una medida de la realidad, la localización del lugar del analista como Ideal, ha tenido para Freud el efecto de la sugestión<span class="nota">17</span>: Sugestión que, en sus medios y fines, se diferencia claramente de la posición señalada por Freud para el devenir de un psicoanálisis.
+    </p>
+    <p>
+        Conocer el fenómeno de la sugestión, así como recordar que la relación de Yo a Yo busca la identificación, nos permitiría admitir que es posible la correspondencia o complementariedad afectiva; tal el fenómeno de la contratransferencia. Ahora bien, el problema es cómo conceptualizar este fenómeno en el plano de la clínica para considerar si debe hacerse de ello la orientación de la interpretación.
+    </p>
+
+    <h3>Abstinencia y posición del analista</h3>
+    <div class="cita">
+        “Proponemos considerar que: decir que la cura se desarrolla en la abstinencia supone que el analista debe abstenerse de hacer coincidir su lugar con el del Ideal. (…) la indicación freudiana de tomar al amor de transferencia como “algo irreal” podría leerse como la necesidad de recordar el equívoco que lo permite: es decir, el tomar a la persona del analista como Ideal del Yo. Es precisamente este equívoco, el que permite que un análisis sea posible en tanto pueda, en un segundo momento desocupar, el analista, dicha posición.”<span class="nota">18</span>
+        <span class="referencia">— Guerra & Barbieri, 2007</span>
+    </div>
+    <p>
+        La abstinencia además de constituir una suerte de máxima de la clínica psicoanalítica, implica la posibilidad de quien ocupa el lugar del analista de dejar a un lado aquello que lo haría comportarse en esa escena como lo haría en otras de su vida cotidiana. Es decir, sus propios ideales, sus ideas en torno a la moral, su propia fantasmática. Ello sólo es posible, no por una suerte de <em>“autocontrol”</em> u orientación de la voluntad (al menos no solamente), sino que se vincula con el hecho de que el analista se produce en su propio análisis.
+    </p>
+    <p>
+        Acceder a la propuesta <em>“contratransferencial”</em> del entrevistado, responder en el plano de la reciprocidad afectiva, nos alejaría del lugar desde el cual podemos ejercer nuestra función. El objeto mismo del que se trata en un psicoanálisis, quedaría completamente elidido. Solo nos quedaríamos entrampados en las vicisitudes imaginarias con las que lidiamos a diario: pero no es para eso que nos consultan.
+    </p>
+
+    <hr>
+
+    <!-- III. Psicodiagnóstico -->
+    <h2><span class="emoji-big">🛠️</span> III. Transferencia y contratransferencia en el dispositivo de psicodiagnóstico</h2>
+    <p>
+        ¿Qué particularidades adquiere el fenómeno transferencial en el contexto del psicodiagnóstico? En principio, deberá argumentarse si es que adquiere alguna particularidad y, en todo caso, en qué consiste.
+    </p>
+    <p>
+        Como viene diciéndose, la transferencia no es un fenómeno privativo del contexto de un análisis, pero es el psicoanálisis quien hizo visible tal fenómeno. Lo ha descubierto y se ha transformado en una de las invenciones del psicoanálisis, uno de sus conceptos fundamentales y que contribuyen a delinear la novedad del descubrimiento freudiano.
+    </p>
+    <p>
+        Las particularidades que la instrumentación de técnicas proyectivas, en el marco del proceso psicodiagnóstico, implica que el entrevistador debe desplegar una determinada cantidad de acciones, en tanto que observador participante en la situación del psicodiagnóstico. Sin duda ello contrasta con la regla fundamental del dispositivo analítico vinculado a la atención flotante.<span class="nota">19</span> Por otro lado, la demanda producida y que desencadena la realización de un proceso psicodiagnóstico contribuye a la construcción de un problema, la formulación de una pregunta que va a orientar la escucha del entrevistador en tanto que se encuentra expectante de la aparición de indicadores vinculados a las hipótesis presuntivas que se encuentren <em>“activas”</em> al momento.
+    </p>
+    <p>
+        El analista, también construye hipótesis sólo que se esfuerza por no buscar, por no contradecir la regla fundamental, en tanto Freud ha dejado expresamente dicho que, el objetivo investigativo interfiere con la labor analítica; recomendando no superponer ambos objetivos en el mismo tiempo y con un mismo sujeto.
+    </p>
+    <p>
+        Ahora bien, entendemos que el objetivo del psicodiagnóstico es fundamentalmente investigativo, teniendo como consecuencia posible pero no necesaria, que surja un pedido de tratamiento analítico o de cualquier otra índole. De todas maneras, eso no significa que creamos por eso resuelto el problema de la transferencia. Cada vez que comenzamos un proceso psicodiagnóstico y escuchamos las fantasías relativas a él de nuestros consultantes, constatamos la peligrosa cercanía de instalarnos en un lugar complicado independientemente que nosotros no nos vayamos a constituir en el analista del consultante en cuestión. Se trata de un problema ético.
+    </p>
+    <p>
+        Si nosotros sabemos del carácter conjetural de nuestras hipótesis, del proceso de construcción del saber que producimos; entonces la forma en que este saber retorne al consultante debería estar en sintonía con esta concepción. Y ello se encuentra profundamente vinculado a la cuestión transferencial porque la forma desde la cual transmitimos un saber, hablamos, nos referimos al motivo de la consulta, etc., establece un lugar para el que habla y otro para el que escucha.
+    </p>
+    <p>
+        Despojar al consultante de responsabilidad respecto de sus dichos, o brindar explicaciones que busquen <em>“calmar”</em> la culpa asociada al síntoma, o bien imponer una interpretación sin importar que al consultante le resulte ajena, etc., son posibles <em>“salidas”</em> de un proceso psicodiagnóstico que, independientemente de la fineza de las hipótesis construidas, nos alejarían de lo que podría plantearse como un proceso satisfactorio. Pues ese proceso no habría permitido generar las condiciones para que una pregunta, una modificación, un cambio de perspectiva, se produjera en el consultante. Se advierte así la enorme importancia de la entrevista de devolución.
+    </p>
+    <p>
+        En lo concerniente al problema de la transferencia y la contratransferencia en psicodiagnóstico, no se trata de discutir el estatuto del fenómeno pues éste se produce, está en juego. La cuestión es cómo sostener la demanda implícita en la transferencia, a sabiendas que no vamos a ser nosotros (o al menos no necesariamente) quienes tendríamos que vérnosla con sus avatares a lo largo de un proceso analítico, sin por ello obturarla, <em>“acallarla”</em> bajo un saber que se torne absoluto. Por ello, la cuestión de la transferencia se encuentra vinculada a la ética misma del psicodiagnóstico; no es solamente una variable que contribuye a la construcción del dato. Implica también una posición respecto del saber producido en un proceso psicodiagnóstico al no hacerlo coincidir con la verdad.
+    </p>
+    <p>
+        El psicodiagnóstico se reconoce como subsidiario de la teoría psicoanalítica así como de su clínica; si bien supone características propias en cuanto a su propósito y encuadre general. El dispositivo del psicodiagnóstico, cuya finalidad, tiempos, etc., difieren respecto de un análisis; exige igualmente la necesidad de sostener la posición abstinente (tal como la hemos definido) pues nada podrá decirse, aportarse, hipotetizarse respecto de aquel con quien hemos trabajado, si la pregnancia de los fenómenos contratransferenciales, no nos permiten trascenderlos para intentar formular la lógica que los produce, los sostiene. En consecuencia, las especificidades del dispositivo, que podríamos denominar como metodológicas, no eliminan las consideraciones clínicas.
+    </p>
+
+    <hr>
+
+    <!-- IV. Fragmentos clínicos -->
+    <h2><span class="emoji-big">📋</span> IV. Fragmentos clínicos</h2>
+
+    <div class="fragmento">
+        <p><span class="emoji-big">👩‍⚖️</span> <strong>“Necesito que me digas que mi hija no puede ver al padre”</strong> – Interesante pedido de una madre que enfrentaba un litigio judicial por la tenencia de su hija. ¿Qué suposición de saber funciona en este pedido de consulta? Ella <em>YA SABE</em> cómo debe resultar, no hay pregunta sino la necesidad de obtener del profesional un <em>“aval”</em> a lo que ella cree que debe hacerse. ¿No es el momento mismo de formulación del pedido el indicado para abordar el problema y tomar una decisión? Una alternativa sería abstenerse de intervenir desde el principio. Otra posibilidad se abre si, el tema de la primera entrevista fuera el pedido mismo: apostar a que se pueda variar lo necesario la atribución que la consultante realiza a fin de considerar la conveniencia clínica y ética de intervenir.</p>
+    </div>
+
+    <div class="fragmento">
+        <p><span class="emoji-big">🧑‍🎓</span> <strong>“Dale, explícale a mi mamá que yo no quiero estudiar nada… a mí no me sale, se lo digo y no hay caso… decile que salió en el test”</strong> – solicita una jovencita ante el desarrollo de un proceso de orientación vocacional. El pedido de respuesta sobre el <em>“qué”</em> estudiar, se desliza al problema de la joven por poder sostener ante el ideal parental, su decisión y su íntima convicción de no querer iniciar estudios universitarios. Claramente no mentiríamos sobre lo que expresan nuestras técnicas. Pero es necesario incluir este pedido al momento de pensar la devolución: ¿vamos a validar el pedido de esta joven, lo que dice en su intento de encontrar aliado o vamos a acallar este adolescente malestar bajo el cumplimiento del anhelo parental? ¿Vamos a desoír el llamado de esta adolescente a un tercero que le permita resolver el problema en el que se halla?</p>
+    </div>
+
+    <div class="fragmento">
+        <p><span class="emoji-big">😔</span> <strong>“Nadie nunca me creyó, para mí es importante… en mi casa siempre decían que soy muy exagerada, que todo lo multiplico por mil”</strong> – comenta una consultante de mediana edad mientras sonríe. Sensible cuestión la del crédito otorgado al síntoma por el cual consulta esta mujer, luego de haber recorrido larga cantidad de consultorios médicos. La confrontación de la histórica con el saber médico ha fundado el psicoanálisis, por tanto de ella tenemos largo testimonio. ¿Es posible escuchar y dar por cierto el padecer de quien nos consulte, sin que ello suponga ser ingenuos? ¿Podremos interrogar su síntoma sin dejarla en el lugar de <em>“exagerada”</em>? Aceptar su malestar, admitir que es cierto que padece, no nos releva de averiguar de qué padece; allí el compromiso ético que, en el campo de la transferencia, se establece.</p>
+    </div>
+
+    <hr>
+
+    <!-- Referencias -->
+    <div class="ref-list">
+        <h3><span class="emoji-big">📚</span> Referencias bibliográficas</h3>
+        <ul>
+            <li><span class="autor">FREUD, Sigmund.</span> “Estudios sobre la histeria” O.C. Tomo 1. Biblioteca Nueva.</li>
+            <li><span class="autor">FREUD, Sigmund.</span> “La dinámica de la transferencia” O.C. Tomo 2. Biblioteca Nueva.</li>
+            <li><span class="autor">FREUD, Sigmund.</span> “Recuerdo, Repetición y elaboración” O.C. Tomo 2. Biblioteca Nueva.</li>
+            <li><span class="autor">FREUD, Sigmund.</span> “Observaciones sobre el amor de transferencia”. Tomo 2. Biblioteca Nueva.</li>
+            <li><span class="autor">FREUD, Sigmund.</span> “Lección XXVII. La transferencia” en Lecciones introductorias al psicoanálisis. O.C. Tomo 2. Biblioteca Nueva.</li>
+            <li><span class="autor">FREUD, Sigmund.</span> “Consejos al médico” OC Tomo 2. Biblioteca Nueva.</li>
+            <li><span class="autor">LACAN, J.</span> El Seminario. Libro 1 “Los escritos técnicos de Freud” (Paidós, 1996), Libro 8 “La Transferencia” (Paidós, 2003). Libro 11 “Los cuatro conceptos fundamentales del psicoanálisis” (Paidós, 1984).</li>
+            <li><span class="autor">ROUDINESCO, Elisabeth y PLON, Michel</span> “Diccionario de Psicoanálisis”. Editorial Paidós. 2005</li>
+            <li><span class="autor">GUERRA, M.M y BARBIERI, R</span> “Enamoramiento y Amor de Transferencia”. Trabajo presentado en las I Jornadas Abiertas de la Escuela Freudiana de Mar del Plata. 2007.</li>
+        </ul>
+    </div>
+
+    <div class="footer-note">
+        <span class="emoji-big">🧠</span> Material de estudio · revisión 2010
+    </div>
+
+</div>
+</body>
+</html>

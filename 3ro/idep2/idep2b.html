@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#6c5ce7">
+<title>🧠 Guía de Psicodiagnóstico</title>
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  :root{
+    --bg:#f2f3fb;
+    --card:#ffffff;
+    --ink:#1c1c30;
+    --muted:#5c5c7d;
+    --accent:#6c5ce7;
+    --accent-soft:#eeebff;
+    --green:#00b894;
+    --green-soft:#e3fbf3;
+    --orange:#e17055;
+    --orange-soft:#fff0eb;
+    --yellow:#fdcb6e;
+    --yellow-soft:#fff8e6;
+    --pink:#e84393;
+    --pink-soft:#ffeaf4;
+    --blue:#0984e3;
+    --blue-soft:#e7f3ff;
+    --radius:22px;
+    --shadow:0 6px 22px rgba(35,30,80,.09);
+  }
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-size:16.5px;
+    line-height:1.6;
+    padding-bottom:60px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:linear-gradient(140deg,#6c5ce7 0%,#a55eea 45%,#e84393 100%);
+    color:#fff;
+    padding:38px 20px 46px;
+    text-align:center;
+    border-radius:0 0 34px 34px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;inset:0;
+    background:radial-gradient(circle at 20% 15%,rgba(255,255,255,.25),transparent 45%),
+               radial-gradient(circle at 85% 80%,rgba(255,255,255,.18),transparent 40%);
+    pointer-events:none;
+  }
+  .hero .brain{font-size:4.2rem;display:block;line-height:1;filter:drop-shadow(0 6px 12px rgba(0,0,0,.25))}
+  .hero h1{
+    font-size:1.72rem;
+    margin:14px 0 8px;
+    letter-spacing:-.5px;
+    font-weight:800;
+    position:relative;z-index:1;
+  }
+  .hero p{
+    margin:0 auto;
+    max-width:480px;
+    font-size:.95rem;
+    opacity:.94;
+    position:relative;z-index:1;
+  }
+  .hero .pills{
+    margin-top:18px;
+    display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+    position:relative;z-index:1;
+  }
+  .hero .pills span{
+    background:rgba(255,255,255,.2);
+    border:1px solid rgba(255,255,255,.35);
+    padding:6px 13px;
+    border-radius:999px;
+    font-size:.78rem;
+    font-weight:600;
+    backdrop-filter:blur(4px);
+  }
+
+  /* ---------- NAV CHIPS ---------- */
+  .navwrap{
+    position:sticky;top:0;z-index:50;
+    background:rgba(242,243,251,.88);
+    backdrop-filter:blur(12px);
+    padding:12px 0 10px;
+    border-bottom:1px solid rgba(108,92,231,.12);
+  }
+  .chips{
+    display:flex;gap:9px;overflow-x:auto;
+    padding:0 16px 6px;
+    scrollbar-width:none;
+  }
+  .chips::-webkit-scrollbar{display:none}
+  .chips a{
+    flex:0 0 auto;
+    text-decoration:none;
+    background:#fff;
+    color:var(--accent);
+    font-size:.79rem;
+    font-weight:700;
+    padding:9px 15px;
+    border-radius:999px;
+    box-shadow:0 2px 8px rgba(35,30,80,.08);
+    white-space:nowrap;
+    border:1px solid rgba(108,92,231,.15);
+  }
+  .chips a:active{background:var(--accent-soft)}
+
+  /* ---------- LAYOUT ---------- */
+  main{max-width:680px;margin:0 auto;padding:18px 14px 0}
+  section{margin-bottom:22px;scroll-margin-top:78px}
+
+  .card{
+    background:var(--card);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+
+  .sechead{
+    display:flex;align-items:center;gap:13px;
+    padding:18px 18px 14px;
+    border-bottom:1px solid #f0f0f8;
+  }
+  .sechead .ico{font-size:2.1rem;line-height:1;flex:0 0 auto}
+  .sechead h2{
+    font-size:1.06rem;
+    margin:0;
+    font-weight:800;
+    letter-spacing:-.3px;
+    color:var(--accent);
+  }
+  .sechead .sub{
+    display:block;
+    font-size:.76rem;
+    color:var(--muted);
+    font-weight:600;
+    margin-top:2px;
+    letter-spacing:.2px;
+    text-transform:uppercase;
+  }
+
+  .body{padding:6px 16px 18px}
+
+  /* ---------- ACCORDION ---------- */
+  details{
+    border-bottom:1px solid #f1f1f9;
+  }
+  details:last-child{border-bottom:none}
+  details > summary{
+    list-style:none;
+    cursor:pointer;
+    padding:15px 30px 15px 4px;
+    font-weight:700;
+    font-size:.98rem;
+    position:relative;
+    color:#2a2a45;
+    display:flex;
+    gap:9px;
+    align-items:flex-start;
+  }
+  details > summary::-webkit-details-marker{display:none}
+  details > summary::after{
+    content:"";
+    position:absolute;right:8px;top:22px;
+    width:9px;height:9px;
+    border-right:2.5px solid var(--accent);
+    border-bottom:2.5px solid var(--accent);
+    transform:rotate(45deg);
+    transition:transform .25s ease;
+    border-radius:2px;
+  }
+  details[open] > summary::after{transform:rotate(-135deg);top:25px}
+  details > summary .q{font-size:1.15rem;line-height:1.3;flex:0 0 auto}
+  .ans{padding:0 4px 18px 4px;font-size:.95rem;color:#33334d}
+  .ans > *:first-child{margin-top:0}
+  .ans > *:last-child{margin-bottom:0}
+
+  /* ---------- TEXT ELEMENTS ---------- */
+  h3{
+    font-size:.9rem;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+    color:var(--accent);
+    margin:20px 0 8px;
+    font-weight:800;
+  }
+  p{margin:9px 0}
+  ul{margin:8px 0;padding-left:0;list-style:none}
+  ul li{
+    position:relative;
+    padding-left:22px;
+    margin:7px 0;
+  }
+  ul li::before{
+    content:"▸";
+    position:absolute;left:4px;top:0;
+    color:var(--accent);
+    font-weight:900;
+  }
+  ol{padding-left:22px;margin:9px 0}
+  ol li{margin:7px 0;padding-left:2px}
+  strong{color:#191933;font-weight:800}
+  em{color:#4a4a68}
+
+  /* ---------- BOXES ---------- */
+  .box{
+    border-radius:16px;
+    padding:13px 15px;
+    margin:13px 0;
+    font-size:.92rem;
+    border-left:5px solid;
+  }
+  .box .bt{
+    display:block;
+    font-weight:800;
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.6px;
+    margin-bottom:5px;
+  }
+  .key{background:var(--accent-soft);border-color:var(--accent)}
+  .key .bt{color:var(--accent)}
+  .ex{background:var(--green-soft);border-color:var(--green)}
+  .ex .bt{color:#00875f}
+  .warn{background:var(--orange-soft);border-color:var(--orange)}
+  .warn .bt{color:#c0492c}
+  .note{background:var(--yellow-soft);border-color:var(--yellow)}
+  .note .bt{color:#b8860b}
+  .quote{
+    background:var(--pink-soft);
+    border-color:var(--pink);
+    font-style:italic;
+    color:#8b2454;
+  }
+  .quote .bt{color:var(--pink);font-style:normal}
+  .info{background:var(--blue-soft);border-color:var(--blue)}
+  .info .bt{color:#0768b8}
+
+  /* ---------- COMPARISON GRID ---------- */
+  .vs{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+    margin:14px 0;
+  }
+  .vs .col{
+    border-radius:16px;
+    padding:13px 15px;
+    font-size:.9rem;
+  }
+  .vs .col h4{
+    margin:0 0 8px;
+    font-size:.85rem;
+    text-transform:uppercase;
+    letter-spacing:.6px;
+    display:flex;align-items:center;gap:7px;
+  }
+  .vs .col.a{background:var(--accent-soft)}
+  .vs .col.a h4{color:var(--accent)}
+  .vs .col.b{background:var(--green-soft)}
+  .vs .col.b h4{color:#00875f}
+  .vs .col ul li::before{content:"•";color:currentColor;opacity:.5}
+
+  /* ---------- STEP LIST ---------- */
+  .steps{counter-reset:st;margin:12px 0;padding:0;list-style:none}
+  .steps li{
+    counter-increment:st;
+    position:relative;
+    padding:11px 14px 11px 50px;
+    background:#fafaff;
+    border-radius:14px;
+    margin:9px 0;
+    font-size:.92rem;
+    border:1px solid #eeecfb;
+  }
+  .steps li::before{
+    content:counter(st);
+    position:absolute;left:12px;top:50%;
+    transform:translateY(-50%);
+    width:27px;height:27px;
+    background:linear-gradient(140deg,var(--accent),#a55eea);
+    color:#fff;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.82rem;font-weight:800;
+    box-shadow:0 3px 8px rgba(108,92,231,.35);
+  }
+  .steps li b{display:block;color:var(--accent);font-size:.86rem;margin-bottom:2px}
+
+  /* ---------- TAGS ---------- */
+  .tags{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+  .tag{
+    background:#f4f3ff;
+    color:var(--accent);
+    border-radius:999px;
+    padding:5px 12px;
+    font-size:.78rem;
+    font-weight:700;
+    border:1px solid rgba(108,92,231,.18);
+  }
+
+  /* ---------- DIVIDER ---------- */
+  .divider{
+    text-align:center;
+    font-size:1.5rem;
+    letter-spacing:8px;
+    color:rgba(108,92,231,.3);
+    margin:26px 0 22px;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    text-align:center;
+    padding:28px 20px 10px;
+    color:var(--muted);
+    font-size:.8rem;
+  }
+  footer .em{font-size:1.8rem;display:block;margin-bottom:8px}
+
+  /* ---------- TOP BUTTON ---------- */
+  #top{
+    position:fixed;
+    right:16px;bottom:18px;
+    width:48px;height:48px;
+    border-radius:50%;
+    background:linear-gradient(140deg,var(--accent),#a55eea);
+    color:#fff;
+    border:none;
+    font-size:1.3rem;
+    box-shadow:0 6px 18px rgba(108,92,231,.45);
+    display:flex;align-items:center;justify-content:center;
+    text-decoration:none;
+    z-index:99;
+  }
+
+  @media(min-width:560px){
+    .vs{grid-template-columns:1fr 1fr}
+    body{font-size:17px}
+    .hero h1{font-size:2rem}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="brain">🧠</span>
+  <h1>Guía de Psicodiagnóstico</h1>
+  <p>Técnicas proyectivas, proceso diagnóstico, entrevista inicial y psicodiagnóstico infantil — todo en un solo lugar.</p>
+  <div class="pills">
+    <span>🎭 Proyección</span>
+    <span>🔺 Tesis Ternarista</span>
+    <span>🔄 Abducción</span>
+    <span>🗣️ Entrevista</span>
+    <span>🧒 Infancia</span>
+  </div>
+</header>
+
+<div class="navwrap">
+  <nav class="chips">
+    <a href="#s1">🎯 Proceso</a>
+    <a href="#s2">🔍 Lectura</a>
+    <a href="#s3">🧩 Hipótesis</a>
+    <a href="#s4">🎭 Proyección</a>
+    <a href="#s5">🪞 Personalidad</a>
+    <a href="#s6">🛠️ Características</a>
+    <a href="#s7">⚖️ vs Psicométricos</a>
+    <a href="#s8">🧑‍⚕️ Juicio</a>
+    <a href="#s9">🔺 Ternarista</a>
+    <a href="#s10">🔄 Inferencias</a>
+    <a href="#s11">📜 Proceso</a>
+    <a href="#s12">👁️ Observables</a>
+    <a href="#s13">📍 Indicador</a>
+    <a href="#s14">🔁 Recurrencias</a>
+    <a href="#s15">🧭 Conciencia</a>
+    <a href="#s16">🏛️ Epistemológicas</a>
+    <a href="#s17">📚 Aportes</a>
+    <a href="#s18">↔️ Sentidos</a>
+    <a href="#s19">✅ Rigurosidad</a>
+    <a href="#s20">💡 Hipótesis</a>
+    <a href="#s21">🧪 Batería</a>
+    <a href="#s22">🗣️ Entrevista</a>
+    <a href="#s23">🔑 Conceptos</a>
+    <a href="#s24">🌊 Síntoma</a>
+    <a href="#s25">🧒 Infancia</a>
+  </nav>
+</div>
+
+<main>
+
+<!-- ================= 1 ================= -->
+<section id="s1">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">🎯</span>
+      <h2>El Proceso Psicodiagnóstico<span class="sub">Objetivos y objeto de estudio</span></h2>
+    </div>
+    <div class="body">
+
+      <details open>
+        <summary><span class="q">🎯</span> ¿Cuáles son sus objetivos?</summary>
+        <div class="ans">
+          <p>Describir y <strong>comprender la estructura y dinámica de la personalidad</strong> del sujeto, considerando tanto sus aspectos <strong>saludables como patológicos</strong>.</p>
+          <div class="box key">
+            <span class="bt">💡 Clave</span>
+            Se busca <strong>“comprender y transformar”</strong>, hincando en la raíz del conflicto. No se limita a la mera descripción ni al inventario de síntomas.
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">📦</span> ¿Cuál es el objeto de estudio?</summary>
+        <div class="ans">
+          <p>El <strong>aparato psíquico</strong>: una construcción hipotética del psicoanálisis, <strong>inaccesible a la observación directa</strong>.</p>
+          <ul>
+            <li>Se lo conceptualiza con la metáfora de la <strong>“caja transparente”</strong> (opuesta a la “caja negra” de la observación directa).</li>
+            <li>Se busca comprender su <strong>estructura, dinámica y contenido</strong> a través de las respuestas del sujeto ante el sostén perceptual que brinda la batería de técnicas proyectivas.</li>
+            <li>Se enfatiza la <strong>peculiaridad idiosincrática</strong>: el sujeto comprendido en su singularidad, dentro de su historia y contexto actual.</li>
+          </ul>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 2 ================= -->
+<section id="s2">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">🔍</span>
+      <h2>Lectura Interpretativa<span class="sub">Más allá de la observación directa</span></h2>
+    </div>
+    <div class="body">
+      <div class="box key">
+        <span class="bt">📖 Definición</span>
+        Procedimiento de índole <strong>inferencial</strong> que va más allá de la observación directa o la simple descripción de conductas.
+      </div>
+      <ul>
+        <li>No se trata de <strong>“extraer” una verdad absoluta</strong> del objeto, sino de un complejo proceso de <strong>construcción de sentido y significación</strong>.</li>
+        <li>El psicólogo debe <strong>articular los rasgos emergentes</strong> (respuestas, síntomas, contenido manifiesto) con marcos teóricos para generar hipótesis diagnósticas válidas.</li>
+        <li>Cada signo pierde su <strong>univocidad</strong>: su significado se vuelve abierto y dependiente de la estructura del sujeto, integrándose en distintas redes relacionales.</li>
+      </ul>
+      <div class="box ex">
+        <span class="bt">✅ En síntesis</span>
+        Es pasar de lo <strong>manifiestamente observable</strong> a la comprensión de la <strong>realidad psíquica</strong> (motivaciones, deseos, conflictos inconscientes).
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 3 ================= -->
+<section id="s3">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">🧩</span>
+      <h2>Hipótesis de las Técnicas Proyectivas<span class="sub">Tres pilares fundamentales</span></h2>
+    </div>
+    <div class="body">
+
+      <details open>
+        <summary><span class="q">🎭</span> Hipótesis Proyectiva</summary>
+        <div class="ans">
+          <p>Toda actividad de un individuo <strong>lleva el sello de su personalidad</strong>. Ante un campo poco estructurado, el sujeto debe organizarlo e interpretarlo, <strong>proyectando su mundo privado</strong>, valores, estructuras y sentimientos.</p>
+          <div class="box ex">
+            <span class="bt">✅ Ejemplo</span>
+            Ante una mancha de tinta (Rorschach) o una lámina ambigua (TAT), la respuesta <strong>no es aleatoria</strong>: revela la organización de la experiencia del sujeto.
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">⚙️</span> Determinismo Psíquico</summary>
+        <div class="ans">
+          <p>Las asociaciones o respuestas frente a un método proyectivo <strong>no son arbitrarias</strong>: están condicionadas por contenidos ideológicos ocultos o conflictos psíquicos.</p>
+          <div class="box ex">
+            <span class="bt">✅ Ejemplo</span>
+            Un lapsus, una elección específica de color o un olvido durante la administración <strong>no es azaroso</strong>: responde a la dinámica del complejo psíquico del sujeto.
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">👁️</span> Hipótesis de la Apercepción</summary>
+        <div class="ans">
+          <p>La apercepción es la <strong>“percepción significativamente interpretada”</strong>. Percibir no se limita a la captación sensible: incluye la asociación simultánea de estados afectivos, el horizonte de experiencias pasadas, las anticipaciones y el fondo cultural/lingüístico.</p>
+          <div class="box ex">
+            <span class="bt">✅ Ejemplo</span>
+            Dos sujetos ante la misma lámina pueden percibirla totalmente diferente: lo que ven (apercepción) es una <strong>construcción</strong> que refleja cómo significan su mundo.
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 4 ================= -->
+<section id="s4">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">🎭</span>
+      <h2>El Concepto de Proyección<span class="sub">F-1785 “La Psicología Proyectiva”</span></h2>
+    </div>
+    <div class="body">
+
+      <div class="box key">
+        <span class="bt">📖 Definición</span>
+        Mecanismo de defensa <strong>inconsciente</strong> que consiste en atribuir a otros (personas u objetos del mundo exterior) ideas, actitudes o percepciones interiores (afectivas e intelectuales) que <strong>no son reconocidas como propias</strong>.
+      </div>
+
+      <h3>🎯 Sentido en las Técnicas Proyectivas</h3>
+      <p>Adquiere un sentido <strong>más amplio</strong> que el mecanismo de defensa estrictamente patológico. Cumple una función <strong>expresiva además de defensiva</strong>, manifestando las tres instancias del aparato psíquico (consciente, preconsciente e inconsciente).</p>
+      <div class="box info">
+        <span class="bt">🖥️ Metáfora</span>
+        Las técnicas actúan como una <strong>“pantalla”</strong> donde el sujeto lanza hacia el exterior los principios organizativos de su personalidad.
+      </div>
+
+      <h3>↔️ Diferencias</h3>
+      <ul>
+        <li>No es exclusivamente un mecanismo de defensa: <strong>puede ser expresiva</strong>.</li>
+        <li>No se limita a lo inconsciente: <strong>coexisten factores conocidos y desconocidos</strong>.</li>
+      </ul>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 5 ================= -->
+<section id="s5">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">🪞</span>
+      <h2>La Personalidad<span class="sub">Definición y características</span></h2>
+    </div>
+    <div class="body">
+
+      <div class="box key">
+        <span class="bt">📖 Definición</span>
+        Constructo teórico referido a la <strong>organización singular, dinámica y relativamente estable</strong> de factores cognitivos y afectivos que constituyen el <strong>estilo único e irrepetible</strong> de cada ser humano.
+      </div>
+
+      <h3>✨ Características principales</h3>
+      <ul>
+        <li><strong>Proceso dinámico:</strong> cambiante y sucesiva; debe evaluarse en un momento dado y observar sus modificaciones en el tiempo.</li>
+        <li><strong>Naturaleza estructural:</strong> se modela por la convergencia de influencias fisiológicas, psicológicas y socio-culturales.</li>
+        <li><strong>La conducta como manifestación:</strong> la estructura se revela en todas las conductas del individuo (funcionalidad), reflejando la relación entre sus necesidades y las demandas del contexto.</li>
+        <li><strong>Fenómeno profundo:</strong> posee cualidades superficiales (rasgos observables) y aspectos inconscientes inobservables que deben ser inferidos. Algunos estratos permanecen ocultos incluso para el propio individuo.</li>
+      </ul>
+
+      <div class="box warn">
+        <span class="bt">⚠️ Atención</span>
+        No tiene necesariamente la función de <strong>“estabilizador automático”</strong> o alivio de tensiones. En algunos contextos (laboral / jurídico) puede incluso <strong>aumentarlas</strong>.
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 6 ================= -->
+<section id="s6">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">🛠️</span>
+      <h2>Características Generales de las Técnicas Proyectivas<span class="sub">Qué las hace singulares</span></h2>
+    </div>
+    <div class="body">
+      <ul class="steps">
+        <li><b>Investigación de la personalidad</b>Buscan investigar la personalidad de manera <strong>global</strong>.</li>
+        <li><b>Estímulos ambiguos</b>Utilizan estímulos poco estructurados para que el sujeto organice la respuesta <strong>sin saber el propósito real</strong> del examinador.</li>
+        <li><b>Reducción del control consciente</b>Facilitan que el sujeto proyecte sus motivaciones, percepciones y conflictos, disminuyendo el control sobre su conducta.</li>
+        <li><b>Muestra conductual significativa</b>Brindan una muestra de conducta <strong>expresiva, espontánea y clínicamente utilizable</strong> en poco tiempo.</li>
+        <li><b>Totalidad organizada</b>La conducta se interpreta como totalidad: un ítem no tiene significado unívoco, depende de su integración en la estructura global.</li>
+        <li><b>Otras características</b>Son difíciles de tratar estadísticamente, <strong>no pretenden establecer leyes generales</strong> (buscan comprender lo singular) y su uso se adapta a distintos ámbitos (clínico, laboral, etc.).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 7 ================= -->
+<section id="s7">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">⚖️</span>
+      <h2>Técnicas Proyectivas vs. Tests Psicométricos<span class="sub">Comparación</span></h2>
+    </div>
+    <div class="body">
+
+      <div class="vs">
+        <div class="col a">
+          <h4>🎨 Proyectivas</h4>
+          <ul>
+            <li><strong>Objetivo:</strong> investigar la dinámica singular de la subjetividad (adaptativa/desadaptativa).</li>
+            <li><strong>Resultados:</strong> cualitativos, interpretativos, basados en la estructura del sujeto.</li>
+            <li><strong>Objetividad:</strong> depende de la rigurosidad científica del evaluador.</li>
+            <li><strong>Validez:</strong> se basa en marcos teóricos y la singularidad.</li>
+            <li><strong>Respuesta:</strong> abierta ante estímulos ambiguos.</li>
+          </ul>
+        </div>
+        <div class="col b">
+          <h4>📊 Psicométricos</h4>
+          <ul>
+            <li><strong>Objetivo:</strong> medir variables específicas mediante escalas.</li>
+            <li><strong>Resultados:</strong> cuantitativos, numéricos, basados en escalas estadísticas.</li>
+            <li><strong>Objetividad:</strong> relativa independencia del evaluador (estandarización).</li>
+            <li><strong>Validez:</strong> se expresa mediante manipulaciones estadísticas y cifras.</li>
+            <li><strong>Respuesta:</strong> evaluación de “correcto/incorrecto” ante problemas definidos.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 8 ================= -->
+<section id="s8">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">🧑‍⚕️</span>
+      <h2>Juicio Clínico<span class="sub">F-1635 · Pérez Lalli</span></h2>
+    </div>
+    <div class="body">
+
+      <div class="box key">
+        <span class="bt">📖 Definición</span>
+        Proceso <strong>cognitivo-inferencial</strong>, basado en la habilidad y experiencia del psicólogo, mediante el cual se integran indicios significativos para construir <strong>conclusiones diagnósticas válidas</strong>. No se basa en reglas mecánicas.
+      </div>
+
+      <div class="box quote">
+        <span class="bt">💬 La frase</span>
+        “La mejor técnica reconocida, validada y con mostrada eficacia es <strong>muda</strong> sin quien la implemente y piense sus resultados.”
+      </div>
+
+      <p>Las técnicas proyectivas, por sí solas, <strong>solo brindan datos (observables)</strong>. La “voz” diagnóstica no proviene del instrumento, sino de la <strong>articulación teórica y experiencial</strong> del profesional.</p>
+      <p>El test es un <strong>mediador</strong>: sin un sujeto (el psicólogo) que lo piense, interpele y articule en una constelación de datos, los resultados no poseen sentido ni validez clínica.</p>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 9 ================= -->
+<section id="s9">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">🔺</span>
+      <h2>Tesis Ternarista de Samaja<span class="sub">Posicionamiento epistemológico</span></h2>
+    </div>
+    <div class="body">
+
+      <p>Cuestiona tanto el <strong>empirismo</strong> como el <strong>apriorismo</strong> (reduccionismo de la inducción o la deducción por separado). Propone una <strong>interacción dialéctica</strong> entre teoría y empiria, mediada por el sujeto cognoscente.</p>
+
+      <ul>
+        <li><strong>Interacción dialéctica:</strong> el conocimiento no comienza con la intelección vacía ni con la intuición sensorial ciega. Se produce mediante la interacción entre <strong>teoría y empiria</strong>, a través de la praxis del psicólogo.</li>
+        <li><strong>Construcción del Objeto Modelo:</strong> el psicodiagnóstico exige construir un “Objeto Modelo” (aparato psíquico/personalidad). Las técnicas proyectivas actúan como <strong>catalizadores</strong> que permiten operacionalizar los datos de la experiencia sensible e interpretarlos desde los constructos teóricos.</li>
+        <li><strong>Lógica abductiva y singularidad:</strong> la generación de hipótesis no es una adición de datos ni una aplicación mecánica de reglas: es una inferencia <strong>abductiva</strong>. El psicodiagnosticador realiza un <strong>salto creativo</strong> para producir conocimiento nuevo, válido y singular.</li>
+      </ul>
+
+      <div class="box info">
+        <span class="bt">🔗 En el proceso psicodiagnóstico</span>
+        No hay <strong>observación pura</strong> ni <strong>teorema ideal</strong>: hay una <strong>modelización de la experiencia</strong>. Los instrumentos articulan la evidencia empírica (conductas) con los constructos teóricos (aparato psíquico).
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 10 ================= -->
+<section id="s10">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">🔄</span>
+      <h2>Abducción y Deducción<span class="sub">Lógicas inferenciales del proceso</span></h2>
+    </div>
+    <div class="body">
+
+      <details open>
+        <summary><span class="q">⚠️</span> ¿Por qué el método hipotético-deductivo es insuficiente?</summary>
+        <div class="ans">
+          <ul>
+            <li><strong>No explica el origen de las hipótesis:</strong> necesita que la hipótesis ya esté construida como premisa.</li>
+            <li><strong>Los observables no son unívocos:</strong> una misma tendencia puede tener observables opuestos, e idénticos observables pueden remitir a variables distintas (<strong>multideterminación</strong>).</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">🔄</span> ¿Cómo interactúan abducción y deducción?</summary>
+        <div class="ans">
+          <p>La <strong>abducción</strong> es la lógica del descubrimiento: permite construir las conjeturas a partir de la interacción entre teoría y empiria. La <strong>deducción</strong> justifica o refuta esas hipótesis frente a nuevas evidencias.</p>
+          <div class="box note">
+            <span class="bt">🧭 No es secuencial</span>
+            Ambos modos inferenciales están <strong>solidariamente articulados</strong> en una dinámica dialéctica continua.
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">🧪</span> Posiciones metodológicas</summary>
+        <div class="ans">
+          <ul>
+            <li><strong>Exploratoria-descriptiva (Descubrimiento / Abducción):</strong> recorte de indicadores y construcción de hipótesis presuntivas (el sentido de lo singular).</li>
+            <li><strong>Justificación (Deducción):</strong> contrastación de las hipótesis mediante consecuencias esperadas para validar la conclusión diagnóstica.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">🔍</span> Consecuencias observacionales vs. hipótesis</summary>
+        <div class="ans">
+          <ul>
+            <li><strong>Hipótesis:</strong> enunciado que vincula un observable con una variable teórica. <em>Ej.: “El sujeto presenta indicadores de invasión de la fantasía”.</em></li>
+            <li><strong>Consecuencia observacional:</strong> predicción lógica derivada de la hipótesis y la teoría. Si la hipótesis es verdadera, <strong>“debo encontrar”</strong> ciertos observables específicos para ratificarla.</li>
+          </ul>
+          <div class="box key">
+            <span class="bt">❓ ¿Por qué son “probablemente verdaderas”?</span>
+            Porque la abducción implica un <strong>“salto hacia lo novedoso”</strong> que no está contenido deductivamente en las premisas. La conclusión no es una verdad necesaria ni absoluta, sino una <strong>conjetura fundamentada (provisional)</strong> que debe resistir intentos de refutación y enriquecerse con otras hipótesis.
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 11 ================= -->
+<section id="s11">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">📜</span>
+      <h2>Noción de Proceso<span class="sub">Homologación con la investigación</span></h2>
+    </div>
+    <div class="body">
+
+      <div class="box key">
+        <span class="bt">📖 Definición (Samaja, 1993)</span>
+        “Conjunto de fases sucesivas de un fenómeno natural o de una operación artificial”, caracterizado por ser <strong>dinámico, cambiante y continuo</strong>. Implica historicidad y mutua afectación entre sus fases.
+      </div>
+
+      <h3>🔗 Homologación con el psicodiagnóstico</h3>
+      <ul class="steps">
+        <li><b>Estado inicial</b>Comienza con una <strong>demanda o problema</strong> (pregunta de investigación).</li>
+        <li><b>Cursos de acción</b>Contiene procedimientos (operaciones) para transformar la “cosa inicial” en un <strong>nuevo conocimiento</strong>.</li>
+        <li><b>Producto</b>Tiende a la <strong>extinción</strong> al alcanzar una respuesta (conclusión) válida, eficaz y superadora.</li>
+      </ul>
+
+      <h3>🚫 Superación del “testismo”</h3>
+      <p>Se abandona la idea de aplicar tests como fines estáticos o herramientas mecánicas, para concebir el diagnóstico como una <strong>investigación clínica y sistemática</strong>.</p>
+
+      <div class="box info">
+        <span class="bt">🤝 Construcción vincular</span>
+        No es un etiquetamiento estático ni un “sello” cerrado, sino un espacio de <strong>copiloto e intercambio dinámico</strong> (“acontecimiento”) entre psicólogo y consultante, abierto a la transformación del sujeto.
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 12 ================= -->
+<section id="s12">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">👁️</span>
+      <h2>Observables Significativos<span class="sub">Condiciones de selección</span></h2>
+    </div>
+    <div class="body">
+
+      <p>Un <strong>observable</strong> (manifestación accesible sin lenguaje técnico) se vuelve significativo cuando <strong>sobresale del fondo</strong> según ciertas condiciones:</p>
+
+      <ul>
+        <li><strong>📊 Población de referencia:</strong> aquello que no es esperable estadísticamente para esa población.</li>
+        <li><strong>🔁 Despliegue del propio sujeto:</strong> conductas que resaltan por su insistencia (reiteración) o por ser inesperadas respecto a su conducta previa.</li>
+        <li><strong>🎯 Objetivos del psicodiagnóstico:</strong> manifestaciones acordes a la meta del proceso (ej. laboral vs. clínico).</li>
+        <li><strong>🌍 Contexto y época:</strong> considerar cambios culturales (virtualidad, uso de tecnologías).</li>
+        <li><strong>⏳ Edad cronológica:</strong> conductas apropiadas o no para el estadio evolutivo.</li>
+        <li><strong>🧩 Características del estímulo:</strong> qué solicita específicamente la técnica (ej. dificultades en láminas particulares del Rorschach).</li>
+      </ul>
+
+      <div class="box warn">
+        <span class="bt">⚡ Condición determinante</span>
+        El <strong>fenómeno transferencial</strong>, que aporta el componente vivencial del psicólogo como <strong>observador participante</strong>.
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 13 ================= -->
+<section id="s13">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">📍</span>
+      <h2>El Indicador<span class="sub">Operacionalización de un concepto teórico</span></h2>
+    </div>
+    <div class="body">
+
+      <p>Se construye mediante el <strong>ejercicio inferencial</strong> del psicólogo, que requiere explicitar:</p>
+      <ul>
+        <li>El <strong>procedimiento técnico</strong> utilizado.</li>
+        <li>El <strong>constructo teórico</strong> (variable psíquica) al que remite.</li>
+        <li>El <strong>componente empírico</strong> (observable) transformado en “indicador” porque ha sido articulado teóricamente.</li>
+      </ul>
+
+      <div class="box warn">
+        <span class="bt">⚠️ Carácter no unívoco</span>
+        Un indicador <strong>no es unívoco</strong>: tiene una relación de <strong>representatividad parcial</strong> con el concepto teórico y requiere ser articulado con otros indicadores (en una <strong>“constelación”</strong>) para adquirir sentido.
+      </div>
+
+      <h3>🧱 Componentes del indicador</h3>
+      <ul class="steps">
+        <li><b>Componente empírico</b>La manifestación observable (conducta, verbalización, cualidad del trazo, elección simbólica).</li>
+        <li><b>Componente procedimental</b>La técnica o acción deliberada del profesional para promover o registrar dicha captación.</li>
+        <li><b>Representatividad probabilística</b>El indicador representa parcialmente al concepto teórico: <strong>nunca hay identidad unívoca</strong>.</li>
+      </ul>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 14 ================= -->
+<section id="s14">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">🔁</span>
+      <h2>Recurrencias y Convergencias<span class="sub">Caminos de validación</span></h2>
+    </div>
+    <div class="body">
+
+      <div class="box key">
+        <span class="bt">🔁 Recurrencias</span>
+        Reiteración de un mismo indicador o significado en varias zonas de un mismo gráfico o en gráficos/técnicas diversas. Es un <strong>camino de adición</strong> (agrupamiento por similitud).
+        <br><br>
+        <em>Nota: se distingue entre recurrencia de observable (insistencia de lo mismo) y <strong>recurrencia de hipótesis</strong> (la misma tendencia psíquica expresada desde distintos indicadores) — esta última es la valiosa para el diagnóstico.</em>
+      </div>
+
+      <div class="box info">
+        <span class="bt">🔀 Convergencias</span>
+        Reiteración de una <strong>secuencia dinámica</strong> expresada a través de indicadores <strong>disímiles y, en ocasiones, opuestos</strong>. Es un camino de diversidad y contradicción que evidencia los términos de un <strong>conflicto intrapsíquico</strong> (tensión de tendencias opuestas).
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 15 ================= -->
+<section id="s15">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">🧭</span>
+      <h2>Conciencia Procedimental<span class="sub">Ética y método</span></h2>
+    </div>
+    <div class="body">
+
+      <div class="box key">
+        <span class="bt">📖 Definición</span>
+        Capacidad del psicólogo de <strong>revisar, reflexionar, objetivar, comunicar y criticar su propia práctica</strong> en todo momento del proceso (desde la administración hasta la interpretación).
+      </div>
+
+      <ul>
+        <li>Implica entender que el psicodiagnóstico es un <strong>contrato de medios</strong>, no de resultados garantizados.</li>
+        <li>Es la <strong>condición necesaria para una buena praxis</strong>: garantiza la no arbitrariedad del conocimiento construido.</li>
+        <li>Explicitar el método (cómo se construyó el dato) es <strong>éticamente indispensable</strong>, ya que las conclusiones tienen consecuencias en la vida del sujeto.</li>
+      </ul>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 16 ================= -->
+<section id="s16">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">🏛️</span>
+      <h2>Hipótesis Epistemológicas<span class="sub">Preguntas generales</span></h2>
+    </div>
+    <div class="body">
+
+      <div class="box note">
+        <span class="bt">❓ ¿Por qué “epistemológicas”?</span>
+        Porque constituyen los <strong>supuestos y marcos conceptuales previos</strong> sobre los que se sostiene la posibilidad misma de conocer el psiquismo. Definen las <strong>condiciones de validez</strong> bajo las cuales el psicólogo puede tomar observables empíricos e inferir la estructura y dinámica del aparato psíquico.
+      </div>
+
+      <details open>
+        <summary><span class="q">🎭</span> Hipótesis Proyectiva (Frank y Rapaport)</summary>
+        <div class="ans">
+          Toda conducta lleva la <strong>impronta de la individualidad</strong>. Ante un estímulo poco estructurado, el sujeto organiza y da sentido a ese campo expresando su mundo privado, valores, sentimientos, estructuras y modos de adaptación.
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">👁️</span> Hipótesis de la Apercepción (Bellak)</summary>
+        <div class="ans">
+          La apercepción es la <strong>percepción significativamente interpretada</strong>. El acto perceptivo está teñido por la asociación simultánea de estados afectivos, la experiencia previa, las expectativas y el contexto cultural y lingüístico.
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">⚙️</span> Hipótesis del Determinismo Psíquico (Freud)</summary>
+        <div class="ans">
+          Ninguna respuesta, asociación, elección o lapsus es fortuita. Toda manifestación está <strong>motivada y condicionada</strong> por el complejo psíquico inobservable e inconsciente del individuo.
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 17 ================= -->
+<section id="s17">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">📚</span>
+      <h2>Aportes Teóricos de las Técnicas Proyectivas<span class="sub">De dónde se nutren</span></h2>
+    </div>
+    <div class="body">
+
+      <ul>
+        <li><strong>🧠 Teoría Psicoanalítica (Freud):</strong> pilar fundamental para conceptualizar el objeto de estudio (el aparato psíquico). Aporta la distinción contenido manifiesto/latente, la dinámica del conflicto intrapsíquico, el determinismo inconsciente, las defensas y el marco vincular (transferencia y contratransferencia).</li>
+        <li><strong>🔷 Teoría de la Gestalt:</strong> concepción de la personalidad como <strong>totalidad o configuración organizada</strong>, leyes de la percepción y dinámica figura-fondo (Rorschach, TRO, TAT, Bender).</li>
+        <li><strong>🧲 Teoría de Campo (Lewin):</strong> conceptos de campo psicológico, espacio vital, tensiones, vectores y fuerzas motivacionales.</li>
+        <li><strong>🩺 Psicología Clínica y Casuística:</strong> elementos para delimitar lo adaptativo de lo desadaptativo y comprender la estructura del síntoma y la personalidad.</li>
+        <li><strong>🔬 Investigaciones sobre el Aprendizaje y Psicología Experimental:</strong> nociones sobre condicionamiento y motivación en la formación de hábitos.</li>
+        <li><strong>🌍 Antropología Cultural:</strong> comprensión de los determinantes socioculturales e históricos que atraviesan la conformación de la personalidad.</li>
+      </ul>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 18 ================= -->
+<section id="s18">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">↔️</span>
+      <h2>Proyección en Sentido Amplio vs. Mecanismo de Defensa<span class="sub">Diferencias sustanciales</span></h2>
+    </div>
+    <div class="body">
+
+      <div class="vs">
+        <div class="col a">
+          <h4>🛡️ Mecanismo de defensa (restrictivo)</h4>
+          <ul>
+            <li>Inconsciente y primitivo.</li>
+            <li>El Yo <strong>expulsa y localiza en el mundo externo</strong> sentimientos, deseos o impulsos que no reconoce de sí.</li>
+            <li>Función: <strong>reducir la tensión intrapsíquica</strong> y preservar el equilibrio homeostático.</li>
+          </ul>
+        </div>
+        <div class="col b">
+          <h4>🎨 Sentido amplio (expresivo)</h4>
+          <ul>
+            <li>Formulada desde <em>Tótem y Tabú</em> (1913).</li>
+            <li>Proceso general y primitivo mediante el cual las percepciones e inclinaciones interiores <strong>se externalizan para construir la representación del mundo exterior</strong>.</li>
+            <li>Función: <strong>expresiva y estructurante</strong>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>🔑 Diferencias principales en las técnicas</h3>
+      <ul>
+        <li><strong>Instancias involucradas:</strong> la defensiva es exclusivamente inconsciente; la amplia involucra las <strong>tres instancias</strong> (consciente, preconsciente e inconsciente).</li>
+        <li><strong>Función:</strong> la defensiva busca aminorar la angustia; la amplia cumple una función expresiva y estructurante.</li>
+        <li><strong>Manejo de la tensión:</strong> la amplia no funciona como estabilizador automático; en evaluación puede <strong>sostener o aumentar</strong> la tensión.</li>
+        <li><strong>Rol en las técnicas:</strong> las técnicas usan la proyección en sentido amplio como <strong>basamento conceptual</strong> (pantalla proyectiva); el mecanismo de defensa se evalúa como conducta clínica particular dentro del protocolo.</li>
+      </ul>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 19 ================= -->
+<section id="s19">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">✅</span>
+      <h2>Requisitos de Rigurosidad Científica<span class="sub">Administración e interpretación</span></h2>
+    </div>
+    <div class="body">
+
+      <h3>1️⃣ En la administración y control de variables</h3>
+      <ul>
+        <li><strong>Mantenimiento del encuadre:</strong> marco constante (roles claros, tiempos, espacio, honorarios, consignas estandarizadas). Garantiza que las conductas respondan a la estructura subjetiva y no a interferencias ambientales.</li>
+        <li><strong>Uso correcto de los materiales estandarizados:</strong> respetar estrictamente consignas y procedimientos.</li>
+        <li><strong>Inclusión del psicólogo como observador participante:</strong> su presencia es una <strong>variable interviniente constitutiva</strong> del campo, que requiere monitoreo técnico permanente.</li>
+      </ul>
+
+      <h3>2️⃣ En la interpretación y el juicio clínico</h3>
+      <ul>
+        <li><strong>🧭 Conciencia procedural:</strong> capacidad reflexiva para objetivar, criticar y explicitar las operaciones lógico-inferenciales con las que se transformaron los observables en conclusiones (responsabilidad de medios).</li>
+        <li><strong>🧱 Suficiencia de la evidencia empírica (constelación de datos):</strong> las inferencias deben fundamentarse en múltiples observables mediante <strong>recurrencias</strong> y <strong>convergencias</strong>.</li>
+        <li><strong>📚 Sustento y articulación teórica:</strong> las conclusiones deben justificarse desde constructos teóricos del modelo adoptado, descartando interpretaciones lineales, arbitrarias o intuitivas.</li>
+        <li><strong>⚖️ Criterios de solidez inferencial (Criterios de Schaffer):</strong> suficiente evidencia empírica, profundidad interpretativa apropiada al material, especificar la forma manifiesta de las tendencias, estimar su intensidad y asignarles una <strong>posición jerárquica</strong> dentro de la personalidad total.</li>
+      </ul>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 20 ================= -->
+<section id="s20">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">💡</span>
+      <h2>Tipos de Hipótesis<span class="sub">Genérica · Presuntiva · Diagnóstica</span></h2>
+    </div>
+    <div class="body">
+
+      <details open>
+        <summary><span class="q">📖</span> Hipótesis genérica (teórico-genérica)</summary>
+        <div class="ans">
+          <p>Inferencia inicial <strong>universal y a priori</strong> aportada por los autores de las técnicas al sistematizar el análisis de los instrumentos. Asocia un indicador aislado con un <strong>“menú” de significados teóricos posibles</strong>, sin contextualizar en un sujeto concreto.</p>
+          <div class="box ex">
+            <span class="bt">✅ Ejemplo</span>
+            Ante el indicador gráfico de <strong>emplazamiento superior</strong> en la hoja, la literatura ofrece varias hipótesis genéricas: 1) alto nivel de energía o defensas compensatorias; 2) búsqueda de satisfacción en la fantasía; 3) alto nivel de aspiraciones; 4) predominio de la intelectualidad; 5) distancia social y afectiva.
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">🔎</span> Hipótesis presuntiva (protohipótesis)</summary>
+        <div class="ans">
+          <p>Conjetura <strong>novedosa, singular y específica</strong> sobre el funcionamiento psíquico de un sujeto en particular, construida al seleccionar y articular una <strong>constelación de indicadores disímiles</strong>.</p>
+          <p>La lectura en constelación <strong>“ilumina”</strong> una de las hipótesis genéricas por sobre las demás, descartando las irrazonables para el caso concreto.</p>
+          <div class="box ex">
+            <span class="bt">✅ Ejemplo</span>
+            Si el emplazamiento superior se articula con ausencia de respuestas populares (Rorschach), indiscreción figura-fondo, contenidos bizarros y actuaciones descompensadas en la entrevista, se formula: <em>“El sujeto presenta indicadores de invasión de la fantasía sobre su actividad ideacional y sus conductas”.</em>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">🏁</span> Hipótesis diagnóstica (conclusión)</summary>
+        <div class="ans">
+          <p>Inferencia de <strong>alto nivel</strong> que ha perdurado a lo largo del proceso tras ser sometida a rigurosa contrastación empírica (vía recurrencias y convergencias), explicación y articulación teórica en función de los objetivos de la evaluación.</p>
+          <div class="box ex">
+            <span class="bt">✅ Ejemplo</span>
+            La conjetura anterior se contrasta intertest (entrevista, gráficos, TRO, Desiderativo), confirmando que la invasión de la fantasía compromete la adaptación a la realidad → hipótesis diagnóstica firme que orienta el pronóstico y las recomendaciones terapéuticas.
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 21 ================= -->
+<section id="s21">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">🧪</span>
+      <h2>Organización de la Batería Estándar<span class="sub">Secuencia y justificación</span></h2>
+    </div>
+    <div class="body">
+
+      <h3>🗂️ Secuencia estándar</h3>
+      <ul class="steps">
+        <li><b>Entrevista Inicial</b>Momento de apertura obligado. En niños: <strong>Entrevista Parental</strong> seguida de la <strong>Hora de Juego Diagnóstica</strong>.</li>
+        <li><b>Técnicas Gráficas</b>Sesiones posteriores a la entrevista inicial: Dibujo Libre, HTP, Test de las Dos Personas, Test de la Familia, Bender.</li>
+        <li><b>Técnicas Verbales / de Manchas / Temáticas</b>Rorschach, TRO, TAT, CAT, Pata Negra. Las <strong>manchas van antes</strong> que las temáticas verbales para evitar que el pedido de historias contamine las respuestas libres.</li>
+        <li><b>Cuestionario Desiderativo</b>Se ubica entre las verbales, pero <strong>se evita como cierre final</strong> para no dejar al consultante con la movilización ansiógena de muerte y desintegración.</li>
+        <li><b>Entrevista de Devolución</b>Encuentro de cierre donde se trabajan oralmente hipótesis y conclusiones.</li>
+      </ul>
+
+      <h3>🎓 Justificación teórica y metodológica</h3>
+      <ul>
+        <li><strong>Grado de ambigüedad y movilidad de ansiedades:</strong> la batería se organiza progresivamente, partiendo de técnicas que facilitan el rapport y la expresión de apuntalamientos yoicos (gráficos) hacia la movilización de afectos y fantasías profundas (manchas y relatos temáticos).</li>
+        <li><strong>Cotejo inter-test:</strong> permite comprobar, enriquecer y contrastar las hipótesis presuntivas (revelando recurrencias y convergencias).</li>
+        <li><strong>Adecuación al caso y resguardo ético:</strong> ajustar elección y orden a la edad cronológica, motivo de consulta, ámbito (clínico, laboral, forense, educacional) y resguardo de la integridad del evaluado.</li>
+      </ul>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 22 ================= -->
+<section id="s22">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">🗣️</span>
+      <h2>La Entrevista Inicial<span class="sub">Cualidad proyectiva, momentos y rol técnico</span></h2>
+    </div>
+    <div class="body">
+
+      <details open>
+        <summary><span class="q">🎬</span> ¿Por qué es semidirigida?</summary>
+        <div class="ans">
+          <p>Combina metódicamente la <strong>apertura de la entrevista libre</strong> con la <strong>estructuración focalizada</strong> de la dirigida.</p>
+          <ul>
+            <li>Busca promover la <strong>saturación proyectiva</strong>: que el campo sea configurado por la subjetividad del consultante.</li>
+            <li>Como el tiempo es acotado, el evaluador necesita <strong>indagar activamente</strong> áreas no abordadas espontáneamente.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">🕐</span> Los cuatro momentos</summary>
+        <div class="ans">
+          <ul>
+            <li><strong>Apertura:</strong> presentación, objetivos y pautas del encuadre (tiempo, lugar, honorarios, roles, normas).</li>
+            <li><strong>Libre:</strong> consigna amplia y ambigua (“hábleme de usted”). El entrevistado organiza libremente el campo; el profesional sostiene escucha atenta y observación activa sin introducir contenidos propios.</li>
+            <li><strong>Dirigido:</strong> consigna formal que aclara el cambio (“a partir de ahora voy a hacerle algunas preguntas”). Se disminuye la ambigüedad para indagar áreas residuales, aclarar puntos confusos y profundizar conjeturas.</li>
+            <li><strong>Cierre:</strong> el evaluador marca el fin de la sesión, resguardando el encuadre y observando las ansiedades ante la separación.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">🎭</span> ¿Por qué es una técnica proyectiva?</summary>
+        <div class="ans">
+          <p>Ofrece un estímulo de <strong>baja estructuración pero encuadrado</strong> (la consigna amplia), que funciona como <strong>“pantalla de proyección”</strong>. Ante este campo maleable, el consultante organiza la experiencia exteriorizando estructuras, dinámicas, valores y afectos de su mundo privado.</p>
+          <div class="box key">
+            <span class="bt">🏛️ Se sostiene en las tres hipótesis</span>
+            <strong>Proyectiva:</strong> el modo peculiar de responder, seleccionar temas o hacer pausas es índice de la estructura de personalidad.<br>
+            <strong>Apercepción:</strong> al hablar de sí mismo, el entrevistado deforma e interpreta el estímulo neutro según sus organizaciones representacionales e históricas.<br>
+            <strong>Determinismo psíquico:</strong> ninguna manifestación verbal, lapsus, olvido o tema elegido es fortuito.
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">📋</span> Prescripciones técnicas para intervenir</summary>
+        <div class="ans">
+          <ol>
+            <li>Respetar estrictamente los momentos y las consignas.</li>
+            <li>Sostener la <strong>asimetría de roles</strong> (ni charla informal ni interrogatorio burocrático).</li>
+            <li><strong>Tolerar el silencio</strong> y no aportar contenidos ante bloqueos (“de lo que usted quiera”).</li>
+            <li>Intervenir con <strong>claridad, precisión y en su justa medida</strong>.</li>
+            <li><strong>Retomar textualmente los significantes</strong> del entrevistado (ej. “problemita”), sin sustituirlos por sinónimos.</li>
+            <li><strong>No teñir los dichos con sentidos propios</strong> (ej. “con mi mamá hablo de todo”, “tuve un parto normal”).</li>
+            <li>Evitar <strong>preguntas cerradas, muletillas e inducción</strong> (“bien”, “lógico”, “seguro”).</li>
+            <li><strong>Abstenerse de interpretar o señalar</strong>: las hipótesis se registran internamente.</li>
+            <li><strong>Registrar la comunicación no verbal</strong> y mantener la autoobservación (monitorear contratransferencia).</li>
+          </ol>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">⚖️</span> ¿Por qué la configuran las variables del entrevistado?</summary>
+        <div class="ans">
+          <p>Para que la conducta y la estructura de personalidad emerjan espontáneamente como <strong>“figura”</strong>. Si el psicólogo impusiera los contenidos, el material reflejaría <strong>su propia subjetividad</strong> y no la del consultante.</p>
+          <p>Pero debe ser <strong>dirigida por el entrevistador</strong>, porque es él quien establece, sostiene y controla el encuadre y las reglas del proceso.</p>
+          <div class="box info">
+            <span class="bt">👀 Observador participante</span>
+            La presencia del psicólogo <strong>modifica el campo</strong>: no es un observador neutro ni una variable a “neutralizar”. Su vivencia y captación afectiva (eje transferencial-contratransferencial) son <strong>fuentes regias de datos</strong> sobre la modalidad vincular del sujeto.
+          </div>
+          <div class="box note">
+            <span class="bt">🖼️ El encuadre como fondo</span>
+            Al mantener el marco fijo como “fondo”, cualquier variación o transgresión del entrevistado resalta como “figura”, garantizando que los datos pertenezcan a su estructura y no a interferencias del ambiente.
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">💬</span> “Estímulo ambiguo pero estructurado a la vez”</summary>
+        <div class="ans">
+          <ul>
+            <li><strong>Ambiguo:</strong> la consigna inicial es abierta, sin organización cultural prefijada. No anticipa respuestas “correctas”, reduciendo el control consciente y obligando al sujeto a estructurar la experiencia desde su propio psiquismo.</li>
+            <li><strong>Estructurado:</strong> se sostiene sobre un encuadre técnico y metodológico preciso que transforma variables en constantes (roles, tiempos, espacio, objetivos, normas, contrato).</li>
+          </ul>
+          <p>La <strong>ambigüedad</strong> estimula la proyección; la <strong>estructura</strong> proporciona un continente y marco de contención.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">🎯</span> Importancia del momento dirigido</summary>
+        <div class="ans">
+          <ol>
+            <li><strong>Explorar “áreas residuales”:</strong> temáticas omitidas o escotomizadas (familia de origen, parejas, trabajo, tiempo libre).</li>
+            <li><strong>Aclarar y precisar el discurso:</strong> despejar confusiones, contradicciones y lagunas.</li>
+            <li><strong>Focalizar y profundizar hipótesis:</strong> relevar información para contrastar o afinar las conjeturas presuntivas y planificar la batería.</li>
+          </ol>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">🧑‍⚕️</span> ¿Qué implica “sostener el rol”?</summary>
+        <div class="ans">
+          <ul>
+            <li><strong>Manejo de la disociación instrumental:</strong> una parte del Yo identificada empáticamente con el consultante; otra en distancia analítica (Yo observador) para evaluar y controlar las ansiedades del campo.</li>
+            <li><strong>Regla de abstinencia:</strong> abstenerse de ocupar el lugar del Ideal del Yo, aconsejar, moralizar, opinar o satisfacer demandas de aprobación o alianza.</li>
+            <li><strong>Control del encuadre:</strong> establecer, cuidar y hacer cumplir las reglas del proceso, regulando la propia subjetividad como variable interviniente.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">🔀</span> Intervención en momento libre vs. dirigido</summary>
+        <div class="ans">
+          <h3>Momento libre</h3>
+          <ul>
+            <li>Enunciación de la consigna abierta.</li>
+            <li>Escucha plena y observación activa.</li>
+            <li>Tolerancia del silencio (no dar pistas).</li>
+            <li>Abstinencia interpretativa.</li>
+          </ul>
+          <h3>Momento dirigido</h3>
+          <ul>
+            <li>Consigna de transición explícita.</li>
+            <li>Intervención activa, precisa y breve (evitar “bombardeo”).</li>
+            <li>Respeto por los significantes del sujeto.</li>
+            <li>Evitación de sesgos, preguntas cerradas e inducciones.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">✍️</span> “Los diagnósticos en la infancia se escriben con lápiz”</summary>
+        <div class="ans">
+          <p><strong>G. Untoiglich</strong> refiere a que en la infancia se evalúa un psiquismo <strong>en plena constitución</strong>, donde los funcionamientos y defensas no están rigidizados.</p>
+          <ul>
+            <li><strong>Carácter provisorio y circunstancial:</strong> las conclusiones son “verdades parciales” o hipótesis de trabajo situadas en un aquí y ahora; pueden y deben ser borradas, revisadas y reescritas.</li>
+            <li><strong>Brújula orientadora vs. epitafio:</strong> el diagnóstico debe orientar la intervención para aliviar el sufrimiento. Denuncia la proliferación de “diagnósticos-rótulos” o sentencias.</li>
+            <li><strong>Apertura a la plasticidad y al devenir:</strong> sostener una posición ética de apertura a la complejidad, concibiendo al niño como sujeto activo en permanente transformación.</li>
+          </ul>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 23 ================= -->
+<section id="s23">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">🔑</span>
+      <h2>Conceptos Clave<span class="sub">Glosario esencial</span></h2>
+    </div>
+    <div class="body">
+
+      <details open>
+        <summary><span class="q">🌐</span> Campo psicológico</summary>
+        <div class="ans">
+          Concepto de la teoría de campo de <strong>K. Lewin</strong>, adaptado por <strong>J. Bleger</strong> a la entrevista clínica. Refiere al <strong>espacio-tiempo dinámico de intercambio en el “aquí y ahora”</strong> entre entrevistador y entrevistado, conformado por fuerzas, tensiones y motivaciones que emergen de la interacción. El rol técnico busca que el campo se configure predominantemente por las variables del entrevistado.
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">🖼️</span> Encuadre</summary>
+        <div class="ans">
+          Dispositivo <strong>metodológico y ético</strong> que consiste en la transformación de un conjunto de variables en <strong>constantes</strong> (roles definidos, objetivos, tiempo, lugar, normas, consignas y honorarios). Funciona como estandarización de la situación estímulo: un marco/fondo neutro para que la conducta del sujeto emerja como <strong>“figura”</strong> y se puedan evaluar sus variaciones o transgresiones.
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">💞</span> Transferencia y Contratransferencia</summary>
+        <div class="ans">
+          <ul>
+            <li><strong>Transferencia:</strong> actualización e inyección inconsciente, en el vínculo con el evaluador y en el “aquí y ahora”, de sentimientos, actitudes y pautas de relación desarrolladas con los objetos primarios originarios.</li>
+            <li><strong>Contratransferencia:</strong> conjunto de respuestas afectivas, vivencias, ideas y reacciones del psicólogo que surgen como emergente de lo que el consultante le transfiere. Exige <strong>autorregistro y procesamiento analítico</strong> para no “actuar” esa respuesta y transformarla en fuente de información.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">✂️</span> Disociación instrumental</summary>
+        <div class="ans">
+          Artificio técnico y actitudinal intencional (conceptualizado por <strong>Bleger</strong> a partir de <strong>Klein</strong>) mediante el cual el psicólogo opera con una <strong>división temporaria de su Yo</strong>:
+          <ul>
+            <li>Una parte se <strong>identifica empáticamente</strong> con el consultante (identificación proyectiva adaptativa) para captar sus vivencias.</li>
+            <li>La otra mantiene una <strong>distancia analítica y objetiva</strong> (Yo observador) para evaluar la situación, controlar las ansiedades del campo y procesar las inferencias.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">🚫</span> Abstinencia</summary>
+        <div class="ans">
+          Regla <strong>ética y técnica</strong> freudiana que exige al evaluador abstenerse de ocupar el lugar del Ideal del Yo, moralizar, aconsejar o satisfacer las demandas directas de amor, aprobación o alianza. Implica mantener <strong>en suspenso las propias convicciones y prejuicios</strong> para dejar el espacio clínicamente libre donde se despliegue la subjetividad del evaluado.
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 24 ================= -->
+<section id="s24">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">🌊</span>
+      <h2>Síntoma · Angustia · Series Complementarias · Defensa<span class="sub">Vinculación entre los términos</span></h2>
+    </div>
+    <div class="body">
+
+      <details open>
+        <summary><span class="q">🩹</span> Síntoma</summary>
+        <div class="ans">
+          En psicoanálisis, es una <strong>formación del inconsciente</strong>, un mensaje cifrado o metáfora resultante de un conflicto intrapsíquico entre las demandas pulsionales y las fuerzas defensivas del Yo. Se expresa como un acto nocivo o inútil que genera sufrimiento pero le otorga al sujeto un <strong>beneficio secundario</strong>.
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">😰</span> Angustia</summary>
+        <div class="ans">
+          Afecto fundamental. Desde la segunda teoría freudiana (<em>Inhibición, síntoma y angustia</em>, 1926), el Yo produce una <strong>“señal de angustia”</strong> ante la percepción o anticipación de un peligro interno o externo (amenaza de castración, pérdida de objeto), que actúa como <strong>motor para poner en marcha los mecanismos de defensa</strong>.
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">🔗</span> Series complementarias</summary>
+        <div class="ans">
+          Esquema freudiano que explica la <strong>multicausalidad</strong> de las manifestaciones psíquicas mediante la articulación de tres series:
+          <ul>
+            <li><strong>1ª serie:</strong> factores constitucionales / disposición hereditaria.</li>
+            <li><strong>2ª serie:</strong> experiencias infantiles (vivencias de la historia temprana).</li>
+            <li><strong>3ª serie:</strong> situación actual desencadenante.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">🛡️</span> Defensa</summary>
+        <div class="ans">
+          Designación general para los <strong>mecanismos e instrumentos inconscientes</strong> empleados por el Yo (represión, formación reactiva, anulación) para <strong>reducir la tensión intrapsíquica</strong>, dominar la angustia y mantener alejadas de la conciencia las representaciones inconfortables.
+        </div>
+      </details>
+
+      <div class="box key">
+        <span class="bt">🧩 Vinculación entre los términos</span>
+        Las <strong>series complementarias</strong> dan cuenta de la causa del padecimiento: cuando una situación actual desencadenante (3ª serie) impacta sobre la disposición psíquica previa (1ª y 2ª series), se reeditan los conflictos infantiles y se moviliza la libido.
+        <br><br>
+        Ese incremento de tensión provoca que el Yo registre una <strong>señal de angustia</strong> frente al peligro pulsional. Ante ella, el Yo activa sus <strong>mecanismos de defensa</strong> (principalmente la represión). Cuando la defensa no logra sofocar por completo el impulso, lo reprimido <strong>retorna de manera deformada</strong>, dando origen al <strong>síntoma</strong> como solución de compromiso entre el deseo y la defensa.
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 25 ================= -->
+<section id="s25">
+  <div class="card">
+    <div class="sechead">
+      <span class="ico">🧒</span>
+      <h2>Psicodiagnóstico Infantil<span class="sub">Entrevista parental, áreas y batería</span></h2>
+    </div>
+    <div class="body">
+
+      <details open>
+        <summary><span class="q">👨‍👩‍👧</span> Objetivos de la Entrevista Parental</summary>
+        <div class="ans">
+          <ul>
+            <li><strong>Punto de partida y encuadre:</strong> inicio lógico del proceso infantil (son los adultos quienes consultan, por malestar propio o derivación). Permite establecer pautas del encuadre.</li>
+            <li><strong>Motivo de consulta e historia libidinal:</strong> motivos manifiestos y latentes, historia del desarrollo y, fundamentalmente, la <strong>historia libidinal</strong> del niño (deseos, fantasías, temores e inscripciones transgeneracionales antes y después del nacimiento).</li>
+            <li><strong>Mito y dinámica familiar:</strong> el lugar que el niño ocupa en el mito familiar, modalidad de crianza, límites, y cómo reaparece en el niño lo reprimido o desmentido por los padres.</li>
+            <li><strong>Apertura de hipótesis presuntivas:</strong> primeros observables para conjeturar sobre la dinámica familiar y el funcionamiento psíquico del hijo.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">🧑‍⚕️</span> Rol del profesional en el psicodiagnóstico infantil</summary>
+        <div class="ans">
+          <ul>
+            <li><strong>Observador participante y posición de “no saber”:</strong> abandonar prejuicios y la ilusión de un saber dogmático, disponiéndose a construir un saber singular junto al niño y sus padres.</li>
+            <li><strong>Terceridad y continente transferencial:</strong> ayudar a los padres a desanudar la estigmatización del hijo y a preguntarse por su sufrimiento.</li>
+            <li><strong>Resguardo del espacio del niño:</strong> distinguir el motivo de consulta de los padres del espacio propio del niño, garantizando confidencialidad e intimidad.</li>
+            <li><strong>Disponibilidad lúdica y afectiva:</strong> prestar cuerpo, gestualidad y escucha activa para alojar al niño y posibilitar el jugar cuando está inhibido o detenido.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">🗺️</span> Áreas importantes de indagar</summary>
+        <div class="ans">
+          <h3>1. Historia del desarrollo e historia libidinal</h3>
+          <p><strong>Indagar:</strong> deseo y expectativas durante el embarazo, tipo de parto, lactancia, desarrollo psicomotor, adquisición del lenguaje, control de esfínteres, sueño, enfermedades.</p>
+          <p><strong>Justificación:</strong> no es una recopilación lineal de datos objetivos, sino la <strong>cartografía de la historia libidinal</strong> y el entramado deseante de los padres. Permite evaluar la constitución de la imagen inconsciente del cuerpo, la integración yoica y la instauración de ritmos y límites.</p>
+
+          <h3>2. Estructuración psíquica y función del jugar</h3>
+          <p><strong>Indagar:</strong> inicio del juego, tipo (simbólico, de reglas, ejercicio), elección de juguetes, capacidad de dramatización, tolerancia a la frustración, simbolización de la ausencia (Fort-Da).</p>
+          <p><strong>Justificación:</strong> el jugar es <strong>la actividad estructurante del psiquismo por excelencia</strong>. Mientras juega, el niño se constituye como sujeto, metaboliza activamente lo sufrido de forma pasiva, crea realidad y tramita sus conflictos.</p>
+
+          <h3>3. Escolaridad y relaciones exogámicas</h3>
+          <p><strong>Indagar:</strong> adaptación al jardín/escuela, rendimiento, actitud ante consignas, vínculo con docentes y pares, juegos compartidos.</p>
+          <p><strong>Justificación:</strong> el ámbito escolar es el espacio de confrontación con la <strong>exogamia</strong>. Permite evaluar cómo el Yo se desprende de la investidura endogámica familiar para catectizar nuevos objetos de conocimiento y figuras de autoridad.</p>
+
+          <h3>4. Trama y dinámica del mito familiar</h3>
+          <p><strong>Indagar:</strong> genograma, alianzas, pareja parental, historia de los padres como hijos, secretos o silencios, duelos no elaborados, violencia.</p>
+          <p><strong>Justificación:</strong> el psiquismo infantil es una <strong>estructura abierta e incompleta</strong> donde la realidad psíquica de los padres forma parte del propio aparato psíquico del niño. Lo reprimido o no dicho en la historia parental suele retornar en el niño como síntoma.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary><span class="q">🧸</span> Secuencia de técnicas propuesta</summary>
+        <div class="ans">
+          <ul class="steps">
+            <li><b>Entrevista Parental Inicial</b>Construir la demanda, genograma e historia libidinal y vital del niño.</li>
+            <li><b>Hora de Juego Diagnóstica</b>Técnica proyectiva por excelencia con el niño; equivale al momento libre de la entrevista en adultos. Caja con juguetes estructurados e instructurados bajo consigna amplia.</li>
+            <li><b>Técnicas Gráficas (de menor a mayor estructuración)</b>Dibujo Libre → HTP → Persona Bajo la Lluvia → Familia Kinética o Dos Personas → Bender.</li>
+            <li><b>Técnicas Verbales y Temáticas</b>CAT-A, Pata Negra o Cuentos de Hadas. Cuestionario Desiderativo (si tiene al menos 6 años y cuenta con la palabra como símbolo).</li>
+            <li><b>Entrevista de Devolución</b>Encuentro final con los padres y, en momento diferenciado, con el niño.</li>
+          </ul>
+
+          <h3>🎓 Justificación de la secuencia</h3>
+          <ul>
+            <li><strong>Ambigüedad decreciente y manejo de ansiedades:</strong> de la consigna más abierta (juego, dibujo libre) hasta estímulos más estructurados o temáticos, respetando los tiempos de adaptación del niño.</li>
+            <li><strong>Prevención de interferencias inter-test:</strong> las técnicas verbales o temáticas van al final para evitar que el pedido de relatos contamine la producción libre gráfica o lúdica previa.</li>
+          </ul>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider">✦ ✦ ✦</div>
+
+</main>
+
+<footer>
+  <span class="em">🧠✨</span>
+  Guía de estudio · Psicodiagnóstico<br>
+  Técnicas Proyectivas · Entrevista · Infancia
+</footer>
+
+<a href="#" id="top" aria-label="Volver arriba">▲</a>
+
+</body>
+</html>

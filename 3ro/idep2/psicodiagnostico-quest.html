@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Psicodiagnóstico Quest — Instrumentos II</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f1ea;--fg:#22202a;--card:#fff;--ac:#7c3aed;--l1:88%;--l2:82%;--s:30%;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15131c;--fg:#eee;--card:#221f2e;--ac:#a78bfa;--l1:24%;--l2:20%;--s:22%}}
+:root[data-theme="dark"]{--bg:#15131c;--fg:#eee;--card:#221f2e;--ac:#a78bfa;--l1:24%;--l2:20%;--s:22%}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 Inter,system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;padding:10px}
+h1{font:600 20px Fraunces,Georgia,serif;margin:4px 0}
+#hud{width:min(96vw,720px);display:flex;justify-content:space-between;gap:8px;font-size:14px;margin-bottom:6px}
+#board{width:min(96vw,720px);aspect-ratio:10/7;position:relative;display:grid;grid-template-columns:repeat(10,1fr);border-radius:12px;overflow:hidden;container-type:inline-size;cursor:pointer;box-shadow:0 4px 20px #0004;touch-action:manipulation}
+.c{background:hsl(var(--h) var(--s) var(--l1))}.c.b{background:hsl(var(--h) var(--s) var(--l2))}
+.e{position:absolute;width:10%;height:14.285%;display:flex;align-items:center;justify-content:center;font-size:6cqw;transition:left .16s linear,top .16s linear;pointer-events:none}
+.e small{position:absolute;top:0;right:4%;font-size:2.6cqw}
+.npc{animation:bob 2s infinite}@keyframes bob{50%{transform:translateY(-6%)}}
+.lock{opacity:.4}
+#hint{font-size:13px;opacity:.75;margin:8px 0}
+#ov{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;padding:14px;z-index:9}
+#dlg{background:var(--card);max-width:480px;width:100%;border-radius:16px;padding:18px;border:2px solid var(--ac);box-shadow:0 10px 40px #0007}
+#dlg h2{font:600 19px Fraunces,Georgia,serif;margin:0}#dlg .src{font-size:12px;opacity:.65;margin-bottom:8px}
+#dlg .big{font-size:40px;float:left;margin:0 10px 0 0}
+#dlg p{margin:10px 0;clear:both}
+#dlg button{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:9px 16px;font:600 15px Inter,sans-serif;cursor:pointer;float:right}
+#dlg .pg{font-size:12px;opacity:.6;line-height:36px}
+#toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ac);color:#fff;padding:8px 14px;border-radius:20px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:10}
+</style></head><body>
+<h1>🧠 Psicodiagnóstico Quest</h1>
+<div id="hud"><span id="room"></span><span id="prog"></span></div>
+<div id="board"></div>
+<div id="hint">Tocá una celda para moverte · tocá a un personaje para hablar · 🚪 para avanzar (se abre al hablar con todos)</div>
+<div id="ov"><div id="dlg"></div></div><div id="toast"></div>
+<script>
+const W=10,H=7;
+const R=[
+{n:"Hall · El objeto de estudio",h:210,o:[[3,1,"🪴"],[6,5,"🪴"],[5,3,"📚"]],N:[
+{x:2,y:2,e:"🧑‍🏫",n:"Prof. Objeto",s:"F-1784",t:["El <b>Proceso Psicodiagnóstico</b> busca describir y comprender la estructura y dinámica de la personalidad (aspectos sanos y patológicos). Meta: <b>comprender y transformar</b>, no inventariar síntomas.","Su <b>objeto de estudio</b> es el <b>aparato psíquico</b>: construcción hipotética del psicoanálisis, inaccesible a la observación directa. Es una <b>caja transparente</b>: se lo infiere desde las respuestas del sujeto ante el sostén perceptual de las técnicas."]},
+{x:7,y:1,e:"🕵️",n:"Lectura interpretativa",s:"F-1784",t:["No es observación directa ni una verdad que se \"extrae\": es un procedimiento <b>inferencial</b>, una construcción de sentido a partir de marcos teóricos.","Cada signo pierde univocidad: su significado depende de la estructura del sujeto y de las redes en que se integra. Se pasa de lo manifiesto a la realidad psíquica (deseos, conflictos inconscientes)."]},
+{x:2,y:5,e:"🔮",n:"Las 3 hipótesis",s:"F-1785",t:["<b>Proyectiva</b> (Frank, Rapaport): toda conducta lleva el sello de la personalidad; ante un campo poco estructurado el sujeto proyecta su mundo privado.","<b>Determinismo psíquico</b> (Freud): ninguna respuesta, lapsus u olvido es azarosa. <b>Apercepción</b> (Bellak): percepción significativamente interpretada; dos sujetos ven distinto la misma lámina."]},
+{x:7,y:5,e:"🎭",n:"Proyección y psicometría",s:"F-1785",t:["Como <b>defensa</b>: atribuir a otros lo propio no reconocido (inconsciente, reduce tensión). En las técnicas es <b>sentido amplio</b>: función expresiva, participan las tres instancias y puede incluso aumentar la tensión.","<b>Proyectivas</b>: estímulos ambiguos, resultados cualitativos, lo singular, validez teórica y rigor del evaluador. <b>Psicométricos</b>: escalas, cifras, respuestas correcto/incorrecto, estandarizados."]}]},
+{n:"Laboratorio · Epistemología",h:150,o:[[4,1,"⚗️"],[5,5,"🔬"],[7,3,"🧫"]],N:[
+{x:2,y:1,e:"🧙",n:"Tesis ternarista",s:"Pérez Lalli · Samaja",t:["El <b>juicio clínico</b> es un proceso inferencial basado en la experiencia del psicólogo: \"la mejor técnica es muda sin quien piense sus resultados\". El test da datos; la voz diagnóstica es del profesional.","Samaja supera empirismo y apriorismo: el conocimiento surge de la <b>interacción dialéctica teoría–empiria</b>. Las técnicas son catalizadores para construir el <b>Objeto Modelo</b>; el psicodiagnóstico es un proceso de investigación (demanda → conclusiones)."]},
+{x:8,y:1,e:"💡",n:"Abducción y deducción",s:"Pérez Lalli",t:["El método hipotético-deductivo es <b>insuficiente</b>: no explica el origen de las hipótesis y los observables no son unívocos (multideterminación).","<b>Abducción</b>: contexto de descubrimiento; salto creativo que genera hipótesis presuntivas, \"probablemente verdaderas\". <b>Deducción</b>: justificación; deriva <b>consecuencias observacionales</b> que se buscan para confirmar o refutar."]},
+{x:2,y:5,e:"🔎",n:"Indicadores",s:"Pérez Lalli",t:["<b>Indicador</b>: observable articulado con un constructo teórico. Tiene componente empírico, procedimental y representatividad parcial; nunca es unívoco, se lee en <b>constelación</b>.","Relevancia del observable según: población de referencia, despliegue del propio sujeto (insistencia o ruptura), objetivos, contexto epocal, edad y estímulo. Determinante: lo <b>transferencial</b>."]},
+{x:8,y:5,e:"🧩",n:"Tipos de hipótesis",s:"Pérez Lalli",t:["<b>Genérica</b>: menú de significados para un indicador aislado (emplazamiento superior: fantasía, aspiraciones, energía…). <b>Presuntiva</b>: conjetura singular que \"ilumina\" una genérica al articular la constelación. <b>Diagnóstica</b>: la que resiste la contrastación intertest.","<b>Recurrencias</b>: misma hipótesis desde distintos indicadores. <b>Convergencias</b>: indicadores disímiles u opuestos que muestran un conflicto. <b>Conciencia procedimental</b>: explicitar y criticar el propio proceder (contrato de medios)."]}]},
+{n:"Consultorio · Entrevista inicial",h:30,o:[[4,2,"🛋️"],[5,4,"🪑"],[7,1,"🪟"]],N:[
+{x:2,y:1,e:"🗣️",n:"Entrevista semidirigida",s:"Entrevista",t:["Entrevistar es un vínculo <b>asimétrico</b> y técnico (no una charla). La inicial es <b>semidirigida</b>: apertura de la libre + focalización de la dirigida. Es <b>proyectiva</b>: \"hábleme de usted\" es un estímulo ambiguo pero encuadrado.","<b>Apertura</b>: encuadre. <b>Libre</b>: saturación proyectiva, se tolera el silencio. <b>Dirigido</b>: se baja la ambigüedad para explorar áreas residuales y afinar hipótesis. <b>Cierre</b>: se observa la reacción ante la separación."]},
+{x:8,y:5,e:"🖼️",n:"Encuadre y campo",s:"Entrevista",t:["<b>Encuadre</b>: transforma variables en constantes (roles, tiempo, lugar, honorarios, consignas). Es el fondo sobre el que la conducta emerge como figura: \"es mudo hasta que habla\".","<b>Campo</b> (Lewin, Bleger): espacio-tiempo dinámico del intercambio; debe configurarse predominantemente por las variables del entrevistado. El entrevistador es <b>observador participante</b> y variable interviniente."]},
+{x:2,y:5,e:"🪞",n:"Herramientas del entrevistador",s:"Entrevista",t:["<b>Transferencia</b>: el consultante actualiza pautas vinculares de sus objetos primarios. <b>Contratransferencia</b>: respuestas del psicólogo; se registran, no se actúan.","<b>Disociación instrumental</b>: una parte empatiza, otra observa (Yo observador). <b>Abstinencia</b>: no aconsejar, moralizar ni ocupar el lugar del Ideal del Yo."]},
+{x:8,y:1,e:"✍️",n:"Prescripciones técnicas",s:"Entrevista",t:["Respetar momentos y consignas; tolerar el silencio (\"de lo que usted quiera\"); intervenir breve y preciso; retomar <b>textualmente</b> los significantes del entrevistado sin teñirlos de sentidos propios.","Evitar preguntas cerradas y muletillas (\"bien\", \"lógico\"); no interpretar ni señalar; registrar lo no verbal y monitorear la contratransferencia."]}]},
+{n:"Sala de juegos · Psicodiagnóstico infantil",h:290,o:[[4,1,"🧩"],[5,5,"🎨"],[7,3,"🪁"]],N:[
+{x:2,y:1,e:"👪",n:"Entrevista parental",s:"Infancia",t:["Es el inicio lógico: fija el encuadre, releva motivo de consulta e <b>historia libidinal</b>, el lugar del niño en el <b>mito familiar</b> y arma las primeras hipótesis presuntivas.","El profesional es observador participante en posición de \"no saber\", funciona como <b>terceridad</b>, resguarda el espacio propio del niño y presta su disponibilidad lúdica."]},
+{x:8,y:1,e:"🗺️",n:"Áreas a indagar",s:"Infancia",t:["<b>Desarrollo e historia libidinal</b> (embarazo, pautas madurativas): imagen inconsciente del cuerpo. <b>El jugar</b>: actividad estructurante del psiquismo (Fort-Da).","<b>Escolaridad</b>: confrontación con la exogamia. <b>Mito familiar</b> (genograma, secretos, duelos): lo reprimido de los padres retorna en el niño."]},
+{x:2,y:5,e:"🎲",n:"Secuencia de técnicas",s:"Infancia",t:["Entrevista parental → <b>Hora de juego</b> (técnica princeps) → gráficas: Dibujo Libre, HTP, Persona bajo la lluvia, Familia / Dos Personas, Bender → verbales y temáticas: CAT-A, Pata Negra, Desiderativo (desde los 6 años) → devolución.","Criterio: <b>ambigüedad decreciente</b> y manejo de ansiedades; lo temático va al final para que el pedido de historias no contamine la producción libre."]},
+{x:8,y:5,e:"✏️",n:"Untoiglich",s:"Infancia",t:["\"En la infancia los diagnósticos se escriben con lápiz\": se evalúa un psiquismo en constitución, las conclusiones son provisorias, situadas en un aquí y ahora, y pueden borrarse y reescribirse.","El diagnóstico es <b>brújula</b>, no epitafio: la autora critica los rótulos rígidos (TDAH, TOD…) del DSM que actúan como profecías autocumplidas. Apuesta a la plasticidad y al devenir."]}]}
+];
+const $=id=>document.getElementById(id),B=$("board");
+let ri=0,px=1,py=3,seen=new Set(),path=[],timer=null,pending=null,P;
+const key=(i,j)=>i+"_"+j;
+function done(i){return R[i].N.every((_,j)=>seen.has(key(i,j)))}
+function toast(t){const e=$("toast");e.textContent=t;e.style.opacity=1;setTimeout(()=>e.style.opacity=0,2200)}
+function ent(x,y,h,cls=""){const d=document.createElement("div");d.className="e "+cls;d.innerHTML=h;pos(d,x,y);B.appendChild(d);return d}
+function pos(d,x,y){d.style.left=x*10+"%";d.style.top=y*100/H+"%"}
+function build(){
+ const r=R[ri];B.innerHTML="";B.style.setProperty("--h",r.h);
+ for(let y=0;y<H;y++)for(let x=0;x<W;x++){const c=document.createElement("div");c.className="c"+((x+y)%2?" b":"");B.appendChild(c)}
+ r.o.forEach(o=>ent(o[0],o[1],o[2]));
+ r.N.forEach((n,j)=>ent(n.x,n.y,n.e+(seen.has(key(ri,j))?"<small>✅</small>":""),"npc"));
+ if(ri<R.length-1)ent(W-1,3,"🚪","door"+(done(ri)?"":" lock"));
+ if(ri>0)ent(0,3,"⬅️");
+ P=ent(px,py,"🧑‍🎓","me");
+ $("room").textContent=`Sala ${ri+1}/${R.length} · ${r.n}`;
+ $("prog").textContent=`💬 ${r.N.filter((_,j)=>seen.has(key(ri,j))).length}/${r.N.length}`;
+}
+function blocked(){const s=new Set(R[ri].o.map(o=>o[0]+","+o[1]));R[ri].N.forEach(n=>s.add(n.x+","+n.y));return s}
+function bfs(tx,ty){
+ const bl=blocked(),q=[[px,py]],prev={[px+","+py]:null};
+ while(q.length){const[x,y]=q.shift();if(x==tx&&y==ty){const p=[];let k=x+","+y;while(prev[k]){p.unshift(k.split(",").map(Number));k=prev[k]}return p}
+  for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const nx=x+dx,ny=y+dy,k=nx+","+ny;
+   if(nx<0||ny<0||nx>=W||ny>=H||k in prev)continue;
+   if(bl.has(k)&&!(nx==tx&&ny==ty&&R[ri].N.some(n=>n.x==nx&&n.y==ny)))continue;
+   prev[k]=x+","+y;q.push([nx,ny])}}
+ return null}
+B.addEventListener("click",ev=>{
+ if($("ov").style.display=="flex")return;
+ const rc=B.getBoundingClientRect(),tx=Math.min(W-1,Math.floor((ev.clientX-rc.left)/rc.width*W)),ty=Math.min(H-1,Math.floor((ev.clientY-rc.top)/rc.height*H));
+ if(R[ri].o.some(o=>o[0]==tx&&o[1]==ty))return;
+ const ni=R[ri].N.findIndex(n=>n.x==tx&&n.y==ty),door=ri<R.length-1&&tx==W-1&&ty==3?1:ri>0&&tx==0&&ty==3?-1:0;
+ const p=bfs(tx,ty);if(!p)return;
+ clearInterval(timer);
+ if(ni>=0)p.pop();
+ pending=ni>=0?()=>talk(ni):door?()=>go(door):null;
+ path=p;step();timer=setInterval(step,170)});
+function step(){
+ if(!path.length){clearInterval(timer);if(pending){const f=pending;pending=null;f()}return}
+ [px,py]=path.shift();pos(P,px,py)}
+function go(d){
+ if(d>0&&!done(ri)){toast(`Hablá con todos primero (${R[ri].N.filter((_,j)=>seen.has(key(ri,j))).length}/${R[ri].N.length})`);return}
+ ri+=d;px=d>0?1:W-2;py=3;build()}
+function talk(i){
+ const n=R[ri].N[i];let p=0;const o=$("ov"),d=$("dlg");
+ function draw(){const last=p==n.t.length-1;
+  d.innerHTML=`<span class="big">${n.e}</span><h2>${n.n}</h2><div class="src">${n.s}</div><p>${n.t[p]}</p><button id="nx">${last?"Listo ✓":"Seguir ▸"}</button><span class="pg">${p+1}/${n.t.length}</span>`;
+  $("nx").onclick=()=>{if(!last){p++;draw();return}
+   o.style.display="none";const first=!seen.has(key(ri,i));seen.add(key(ri,i));build();
+   if(first&&done(ri))ri<R.length-1?toast("🚪 ¡Puerta abierta!"):toast("🎓 ¡Completaste el recorrido!")}}
+ draw();o.style.display="flex"}
+$("ov").onclick=e=>{if(e.target.id=="ov")e.target.style.display="none"};
+build();
+</script></body></html>

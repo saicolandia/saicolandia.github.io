@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Aparato Psíquico y Defensas</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: #f7f3f0;
+      color: #2e2a28;
+      padding: 16px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* encabezado */
+    .header {
+      background: linear-gradient(145deg, #d9c9c0, #c4b2a7);
+      padding: 24px 20px;
+      border-radius: 40px 40px 30px 30px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .header h1 {
+      font-size: 2.1rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      color: #2c241f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .header h1 span {
+      background: #fff6f0;
+      padding: 6px 18px;
+      border-radius: 100px;
+      font-size: 1rem;
+      font-weight: 400;
+      color: #5f4d42;
+    }
+
+    .header .sub {
+      margin-top: 8px;
+      font-size: 1rem;
+      color: #4d3d34;
+      background: rgba(255, 245, 235, 0.5);
+      display: inline-block;
+      padding: 4px 20px;
+      border-radius: 50px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* tarjetas */
+    .card {
+      background: #ffffffec;
+      backdrop-filter: blur(2px);
+      border-radius: 32px;
+      padding: 20px 18px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04), 0 12px 28px -8px rgba(90, 70, 60, 0.10);
+      border: 1px solid rgba(255, 240, 230, 0.5);
+      transition: all 0.1s ease;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #3a2e29;
+      margin-bottom: 14px;
+      border-bottom: 2px solid #efe3db;
+      padding-bottom: 10px;
+    }
+
+    .card-title .emoji-big {
+      font-size: 2.4rem;
+      line-height: 1;
+    }
+
+    h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #4b3d36;
+      margin: 18px 0 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h3 .emoji-big {
+      font-size: 1.8rem;
+    }
+
+    .def-block {
+      background: #fcf7f4;
+      border-radius: 24px;
+      padding: 14px 16px;
+      margin: 12px 0 10px 0;
+      border-left: 4px solid #d8c4b8;
+    }
+
+    .def-block strong {
+      color: #5c4438;
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .example {
+      background: #f2ebe6;
+      border-radius: 20px;
+      padding: 12px 16px;
+      margin: 12px 0 6px 0;
+      font-style: italic;
+      color: #3f3631;
+      border-left: 4px solid #b8a094;
+      font-size: 0.98rem;
+    }
+
+    .example::before {
+      content: "📌 ";
+      font-style: normal;
+      font-weight: 500;
+      color: #7d6457;
+    }
+
+    .list-dot {
+      list-style: none;
+      padding-left: 8px;
+    }
+    .list-dot li {
+      padding: 6px 0 6px 28px;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23b09a8e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"/></svg>') left center no-repeat;
+      background-size: 18px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #e7dbd3;
+      border-radius: 50px;
+      padding: 2px 14px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #4d3d34;
+      margin-right: 6px;
+    }
+
+    .divider {
+      height: 2px;
+      background: linear-gradient(to right, #e3d5cd, transparent);
+      margin: 24px 0 12px 0;
+    }
+
+    /* footer */
+    .footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #8f7b70;
+      padding: 20px 0 10px;
+      border-top: 1px solid #e3d5cd;
+      margin-top: 12px;
+    }
+
+    /* responsive */
+    @media (max-width: 480px) {
+      body { padding: 12px; }
+      .card { padding: 16px; }
+      .header h1 { font-size: 1.8rem; }
+      .card-title { font-size: 1.4rem; }
+      h3 { font-size: 1.2rem; }
+    }
+
+    /* emojis grandes por defecto */
+    .big-emoji {
+      font-size: 2.2rem;
+      line-height: 1.2;
+    }
+    .mid-emoji {
+      font-size: 1.8rem;
+      line-height: 1.2;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>
+      🧠 Aparato Psíquico
+      <span>+</span>
+      🛡️ Defensas
+    </h1>
+    <div class="sub">Instrumentos de Exploración Psicológica II · Cátedra 2009</div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="card">
+    <div class="card-title">
+      <span class="emoji-big">📖</span> Introducción
+    </div>
+    <p style="margin-bottom: 10px;"><strong>Defensa</strong> aparece en 1894 (Freud) como rechazo instintivo del Yo ante ideas dolorosas. En 1926 retoma el concepto como <em>“designación general de todas las técnicas del Yo en conflictos que pueden conducir a neurosis”</em>.</p>
+    <p>La represión es <em>uno</em> de esos métodos. Pero antes de ahondar, repasemos las <strong>dos tópicas</strong> y las instancias psíquicas.</p>
+  </div>
+
+  <!-- APARATO PSÍQUICO -->
+  <div class="card">
+    <div class="card-title">
+      <span class="emoji-big">⚙️</span> Aparato Psíquico
+    </div>
+
+    <h3><span class="emoji-big">🗺️</span> Primera tópica (1913)</h3>
+    <p><strong>Consciente / Preconsciente / Inconsciente</strong>. Conflicto entre CC e ICC.</p>
+
+    <h3><span class="emoji-big">🧩</span> Segunda tópica (1923)</h3>
+    <p><strong>Ello · Yo · Superyó</strong>. El conflicto es intrapsíquico.</p>
+
+    <div class="def-block">
+      <strong>🟣 Ello</strong> Fuerzas instintivas, polo pulsional. “Puro Ello” al nacer. Rige por <strong>proceso primario</strong> (gratificación inmediata, desplazamiento de cargas).
+    </div>
+    <div class="def-block">
+      <strong>🟢 Yo</strong> Surge del Ello por contacto con la realidad. Es <em>Yo corporal</em> al principio. Rige <strong>proceso secundario</strong> (postergación, ligadura de energía, lenguaje). Funciones: percepción, memoria, motricidad.
+    </div>
+    <div class="def-block">
+      <strong>🔴 Superyó</strong> Se separa del Yo mediante identificaciones con ideales y normas parentales. Conforma <em>Ideal del Yo</em> y <em>Conciencia Moral</em>. Internaliza la prohibición edípica.
+    </div>
+
+    <p style="margin-top: 12px;"><span class="tag">📌</span> El Yo queda sometido a <strong>tres servidumbres</strong>: mundo exterior, libido del Ello y severidad del Superyó.</p>
+
+    <h3><span class="emoji-big">😰</span> Angustia</h3>
+    <p><strong>Angustia real</strong> (peligro conocido) y <strong>angustia neurótica</strong> (peligro pulsional desconocido). La <em>angustia señal</em> activa las defensas para mantener la cohesión del Yo.</p>
+    <div class="example">Ejemplo: Juan siente taquicardia antes de un examen; la angustia señal le permite prepararse, pero si es abrumadora, puede desencadenar una defensa.</div>
+  </div>
+
+  <!-- MECANISMOS DE DEFENSA -->
+  <div class="card">
+    <div class="card-title">
+      <span class="emoji-big">🛡️</span> Mecanismos de Defensa
+    </div>
+    <p>Operaciones <strong>inconscientes</strong> que protegen al Yo de angustia intolerable. No siempre son patológicos; son recursos homeostáticos (Bleger).</p>
+
+    <h3><span class="emoji-big">📊</span> Clasificación</h3>
+    <ul class="list-dot">
+      <li><strong>Evolutiva</strong>: primarias (escindidas) → superiores (represivas).</li>
+      <li><strong>Tópica</strong>: inconscientes, pueden volverse conscientes.</li>
+      <li><strong>Estructural</strong>: pertenecen al Yo.</li>
+      <li><strong>Motivos</strong>: pulsiones, afectos, angustia, culpa, asco, vergüenza.</li>
+      <li><strong>Salud</strong>: depende de flexibilidad, contexto y quantum.</li>
+    </ul>
+
+    <p><span class="tag">✅</span> <strong>Defensa exitosa</strong>: cesa lo rechazado. <span class="tag">❌</span> <strong>Ineficaz</strong>: repetición compulsiva, rigidez.</p>
+
+    <div class="example">Ejemplo: Juan no va al examen por unas ronchas que desaparecen; se siente aliviado (exitosa). Pero si al día siguiente evita a su compañero por culpa, la defensa se rigidiza (ineficaz).</div>
+
+    <div class="divider"></div>
+
+    <!-- ESCISIÓN -->
+    <h3><span class="emoji-big">⚡</span> Regulados por <strong>Escisión</strong> (primitivos)</h3>
+    <p>Característicos de etapas tempranas o trastornos severos. Separación de valencias positivas/negativas.</p>
+
+    <div class="def-block">
+      <strong>🔹 Proyección</strong> Expulsar y localizar en otro cualidades o deseos propios no reconocidos.
+      <div class="example">Niño al cortarse con tijeras: “¡Mala, me cortaste!”.</div>
+      <div class="example">Otro: “Pasemos rápido, porque a vos te da miedo” (frente a leones).</div>
+    </div>
+
+    <div class="def-block">
+      <strong>🔸 Introyección</strong> Pasar “afuera → adentro” en fantasía, cualidades de objetos. Asociado a incorporación oral.
+      <div class="example">Persona que se ata una cinta roja en la muñeca.</div>
+    </div>
+
+    <div class="def-block">
+      <strong>🔹 Identificación Proyectiva</strong> (M. Klein) Introducir la propia persona (total o parcial) en el objeto para dañarlo, poseerlo o controlarlo.
+      <div class="example">Andrés fantasea convertirse en virus para enfermar a su profesor y evitar el examen.</div>
+    </div>
+
+    <div class="def-block">
+      <strong>🔸 Idealización</strong> Llevar cualidades del objeto a la perfección; defensa contra pulsiones destructoras.
+      <div class="example">Lucía: “Mi hermana es súper inteligente, nunca le va mal, todos gustan de ella”.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- REPRESIÓN -->
+    <h3><span class="emoji-big">🔒</span> Regulados por <strong>Represión</strong> (superiores)</h3>
+    <p>Propios de la organización neurótica. Nivel más evolucionado.</p>
+
+    <div class="def-block">
+      <strong>🔹 Represión</strong> Rechazo y mantenimiento en el inconsciente de pensamientos, imágenes o recuerdos ligados a pulsión displacentera.
+      <div class="example">Juan quiere decirle “Mariana” a Clara, pero la llama Mariana por error (fallido).</div>
+      <div class="example">Joven que no se queda con su novio por no saber cómo mirar a sus padres.</div>
+    </div>
+
+    <div class="def-block">
+      <strong>🔸 Formación Reactiva</strong> Actitud opuesta a un deseo reprimido; se intensifica la conducta ligada al objeto bueno.
+      <div class="example">Hombre exageradamente encantador con su esposa en público, pero golpeador en privado.</div>
+      <div class="example">Pudor exagerado que oculta tendencias exhibicionistas.</div>
+    </div>
+
+    <div class="def-block">
+      <strong>🔹 Aislamiento afectivo</strong> Separar el afecto de una representación; pausas, rituales, hiato en pensamientos. Típico de obsesivos.
+      <div class="example">Cantante que se entera de la muerte de su padre y da el recital sin tristeza; días después llora al romper una copa.</div>
+      <div class="example">Paciente que analiza en el diván pero aísla los efectos terapéuticos del resto de su vida.</div>
+    </div>
+
+    <div class="def-block">
+      <strong>🔸 Anulación</strong> Acto que repara o anula el significado de uno anterior (real o mágicamente).
+      <div class="example">Joven que rompe fotos de su novio y luego pega todos los fragmentos.</div>
+    </div>
+
+    <div class="def-block">
+      <strong>🔹 Regresión</strong> Actualizar conductas de niveles anteriores ante un conflicto actual.
+      <div class="example">María (22 años) ve una película de terror y pide dormir con su hermana.</div>
+    </div>
+
+    <div class="def-block">
+      <strong>🔸 Negación</strong> Rechazar realidades displacenteras, a pesar del juicio de realidad.
+      <div class="example">Niño que cree en Papá Noel a pesar de saber que no existe.</div>
+      <div class="example">“No, no… nos llevamos bárbaro con mis viejos”.</div>
+    </div>
+
+    <div class="def-block">
+      <strong>🔹 Racionalización</strong> Dar explicaciones lógicas o moralmente aceptables para encubrir el conflicto.
+      <div class="example">Josefina: “Martina es muy capaz, siempre pensé que sería abanderada” (al no serlo).</div>
+    </div>
+
+    <div class="def-block">
+      <strong>🔸 Intelectualización</strong> Formular discursivamente los conflictos y emociones para controlarlos. Distanciamiento afectivo.
+      <div class="example">Paciente que da sus propias interpretaciones en análisis, evitando la irrupción del inconsciente.</div>
+    </div>
+
+    <div class="def-block">
+      <strong>🔹 Sublimación</strong> Canalizar impulsos (originalmente rechazados) hacia actividades socialmente valoradas. Genera placer.
+      <div class="example">Carlos, violento, se vuelve escultor de luchas entre gladiadores.</div>
+      <p style="font-size:0.95rem; margin-top:6px;"><span class="tag">Diferencia</span> La formación reactiva es forzada y no produce placer; la sublimación sí.</p>
+    </div>
+
+    <div style="background: #efe7e1; border-radius: 20px; padding: 14px; margin-top: 16px;">
+      <p style="font-weight:500; display:flex; gap:8px;"><span class="big-emoji">🧐</span> Contexto y flexibilidad</p>
+      <p style="font-size:0.95rem;">Una defensa “primitiva” no es siempre patológica. Ejemplo: adulto que duerme con luz prendida tras un robo es adaptativo. El uso rígido, excesivo o inoportuno es lo que señala psicopatología.</p>
+    </div>
+  </div>
+
+  <!-- BIBLIO -->
+  <div class="card" style="background: #f4ede8;">
+    <div class="card-title" style="border-bottom-color: #d0c0b6;">
+      <span class="emoji-big">📚</span> Referencias
+    </div>
+    <ul class="list-dot" style="font-size:0.9rem; color:#4d403a;">
+      <li>Bleger, J. <em>Psicología de la Conducta</em>. Paidós, 1973.</li>
+      <li>Freud, A. <em>El Yo y los mecanismos de defensa</em>. Paidós, 1972.</li>
+      <li>Freud, S. <em>El Yo y el Ello</em> (1923). Amorrortu.</li>
+      <li>Laplanche & Pontalis. <em>Diccionario de Psicoanálisis</em>. Labor, 1968.</li>
+      <li>Paz, R. <em>Psicopatología. Sus fundamentos dinámicos</em>. Nueva Visión, 1999.</li>
+      <li>Otros: Fenichel, Celener, Lunazzi, Ricón, Tallaferro.</li>
+    </ul>
+    <div style="margin-top: 12px; font-size:0.8rem; color:#8a786d; text-align:center;">Material de cátedra · UNMDP · Facultad de Psicología</div>
+  </div>
+
+  <div class="footer">
+    🧠 · 🛡️ · ⚕️ · <span style="opacity:0.7;">Instrumentos de Exploración Psicológica II</span>
+  </div>
+
+</div>
+</body>
+</html>

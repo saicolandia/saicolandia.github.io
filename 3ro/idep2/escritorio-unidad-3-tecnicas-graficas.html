@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Kalam:wght@400;700&display=swap">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Título</title>
+<style>
+:root{--ink:#2a1f14;--brass:#d9a441}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;overflow:hidden}
+body{font:17px/1.45 Kalam,'Segoe Print','Bradley Hand',cursive;color:var(--ink);background:#7a4e2b}
+#wood{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+#stage{position:fixed;inset:0;z-index:2;overflow:hidden;touch-action:pan-y}
+.lamp{position:fixed;inset:0;z-index:4;pointer-events:none;background:radial-gradient(circle at 34% 32%,rgba(255,232,170,.42) 0,rgba(255,205,120,.18) 22%,rgba(30,12,0,.35) 46%,rgba(0,0,0,.9) 88%)}
+.paper{position:absolute;left:50%;top:50%;max-height:78vh;overflow:auto;padding:18px 22px 22px;background:#f4ebd6;border-radius:2px;
+box-shadow:0 1px 1px rgba(0,0,0,.3),0 8px 20px rgba(0,0,0,.55);transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .4s;touch-action:pan-y}
+.h{width:min(86vw,540px)}
+.f{width:min(80vw,400px);padding-top:14px;background:repeating-linear-gradient(180deg,transparent 0 27px,rgba(80,120,170,.35) 27px 28px) 0 14px,#fbf8f0}
+.f p{line-height:28px}
+.n{width:min(72vw,310px);background:#f1d77f}
+.g{width:min(92vw,680px)}
+.hd{display:flex;gap:12px;align-items:center;margin-bottom:8px}
+.hd .e{font-size:clamp(2.6rem,9vw,3.6rem);line-height:1}
+.paper h2{margin:0;font:700 1.9rem/1.1 Caveat,'Segoe Print',cursive}
+.paper p{margin:.5em 0}
+.fx p:first-of-type{font:700 1.6rem/1.4 Caveat,cursive;text-align:center;background:rgba(0,0,0,.06);padding:8px}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;font-size:.88rem;min-width:540px}
+th,td{padding:6px 8px;border-bottom:1px solid rgba(0,0,0,.3);text-align:left;vertical-align:top}
+.sub{margin:12px 0 4px;background:#f1d77f;padding:8px 12px;transform:rotate(-1.2deg);box-shadow:0 3px 8px rgba(0,0,0,.35);animation:pop .25s}
+.sub p{margin:.2em 0 0;line-height:1.35}
+.n .sub{background:#fffdf5}
+.t{background:none;border:0;padding:0;font:inherit;color:#8a2c14;text-decoration:underline wavy;text-underline-offset:3px;cursor:pointer}
+@keyframes pop{from{opacity:0;transform:rotate(-1.2deg) scale(.92)}}
+#side{position:fixed;left:0;top:0;bottom:0;width:260px;z-index:20;background:rgba(28,16,8,.95);color:#eadcc0;overflow:auto;padding:16px 10px 20px;border-right:1px solid rgba(217,164,65,.35);transition:transform .3s;font-family:Kalam,cursive}
+#side h1{font:700 1.7rem Caveat,cursive;margin:0 8px 8px;color:var(--brass)}
+.gh{font-weight:700;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:#a58a62;margin:16px 8px 6px}
+.tb{display:flex;gap:10px;align-items:center;width:100%;min-height:44px;padding:6px 10px;border:0;border-radius:6px;background:none;color:inherit;font:inherit;font-size:.92rem;text-align:left;cursor:pointer}
+.tb:hover{background:rgba(255,255,255,.07)}
+.tb[aria-current=true]{background:rgba(217,164,65,.22);color:#fff}
+.tb .e{font-size:1.5rem}
+#menu{position:fixed;top:10px;left:10px;z-index:21;min-height:44px;padding:0 14px;border-radius:22px;border:2px solid var(--brass);background:rgba(30,16,6,.85);color:var(--brass);font:700 1rem Kalam,cursive;cursor:pointer}
+.ar{position:fixed;top:50%;z-index:15;width:46px;height:46px;margin-top:-23px;border-radius:50%;border:2px solid var(--brass);background:rgba(30,16,6,.82);color:var(--brass);font-size:1.4rem;cursor:pointer}
+.ar:disabled{opacity:.25;cursor:default}
+#prev{left:6px}#next{right:6px}
+#info{position:fixed;bottom:12px;left:0;right:0;text-align:center;z-index:15;color:#eadcc0;font:.95rem Kalam,cursive;text-shadow:0 1px 3px #000;pointer-events:none}
+:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
+@media(max-width:819px){#side{transform:translateX(-100%)}#side.open{transform:none}}
+@media(min-width:820px){#menu{display:none}#stage,.lamp,#info{left:260px}#prev{left:276px}.ar{width:54px;height:54px;margin-top:-27px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="wood"></canvas>
+<aside id="side"><h1 id="ttl"></h1><nav id="nav" aria-label="Temas"></nav></aside>
+<button id="menu" aria-label="Abrir temas">Temas</button>
+<main id="stage"></main>
+<div class="lamp"></div>
+<button class="ar" id="prev" aria-label="Papel anterior"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+<button class="ar" id="next" aria-label="Papel siguiente"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+<div id="info" aria-live="polite"></div>
+<script>
+const TITLE='Unidad III · Fundamentos de técnicas gráficas';
+const G=['I · Gráficos: fundamentos técnicos','II · Evolutiva gráfica','III · Consignas y producciones','IV · Aspectos técnicos y ejes de análisis','V · Ejes aplicados a producciones'];
+const T=[
+{g:0,n:'Por qué se usan los gráficos',p:[
+['h','Ventajas y utilidad','Los gráficos implican una tarea conocida, porque todos dibujamos desde los primeros tiempos de vida. Recogen mucha información en poco tiempo y usan material económico: lápiz y papel. Tienen administración sencilla y consignas pautadas y estandarizadas, así que la complejidad no está en administrar sino en interpretar. Se aplican a casi todas las edades y, salvo dificultad motriz, no tienen contraindicaciones.'],
+['f','Qué se pone en juego al dibujar','No se pone en juego solo lo cognitivo: también lo corpóreo, el acto físico de dibujar, y lo fantasmático. La mano que dibuja está interferida por los deseos, la censura y la [[historia libidinal]] del sujeto, y por eso la lectura es inferencial. Como dibujar está unido a la motilidad, se evitan las censuras discursivas y se accede a aspectos más primitivos y arcaicos.'],
+['n','Tres aspectos',['Madurativo: genético y neurológico.','Cognitivo, con influencia del medio: los adultos pueden estimular más o menos.','Emocional: deseos, sentimientos, fantasías, conflictos, vínculos e identidad.']]]},
+{g:0,n:'Cuerpo e inconsciente',p:[
+['h','Visión antropomórfica (Hammer)','Es la atribución de características humanas a los objetos y animales. Hay una tendencia a ver el mundo a través de la propia imagen, y su base es el mecanismo de proyección, con movimientos dinámicos y procesos defensivos. Esa configuración proyectada da acceso al [[esquema corporal]] y a la [[imagen inconsciente del cuerpo]]. La hoja en blanco es un espacio que el sujeto llena con sus objetos.'],
+['g','Esquema corporal e imagen inconsciente (Dolto)','Dolto alerta a no confundirlos.',null,[['','Esquema corporal','Imagen inconsciente del cuerpo'],['Qué es','Realidad de hecho: nuestro vivir carnal al contacto con el mundo físico','Síntesis viva de las experiencias emocionales y memoria inconsciente de la vivencia relacional'],['Alcance','Específico de la especie, igual para todos los individuos','Propia de cada individuo y de su historia'],['Nivel','Representación consciente y preconsciente','Eminentemente inconsciente; puede volverse preconsciente si se le asocia el lenguaje'],['Enlace','Intérprete de la imagen inconsciente','Se articula al esquema a través del narcisismo']]],
+['f','El gráfico como formación del inconsciente','Los dibujos son imágenes simbólicas, determinadas psíquicamente. Como en los sueños, intervienen mecanismos del proceso primario: [[condensación]] y [[desplazamiento]]. También intervienen procesos preconscientes y conscientes: el trazo y la presión no se pueden controlar, pero algunos contenidos se deciden incluir.']]},
+{g:1,n:'Primeros trazos y primeras figuras',p:[
+['h','De la descarga al círculo','Alrededor de los 18 a 24 meses hay una fusión mano–lápiz–papel, sin diferenciación, y el niño descubre que al deslizar el instrumento deja una marca. Al principio es descarga y salen rayas. En la primera transformación domina la dirección de la línea y logra cerrar el círculo: la primera delimitación entre el adentro y el afuera. Coincide con la aparición del no, la enunciación del primer yo.'],
+['f','Segunda transformación: el monigote','Combinando círculo y rayas aparece el primer monigote, lo primero que se parece a algo de la realidad. Es el doble de sí: la aparición del imaginario. La hoja le devuelve esa imagen, tiene carácter [[especular]]. Al repetir las figuras la hoja pierde ese carácter, aparecen otras representaciones de objeto y empieza la simbolización de la ausencia. Dibuja la casa, el árbol, el sol, y nombra lo que dibuja.'],
+['n','Protoorganizaciones','Se las llama así porque, comparando muchos niños y niñas, los primeros monigotes aparecen de manera similar y repetida.']]},
+{g:1,n:'Escena, perspectiva y pubertad',p:[
+['h','Tercera: escena y eje vertical','En la primera infancia el dibujo se organiza como escena y se representa el entorno. Importan el orden vertical y los tamaños, porque el yo intenta diferenciarse y ubicarse respecto de los otros de la vida familiar. El espacio deja de ser homogéneo: lo racional se desplaza a la cabeza, lo ideal se ubica por encima del hombre y lo de abajo se liga a lo concreto y al origen. Aparecen el cielo y la tierra.'],
+['h','Cuarta: horizonte y perspectiva','Declina el orden vertical a favor del eje anteroposterior. Las líneas de cielo y tierra se unifican en el horizonte, que crea la noción de profundidad. Se vincula con la elaboración de la conflictiva edípica, donde aparecen claramente tres puntos. Se codifican planos y distancias, y el gráfico permite representar y metaforizar conflictos, y enmascarar el deseo para eludir la censura, como en el sueño. Se consolida el estilo de cada niño o niña.'],
+['n','Pubertad','Según Álvarez entra en crisis la imagen corporal que sostenía al yo. El dibujo se pone al servicio de la proyección defensiva: hay deformaciones y muchas caricaturas, que externalizan lo vivido como extraño o siniestro.']]},
+{g:1,n:'Etapas por edad y síntesis',p:[
+['g','Etapas según la edad','Lo esperable en cada momento, para comparar con lo que aparece en la producción.',null,[['Edad','Rasgos esperables'],['2 años','Garabato imitativo, etapa kinestésica; emplazamiento central o indiscriminado; trazo y presión excesivamente fuertes'],['3 años','Dibujo representativo: círculos y cefalópodos; nombra lo que dibuja'],['4 a 5 años','Realismo intelectual: dibuja según su representación interna; tamaño grande, emplazamiento central'],['5 años y medio','El tronco crece y la cabeza se achica; aparece la proporción; primeros intentos de diferenciar el sexo'],['6 años','Escolaridad: figuras más pequeñas, abajo y sobre una base; estilo cliché'],['7 a 9 años','Castillos, guardias y naves espaciales: fantasía'],['10 años','Producciones más reales y menor fantasía'],['12 a 14 años','Pubertad: cambia la imagen de sí; aparecen hombros, busto y caderas'],['Adolescencia','Volumen y masa, perspectiva, sombreado, interés por el cuerpo; abstracción, realismo y simbolismo']]],
+['f','Síntesis de la evolución',['1. Descarga funcional: fusión mano, lápiz y papel.','2. Control del gesto: primeras figuras, desde el círculo.','3. Representación de sí y de la hoja como espacio especular.','4. Relaciones entre objetos: se organiza la escena.','5. Ejes imaginarios: primero el vertical, luego el horizonte.','6. Representación: evoca la ausencia.','7. Perspectiva: incluye al espectador y permite la metáfora del conflicto y del deseo enmascarado.']]]},
+{g:2,n:'Secuencia, consignas y dos tiempos',p:[
+['h','Secuencia y dos tiempos','Los gráficos son instrumentos proyectivos mediadores dentro de una entrevista: no se administra una técnica gráfica sola, se planifica una secuencia. La de la cursada es dibujo libre, HTP y test de las dos personas. En el primer tiempo no se interfiere: se da la consigna y el sujeto produce. En el segundo se piden asociaciones verbales; sin ellas, el evaluador otorgaría sentido desde su propia subjetividad.'],
+['g','Consignas de la secuencia','Se va de lo más ambiguo a lo más específico.',null,[['Técnica','Consigna','Qué explora'],['Dibujo libre','“En esta hoja dibuje lo que quiera, piense en lo primero que se le ocurra y trate de dibujarlo.”','Autopresentación del sujeto'],['HTP','Casa, árbol y persona, cada uno en una hoja distinta','Vida hogareña (casa); imagen corporal y concepto de sí mismo (árbol y persona)'],['T2P','Dibujo de dos personas y luego una historia','Dimensión vincular: pareja gráfica y pareja verbal']]],
+['n','Ambiguo y específico','Una consigna más ambigua permite mayor saturación proyectiva. Las consignas más específicas sacrifican algo de proyección a cambio de pedir algo concreto.']]},
+{g:2,n:'Producciones infantiles y adultas',p:[
+['h','Producciones infantiles','Los logros del dibujo acompañan la estructuración del psiquismo y se complejizan hasta la pubertad. Hay logros propios de cada edad, pero cada niño tiene una forma particular de hacer un mismo dibujo, y la lectura proyectiva busca captar esa singularidad. El medio influye: los niños pueden estar más o menos estimulados por los adultos para alcanzar logros en el dibujo.'],
+['f','Producciones adultas','En adultos el contenido está más expuesto al control consciente. En una evaluación laboral, por ejemplo, el sujeto decide darle a la figura condiciones que lo favorezcan, porque sabe que lo evalúan; un desnudo sería significativo, salvo en un perfil creativo. En adultos con compromiso orgánico, los gráficos permiten diferenciar a nivel diagnóstico trastornos neurológicos.'],
+['n','Anécdota del paraguas','En una selección de ingenieros, unos postulantes discutían si dibujar un paraguas en la persona bajo la lluvia: el paraguas impide que esté bajo la lluvia. Muestra que hay decisiones conscientes al responder una consigna.']]},
+{g:3,n:'El encuentro y la primera impresión',p:[
+['h','Observación del encuentro','El proceso inferencial empieza cuando el sujeto toma contacto con la consigna. Se observa cómo reacciona, cómo se relaciona con los materiales y qué comentarios, gestos y asociaciones hace. Se registra la conducta verbal y paraverbal, la expresión, los cambios de atención y posturales, y la secuencia dinámica: qué dibujó, qué borró, qué tachó, qué intentó mejorar.'],
+['f','Momentos del análisis','Aplicables a cualquier test gráfico. Primero, la observación del encuentro: aspectos actitudinales y vinculares. Después, la observación y el análisis de los gráficos: qué dibuja, que son las pautas de contenido, y cómo dibuja, que son las pautas formales. Antes se registra la primera impresión: las reacciones y sensaciones que despierta el gráfico, por ejemplo si es pobre o infantil.']]},
+{g:3,n:'Pautas de contenido: qué dibuja',p:[
+['h','El qué dibuja','Las pautas de contenido se refieren al contenido temático y a la manera particular de abordarlo. Están más expuestas al control consciente que las formales: el sujeto puede decidir qué dibujar. Para Álvarez, el lenguaje gráfico se interpreta como un discurso escrito en signos que solo se comprenden integrando las asociaciones verbales del sujeto. Por eso, sobre todo en el dibujo libre, se pide que sea el sujeto quien otorgue un sentido, aunque sea a posteriori.'],
+['f','El símbolo','Es aquello que representa algo para alguien, un mensaje a descifrar. Tiene aspectos compartidos, propios de una cultura, una edad o un momento, y singularidad: lo que representa para el sujeto. Se distingue lo manifiesto, los significados conscientes que el sujeto verbaliza, de lo [[latente]]. Ejemplo: un niño dice que dibujó un auto famoso de una película, y sus asociaciones permiten leer desplazamiento y condensación.']]},
+{g:3,n:'Pautas formales: cómo dibuja',p:[
+['g','Las cuatro pautas principales','Son los aspectos más estructurales: responden más al movimiento corpóreo y hay menor control.',null,[['Pauta','Qué es','Qué informa'],['Emplazamiento','Lugar donde ubica el dibujo; la hoja equivale al espacio vital, por eso se estandariza su tamaño','Cómo se ubica en relaciones de espacio; los márgenes son encuadre y sostén; arriba/abajo, izquierda/derecha, antes/después'],['Tamaño','Espacio relativo que ocupa; macrografía si se amplía, micrografía si se disminuye','Cómo se ubica el sujeto en su espacio vital'],['Presión','Fuerza que ejerce la mano sobre el lápiz','Caudal energético, impulso'],['Trazo','Cualidad de las líneas: continuo o recortado, largo y armónico o entrecortado, anguloso o redondeado','Control sobre la conducta; marca la diferencia entre adentro y afuera, yo y no yo']]],
+['n','Ojo con el tamaño','El teórico habla de alrededor de dos tercios de la hoja como esperable. Verthelyi habla de aproximadamente un tercio, y Febbraio, de tres cuartas partes desde la adolescencia. Hammer suma como rasgos expresivos las frecuencias, el detalle, la simetría y el movimiento.']]},
+{g:3,n:'Grado de humanización',p:[
+['h','Tres subítems articulados','Es una dimensión de análisis aplicable solo a figuras humanas. Se asocia con el logro de transponer la imagen inconsciente del cuerpo y con la unificación del yo. Hay además otra dimensión muy importante: la identidad.'],
+['g','Completud, complejidad e integración',null,null,[['Subítem','Qué mira'],['Completud','Presencia de las partes, ligada al esquema corporal: cabeza, tronco, piernas, manos; en la cara, ojos, a veces orejas y boca. Una omisión no siempre altera la humanización: importa qué significa lo que falta o lo que está sobredimensionado'],['Complejidad','Logro complejo y humanizado de la figura: expresión, postura, enriquecimiento'],['Integración','Articulación armónica de las partes; construcción de límites entre adentro y afuera, discriminación yo y no yo; sus deficiencias se vinculan con la fragmentación']]]]},
+{g:4,n:'El indicador y la constelación',p:[
+['h','El indicador nunca es unívoco','No hay relación directa entre el observable y la interpretación: diferentes autores, desde distintas experiencias, dan distintas interpretaciones a indicadores similares. Por eso elegir y construir el indicador y el dato es una decisión del evaluador, según lo que apareció de manera significativa y según la [[constelación]] de datos que refuerzan las hipótesis. Los aspectos formales llevan a hipótesis genéricas, que se interpretan a la luz de la producción de ese sujeto.'],
+['f','Genérica y singular','La hipótesis genérica es la de la bibliografía, surgida de datos estadísticos: orienta. La hipótesis específica y singular se construye sobre este material y esta subjetividad. Hay que encontrar el sentido que tiene en la subjetividad evaluada. No hay interpretaciones universales: es un análisis riguroso, pero con un modo artesanal de buscar sentidos.']]},
+{g:4,n:'Dibujo libre y HTP',p:[
+['h','Dibujo libre','Suele ser el primero de la secuencia y explora la autopresentación del sujeto: cómo se presenta frente a esa primera consigna y frente al mundo. Importan mucho las pautas formales y el simbolismo. No se interpreta solo: se lee a la luz de la secuencia gráfica y se lo compara con la primera parte de la entrevista semidirigida. Pregunta de Álvarez: ¿puede, con esta producción, metaforizar el conflicto?'],
+['h','HTP: casa, árbol y persona','Se toma en tres hojas distintas. Permite contrastar la producción con figura humana con otras de elementos no humanos, y se relaciona con la visión antropomórfica de Hammer. La casa estimula asociaciones con la vida hogareña y las relaciones interfamiliares. El árbol y la persona, con la imagen corporal y el concepto de sí mismo: un árbol se parece mucho al esquema corporal humano. Aparecen representaciones más conscientes y otras más arcaicas, sobre todo con el árbol.']]},
+{g:4,n:'T2P: ejes de análisis',p:[
+['h','Administración en dos momentos','Álvarez altera la administración del HTP: en vez de pedir directamente la persona, incluye el test de las dos personas, que exige además trabajar la dimensión vincular. Primero va el momento gráfico y luego se pide una historia, así se obtiene una pareja gráfica y una pareja verbal. Eso permite un doble análisis: cotejar lo graficado con la historia construida a partir del dibujo.'],
+['f','Cuatro ítems de interpretación',['1. Modalidad de realización de la tarea.','2. Aspectos gráficos significativos: pautas formales, adiciones y omisiones, y análisis intrafigura e interfigura.','3. Análisis de la historia, articulada con el gráfico.','4. Integración de la producción gráfica y la verbal.']],
+['n','Qué puede aparecer','Aspectos disociados del sí mismo en una u otra figura, el modelo de vínculo de pareja internalizado por el sujeto y elementos del vínculo transferencial.']]}
+];
+const $=id=>document.getElementById(id),mk=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+const st=$('stage'),nav=$('nav'),side=$('side'),P=[];let cur=0,x0=0;
+const D={
+'historia libidinal':'Recorrido de las inscripciones libidinales del sujeto desde las más tempranas; dejan marcas de identidad en sus primeros trazos.',
+'esquema corporal':'Realidad de hecho, nuestro vivir carnal al contacto con el mundo físico. Específico de la especie, igual para todos los individuos, con representación consciente y preconsciente.',
+'imagen inconsciente del cuerpo':'Propia de cada individuo y de su historia: síntesis viva de las experiencias emocionales y memoria inconsciente de la vivencia relacional. Se articula al esquema corporal a través del narcisismo.',
+'condensación':'Los contenidos están sobredeterminados y pueden tener múltiples interpretaciones; por eso hay que incorporar las asociaciones del sujeto sobre su producción.',
+'desplazamiento':'Transferencia de intensidades psíquicas entre una representación y otra. Se produce gracias a la figurabilidad: las imágenes visuales logran saltear la censura.',
+'especular':'Carácter de espejo de la hoja: le devuelve al niño la imagen que logró crear.',
+'latente':'Lo que hay que descifrar y deconstruir: qué condensaciones representa la figura y el modo particular de metaforizar el conflicto.',
+'constelación':'Conjunto de datos que se refuerzan entre sí y fortalecen una hipótesis.'};
+function para(s,el){const p=mk('p');s.split(/\[\[(.+?)\]\]/).forEach((x,j)=>{if(j%2){const b=mk('button','t',x);b.type='button';b.onclick=()=>note(el,p,x);p.append(b)}else if(x)p.append(x)});return p}
+function note(el,p,k){const o=el.querySelector('.sub'),same=o&&o.dataset.k===k;if(o)o.remove();if(same)return;const n=mk('aside','sub');n.dataset.k=k;n.append(mk('strong','',k),mk('p','',D[k]));p.after(n)}
+let wt;
+function wood(){const c=$('wood'),W=c.width=Math.ceil(innerWidth/2),H=c.height=Math.ceil(innerHeight/2),x=c.getContext('2d'),im=x.createImageData(W,H),d=im.data,PH=72;
+  const hs=(a,b)=>{const n=Math.sin(a*127.1+b*311.7)*43758.5453;return n-Math.floor(n)};
+  const vn=(a,b)=>{const i=Math.floor(a),j=Math.floor(b),f=a-i,g=b-j,u=f*f*(3-2*f),v=g*g*(3-2*g);return hs(i,j)*(1-u)*(1-v)+hs(i+1,j)*u*(1-v)+hs(i,j+1)*(1-u)*v+hs(i+1,j+1)*u*v};
+  const fb=(a,b)=>vn(a,b)*.5+vn(a*2,b*2)*.25+vn(a*4,b*4)*.125+vn(a*8,b*8)*.0625;
+  for(let y=0;y<H;y++){const pk=Math.floor(y/PH),yy=y-pk*PH,o=pk*13.7,tn=hs(pk,1),jx=hs(pk,3)*W;
+    for(let X=0;X<W;X++){
+      const w=fb(X*.005+o,yy*.03+o),t=Math.pow(Math.sin(yy*.3+w*22+o)*.5+.5,1.8),f=vn(X*.015+o,yy*1.4+o*3);
+      let k=(.8+.2*(1-t*.75))*(.88+.24*f);
+      if(yy<1.3||Math.abs(X-jx)<.8)k*=.3;else if(yy<2.6)k*=.72;
+      const p=(y*W+X)*4;d[p]=(150+55*tn)*k;d[p+1]=(96+38*tn)*k;d[p+2]=(52+22*tn)*k;d[p+3]=255}}
+  x.putImageData(im,0,0)}
+T.forEach((tp,ti)=>tp.p.forEach(([k,t,b,,rows])=>{
+  const i=P.length,el=mk('article','paper '+k),hd=mk('div','hd');
+  hd.append(mk('h2','',t));el.append(hd);
+  [].concat(b||[]).forEach(s=>el.append(para(s,el)));
+  if(rows){const w=mk('div','tw'),tb=mk('table');
+    rows.forEach((r,j)=>{const tr=mk('tr');r.forEach(c=>tr.append(mk(j?'td':'th','',c)));tb.append(tr)});
+    w.append(tb);el.append(w)}
+  el.dataset.t=ti;el.onclick=()=>{if(i!==cur)go(i)};
+  if(tp.f===undefined)tp.f=i;
+  P.push(el);st.append(el);
+}));
+G.forEach((g,gi)=>{nav.append(mk('div','gh',g));
+  T.forEach(tp=>{if(tp.g!==gi)return;
+    const b=mk('button','tb');b.append(mk('span','',tp.n));
+    b.onclick=()=>{go(tp.f);side.classList.remove('open')};tp.b=b;nav.append(b)})});
+function render(){
+  const dx=Math.min(st.clientWidth*.42,400);
+  P.forEach((el,i)=>{const d=i-cur,a=Math.abs(d),r=((i*53)%9-4)*.7;
+    el.style.transform=`translate(calc(-50% + ${d*dx}px),-50%) rotate(${r+(a?d*2:0)}deg) scale(${a?.82:1})`;
+    el.style.opacity=a>1?0:1;el.style.zIndex=9-a;
+    el.style.pointerEvents=a>1?'none':'auto';el.style.visibility=a>2?'hidden':'visible';
+    el.setAttribute('aria-hidden',a?'true':'false');
+    el.querySelectorAll('.t').forEach(s=>s.tabIndex=a?-1:0);
+    if(a){el.scrollTop=0;el.querySelectorAll('.sub').forEach(n=>n.remove())}});
+  const ti=+P[cur].dataset.t;
+  T.forEach((tp,j)=>tp.b.setAttribute('aria-current',j===ti));
+  T[ti].b.scrollIntoView({block:'nearest'});
+  $('info').textContent=T[ti].n+' · '+(cur+1)+' / '+P.length;
+  $('prev').disabled=!cur;$('next').disabled=cur===P.length-1;
+}
+function go(i){cur=Math.max(0,Math.min(P.length-1,i));render()}
+$('prev').onclick=()=>go(cur-1);$('next').onclick=()=>go(cur+1);
+$('menu').onclick=()=>side.classList.toggle('open');
+addEventListener('keydown',e=>{if(e.key==='ArrowLeft')go(cur-1);else if(e.key==='ArrowRight')go(cur+1);else if(e.key==='Escape')side.classList.remove('open')});
+st.addEventListener('pointerdown',e=>x0=e.clientX);
+st.addEventListener('pointerup',e=>{const d=e.clientX-x0;if(e.pointerType==='touch'&&Math.abs(d)>60)go(cur+(d<0?1:-1))});
+addEventListener('resize',()=>{render();clearTimeout(wt);wt=setTimeout(wood,300)});
+document.title=TITLE;$('ttl').textContent=TITLE;
+wood();render();
+</script>
+</body>
+</html>

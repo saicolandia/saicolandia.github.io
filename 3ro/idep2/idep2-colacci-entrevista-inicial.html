@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Análisis de la entrevista inicial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f7f4f0;
+            color: #2d2a24;
+            padding: 16px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #6c5b4b, #4a3f36);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0.2rem 0 0.4rem;
+            line-height: 1.2;
+        }
+
+        .subhead {
+            font-size: 1rem;
+            color: #6b5f53;
+            border-left: 4px solid #c9b7a5;
+            padding-left: 14px;
+            margin-bottom: 1.8rem;
+            font-weight: 400;
+        }
+
+        .card {
+            background: #ffffffdd;
+            backdrop-filter: blur(2px);
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 20px 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.04), 0 2px 6px rgba(0,0,0,0.02);
+            border: 1px solid #f0ebe6;
+            transition: all 0.2s;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            font-weight: 600;
+            font-size: 1.3rem;
+            color: #3d352e;
+        }
+
+        .card-header .emoji {
+            font-size: 2.8rem;
+            line-height: 1;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+        }
+
+        .tag {
+            display: inline-block;
+            background: #ede8e2;
+            border-radius: 40px;
+            padding: 4px 16px 4px 14px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: #4d4036;
+            margin-bottom: 12px;
+        }
+
+        .dimension-title {
+            font-weight: 600;
+            font-size: 1.15rem;
+            margin-top: 6px;
+            margin-bottom: 8px;
+            color: #4f4137;
+        }
+
+        .dimension-title .emoji-small {
+            font-size: 1.8rem;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+
+        ul, ol {
+            padding-left: 22px;
+            margin: 8px 0 12px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        .bullet-emoji {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .bullet-emoji li {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .bullet-emoji li .emoji-bullet {
+            font-size: 1.8rem;
+            line-height: 1.2;
+            flex-shrink: 0;
+            width: 2.4rem;
+            text-align: center;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, #e4dbd2, #cbc0b5, #e4dbd2);
+            margin: 18px 0 16px;
+            border-radius: 4px;
+            opacity: 0.5;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 12px 0 6px;
+        }
+
+        .grid-item {
+            background: #f8f5f1;
+            border-radius: 20px;
+            padding: 14px 12px;
+            text-align: center;
+            border: 1px solid #ece5de;
+        }
+
+        .grid-item .emoji-big {
+            font-size: 2.6rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .grid-item .label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #4f443b;
+        }
+
+        .highlight-box {
+            background: #f2ede7;
+            border-radius: 20px;
+            padding: 16px 18px;
+            margin: 16px 0 8px;
+            border-left: 5px solid #b7a392;
+        }
+
+        .highlight-box strong {
+            color: #3f332a;
+        }
+
+        .graphic-section {
+            background: #f5f0ea;
+            border-radius: 24px;
+            padding: 16px 16px 12px;
+            margin-top: 12px;
+        }
+
+        .graphic-section .graphic-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .graphic-section .graphic-title .emoji {
+            font-size: 2.2rem;
+        }
+
+        .inline-emojis {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 18px;
+            justify-content: center;
+            margin: 10px 0 4px;
+        }
+
+        .inline-emojis span {
+            font-size: 2.4rem;
+            line-height: 1.2;
+        }
+
+        .footnote {
+            font-size: 0.85rem;
+            color: #6e6257;
+            background: #f3efe9;
+            border-radius: 40px;
+            padding: 10px 16px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .footnote .emoji {
+            font-size: 1.6rem;
+            vertical-align: middle;
+        }
+
+        /* acordeón suave */
+        details {
+            margin-top: 12px;
+            border-radius: 20px;
+            background: #faf8f5;
+            padding: 6px 12px 6px 16px;
+            border: 1px solid #e7dfd7;
+        }
+
+        details summary {
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 8px 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #3f352d;
+            list-style: none;
+        }
+
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details summary .emoji {
+            font-size: 2rem;
+        }
+
+        details[open] summary {
+            padding-bottom: 6px;
+        }
+
+        details .content {
+            padding: 6px 0 14px;
+            font-size: 0.95rem;
+        }
+
+        /* util */
+        .mt-1 { margin-top: 12px; }
+        .mb-1 { margin-bottom: 12px; }
+        .text-center { text-align: center; }
+        .text-muted { color: #6b5f53; }
+
+        @media (max-width: 400px) {
+            .card { padding: 16px 14px; }
+            .grid-2col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>🔍 Análisis de la entrevista inicial</h1>
+    <div class="subhead">Colacci, R., Iglesias, L. y otros · F:1617</div>
+
+    <!-- DIMENSIONES PRINCIPALES -->
+    <div class="card">
+        <div class="card-header">
+            <span class="emoji">🧩</span>
+            <span>Dos dimensiones clave</span>
+        </div>
+        <div class="dimension-title"><span class="emoji-small">🌐</span> Contacto con la realidad</div>
+        <ul>
+            <li><strong>Prueba de realidad</strong> (Freud): diferencia estímulos internos / externos, Yo–no Yo.</li>
+            <li><strong>Adaptación</strong>: ajuste a pautas culturales y equilibrio en el intercambio con objetos.</li>
+            <li>Permite diferenciar <strong>neurosis</strong> (realidad externa más presente) de <strong>psicosis</strong>.</li>
+        </ul>
+        <div class="divider"></div>
+        <div class="dimension-title"><span class="emoji-small">🤝</span> Modalidad vincular</div>
+        <ul>
+            <li><strong>Realidad psíquica vincular</strong>: modo de ver, escuchar en un vínculo, desde el entramado fantasmático.</li>
+            <li>Se estudia en <strong>tres niveles</strong>: intrasubjetivo, intersubjetivo (reconocimiento del otro), transubjetivo (sociocultural).</li>
+            <li>Incluye: cómo regula el impacto emocional, capacidad de vínculos gratificantes.</li>
+        </ul>
+    </div>
+
+    <!-- CÓMO INDAGAR EN ENTREVISTA -->
+    <div class="card">
+        <div class="card-header">
+            <span class="emoji">🎙️</span>
+            <span>Indagación en la entrevista</span>
+        </div>
+
+        <details open>
+            <summary><span class="emoji">🌐</span> Contacto con la realidad</summary>
+            <div class="content">
+                <p><strong>Forma y contenido:</strong></p>
+                <ul>
+                    <li>Orientación en tiempo/espacio, pensamiento lógico, ausencia de expresiones bizarras.</li>
+                    <li>Lugar de lo <strong>conductual</strong>: si no puede mentalizar, tiende a actuar.</li>
+                    <li><strong>Juicio de realidad</strong>: nivel de certeza en sus opiniones.</li>
+                </ul>
+            </div>
+        </details>
+
+        <details>
+            <summary><span class="emoji">🤝</span> Modalidad vincular</summary>
+            <div class="content">
+                <ul>
+                    <li>Lo que dice y no dice sobre relaciones.</li>
+                    <li>Transferencia y contratransferencia.</li>
+                    <li>Ideologías de roles, cómo se ve a sí mismo y a los otros.</li>
+                </ul>
+                <div class="highlight-box">
+                    <strong>Áreas a indagar:</strong> Familia de origen · Pareja actual · Sexualidad · Amistades · Trabajo/estudio · Tiempo libre · Enfermedades · Proyectos a futuro.
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <!-- GRÁFICOS: INTERPRETACIÓN -->
+    <div class="card">
+        <div class="card-header">
+            <span class="emoji">🖍️</span>
+            <span>Interpretación de gráficos</span>
+        </div>
+
+        <div class="graphic-section">
+            <div class="graphic-title"><span class="emoji">🏠</span> Casa</div>
+            <p><strong>Apuntalamientos del Yo:</strong> imagen corporal y familia.</p>
+            <ul class="bullet-emoji">
+                <li><span class="emoji-bullet">🏘️</span> <strong>Estereotipo cultural</strong> → recurso adaptativo.</li>
+                <li><span class="emoji-bullet">🏚️</span> <strong>Casa-fachada</strong> → centrado en su propia imagen.</li>
+                <li><span class="emoji-bullet">🏛️</span> <strong>Diseño complejo</strong> → buena capacidad de sustitución simbólica.</li>
+                <li><span class="emoji-bullet">🌀</span> <strong>Inusual</strong> → irrupción de lógica personal, enigmático.</li>
+            </ul>
+            <p><span class="tag">interioridad</span> disponibilidad de espacio habitable para la familia.</p>
+        </div>
+
+        <div class="graphic-section">
+            <div class="graphic-title"><span class="emoji">🌳</span> Árbol</div>
+            <p><strong>Imagen de sí mismo.</strong> Metaforiza conflictos con la imagen y marcas traumáticas.</p>
+            <ul class="bullet-emoji">
+                <li><span class="emoji-bullet">📍</span> <strong>Lugar en la hoja</strong> → anticipación del crecimiento.</li>
+                <li><span class="emoji-bullet">🌱</span> <strong>Relación con la tierra</strong> → pertenencia.</li>
+                <li><span class="emoji-bullet">🪵</span> <strong>Tronco</strong> → conflictos Yo–cuerpo, impulsos.</li>
+                <li><span class="emoji-bullet">➕</span> <strong>Figuras agregadas</strong> → relaciones imaginarias.</li>
+            </ul>
+        </div>
+
+        <div class="graphic-section">
+            <div class="graphic-title"><span class="emoji">👤</span> Persona</div>
+            <p>Cuatro categorías funcionales:</p>
+            <div class="grid-2col">
+                <div class="grid-item"><span class="emoji-big">🧠</span><span class="label">Cabeza</span><br><small>comunicación, control</small></div>
+                <div class="grid-item"><span class="emoji-big">🧍</span><span class="label">Cuerpo-tronco</span><br><small>impulsos, límites</small></div>
+                <div class="grid-item"><span class="emoji-big">💪</span><span class="label">Brazos</span><br><small>contacto, dominio</small></div>
+                <div class="grid-item"><span class="emoji-big">🦶</span><span class="label">Pies</span><br><small>equilibrio, contacto</small></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CÓMO INDAGAR EN SECUENCIA GRÁFICA -->
+    <div class="card">
+        <div class="card-header">
+            <span class="emoji">📊</span>
+            <span>En la secuencia gráfica</span>
+        </div>
+
+        <details open>
+            <summary><span class="emoji">🌐</span> Contacto con la realidad</summary>
+            <div class="content">
+                <ul>
+                    <li><strong>Adecuación a la consigna</strong>: congruencia, aceptación de pautas.</li>
+                    <li><strong>Precisión formal</strong>: representación de partes, integración.</li>
+                    <li><strong>Aspectos expresivos regulados</strong>: control pulsional, límites internalizados.</li>
+                    <li><strong>Organización del pensamiento</strong>: distinción de contenidos.</li>
+                    <li><strong>Grado de humanización</strong>: completud, complejidad, integración.</li>
+                </ul>
+            </div>
+        </details>
+
+        <details>
+            <summary><span class="emoji">🤝</span> Modalidad vincular</summary>
+            <div class="content">
+                <ul>
+                    <li><strong>T2P</strong> (pareja internalizada) y todas las técnicas gráficas.</li>
+                    <li><strong>Dibujo Libre</strong> → forma de presentarse al mundo.</li>
+                    <li><strong>HTP</strong> → visión antropomórfica, imagen corporal inconsciente.</li>
+                    <li><strong>Familia</strong> → internalización de roles y funciones parentales.</li>
+                </ul>
+                <div class="inline-emojis">
+                    <span>👥</span> <span>🏡</span> <span>🌳</span> <span>👤</span> <span>✏️</span>
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footnote">
+        <span class="emoji">🧠</span> Contacto con la realidad · <span class="emoji">🤝</span> Modalidad vincular <br>
+        <span style="font-size:0.8rem;">Claves para el diagnóstico psicológico</span>
+    </div>
+
+</div>
+</body>
+</html>

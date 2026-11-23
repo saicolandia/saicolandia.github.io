@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Análisis de la Entrevista Inicial · IDEP II</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,600;0,700;1,500&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1c2b38;
+    --ink-soft:#465768;
+    --paper:#f3ecd9;
+    --paper-soft:#fbf7ec;
+    --card:#fffdf6;
+    --clip:#a3373f;
+    --clip-dark:#7f272e;
+    --border:#d9cdab;
+    --border-soft:#e6dcbf;
+
+    --c-marco:#47607a;
+    --c-realidad:#2f6b66;
+    --c-vincular:#7a4a6a;
+    --c-entrevista:#8a5a2b;
+    --c-graficas:#4d6b2f;
+    --c-tro:#5c4b8a;
+    --c-informe:#a3373f;
+    --c-biblio:#3b5266;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(255,255,255,0.5), transparent 40%),
+      var(--paper);
+    color:var(--ink);
+    font-family:'Public Sans',system-ui,sans-serif;
+    line-height:1.55;
+    padding-bottom:60px;
+  }
+  h1,h2,h3,h4{
+    font-family:'Zilla Slab',Georgia,serif;
+    margin:0 0 .3em 0;
+    letter-spacing:.2px;
+  }
+  a{color:inherit;}
+  .wrap{max-width:720px;margin:0 auto;padding:0 14px;}
+
+  /* ---------- HEADER ---------- */
+  header.top{
+    background:var(--ink);
+    color:var(--paper-soft);
+    padding:22px 16px 18px;
+    position:relative;
+    overflow:hidden;
+    border-bottom:6px solid var(--clip);
+  }
+  header.top::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.035) 0 2px, transparent 2px 26px);
+    pointer-events:none;
+  }
+  .eyebrow{
+    display:flex;align-items:center;gap:8px;
+    font-size:.8rem;color:#c9b98a;font-weight:600;
+    margin-bottom:6px;
+  }
+  .stamp{
+    display:inline-block;
+    border:2px solid var(--clip);
+    color:var(--clip);
+    background:rgba(163,55,63,0.08);
+    font-family:'Zilla Slab',serif;
+    font-weight:700;
+    font-style:italic;
+    font-size:.7rem;
+    padding:2px 9px;
+    border-radius:5px;
+    transform:rotate(-4deg);
+    white-space:nowrap;
+  }
+  header.top h1{
+    font-size:1.5rem;
+    color:#fff;
+    max-width:520px;
+    position:relative;
+  }
+  header.top .sub{
+    color:#cfd9e2;
+    font-size:.92rem;
+    max-width:480px;
+    position:relative;
+  }
+  .authors{
+    margin-top:12px;
+    font-size:.78rem;
+    color:#a9b6c2;
+    position:relative;
+    line-height:1.5;
+  }
+  .authors b{color:#dfe6ec;}
+
+  /* ---------- TABS ---------- */
+  nav.tabs{
+    position:sticky; top:0; z-index:40;
+    background:var(--paper-soft);
+    border-bottom:1px solid var(--border);
+    box-shadow:0 6px 14px -10px rgba(0,0,0,0.35);
+  }
+  .tabs-scroll{
+    display:flex; gap:8px;
+    overflow-x:auto;
+    padding:10px 12px;
+    scrollbar-width:none;
+  }
+  .tabs-scroll::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    flex:0 0 auto;
+    display:flex; flex-direction:column; align-items:center; gap:2px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-bottom:3px solid var(--border);
+    border-radius:12px 12px 4px 4px;
+    padding:8px 12px 6px;
+    font-family:'Public Sans',sans-serif;
+    font-weight:700;
+    font-size:.68rem;
+    color:var(--ink-soft);
+    cursor:pointer;
+    white-space:nowrap;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .tab-btn .ic{font-size:1.35rem;line-height:1;}
+  .tab-btn.active{
+    color:#fff;
+    transform:translateY(-2px);
+    box-shadow:0 4px 10px -4px rgba(0,0,0,0.4);
+  }
+  .tab-btn[data-tab="marco"].active{background:var(--c-marco);border-color:var(--c-marco);}
+  .tab-btn[data-tab="realidad"].active{background:var(--c-realidad);border-color:var(--c-realidad);}
+  .tab-btn[data-tab="vincular"].active{background:var(--c-vincular);border-color:var(--c-vincular);}
+  .tab-btn[data-tab="entrevista"].active{background:var(--c-entrevista);border-color:var(--c-entrevista);}
+  .tab-btn[data-tab="graficas"].active{background:var(--c-graficas);border-color:var(--c-graficas);}
+  .tab-btn[data-tab="tro"].active{background:var(--c-tro);border-color:var(--c-tro);}
+  .tab-btn[data-tab="informe"].active{background:var(--c-informe);border-color:var(--c-informe);}
+  .tab-btn[data-tab="biblio"].active{background:var(--c-biblio);border-color:var(--c-biblio);}
+
+  /* ---------- PANELS ---------- */
+  .panel{display:none; padding:16px 0 8px;}
+  .panel.active{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+
+  .panel-head{
+    display:flex; align-items:center; gap:12px;
+    margin:6px 4px 16px;
+  }
+  .panel-head .ic-big{
+    font-size:2.3rem;
+    filter:drop-shadow(0 2px 2px rgba(0,0,0,0.15));
+  }
+  .panel-head h2{font-size:1.25rem;color:var(--ink);}
+  .panel-head p{margin:2px 0 0; font-size:.83rem; color:var(--ink-soft);}
+
+  /* ---------- CARD / ACCORDION ---------- */
+  details.card{
+    background:var(--card);
+    border:1px solid var(--border-soft);
+    border-radius:var(--radius);
+    margin:0 4px 12px;
+    box-shadow:0 2px 6px -3px rgba(28,43,56,0.18);
+    overflow:hidden;
+  }
+  details.card[open]{box-shadow:0 6px 16px -6px rgba(28,43,56,0.28);}
+  summary.card-h{
+    list-style:none;
+    cursor:pointer;
+    display:flex; align-items:center; gap:12px;
+    padding:13px 14px;
+    font-family:'Zilla Slab',serif;
+    font-weight:600;
+    font-size:1.02rem;
+    color:var(--ink);
+    -webkit-tap-highlight-color:transparent;
+  }
+  summary.card-h::-webkit-details-marker{display:none;}
+  summary.card-h .emo{font-size:1.5rem; flex:0 0 auto;}
+  summary.card-h .ttl{flex:1;}
+  summary.card-h .chev{
+    font-size:1rem; color:var(--ink-soft);
+    transition:transform .25s ease;
+    flex:0 0 auto;
+  }
+  details[open] summary.card-h .chev{transform:rotate(180deg);}
+  .card-body{
+    padding:0 16px 16px 48px;
+    font-size:.93rem;
+    color:#2b3947;
+  }
+  .card-body p{margin:0 0 10px;}
+  .card-body ul{margin:0 0 10px; padding-left:18px;}
+  .card-body li{margin-bottom:6px;}
+  .card-body .tag{
+    display:inline-block;
+    font-size:.68rem;
+    font-weight:700;
+    padding:2px 8px;
+    border-radius:20px;
+    margin:0 6px 6px 0;
+    background:rgba(0,0,0,0.05);
+  }
+  .quote{
+    border-left:3px solid var(--border);
+    padding:6px 10px;
+    margin:8px 0;
+    font-style:italic;
+    color:var(--ink-soft);
+    background:rgba(0,0,0,0.02);
+    border-radius:0 8px 8px 0;
+    font-size:.88rem;
+  }
+  .mini-h{
+    font-family:'Zilla Slab',serif;
+    font-weight:700;
+    font-size:.88rem;
+    margin:12px 0 4px;
+    color:var(--ink);
+  }
+  .authorline{font-size:.78rem;color:var(--ink-soft);}
+
+  /* grid of small area-cards */
+  .area-grid{display:grid; grid-template-columns:1fr; gap:10px; padding:0 4px;}
+  .area-card{
+    background:var(--card);
+    border:1px solid var(--border-soft);
+    border-radius:12px;
+    padding:12px 14px;
+    box-shadow:0 2px 5px -3px rgba(0,0,0,0.15);
+  }
+  .area-card h4{
+    display:flex; align-items:center; gap:8px;
+    font-size:.98rem; margin-bottom:4px;
+  }
+  .area-card h4 .emo{font-size:1.2rem;}
+  .area-card p{margin:0; font-size:.87rem; color:#3a4856;}
+
+  /* nono-verbal chips */
+  .split2{display:grid; grid-template-columns:1fr; gap:10px;}
+  @media(min-width:560px){.split2{grid-template-columns:1fr 1fr;}}
+
+  /* progress */
+  .progress-wrap{
+    margin:0 4px 18px;
+    background:var(--card);
+    border:1px solid var(--border-soft);
+    border-radius:12px;
+    padding:10px 14px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .progress-bar{flex:1; height:8px; background:#e7ddc2; border-radius:6px; overflow:hidden;}
+  .progress-fill{height:100%; width:0%; background:linear-gradient(90deg,var(--c-realidad),var(--c-vincular)); transition:width .4s ease;}
+  .progress-txt{font-size:.72rem; font-weight:700; color:var(--ink-soft); white-space:nowrap;}
+
+  .not-ok{
+    background:rgba(163,55,63,0.06);
+    border:1px dashed var(--clip);
+    border-radius:10px;
+    padding:10px 12px;
+    margin:8px 0;
+    font-size:.87rem;
+  }
+  .not-ok b{color:var(--clip-dark);}
+  .ok-box{
+    background:rgba(77,107,47,0.07);
+    border:1px solid rgba(77,107,47,0.35);
+    border-radius:10px;
+    padding:10px 12px;
+    margin:8px 0;
+    font-size:.87rem;
+  }
+
+  .biblio-list{padding:0 4px;}
+  .biblio-item{
+    display:flex; gap:10px;
+    background:var(--card);
+    border:1px solid var(--border-soft);
+    border-radius:10px;
+    padding:9px 12px;
+    margin-bottom:8px;
+    font-size:.82rem;
+    color:#2f3d4a;
+  }
+  .biblio-item .emo{flex:0 0 auto;}
+
+  footer{
+    text-align:center;
+    font-size:.72rem;
+    color:var(--ink-soft);
+    padding:26px 20px 10px;
+  }
+
+  table.t2p{
+    width:100%;
+    border-collapse:collapse;
+    font-size:.78rem;
+    margin:8px 0;
+  }
+  table.t2p td, table.t2p th{
+    border:1px solid var(--border);
+    padding:5px 6px;
+    text-align:left;
+  }
+  table.t2p th{background:rgba(0,0,0,0.04);}
+
+  .tocbtn{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--ink); color:#fff;
+    border:none; border-radius:20px;
+    padding:6px 12px; font-size:.72rem; font-weight:700;
+    margin:0 4px 14px;
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="eyebrow">🗂️ <span>CÁTEDRA · INSTRUMENTOS DE EXPLORACIÓN PSICOLÓGICA II</span></div>
+  <h1>Análisis de la Entrevista Inicial</h1>
+  <p class="sub">Orientaciones para la práctica del estudiante — dimensiones de análisis, técnicas gráficas, TRO y estructura del informe grupal.</p>
+  <span class="stamp">📌 material de circulación interna · 2017</span>
+  <div class="authors">
+    <b>Facultad de Psicología · UNMdP</b><br>
+    Lic. Colacci, R. · Lic. Iglesias, L. · Lic. Marín, P. · Lic. Pérez Lalli, M. · Lic. Rodriguez, F.
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="tabs-scroll" id="tabsScroll">
+    <button class="tab-btn active" data-tab="marco"><span class="ic">🧭</span>Marco</button>
+    <button class="tab-btn" data-tab="realidad"><span class="ic">🧠</span>Realidad</button>
+    <button class="tab-btn" data-tab="vincular"><span class="ic">🤝</span>Vínculo</button>
+    <button class="tab-btn" data-tab="entrevista"><span class="ic">🎙️</span>Entrevista</button>
+    <button class="tab-btn" data-tab="graficas"><span class="ic">🎨</span>Gráficas</button>
+    <button class="tab-btn" data-tab="tro"><span class="ic">🖼️</span>TRO</button>
+    <button class="tab-btn" data-tab="informe"><span class="ic">📋</span>Informe</button>
+    <button class="tab-btn" data-tab="biblio"><span class="ic">📚</span>Biblio</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<div class="progress-wrap">
+  <span style="font-size:1.1rem;">🔖</span>
+  <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+  <span class="progress-txt" id="progTxt">0/34 secciones leídas</span>
+</div>
+
+<!-- ================= MARCO ================= -->
+<section class="panel active" id="panel-marco">
+  <div class="panel-head">
+    <span class="ic-big">🧭</span>
+    <div><h2>Marco general de la guía</h2><p>Para qué sirve este material y cómo se organiza el trabajo grupal</p></div>
+  </div>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">👥</span><span class="ttl">Elección de la carpeta para el análisis grupal</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>Una vez administrada y corregida la batería individual (por el ATP), se forman grupos de <b>3 a 5 integrantes</b>. Junto al docente, el grupo elige <b>un caso completo</b> para analizar colectivamente.</p>
+      <ul>
+        <li>El informe grupal se entrega y corrige con el docente.</li>
+        <li>Recién ahí el grupo queda habilitado para presentarse al <b>Coloquio</b>.</li>
+        <li>⚠️ La calificación del Coloquio es <b>individual</b>, aunque el análisis sea grupal.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🎯</span><span class="ttl">Propósito pedagógico: 3 pasos</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <ul>
+        <li><b>1.</b> Un punteo de preguntas orientadoras para la exploración inicial del material (con aportes de Nélida Álvarez, Diagnóstico Diferencial).</li>
+        <li><b>2.</b> Dos dimensiones de análisis operacionalizadas — <b>contacto con la realidad</b> y <b>modalidad vincular</b> — para construir preguntas y argumentar con indicadores.</li>
+        <li><b>3.</b> Articulación de preguntas emergentes propias del caso trabajado.</li>
+      </ul>
+      <div class="quote">💡 En la clínica real, la exploración se guía por el motivo de consulta y la demanda. En otros ámbitos (educacional, laboral, forense), la guían los interrogantes de la evaluación. En esta práctica de aprendizaje, la demanda está "invertida": el motivo de la entrevista es colaborar con la cátedra — por eso se ofrecen dimensiones ya definidas, a modo de preguntas orientadoras que en la clínica real irían apareciendo solas.</div>
+    </div>
+  </details>
+</section>
+
+<!-- ================= CONTACTO CON LA REALIDAD ================= -->
+<section class="panel" id="panel-realidad">
+  <div class="panel-head">
+    <span class="ic-big">🧠</span>
+    <div><h2>Dimensión 1 · Contacto con la realidad</h2><p>Cómo el sujeto distingue mundo interno y externo</p></div>
+  </div>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🔬</span><span class="ttl">La prueba de realidad (Freud)</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>Según <b>Laplanche y Pontalis (1981)</b>, las funciones de realidad son procesamientos que categorizan, aprehenden y discriminan la realidad en cada etapa evolutiva — el sujeto registra conscientemente sólo algunos resultados.</p>
+      <p>Freud postula la <b>prueba de realidad en 1911</b>: el proceso que permite distinguir estímulos del mundo exterior de los internos, evitando confundir lo percibido con lo meramente representado. Distingue si una idea proviene de huellas mnémicas (mundo interno) o de percepciones (realidad exterior), y está asociada a la discriminación <b>yo – no yo</b> (Freud, 1924).</p>
+      <p>Esta prueba diferencia la <b>psicosis de la neurosis</b>: en la neurosis se tiene mucho más en cuenta la realidad externa. En 1938, Freud la describe como un dispositivo "especial" que se activa porque las huellas mnémicas pueden volverse conscientes igual que las percepciones — el Yo se protege de esa posible confusión mediante la prueba de realidad.</p>
+      <span class="authorline">📖 Freud (1911, 1924, 1938)</span>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🌀</span><span class="ttl">Piera Aulagnier: objeto real vs. objeto memorizado</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>La prueba de realidad, como dispositivo, da acceso a las cualidades que permiten separar el <b>objeto real</b> del <b>objeto memorizado</b>. En la psicosis, esta capacidad de discriminación deja de ser posible.</p>
+      <p>Una primera condición de supervivencia exige poder <b>renunciar a la creencia en la omnipotencia mágica del pensamiento</b>.</p>
+      <div class="mini-h">Exigencias de la realidad</div>
+      <p>Además de diferenciar percepción/alucinación, las exigencias de la realidad distinguen los objetos <b>permitidos</b> de los <b>interdictos</b>. Tanto la desviación parcial del neurótico como la renegación del perverso implican que esa exigencia ya fue "oída" antes de ser rechazada o desviada.</p>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🌳</span><span class="ttl">La exigencia de interpretación</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>Todo fenómeno cobra una significación que depende de la causa que el sujeto se da a sí mismo sobre su propia existencia y acción.</p>
+      <div class="quote">Ejemplo: un sujeto puede percibir correctamente un árbol y, al mismo tiempo, pensar que lo pusieron allí para indicarle que no debe avanzar.</div>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">⚖️</span><span class="ttl">Adaptación a la realidad</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>Es el grado de ajuste a las pautas normativas de la cultura <span class="authorline">(Peyrú, 1981)</span>: colaboración activa con la sociedad (incluso para cambiarla), no mero sometimiento.</p>
+      <p>Desde lo psíquico: equilibrio entre sujeto y objetos, donde el conocimiento transforma al individuo en sujeto y al medio en objeto.</p>
+      <p>También se define como una <b>síntesis</b> entre originalidad personal y aceptación de pautas sociales — plasticidad + consenso social, es decir, la posibilidad de compartir códigos comunes con otros <span class="authorline">(Passalacqua et al., 2002)</span>.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= MODALIDAD VINCULAR ================= -->
+<section class="panel" id="panel-vincular">
+  <div class="panel-head">
+    <span class="ic-big">🤝</span>
+    <div><h2>Dimensión 2 · Modalidad vincular</h2><p>El origen vincular del psiquismo y cómo leer los vínculos actuales</p></div>
+  </div>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">👶</span><span class="ttl">El origen vincular del psiquismo</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>Desde la teoría psicoanalítica, nacer no es sólo un hecho biológico: se inscribe en los discursos que habitaron al bebé incluso antes de nacer. Por su prematuración psíquica y neurológica, el recién nacido necesita de otro ser humano (<b>función de sostén</b>): se instituye una simbiosis con el cuerpo y el psiquismo maternal.</p>
+      <p>La <b>función materna</b> actúa como portavoz, codificando/significando lo que el <i>infans</i> aún no puede hacer por sí solo <span class="authorline">(Piera Aulagnier)</span>.</p>
+      <p>La primera representación del recién nacido es la de un <b>vínculo</b> (madre/bebé): por empatía materna, la díada funciona como vasos comunicantes que mantienen constante la demanda y su satisfacción.</p>
+      <p>Esa unidad dual termina con la separación progresiva de ambos psiquismos. Queda un resto en el Ello, escindido entre el <b>deseo de fusión</b> y la <b>necesidad de desprendimiento</b> — tensión presente en todo ser humano.</p>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🪞</span><span class="ttl">Silvia Gomel: la marca del vínculo</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>La realidad psíquica vincular —irreductible tanto a los hechos del mundo exterior como a la pura subjetividad— deja sus marcas en el <b>modo de ver, escuchar y sentir</b> dentro de un vínculo, producto de la lógica relacional que organiza lo representable a partir de un entramado fantasmático.</p>
+      <p>Para comprender la modalidad vincular hay que tener en cuenta: predominio del proceso secundario, discriminación mundo externo/interno y yo/no-yo, desarrollo pulsional y etapas psicosexuales, identificaciones y su relación con la conflictiva edípica.</p>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">💞</span><span class="ttl">Vínculo ≠ relación (Ethel Kacero)</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>Retomando a Bion, Kacero (2009) define el vínculo como <i>"una experiencia emocional correspondiente a la ligadura entre dos personas, partes de la misma persona, entre emociones y significados, entre ideas"</i>. Toda experiencia emocional implica una relación, y todo vínculo encierra una experiencia emocional.</p>
+      <ul>
+        <li><b>Vínculo:</b> la ligadura inconsciente.</li>
+        <li><b>Relación:</b> las formas de manifestación de superficie que nos permiten observar la matriz inconsciente del vínculo.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🔺</span><span class="ttl">Los 3 planos de análisis (Berenstein)</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <ul>
+        <li><b>Intrasubjetivo</b> — despliegue de la relación de objeto: estructura mental y emocional.</li>
+        <li><b>Intersubjetivo</b> — ligaduras entre distintos sujetos (prototipo: vínculos familiares). Se espera reconocer al otro como distinto, aceptándolo en su ajenidad; si se rehúsa reconocerla, puede regresarse a la vivencia de "lo Uno" o reducir al otro a objeto de necesidad.</li>
+        <li><b>Transubjetivo</b> — significados y significantes socioculturales que atraviesan subjetividades y vínculos (procesos ideológicos, representaciones culturales).</li>
+      </ul>
+      <p>Los tres planos <b>coexisten y se interpenetran</b>: las hipótesis interpretativas dependerán del punto de vista y de la demanda.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= ENTREVISTA ================= -->
+<section class="panel" id="panel-entrevista">
+  <div class="panel-head">
+    <span class="ic-big">🎙️</span>
+    <div><h2>La entrevista inicial</h2><p>Áreas de indagación y aspectos relevantes a observar</p></div>
+  </div>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🗺️</span><span class="ttl">Áreas que explora la entrevista semidirigida</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <div class="area-grid">
+        <div class="area-card"><h4><span class="emo">👨‍👩‍👧</span>Familia de origen</h4><p>Figuras de identificación, modelos vinculares vivenciados, imagen infantil/actual, elaboración de duelos, incidencia de crisis y de la conflictiva edípica, fantasías sobre la pareja parental.</p></div>
+        <div class="area-card"><h4><span class="emo">💑</span>Pareja actual</h4><p>Existencia o no de pareja, historia de vínculos previos, caracterización del objeto elegido, constancia/labilidad, consolidación formal del vínculo.</p></div>
+        <div class="area-card"><h4><span class="emo">🌹</span>Sexualidad</h4><p>Existencia de relaciones sexuales, capacidad de goce, asunción del rol sexual, coherencia con la familia de origen, distribución de roles.</p></div>
+        <div class="area-card"><h4><span class="emo">🧑‍🤝‍🧑</span>Amistades</h4><p>Existencia o ausencia de vínculos, capacidad de establecer vínculos fuera del ámbito familiar (exogamia).</p></div>
+        <div class="area-card"><h4><span class="emo">💼</span>Trabajo y estudio</h4><p>Elección vocacional, capacidad intelectual y de elección, estabilidad laboral, vínculo con la tarea/pares/superiores, satisfacción, consistencia con los intereses vocacionales.</p></div>
+        <div class="area-card"><h4><span class="emo">🎨</span>Tiempo libre</h4><p>Capacidad de goce del ocio, flexibilidad/rigidez, alternancia entre actividades compartidas e individuales, uso compensatorio, capacidad de sublimación.</p></div>
+        <div class="area-card"><h4><span class="emo">🏥</span>Enfermedades</h4><p>Operaciones, accidentes, reacción al daño corporal, antecedentes hereditarios, significación del momento, identificaciones con figuras enfermas.</p></div>
+        <div class="area-card"><h4><span class="emo">🔭</span>Proyecto de futuro</h4><p>Posibilidad de catectizar fines, auto-anticiparse, catectizar el propio cambio y la transformación de los objetos que sostienen el deseo.</p></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🎭</span><span class="ttl">Implicación subjetiva</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>Preguntas orientadoras: ¿explicita alguna dificultad en su relato?, ¿cómo la aborda?, ¿genera preguntas espontáneas al respecto?, ¿da una explicación "cerrada"?, ¿marca los términos del conflicto sin integrarlos a sus vivencias emocionales?</p>
+      <p>Orientan a pensar la <b>egodistonía/egosintonía</b> de un síntoma y la posibilidad del sujeto de posicionarse subjetivamente frente a su sufrimiento, o de simplemente generar pregunta.</p>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🔁</span><span class="ttl">Eje transferencial</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>¿Hay un modo de vinculación que insiste en su relato, en su conducta hacia los demás, y hacia el entrevistador? ¿Qué tipo de vínculo intenta establecer (seductor, confuso, manipulador, evitativo, de distancia impuesta, dependiente)? ¿Le supone saber al psicólogo o muestra indiferencia/desprecio/subestimación? ¿Qué imágenes, recuerdos y sentimientos afloran en el entrevistador (eje contratransferencial)?</p>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">📐</span><span class="ttl">Actitud hacia la entrevista y el encuadre</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>¿Hay reconocimiento del encuadre y la consigna? ¿Concuerdan el discurso verbalizado y la conducta manifiesta? ¿Aparecen conductas bizarras o no pertinentes, y en relación a qué situaciones relatadas?</p>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🫥</span><span class="ttl">Comunicación no verbal</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <div class="split2">
+        <div class="area-card"><h4><span class="emo">🤸</span>Quinésica</h4><p>Movimiento corporal: gestos, expresión facial, contacto ocular, postura. También aspecto físico y estilo de vestir — nunca son información neutra.</p></div>
+        <div class="area-card"><h4><span class="emo">🎵</span>Paralingüística</h4><p>El modo de decir el mensaje verbal: calidad de voz, vocalizaciones, velocidad, volumen, silencios, pausas, fluidez, errores del habla (ej: respiración agitada = excitación por miedo o enfado).</p></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">💬</span><span class="ttl">Modalidad discursiva</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>Calidad/tipo de vocabulario, profundidad de los temas, uso de metáforas, capacidad de generalizar y sacar conclusiones, uso de la lógica. ¿Sostiene la palabra de forma lógica, personalista o caótica? ¿Puede moverse entre distintos tiempos (pasado/presente/futuro) al expresarse, articulando lo vivido con lo actual?</p>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🪪</span><span class="ttl">Autopresentación</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>¿Cómo inicia y organiza el campo? ¿Cómo se presenta, describe y define a sí mismo (rasgos de carácter, roles, intereses)? ¿Cuál es la imagen de sí que muestra, y qué aspectos valora/desvaloriza? ¿Hay mayor énfasis en áreas conflictivas, en áreas "adaptativas", o alternando?</p>
+      <p>Permite ver cómo el sujeto define su identidad a través de lo que es, lo que desearía ser y lo que cree que otros piensan de él.</p>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🫂</span><span class="ttl">El otro en el discurso</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>¿Registra al otro en su relato? ¿Qué lugar tienen los demás? ¿Qué roles y cualidades les asigna (persecutorio, contenedor, poderoso, frágil)?</p>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">❤️‍🔥</span><span class="ttl">Emocionalidad</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>¿Puede referir estados sentimentales, articular emociones en el relato, expresarlas en la conducta? ¿Varía el clima emocional según el contenido? ¿Predomina el pensamiento sobre la expresión emocional? ¿Puede integrar diversos estados internos en su discurso?</p>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🧩</span><span class="ttl">Aspectos cognitivo-intelectuales</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>Retoma la modalidad discursiva para inferir eficiencia intelectual, memoria, atención, percepción y comprensión. ¿Se autoorganiza en sus respuestas? ¿Comprende las preguntas y responde coherentemente? ¿Cuenta con vocabulario suficiente y lo usa eficientemente? ¿Hay evidencia de alteraciones de memoria/atención y cómo se articulan con los mecanismos de defensa?</p>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🔍</span><span class="ttl">Cómo leer las dos dimensiones EN la entrevista</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <div class="mini-h">🧠 Contacto con la realidad — indicadores de proceso secundario</div>
+      <ul>
+        <li>Orientación témporo-espacial.</li>
+        <li>Pensamiento organizado y lógico, discurso entendible.</li>
+        <li>Ausencia de alteraciones sensoperceptivas.</li>
+        <li>Ausencia de neologismos, sintaxis personalista o pensamiento delirante.</li>
+      </ul>
+      <div class="mini-h">🧠 Comprensión y adaptación a pautas</div>
+      <ul>
+        <li>Percepciones convencionales y conductas adecuadas al encuadre.</li>
+        <li>Lenguaje comprensible y esfuerzo por hacerse entender.</li>
+        <li>Referencias a situaciones sociales sostenidas en el tiempo (trabajo, estudio, ocio).</li>
+        <li>Coherencia entre estados afectivos referidos y conductas.</li>
+      </ul>
+      <div class="mini-h">🧠 Juicio de realidad</div>
+      <p>Nivel de certeza al expresar opiniones, y si aparece cierto relativismo: la posibilidad de concebir hechos de diferente manera según quién observa.</p>
+      <div class="mini-h">🤝 Modalidad vincular — 5 fuentes mínimas</div>
+      <ul>
+        <li>Lo que dice (y no dice) de sus relaciones (amigos, familia, compañeros).</li>
+        <li>Lo que se expresa en el vínculo con el entrevistador, en acto (dimensión transferencial-contratransferencial).</li>
+        <li>Ideologías de rol ("Una buena madre debe...").</li>
+        <li>Visión que atribuye a otros sobre sí ("Mis amigos dicen que soy...").</li>
+        <li>Su propia imagen ("Porque yo soy...").</li>
+      </ul>
+      <p>No se busca encuadrar al sujeto en una tipología, sino elaborar inferencias sobre la regularidad de su modo de contacto con los demás.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= TÉCNICAS GRÁFICAS ================= -->
+<section class="panel" id="panel-graficas">
+  <div class="panel-head">
+    <span class="ic-big">🎨</span>
+    <div><h2>Técnicas gráficas</h2><p>Ejes comunes, Dibujo Libre, HTP, La Pareja y Test de la Familia</p></div>
+  </div>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🧷</span><span class="ttl">Tres ejes comunes a toda técnica gráfica</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <div class="mini-h">a) Actitud hacia la tarea y el entrevistador</div>
+      <p>¿Evita la consigna? ¿Se excusa de antemano? ¿Acusa al entrevistador de "someterlo" o, al contrario, muestra alegre añoranza? Habla del contacto con aspectos arcaicos e infantiles, de cómo "pone en juego el cuerpo" ante la demanda del otro — aspectos transferenciales y contratransferenciales.</p>
+      <div class="mini-h">b) Visión gestáltica</div>
+      <p>El primer impacto de la producción, más allá de lo que el sujeto verbalice: ¿aparece con elaboraciones personalizadas, ajuste excesivo a lo convencional, o déficit en la realización? ¿Cómo se invistió o desinvistió la figura? ¿Hay logro simbólico a nivel metafórico? ¿Algún detalle, adición u omisión llama la atención a primera vista?</p>
+      <div class="mini-h">c) Pautas formales y de contenido</div>
+      <p>El <i>cómo</i> y el <i>qué</i> del dibujo. Tamaño, trazo, emplazamiento y presión son cualidades del movimiento gráfico: según Nélida Álvarez, se vuelven relevantes cuando se transforman en <b>figura</b> — un texto que reclama interpretación por su recurrencia, potencia o evidencia.</p>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">✏️</span><span class="ttl">El Dibujo Libre (DL)</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <div class="quote">"Para el psicólogo el primer dibujo da cuenta de los recursos psíquicos con los que cuenta el yo. Será la presentación del sujeto..." — Nélida Álvarez</div>
+      <p>Preguntas orientadoras: ¿cómo se presenta a sí mismo? ¿cómo se posiciona frente a su ambiente? ¿qué modo de representación elige (abstracta, figurativa, esquemática, dramática)? ¿hay metaforización del conflicto en relación con lo escuchado en la entrevista?</p>
+      <p>Otras preguntas de N. Álvarez, especialmente útiles con el DL: ¿puede estructurar el espacio al modo escénico? ¿puede diferenciar y sintetizar bien las figuras? ¿les da dinamismo en su intercambio con el escenario/espectador? ¿las funciones de comunicación aparecen representadas? ¿usa recursos retóricos de omisión, adición o permutación?</p>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🏠</span><span class="ttl">HTP · La Casa</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>Pone en juego dos apuntalamientos del yo: <b>imagen corporal</b> y <b>familia</b> como grupo de pertenencia. Clave central (N. Álvarez): si la casa tiene o no <b>interioridad</b> — habla tanto del espacio habitable por la familia como de lo interior para el funcionamiento del yo.</p>
+      <p><b>Preguntas:</b> ¿responde al estereotipo o es un diseño personal? ¿tiene interioridad o es "fachada"? ¿cómo son las articulaciones adentro/afuera (puerta, ventanas, camino, chimenea)? ¿está representado el espacio extrafamiliar?</p>
+      <div class="mini-h">4 formas de diseño</div>
+      <ul>
+        <li><b>Estereotipo cultural</b> — puede ser un buen recurso adaptativo, presente en la mayoría de los evaluados.</li>
+        <li><b>Casa-fachada</b> — se simplifica al frente o techo; primera hipótesis de dificultad para tomar distancia psíquica (funcionamiento fronterizo); puede reflejar centramiento narcisista, estable o ligado a una problemática actual.</li>
+        <li><b>Diseño más complejo/personalizado</b> — buenos recursos del yo para sustituciones simbólicas; si en cambio sólo agrega partes (nuevos cuerpos, pisos), puede reflejar apego y dificultad para la autonomía familiar.</li>
+        <li><b>Diseño inusual</b> — irrumpe una lógica personal; hay que diferenciar si lo extraño invade ampliamente (posible desprendimiento del criterio de realidad) o queda acotado dentro del código compartido.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🌳</span><span class="ttl">HTP · El Árbol</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>Se relaciona con la imagen que el evaluado tiene de sí mismo; permite metaforizar conflictos con la propia imagen, y suele traer marcas de acontecimientos traumáticos alejados del discurso manifiesto consciente.</p>
+      <p><b>Preguntas:</b> ¿responde al estereotipo o tiene elaboración personal? ¿da cuenta de arraigo a la tierra? ¿cómo creció (ramificado, con frutos, torcido, con marcas)? ¿qué potencial de crecimiento tiene? ¿cómo imagina el lugar donde está plantado?</p>
+      <div class="mini-h">4 relaciones básicas a observar</div>
+      <ul>
+        <li><b>Lugar en el espacio gráfico</b> — cómo anticipa el sujeto las posibilidades de la figura para seguir creciendo.</li>
+        <li><b>Relación con la tierra</b> — pertenencia e identidad; alteraciones (raíces muy visibles, tierra ausente) sugieren problemática de origen, fallas en el vínculo temprano o desarraigo migratorio.</li>
+        <li><b>Forma de tronco y copa</b> — el tronco proyecta conflictos del yo con el cuerpo y el manejo de impulsos; la copa es el área de mayor dinamismo (metas, organización, vínculos).</li>
+        <li><b>Figuras agregadas</b> — nidos, hamacas, casitas: desplazamientos de relaciones imaginarias vividas con árboles en la infancia.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🧍</span><span class="ttl">HTP · La Persona (DFH)</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>El estudiante no dibuja "persona" por consigna directa, pero se analiza el DFH incluido en el Test de la Pareja, la Familia, o en el DL si el sujeto elige dibujar personas.</p>
+      <p><b>Preguntas:</b> ¿está elaborada o es esquemática? ¿cómo es su postura? ¿qué grado de humanización presenta? ¿cómo son sus relaciones con el entorno (mirada, movimiento, expresividad)?</p>
+      <div class="mini-h">4 categorías funcionales (Karen Machover)</div>
+      <ul>
+        <li><b>Cabeza</b> — comunicación y control: rasgos faciales asociados a comunicación social, conflictos sexuales (nariz/cabello), nutrición y lenguaje (boca).</li>
+        <li><b>Cuerpo-tronco</b> — depósito de impulsos y potencial de crecimiento; tórax/senos como poder físico/nutricio; área inferior = genitalidad.</li>
+        <li><b>Brazos</b> — contacto y dominio del ambiente.</li>
+        <li><b>Pies</b> — contacto y equilibrio.</li>
+      </ul>
+      <p>Dos ejes de lectura clave: <b>grado de integración/fragmentación</b> (límites, espacios vacíos → ansiedades de fragmentación) y <b>grado de humanización</b> (dominio cognitivo + investidura libidinal, especialmente rostro y postura).</p>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">👫</span><span class="ttl">La Pareja / T2P (Jaime Bernstein)</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>Pregunta básica: <b>¿quién comparte con quién?</b> — vínculo asimétrico (adulto-niño), de paridad, entre iguales o distinto sexo; carácter familiar o social.</p>
+      <table class="t2p">
+        <tr><th>Eje</th><th>Qué observa</th></tr>
+        <tr><td>Modalidad de la tarea</td><td>Capacidad de cumplir la consigna; actitud hacia tarea/entrevistador (transferencia)</td></tr>
+        <tr><td>Aspectos gráficos</td><td>Pautas formales (secuencia, ubicación, tamaño, trazo, presión, kinesia), adiciones/omisiones, análisis intra e interfiguras</td></tr>
+        <tr><td>Aspectos verbales</td><td>Nombre/edad, historia (emplazamiento, extensión, escritura, lenguaje, causalidad), título</td></tr>
+        <tr><td>Síntesis</td><td>Integración gráfico-verbal con el resto de la batería</td></tr>
+      </table>
+      <p>Preguntas de N. Álvarez: ¿establece vínculo entre las figuras y arma una historia? ¿se involucra directamente (nombra, escribe desde vivencias propias)? ¿qué vínculo/conflicto metaforiza? ¿cómo es la humanización comparada con el HTP? ¿qué efecto tienen las adiciones/omisiones? ¿hay discrepancia entre lo escrito y lo graficado?</p>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">👪</span><span class="ttl">Test de la Familia (Corman)</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>Criterios de análisis intratest:</p>
+      <ul>
+        <li>Primera impresión gestáltica.</li>
+        <li>Conducta general (verbal y no verbal).</li>
+        <li>Características formales del dibujo (intra e inter test).</li>
+        <li>Primera figura dibujada y secuencia/ritmo de trabajo.</li>
+        <li>Personajes incluidos, adiciones y omisiones.</li>
+        <li><b>Configuración espacial y ámbitos:</b> manejo del espacio (compacta, dispersa, armónica, confusa); ámbitos individuales o compartidos; escenarios ricos/pobres, coherentes/bizarros, acogedores/inhóspitos.</li>
+        <li>Características individuales de las figuras: indicadores de Machover, Hammer y Koppitz; diferenciación por sexo/edad/rol vs. figuras intercambiables; tamaño y área relativos; postura y kinesia.</li>
+        <li>Acciones asignadas y roles inferidos: conjuntas, individuales, incompatibles o complementarias; direccionalidad (acercamiento/alejamiento); área mental, social o corporal.</li>
+        <li>Objetos y escenarios: pueden ser depositarios de fantasías de vínculo y afecto.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🧭</span><span class="ttl">Ambas dimensiones en las técnicas gráficas</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <div class="mini-h">🧠 Contacto con la realidad — 5 aspectos</div>
+      <ul>
+        <li><b>Adecuación a la consigna</b> — responder de modo congruente (diferenciar transgresión de dificultad cognitiva u oposicionismo).</li>
+        <li><b>Precisión formal</b> — buena representación, diferenciación e integración de partes/zonas. Ej: una figura no delimitada respecto de la hoja (ruptura gestáltica) sugiere fallas en la discriminación yo/no-yo.</li>
+        <li><b>Aspectos expresivos regulados</b> — presión = control pulsional; trazo = límites internalizados entre interior y exterior de las figuras.</li>
+        <li><b>Organización del pensamiento</b> — diferenciación figura-fondo, distribución espacial ("orden interno").</li>
+        <li><b>Grado de humanización</b> — completud, complejidad e integración de la imagen corporal inconsciente.</li>
+      </ul>
+      <div class="mini-h">🤝 Modalidad vincular — por técnica</div>
+      <ul>
+        <li><b>T2P</b> — la técnica más directamente ligada: pareja internalizada/fantaseada, emergentes transferenciales.</li>
+        <li><b>Dibujo Libre</b> — cómo el sujeto se presenta ante el mundo y se posiciona frente a los demás.</li>
+        <li><b>HTP</b> — visión antropomórfica (casa, árbol) y humanización (persona); pautas de contenido específicas: puertas, ventanas, caminos, ramas, manos, ojos.</li>
+        <li><b>Familia</b> — internalización de roles y funciones parentales, relación con normas sociales, estereotipos.</li>
+      </ul>
+      <p>⚠️ Los indicadores deben articularse entre sí para construir hipótesis — nunca forzarlos en interpretaciones lineales.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= TRO ================= -->
+<section class="panel" id="panel-tro">
+  <div class="panel-head">
+    <span class="ic-big">🖼️</span>
+    <div><h2>Test de Relaciones Objetales (TRO)</h2><p>Phillipson — historias, deseos, temores y defensas</p></div>
+  </div>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">📖</span><span class="ttl">Abordaje intratécnica</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <ul>
+        <li><b>La historia:</b> ¿tiene las 3 partes (pasado, presente, futuro)? ¿cuál omite? ¿presta atención equilibrada a cada una? ¿presenta conflicto y hay intento de resolución? ¿es lógica?</li>
+        <li><b>Conducta durante la prueba:</b> ¿hay contradicción entre lo verbal y lo paraverbal? ¿tensa, calma?</li>
+        <li><b>Registro de la verbalización — aspectos manifiestos:</b> contenido humano (personajes/roles → esquema interno de relaciones de objeto), contenido de realidad (escenario → capacidad del yo de usar la realidad externa), contexto de realidad (sombreado, oscuridad, color → ansiedades del sistema tensional).</li>
+        <li><b>Aspectos latentes:</b> informan sobre la dinámica consciente/inconsciente de los sistemas tensionales.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">⚔️</span><span class="ttl">Deseos, temores y defensas</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <ul>
+        <li><b>Deseos</b> — relaciones inconscientes deseadas (relación infantil exigente, dependiente, rivalidad agresiva, etc.)</li>
+        <li><b>Temores</b> — ansiedades fantaseadas como consecuencia de esos deseos. Ej: dominación sádica deseada → temor a la destrucción del objeto.</li>
+        <li><b>Defensas</b> — control de los deseos y evitación de sus consecuencias. Ej: ante ese mismo temor, defensas de pasividad, renunciamiento o evitación.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🧭</span><span class="ttl">Las dos dimensiones en el TRO</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <div class="mini-h">🧠 Contacto con la realidad</div>
+      <p>Organización discursiva como indicador de proceso secundario; adecuación a la consigna y a las láminas; ausencia de referencias bizarras, distorsiones severas o clisé (sobre todo en la serie B, de menor ambigüedad) → permite pensar si las fantasías se proyectan conservando contacto con la realidad o invaden distorsionando las cualidades del objeto.</p>
+      <div class="mini-h">🤝 Modalidad vincular</div>
+      <p>Uno de los objetivos centrales del test: patrones de vinculación asimétricos, simétricos, grupales, triangulares, de pareja o en soledad. La cualidad emocional y su variación según cada lámina permiten inferir modalidades internalizadas de vinculación. El predominio del proceso secundario habla de tolerancia a la frustración, reconocimiento del otro como otro y adaptación a la norma social.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ================= INFORME ================= -->
+<section class="panel" id="panel-informe">
+  <div class="panel-head">
+    <span class="ic-big">📋</span>
+    <div><h2>Integración, informe y coloquio</h2><p>Cómo se escribe y evalúa el trabajo grupal</p></div>
+  </div>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🗣️</span><span class="ttl">El coloquio</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <p>El grupo expone sus conclusiones/hipótesis argumentando desde el análisis intra e intertest (puede usar soporte tecnológico). El debate es grupal pero la <b>evaluación es individual</b>.</p>
+      <div class="mini-h">Se valora que el estudiante:</div>
+      <ul>
+        <li>Conozca el material del caso en profundidad.</li>
+        <li>Use lenguaje técnico-conceptual.</li>
+        <li>Muestre capacidad de reflexión, tolerancia y autocrítica.</li>
+        <li>Pueda articular preguntas relevantes incluso cuando el material no permite hipótesis consistentes.</li>
+      </ul>
+      <p>📝 El grupo entrega un breve informe escrito la semana previa al coloquio.</p>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🗂️</span><span class="ttl">Esquema del informe</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <ul>
+        <li>Datos personales del sujeto.</li>
+        <li>Fecha de la evaluación.</li>
+        <li>Técnicas utilizadas.</li>
+        <li><b>Presentación y discurso</b> — netamente descriptivo: modo de presentarse, imagen de sí, tipo de comunicación, vocabulario, organización discursiva, grado de colaboración.</li>
+      </ul>
+      <div class="mini-h">Cuerpo del informe</div>
+      <ul>
+        <li><b>1 · Contacto con la realidad</b> — discriminación fantasía/realidad, proceso primario/secundario, yo-no yo, logicidad del pensamiento, convencionalidad/originalidad perceptiva, capacidad de simbolización, prevalencia defensiva.</li>
+        <li><b>2 · Modalidad vincular</b> — control emocional, contacto con pulsiones agresivas y sexuales, integración afectiva, capacidad empática, fantasía en relación con pares y en relaciones asimétricas, implicación subjetiva en los conflictos referidos.</li>
+      </ul>
+      <p>Ambas dimensiones deben integrarse con la singularidad del caso, dando sentido a la dinámica intrapsíquica y vincular.</p>
+      <ul>
+        <li><b>3 · Emergentes del caso</b> — preguntas, hipótesis y conclusiones propias del caso: conflicto subyacente, beneficio secundario, implicación subjetiva en el padecimiento, recursos salugénicos.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">📏</span><span class="ttl">Pautas formales de presentación</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <ul>
+        <li>Hoja A4, fuente Arial o Times New Roman 12, interlineado 1,5.</li>
+        <li>Portada: nombre de los estudiantes, fecha de entrega, docente, asignatura.</li>
+        <li>El cuerpo del informe (sin portada) no supera las <b>4 carillas</b>, numeradas.</li>
+        <li>Redacción clara y de nivel académico.</li>
+        <li>Destinatario: un colega psicólogo — puede usar lenguaje técnico siempre que sea pertinente y respete la singularidad del sujeto analizado.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="card" data-track>
+    <summary class="card-h"><span class="emo">🚫</span><span class="ttl">Qué NO hacer en el informe</span><span class="chev">⌄</span></summary>
+    <div class="card-body">
+      <div class="not-ok"><b>❌ Netamente teóricos</b> — pierden de vista el caso o incluyen explicaciones conceptuales innecesarias (ej: desarrollar toda la teoría freudiana del síntoma en vez de aplicarla al caso).</div>
+      <div class="not-ok"><b>❌ Netamente descriptivos</b> — no dan cuenta del funcionamiento psíquico; se quedan en generalizaciones empíricas o dan saltos inferenciales sin sustento (ej: "habla bien de su mamá, de sus compañeras y de su pareja... pareciera tener buena relación con los demás").</div>
+      <div class="not-ok"><b>❌ Centrados en las técnicas</b> — nombran indicadores sueltos de forma descriptiva, sin integrarlos al caso.</div>
+      <div class="not-ok"><b>❌ Frases sueltas</b> — enuncian hipótesis sin articulación entre ellas (ej: listas tipo "Eficiencia intelectual: alta / Tipo apercetivo: inductivo...").</div>
+      <div class="not-ok"><b>❌ Cuadros o esquemas</b> — la escritura debe ser en modalidad <b>narrativa</b>, no tabulada.</div>
+      <div class="ok-box"><b>✅ Modelo adecuado:</b> integra observables del caso (ej. la dermatitis crónica de un sujeto) con hipótesis sobre su dinámica psíquica (dificultades para regular la agresión, mecanismos reparatorios, madurez afectiva), articuladas en prosa dirigida a un colega — nunca listadas sueltas ni puramente teóricas.</div>
+    </div>
+  </details>
+</section>
+
+<!-- ================= BIBLIOGRAFÍA ================= -->
+<section class="panel" id="panel-biblio">
+  <div class="panel-head">
+    <span class="ic-big">📚</span>
+    <div><h2>Bibliografía de la cátedra</h2><p>Fuentes citadas en el material original</p></div>
+  </div>
+
+  <div class="biblio-list">
+    <div class="biblio-item"><span class="emo">📘</span><span>Bleger, J. <i>Temas en Psicología (Entrevista y grupos)</i> — cap. La entrevista psicológica. Nueva Visión, 1985.</span></div>
+    <div class="biblio-item"><span class="emo">📗</span><span>Cortejarena, Marín & Raffy (2009) — <i>Aparato Psíquico y Mecanismos de Defensas</i>. Cátedra IDEP II, UNMdP.</span></div>
+    <div class="biblio-item"><span class="emo">📙</span><span>Guerra, M.M. (2009, 2010) — Puntuación de textos freudianos sobre transferencia; Notas sobre la noción de síntoma. Cátedra IDEP II.</span></div>
+    <div class="biblio-item"><span class="emo">📕</span><span>Guerra & Musa (2010) — <i>Concepto de angustia</i>. Cátedra IDEP II.</span></div>
+    <div class="biblio-item"><span class="emo">📒</span><span>Levin, E. (1998) — <i>Una aproximación al estudio de la variable Transferencia en la Entrevista Clínica</i>.</span></div>
+    <div class="biblio-item"><span class="emo">📓</span><span>Pérez Lalli (2009) — Procedimientos metodológicos para administración, análisis y construcción de inferencias de la Entrevista Inicial.</span></div>
+    <div class="biblio-item"><span class="emo">📔</span><span>Ulloa, F. — <i>La entrevista operativa</i>.</span></div>
+    <div class="biblio-item"><span class="emo">📖</span><span>Pérez Lalli, Pozzi & Iglesias (2015) — <i>Apuntes sobre la Entrevista Semidirigida</i>.</span></div>
+    <div class="biblio-item"><span class="emo">🖍️</span><span>Álvarez, N. (2015) — <i>Las Técnicas Gráficas en Psicodiagnóstico. Su lectura interpretativa</i>. Ed. Biebel.</span></div>
+    <div class="biblio-item"><span class="emo">🖍️</span><span>Álvarez, N. — <i>Las transformaciones gráficas en niños</i>.</span></div>
+    <div class="biblio-item"><span class="emo">📐</span><span>Celener, G. (2003) — <i>Técnicas Proyectivas. Actualización e Interpretación...</i> Tomo I. Ed. Lugar.</span></div>
+    <div class="biblio-item"><span class="emo">🏠</span><span>Colombo & Gurvich (2012) — <i>Evaluación Psicológica. Actualización de la prueba gráfica HTP</i>. Ed. Cauquén.</span></div>
+    <div class="biblio-item"><span class="emo">🧍</span><span>Dolto, F. (1989) — <i>La imagen inconsciente del cuerpo</i>. Ed. Paidós.</span></div>
+    <div class="biblio-item"><span class="emo">👪</span><span>Frank de Verthelyi (1985) — <i>Interacción y Proyecto familiar</i>. Ed. Gedisa.</span></div>
+    <div class="biblio-item"><span class="emo">👫</span><span>Frank de Verthelyi y colab. (1985) — <i>Identidad y Vínculo en el test de las dos personas</i>. Paidós.</span></div>
+    <div class="biblio-item"><span class="emo">🧍‍♂️</span><span>Hammer, E. (1997) — <i>Tests Proyectivos Gráficos</i>. Ed. Paidós.</span></div>
+    <div class="biblio-item"><span class="emo">📊</span><span>Musa, M.L. — <i>Análisis e interpretación de la batería de los gráficos</i>. UNMdP.</span></div>
+    <div class="biblio-item"><span class="emo">🧠</span><span>Veccia, T. (2002) — <i>Diagnóstico de la personalidad</i>. Ed. Lugar.</span></div>
+    <div class="biblio-item"><span class="emo">🖼️</span><span>Philipson, H. (1956) — <i>Test de Relaciones Objetales</i>. Paidós.</span></div>
+    <div class="biblio-item"><span class="emo">🔗</span><span>Garvie / Pozzi (2011) — <i>Las Relaciones Objetales. El concepto de objeto en Freud y M. Klein</i>. UNMdP.</span></div>
+    <div class="biblio-item"><span class="emo">📚</span><span>Ocampo, Piccolo y otros (1989) — <i>El TRO de Herbert Phillipson</i>, en <i>Las Técnicas Proyectivas y el Proceso Psicodiagnóstico</i>. Nueva Visión.</span></div>
+    <div class="biblio-item"><span class="emo">🌐</span><span>Caride de Mizes, M.R. (2013) — <i>Contribuciones actuales para el análisis de las técnicas verbales: El TRO</i>. UCES (disponible online).</span></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  🗂️ Resumen elaborado a partir del material de cátedra "Análisis de la Entrevista Inicial" (IDEP II, UNMdP, 2017) — para uso de estudio personal.
+</footer>
+
+<script>
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.panel');
+  tabs.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      tabs.forEach(b=>b.classList.remove('active'));
+      panels.forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+      document.querySelector('main.wrap').scrollIntoView({behavior:'smooth', block:'start'});
+      btn.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+    });
+  });
+
+  // progress tracking (in-memory, no localStorage per artifact rules)
+  const allCards = document.querySelectorAll('details.card[data-track]');
+  const total = allCards.length;
+  let readCount = 0;
+  const read = new Set();
+  document.getElementById('progTxt').textContent = `0/${total} secciones leídas`;
+
+  allCards.forEach((d, i)=>{
+    d.addEventListener('toggle', ()=>{
+      if(d.open && !read.has(i)){
+        read.add(i);
+        readCount = read.size;
+        document.getElementById('progFill').style.width = (readCount/total*100)+'%';
+        document.getElementById('progTxt').textContent = `${readCount}/${total} secciones leídas`;
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
